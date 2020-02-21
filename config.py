@@ -1,4 +1,3 @@
-from jyl import secret
 import os
 
 '''
