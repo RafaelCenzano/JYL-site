@@ -1,7 +1,7 @@
-#from jyl import db
+from jyl import db
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from flask_wtf import FlaskForm
-from app.models import User
+from jyl.models import User
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 
