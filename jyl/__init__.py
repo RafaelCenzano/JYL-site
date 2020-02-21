@@ -4,6 +4,7 @@ from flask import Flask
 # Import Flask modules to create objects for our app
 from flask_mail import Mail
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 
@@ -15,6 +16,7 @@ app.config.from_object(Config)
 
 # Create Database object from flask app object
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 # Create Login manager
 login_manager = LoginManager(app)
