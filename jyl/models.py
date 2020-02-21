@@ -19,9 +19,11 @@ class User(db.Model, UserMixin):
         db.DateTime,
         nullable=False,
         default=datetime.utcnow)
+    admin = db.Column(db.Boolean, unique=False, default=False)
+    superuser = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+        return f'User({self.username}, {self.email})'
 
     '''
     Create a reset token for the user
