@@ -1,4 +1,4 @@
-from app import db
+#from jyl import db
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from flask_wtf import FlaskForm
 from app.models import User
