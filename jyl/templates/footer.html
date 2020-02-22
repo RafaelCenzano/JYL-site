@@ -1,1 +1,43 @@
-<footer></footer>
+<br>
+<footer>
+    <div class="grid">
+
+        <div class="column">
+            <ul>
+                <h5>Quick Links</h5>
+                <a href="{{ url_for('login') }}"><p>Login</p></a>
+                <a href="{{ url_for('logout') }}"><p>Logout</p></a>
+                <a href="{{ url_for('reset_request') }}"><p>Reset Password</p></a>
+            </ul>
+        </div>
+
+        <div class="column">
+            <ul>
+                <h5>Forms</h5>
+                <a href="#"><p>Report Bugs</p></a>
+            </ul>
+        </div>
+
+        <div class="column">
+            <ul>
+                <h5>Help</h5>
+                <a href="#"><p>FAQ</p></a>
+                <a href="#"><p>JYl page</p></a>
+            </ul>
+        </div>
+
+        <div class="column">
+            <ul>
+                <h5>Policies</h5>
+                <a href="{{ url_for('license') }}"><p>Project License</p></a>
+                <a href="#"><p>Privacy</p></a>
+                <a href="#"><p>Terms</p></a>
+            </ul>
+        </div>
+
+    </div>
+
+    <h4>© 2019 Lowell-Dashboard Github Organization. All Rights Reserved.</h4>
+
+</footer>
+
