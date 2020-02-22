@@ -53,13 +53,3 @@ div.content {
 
 }
 
-@media only screen and (max-width:400px) {
-    .sidebar {
-        display: -ms-grid;
-        display: grid;
-        -ms-grid-columns: (100%)[1];
-        grid-template-columns: repeat(1, 100%);
-        grid-column-gap: 3px;
-    }
-
-}
