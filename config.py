@@ -1,14 +1,11 @@
 import os
 
-'''
-To create a secret key run the program
-import secrets
-secrets.token_hex(16)
-'''
 
 '''
 Config class
 '''
+
+
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,6 +21,6 @@ class Config(object):
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USERNAME = 'email@gmail.com'
-    MAIL_PASSWORD = secret.EMAIL_PASS
+    MAIL_PASSWORD = os.environ.get('jylEmailPass')
     MAIL_DEFAULT_SENDER = 'JYL Toolbox <email@gmail.com>'
     '''
