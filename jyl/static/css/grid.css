@@ -17,3 +17,14 @@
     }
 
 }
+
+@media only screen and (max-width:300px) {
+    .grid {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (50%)[2];
+        grid-template-columns: repeat(1, 100%);
+        grid-column-gap: 3px;
+    }
+
+}
