@@ -1,50 +1,54 @@
-<nav id="nav" role="navigation">
-    <a href="#nav" title="Show navigation">Show navigation</a>
-    <a href="#" title="Hide navigation">Hide navigation</a>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li>
-            <a href="#">Calendar <i class="fas fa-calendar-check nav-icon"></i></a>
-            <ul>
+<section class="navigation">
+    <div class="nav-container">
+        <div class="brand">
+            <a href="{{ url_for('index') }}"><i class="fas fa-home home"></i></a>
+        </div>
+        <nav>
+            <div class="nav-mobile"><a id="nav-toggle" href="#"><span></span></a></div>
+            <ul class="nav-list">
                 <li>
-                    <a href="#">Day Schedule <i class="far fa-calendar nav-icon"></i></a>
+                    <a href="#">Calendar <i class="fas fa-calendar-check nav-icon"></i></a>
+                    <ul class="nav-dropdown">
+                        <li>
+                            <a href="#">Day Schedule <i class="far fa-calendar nav-icon"></i></a>
+                        </li>
+                        <li>
+                            <a href="#">Week Schedule <i class="far fa-calendar-minus nav-icon"></i></a>
+                        </li>
+                        <li>
+                            <a href="#">Month Schedule <i class="far fa-calendar-alt nav-icon"></i></a>
+                        </li>
+                    </ul>
                 </li>
+                {% if current_user.is_authenticated %}
                 <li>
-                    <a href="#">Week Schedule <i class="far fa-calendar-minus nav-icon"></i></a>
+                    <a href="#">Events <i class="fas fa-cogs nav-icon"></i></a>
+                    <ul class="nav-dropdown">
+                        <li>
+                            <a href="#">Signed up for <i class="fas fa-cogs nav-icon"></i></a>
+                        </li>
+                        <li>
+                            <a href="#">Upcoming <i class="fas fa-cogs nav-icon"></i></a>
+                        </li>
+                    </ul>
                 </li>
+                {% endif %}
                 <li>
-                    <a href="#">Month Schedule <i class="far fa-calendar-alt nav-icon"></i></a>
+                {% if current_user.is_authenticated %}
+                    <a href="#">{{ current_user.username }} <i class="fas fa-user-cog nav-icon"></i></a>
+                    <ul class="nav-dropdown">
+                        <li>
+                            <a href="{{ url_for('account') }}">Your Profile <i class="fas fa-cogs nav-icon"></i></a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login <i class="fas fa-sign-in-alt nav-icon"></i></a>
+                {% endif %}
                 </li>
             </ul>
-        </li>
-        {% if current_user.is_authenticated %}
-        <li>
-            <a href="#" aria-haspopup="true">Events <i class="fas fa-cogs nav-icon"></i></a>
-            <ul>
-                <li>
-                    <a href="#">Upcoming Events <i class="fas fa-cogs nav-icon"></i></a>
-                </li>
-                <li>
-                    <a href="#">My Events <i class="fas fa-cogs nav-icon"></i></a>
-                </li>
-            </ul>
-        </li>
-        {% endif %}
-        <li>
-        {% if current_user.is_authenticated %}
-            <a href="#" aria-haspopup="true">{{ current_user.username }} <i class="fas fa-user-cog nav-icon"></i></a>
-            <ul>
-                <li>
-                    <a href="{{ url_for('account') }}">Your Profile <i class="fas fa-cogs nav-icon"></i></a>
-                </li>
-                <li>
-                    <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
-                </li>
-            </ul>
-        {% else %}
-            <a href="{{ url_for('login') }}">Login <i class="fas fa-sign-in-alt nav-icon"></i></a>
-        {% endif %}
-        </li>
-        <li><a href="#">About</a></li>
-    </ul>
-</nav>
+        </nav>
+    </div>
+</section>
