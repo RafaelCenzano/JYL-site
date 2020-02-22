@@ -1,23 +1,48 @@
-(function($) { // Begin jQuery
-  $(function() { // DOM ready
-    // If a link has a dropdown, add sub menu toggle.
-    $('nav ul li a:not(:only-child)').click(function(e) {
-      $(this).siblings('.nav-dropdown').toggle();
-      // Close one dropdown when selecting another
-      $('.nav-dropdown').not($(this).siblings()).hide();
-      e.stopPropagation();
-    });
-    // Clicking away from dropdown will remove the dropdown class
-    $('html').click(function() {
-      $('.nav-dropdown').hide();
-    });
-    // Toggle open and close nav styles on click
-    $('#nav-toggle').click(function() {
-      $('nav ul').slideToggle();
-    });
-    // Hamburger to X toggle
-    $('#nav-toggle').on('click', function() {
-      this.classList.toggle('active');
-    });
-  }); // end DOM ready
-})(jQuery); // end jQuery
+/*
+    By Osvaldas Valutis, www.osvaldas.info
+    Available for use under the MIT License
+*/
+
+;(function( $, window, document, undefined )
+{
+    $.fn.doubleTapToGo = function( params )
+    {
+        if( !( 'ontouchstart' in window ) &&
+            !navigator.msMaxTouchPoints &&
+            !navigator.userAgent.toLowerCase().match( /windows phone os 7/i ) ) return false;
+
+        this.each( function()
+        {
+            var curItem = false;
+
+            $( this ).on( 'click', function( e )
+            {
+                var item = $( this );
+                if( item[ 0 ] != curItem[ 0 ] )
+                {
+                    e.preventDefault();
+                    curItem = item;
+                }
+            });
+
+            $( document ).on( 'click touchstart MSPointerDown', function( e )
+            {
+                var resetItem = true,
+                    parents   = $( e.target ).parents();
+
+                for( var i = 0; i < parents.length; i++ )
+                    if( parents[ i ] == curItem[ 0 ] )
+                        resetItem = false;
+
+                if( resetItem )
+                    curItem = false;
+            });
+        });
+        return this;
+    };
+})( jQuery, window, document );
+
+$( function()
+  {
+    $( '#nav li:has(ul)' ).doubleTapToGo();
+  });
