@@ -146,7 +146,7 @@ def reset_token(token):
 @app.route('/logout', methods=['GET'])
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
 
 
 @app.route('/license', methods=['GET'])
