@@ -131,7 +131,6 @@ def reset_token(token):
         hashed_password = bcrypt.generate_password_hash(
             sha256(
                 (form.password.data +
-                 user.email +
                  app.config['SECURITY_PASSWORD_SALT']).encode()).hexdigest()).decode('utf-8')
         user.password = hashed_password
 
@@ -142,3 +141,17 @@ def reset_token(token):
         return redirect(url_for('login'))
 
     return render_template('reset_token.html', form=form)
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route('/license', methods=['GET'])
+def license():
+    return render_template('license.html')
+
+
+
