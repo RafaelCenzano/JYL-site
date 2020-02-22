@@ -1,0 +1,19 @@
+.grid {
+    margin-left: -50px;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (25%)[4];
+    grid-template-columns: repeat(4, 25%);
+    grid-column-gap: 10px;
+}
+
+@media only screen and (max-width:750px) {
+    .grid {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (50%)[2];
+        grid-template-columns: repeat(2, 50%);
+        grid-column-gap: 5px;
+    }
+
+}
