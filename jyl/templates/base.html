@@ -57,17 +57,25 @@
     <meta itemprop="description" content="Online resources for Japantown Youth Leaders">
     <meta itemprop="image" content={{ url_for('static', filename='img/jyl.jpeg') }}>
 
+    <!-- Extra Meta Data -->
     {% block meta %}
     {% endblock %}
-    {% block head_css %}
-    {% endblock %}
+
+    <!-- CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/grid.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/footer.css') }}">
+    {% block head_css %}
+    {% endblock %}
+    
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src={{ url_for('static', filename='js/navbar.js') }}></script>
     {% block head_js %}
     {% endblock %}
+    
 </head>
 <body>
     {% include "navbar.html" %}
