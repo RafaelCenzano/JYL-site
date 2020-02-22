@@ -1,0 +1,43 @@
+footer {
+    padding-top: 10px;
+    text-align: center;
+    background: #ccc;
+}
+
+footer h4 {
+    margin-top: -5px;
+    padding-bottom: 10px;
+}
+
+footer h5 {
+    color: #000;
+    font-size: 25px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    text-decoration: underline;
+}
+
+@media only screen and (max-width:750px) {
+    footer h3 {
+        margin-bottom: -3px;
+    }
+
+    footer h4 {
+        margin-top: 0;
+    }
+
+}
+
+footer a,
+footer a:visited {
+    text-decoration: none;
+    color: #001f51;
+    margin: auto;
+    transition-duration: 0.5s;
+}
+
+footer a:hover,
+footer a:visited:hover {
+    text-decoration: none;
+    color: #00b6ff;
+}
