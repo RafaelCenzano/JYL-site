@@ -31,6 +31,11 @@ div.content {
         width: 100%;
         height: auto;
         position: relative;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (50%)[2];
+        grid-template-columns: repeat(2, 50%);
+        grid-column-gap: 5px;
     }
 
     .sidebar a {
@@ -44,17 +49,6 @@ div.content {
     .sidebar a {
         text-align: center;
         float: none;
-    }
-
-}
-
-@media only screen and (max-width:1000px) {
-    .sidebar {
-        display: -ms-grid;
-        display: grid;
-        -ms-grid-columns: (50%)[2];
-        grid-template-columns: repeat(2, 50%);
-        grid-column-gap: 5px;
     }
 
 }
