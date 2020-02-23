@@ -23,7 +23,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-# Create mail object from flash app object
+# Create mail object from flask app object
 #mail = Mail(app)
 
 # importing all the models and initializing them
