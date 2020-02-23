@@ -5,4 +5,5 @@ clean:
 	pystarter clean
 
 run: clean
+	./variables.sh
 	python3 run.py
