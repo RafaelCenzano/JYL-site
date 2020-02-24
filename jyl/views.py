@@ -50,7 +50,9 @@ def login():
                 f'Login Unsuccessful. Please check email and password{confirmed}',
                 'error')
 
-    return render_template('login.html', form=form)
+    page = make_response(render_template('login.html', form=form))
+    page.set_cookie('page', 'login', max_age=60 * 60 * 24 * 365)
+    return page
 
 
 @app.route('/confirm/<token>', methods=['GET', 'POST'])
@@ -154,7 +156,20 @@ def logout():
 
 @app.route('/license', methods=['GET'])
 def license():
-    return render_template('license.html')
+
+    page = make_response(render_template('license.html'))
+    page.set_cookie('page', 'login', max_age=60 * 60 * 24 * 365)
+    return page
 
 
+@app.route('/back')
+@app.route('/back/')
+def back():
 
+    if 'page' in request.cookies:
+        page = request.cookies['page']
+        return redirect(url_for(page))
+
+    else:
+        return redirect(url_for('index'))
+        
