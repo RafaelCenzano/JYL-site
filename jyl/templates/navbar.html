@@ -1,7 +1,7 @@
 <div class="sidebar">
     <div class="column">
         <a href="{{ url_for('index') }}"><i class="fas fa-home home"></i></a>
-        <a href="{{ rul_for('back') }}">Back<i class="fas fa-arrow-left"></i></a>
+        <a href="{{ url_for('back') }}">Back<i class="fas fa-arrow-left"></i></a>
         {% if current_user.is_authenticated %}
         <a href="#">Events <i class="fas fa-cogs nav-icon"></i></a>
         <a href="#">Signed up for <i class="fas fa-cogs nav-icon"></i></a>
