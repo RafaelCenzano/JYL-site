@@ -6,6 +6,3 @@ venv/
 # Hide compiled python files
 *.pyc
 __pycache__/
-
-# Hide migrations code
-migrations/
