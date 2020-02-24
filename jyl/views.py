@@ -12,11 +12,12 @@ Views
 @app.route('/home/', methods=['GET'])
 def index():
 
+    page = make_response(render_template('home.html'))
+
     if 'current' in request.cookies:
         current = request.cookies['current']
         page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
 
-    page = make_response(render_template('home.html'))
     page.set_cookie('current', 'index', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -54,11 +55,12 @@ def login():
                 f'Login Unsuccessful. Please check email and password{confirmed}',
                 'error')
 
+    page = make_response(render_template('login.html', form=form))
+
     if 'current' in request.cookies:
         current = request.cookies['current']
         page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
 
-    page = make_response(render_template('login.html', form=form))
     page.set_cookie('current', 'login', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -165,11 +167,12 @@ def logout():
 @app.route('/license', methods=['GET'])
 def license():
 
+    page = make_response(render_template('license.html'))
+
     if 'current' in request.cookies:
         current = request.cookies['current']
         page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
-
-    page = make_response(render_template('license.html'))
+    
     page.set_cookie('current', 'license', max_age=60 * 60 * 24 * 365)
     return page
 
