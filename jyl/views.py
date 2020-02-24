@@ -66,6 +66,7 @@ def confirm(token):
 
         if user.confirmed:
             flash('Account already confirmed. Please login.', 'info')
+            return redirect(url_for('login'))
 
         if user and email and bcrypt.check_password_hash(
             user.password,
