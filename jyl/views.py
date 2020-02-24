@@ -1,10 +1,10 @@
-from jyl import app, forms, db, bcrypt, login
+from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, current_user, logout_user, login_required, current_user
 from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm
 
 
-@login.user_loader
+@login_manager.user_loader
 def load_user(id):
     try:
         return User.query.get(int(id))
