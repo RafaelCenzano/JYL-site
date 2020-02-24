@@ -23,6 +23,8 @@ class User(db.Model, UserMixin):
         default=datetime.utcnow)
     admin = db.Column(db.Boolean, unique=False, default=False)
     leader = db.Column(db.Boolean, unique=False, default=False)
+    hours = db.Column(db.Float, unique=False)
+    nicknameapprove = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
         return f'User({self.username}, {self.email})'
@@ -55,6 +57,7 @@ class Meeting(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     start = db.Column(db.DateTime, nullable=False, unique=False)
     end = db.Column(db.DateTime, nullable=False, unique=False)
+    length = db.Column(db.Integer, nullable=False, unique=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
@@ -66,3 +69,20 @@ class UserMeeting(db.Model):
 
     def __repr__(self):
         return f'User: {self.userid} went to meeting:{self.meetingid})'
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    start = db.Column(db.DateTime, nullable=False, unique=False)
+    end = db.Column(db.DateTime, nullable=False, unique=False)
+
+    def __repr__(self):
+        return f'Event id:{self.id}, from {self.start} to {self.end})'
+
+
+class EventMeeting(db.Model):
+    eventid = db.Column(db.Integer, db.ForeignKey('event.id'),  primary_key=True, unique=False)
+    userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
+    length = db.Column(db.Integer, nullable=False, unique=False)
+
+    def __repr__(self):
+        return f'User: {self.userid} went to event:{self.eventid})'
