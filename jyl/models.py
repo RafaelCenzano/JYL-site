@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     confirmed = db.Column(db.Boolean, unique=False, default=False)
     registered = db.Column(
         db.DateTime,
@@ -46,3 +46,8 @@ class User(db.Model, UserMixin):
         except BaseException:
             return None
         return User.query.get(user_id)
+
+class Meeting(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    start = db.Column(db.DateTime, nullable=False)
+    end = db.Column(db.DateTime, nullable=False)
