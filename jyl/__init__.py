@@ -29,6 +29,14 @@ login_manager.login_message_category = 'info'
 # importing all the models and initializing them
 from jyl.models import *
 db.create_all()
+'''
+user_1 = User(username='raf', email='r@demo.com', password='pass')
+db.session.add(user_2)
+user_2 = User(username='raf', email='r@demo.com', password='pass')
+db.session.add(user_2)
+user_2 = User(username='raf', email='r@demo.com', password='pass')
+db.session.add(user_2)
+'''
 
 # Import all views
 import jyl.views
