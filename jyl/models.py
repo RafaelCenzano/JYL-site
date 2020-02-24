@@ -86,3 +86,5 @@ class EventMeeting(db.Model):
 
     def __repr__(self):
         return f'User: {self.userid} went to event:{self.eventid})'
+
+        
