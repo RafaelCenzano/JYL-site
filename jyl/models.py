@@ -51,3 +51,8 @@ class Meeting(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(db.DateTime, nullable=False)
     end = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return f'Meeting id:{self.id}, from {self.start} to {self.end})'
+
+        
