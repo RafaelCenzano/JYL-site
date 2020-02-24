@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
         nullable=False,
         default=datetime.utcnow)
     admin = db.Column(db.Boolean, unique=False, default=False)
+    leader = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
         return f'User({self.username}, {self.email})'
