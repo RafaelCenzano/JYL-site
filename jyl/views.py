@@ -158,7 +158,7 @@ def logout():
 def license():
 
     page = make_response(render_template('license.html'))
-    page.set_cookie('page', 'login', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('page', 'license', max_age=60 * 60 * 24 * 365)
     return page
 
 
