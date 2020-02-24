@@ -10,7 +10,7 @@ def load_user(user_id):
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     firstname = db.Column(db.String(30), unique=False, nullable=False)
     lastname = db.Column(db.String(30), unique=False, nullable=False)
     nickname = db.Column(db.String(30), unique=False, nullable=True)
@@ -50,12 +50,20 @@ class User(db.Model, UserMixin):
             return None
         return User.query.get(user_id)
 
+
 class Meeting(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    start = db.Column(db.DateTime, nullable=False)
-    end = db.Column(db.DateTime, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    start = db.Column(db.DateTime, nullable=False, unique=False)
+    end = db.Column(db.DateTime, nullable=False, unique=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
 
-        
+
+class UserMeeting(db.Model):
+    meetingid = db.Column(db.Integer, db.ForeignKey('meeting.id'),  primary_key=True, unique=False)
+    userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
+
+    def __repr__(self):
+        return f'User: {self.userid} went to meeting:{self.meetingid})'
+
