@@ -6,7 +6,11 @@
         <a href="#">Events <i class="fas fa-cogs nav-icon"></i></a>
         <a href="#">Signed up for <i class="fas fa-cogs nav-icon"></i></a>
         <a href="#">Upcoming <i class="fas fa-cogs nav-icon"></i></a>
+        {% if current_user.nicknameapprove %}
+        <a href="#">{{ current_user.nickname }} <i class="fas fa-user-cog nav-icon"></i></a>
+        {% else %}
         <a href="#">{{ current_user.firstname }} {{ current_user.lastname }} <i class="fas fa-user-cog nav-icon"></i></a>
+        {% endif %}
         <a href="{{ url_for('account') }}">Your Profile <i class="fas fa-cogs nav-icon"></i></a>
         <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
         {% else %}
