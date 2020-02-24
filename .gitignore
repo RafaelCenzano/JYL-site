@@ -1,5 +1,11 @@
 *.DS_Store
+
+# Hide virtualenv
 venv/
+
+# Hide compiled python files
 *.pyc
 __pycache__/
-.env
+
+# Hide migrations code
+migrations/
