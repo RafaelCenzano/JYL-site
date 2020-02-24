@@ -4,6 +4,14 @@ from flask_login import login_user, current_user, logout_user, login_required, c
 from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm
 
 
+@login.user_loader
+def load_user(id):
+    try:
+        return User.query.get(int(id))
+    except:
+        return None
+        
+
 '''
 Views
 '''
