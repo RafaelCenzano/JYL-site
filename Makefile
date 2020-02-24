@@ -5,4 +5,4 @@ clean:
 	pystarter clean
 
 run: clean
-	python3 run.py
+	gunicorn run:app
