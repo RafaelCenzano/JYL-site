@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
         default=datetime.utcnow)
     admin = db.Column(db.Boolean, unique=False, default=False)
     leader = db.Column(db.Boolean, unique=False, default=False)
-    hours = db.Column(db.Float, unique=False)
+    hours = db.Column(db.Float, unique=False, default=0.0)
     nicknameapprove = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
