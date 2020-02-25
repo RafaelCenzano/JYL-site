@@ -34,7 +34,6 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    flash('login')
     if current_user.is_authenticated:
         flash('You are already logged in', 'warning')
         return redirect(url_for('index'))
@@ -71,15 +70,8 @@ def login():
                     f'Login Unsuccessful. Please check email and password{confirmed}',
                     'error')
 
-    page = make_response(render_template('login.html', form=form))
-
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
-
-    page.set_cookie('current', 'login', max_age=60 * 60 * 24 * 365)
-    return page
-
+    return render_template('login.html', form=form)
+    
 
 @app.route('/confirm/<token>', methods=['GET', 'POST'])
 def confirm(token):
