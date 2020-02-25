@@ -33,3 +33,7 @@ label {
     text-decoration: none;
     color: #31c44a;
 }
+
+input {
+  font-size: 16px;
+}
