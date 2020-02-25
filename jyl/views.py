@@ -93,7 +93,7 @@ def confirm(token):
             sha256(
                 (form.password.data +
                  form.email.data +
-                 app.config['SECURITY_PASSWORD_SALT']).encode()).hexdigest()):
+                 app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
             user.confirmed = True
 
@@ -152,7 +152,8 @@ def reset_token(token):
         hashed_password = bcrypt.generate_password_hash(
             sha256(
                 (form.password.data +
-                 app.config['SECURITY_PASSWORD_SALT']).encode()).hexdigest()).decode('utf-8')
+                 form.email.data +
+                 app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
         user.password = hashed_password
 
         db.session.commit()
