@@ -33,6 +33,7 @@ footer a:visited {
     text-decoration: none;
     color: #001f51;
     margin: auto;
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
 }
 
