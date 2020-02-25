@@ -2,27 +2,23 @@
     <div class="column">
         <a href="{{ url_for('index') }}"><i class="fas fa-home home"></i></a>
         <a href="{{ url_for('back') }}">Back <i class="fas fa-arrow-left"></i></a>
+        {% if current_user.is_authenticated %}
         {% if current_user.nicknameapprove %}
         <a href="#">{{ current_user.nickname }} <i class="fas fa-user-cog nav-icon"></i></a>
         {% else %}
         <a href="#">{{ current_user.firstname }} {{ current_user.lastname }} <i class="fas fa-user-cog nav-icon"></i></a>
-        {% endif %}
-        {% if current_user.is_authenticated %}
         <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
+        {% endif %}
         {% else %}
         <a href="{{ url_for('login') }}">Login <i class="fas fa-sign-in-alt nav-icon"></i></a>
         {% endif %}
     </div>
     <div class="column">
         {% if current_user.is_authenticated %}
-        <a href="#">Events <i class="fas fa-cogs nav-icon"></i></a>
-        <a href="#">Signed up for <i class="fas fa-cogs nav-icon"></i></a>
-        <a href="#">Upcoming <i class="fas fa-cogs nav-icon"></i></a>
+        <a href="#">My Events <i class="fas fa-calendar-check nav-icon"></i></a>
+        <a href="#">Upcoming Events <i class="fas fa-calendar-check nav-icon"></i></a>
         {% else %}
-        <a href="#">Calendar <i class="fas fa-calendar-check nav-icon"></i></a>
-        <a href="#">Day Schedule <i class="far fa-calendar nav-icon"></i></a>
-        <a href="#">Week Schedule <i class="far fa-calendar-minus nav-icon"></i></a>
-        <a href="#">Month Schedule <i class="far fa-calendar-alt nav-icon"></i></a>
+        <a href="#">Schedule <i class="fas fa-calendar-check nav-icon"></i></a>
         {% endif %}
     </div>
 </div>
