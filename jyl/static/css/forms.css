@@ -37,3 +37,9 @@ label {
 input {
   font-size: 16px;
 }
+
+.form-title {
+  font-size: 35px;
+  text-decoration: underline;
+  color: #041d42;
+}
