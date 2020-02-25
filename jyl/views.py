@@ -77,7 +77,7 @@ def login():
 def confirm(token):
 
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -104,7 +104,7 @@ def confirm(token):
             next_page = request.args.get('next')
 
             return redirect(next_page) if next_page else redirect(
-                url_for('home'))
+                url_for('index'))
 
         else:
             flash(
@@ -117,7 +117,7 @@ def confirm(token):
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
     form = RequestResetForm()
     if form.validate_on_submit():
@@ -132,7 +132,7 @@ def reset_request():
             'An email has been sent with instructions to reset your password',
             'info')
 
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
 
     return render_template('reset_request.html', form=form)
 
@@ -140,7 +140,7 @@ def reset_request():
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
     user = User.verify_reset_token(token)
     if user is None:
