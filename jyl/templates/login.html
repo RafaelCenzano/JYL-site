@@ -1,19 +1,47 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<form action="" method="POST">
-  <p>
-    {{ form.email }}<br>
-    {{ form.email.label }}
-  </p>
-  <p>
-    {{ form.password }}<br>
-    {{ form.password.label }}
-  </p>
-  <p>
-    {{ form.remember }}<br>
-    {{ form.remeber.label }}
-  </p>
-  <p>{{ form.submit() }}</p>
-</form>
-{% endblock %}
+    <form method="POST" action="">
+      <!-- Part of protecting the site from attacks -->
+      {{ form.hidden_tag() }}
+      <fieldset>
+        <h2>Log in</h2>
+        <div class="form-group">
+          {{ form.email.label(class="form-label-css") }}
+          {% if form.email.errors %}
+              {{ form.email(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                  {% for error in form.email.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+              </div>
+          {% else %}
+            <br>
+              {{ form.email() }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.password.label(class="form-label-css") }}
+          {% if form.password.errors %}
+              {{ form.password(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                  {% for error in form.password.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+              </div>
+          {% else %}
+            <br>
+              {{ form.password() }}
+          {% endif %}
+          <p class="extra"><a href="{{ url_for('reset_request') }}" class="extra-link">Forgot Password?</a></p>
+        </div>
+        <div class="form-group">
+          {{ form.remember() }}
+          {{ form.remember.label() }}
+        </div>
+        <div class="form-group">
+          {{ form.submit() }}
+        </div>
+      </fieldset>
+    </form>
+{% endblock content %}
