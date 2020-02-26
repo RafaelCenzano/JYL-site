@@ -40,6 +40,8 @@ user2 = User.query.filter_by(email='rafa@demo.com').first()
 db.session.add(meeting)
 db.session.add(meeting2)
 
+db.session.commit()
+
 meeting1 = Meeting.query.filter_by(start=start).first()
 meeting2 = Meeting.query.filter_by(start=start2).first()
 
