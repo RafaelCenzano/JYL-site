@@ -68,6 +68,7 @@ class UserMeeting(db.Model):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
+    name = db.Column(db.String(100), nullable=False, unique=False)
     start = db.Column(db.DateTime, nullable=False, unique=False)
     end = db.Column(db.DateTime, nullable=False, unique=False)
     hourcount = db.Column(db.Float, nullable=False, unique=False)
