@@ -245,7 +245,7 @@ def featurerequest():
     form = FeatureRequestForm()
     if form.validate_on_submit():
 
-        html = render_template('userform_email.html', type='Feature request', name=form.name.data, email=form.email.data, text=form.feature.data)
+        html = render_template('userform_email.html', type='Feature request', name=form.name.data, email=form.email.data, text=form.bug.data)
         #send_email(user.email, subject, html)
         return html
 
@@ -256,7 +256,7 @@ def featurerequest():
             return redirect(url_for(page))
         return redirect(url_for('index'))
 
-    return render_template('userform.html', form=form, type='Bug Report')
+    return render_template('userform.html', form=form, type='Feature Request')
 
 
 @app.route('/license', methods=['GET'])
