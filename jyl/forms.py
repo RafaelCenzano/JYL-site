@@ -44,5 +44,5 @@ class BugReportForm(FlaskForm):
 class FeatureRequestForm(FlaskForm):
     name = StringField('Name')
     email = StringField('Email')
-    feature = StringField('Feature', validators=[DataRequired()])
+    bug = StringField('Feature', validators=[DataRequired()])
     submit = SubmitField('Submit Feature Request')
