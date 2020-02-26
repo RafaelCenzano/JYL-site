@@ -1,7 +1,7 @@
 from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, current_user, logout_user, login_required, current_user
-from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm
+from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm, BugReportForm
 from jyl.models import User
 from hashlib import sha256
 
@@ -34,8 +34,12 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     if current_user.is_authenticated:
         flash('You are already logged in', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
         return redirect(url_for('index'))
 
     form = LoginForm()
@@ -72,11 +76,15 @@ def login():
 
     return render_template('login.html', form=form)
     
-
+'''
 @app.route('/confirm/<token>', methods=['GET', 'POST'])
 def confirm(token):
 
     if current_user.is_authenticated:
+        flash('You do not need to reset password as you are logged in already', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
         return redirect(url_for('index'))
 
     form = LoginForm()
@@ -112,11 +120,16 @@ def confirm(token):
                 'danger')
 
     return render_template('login.html', form=form)
-
+'''
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
+
     if current_user.is_authenticated:
+        flash('You do not need to reset password as you are logged in already', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
         return redirect(url_for('index'))
 
     form = RequestResetForm()
@@ -147,7 +160,12 @@ def reset_request():
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
+
     if current_user.is_authenticated:
+        flash('You do not need to reset password as you are logged in already', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
         return redirect(url_for('index'))
 
     user = User.verify_reset_token(token)
@@ -181,6 +199,19 @@ def logout():
         flash('Logout successful', 'success')
         
     return redirect(url_for('index'))
+
+
+@app.route('/bugreport', methods=['GET', 'POST'])
+def bugreport():
+
+    if current_user.is_authenticated == False:
+        flash('You need to be logged in to fill out this form', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('index'))
+
+    form = BugReportForm()
 
 
 @app.route('/license', methods=['GET'])
