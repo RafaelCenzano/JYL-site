@@ -5,7 +5,6 @@ from datetime import datetime
 
 db.create_all()
 
-'''
 pass1 = bcrypt.generate_password_hash(
             sha256(
                 ('pass' +
@@ -20,7 +19,8 @@ user_1 = User(firstname='rafael', lastname='cenzano', email='raf@demo.com', pass
 db.session.add(user_1)
 user_2 = User(firstname='rafael', lastname='cenzano', email='rafa@demo.com', password=pass2, confirmed=True, hours=0.0, nickname='raf', nicknameapprove=True)
 db.session.add(user_2)
-'''
+
+db.session.commit()
 
 start = datetime(2020, 2, 26, 16, 30)
 
@@ -32,10 +32,16 @@ start2 = datetime(2020, 2, 19, 16, 30)
 
 end2 = datetime(2020, 2, 19, 18)
 
-meeting2 = Meeting(start=start, end=end, hourcount=1.5)
+meeting2 = Meeting(start=start2, end=end2, hourcount=1.5)
 
 user1 = User.query.filter_by(email='raf@demo.com').first()
 user2 = User.query.filter_by(email='rafa@demo.com').first()
+
+print(meeting)
+print(meeting2)
+
+print(user1)
+print(user2)
 
 db.session.add(meeting)
 db.session.add(meeting2)
