@@ -36,6 +36,6 @@ class ResetPasswordForm(FlaskForm):
 
 class BugReportForm(FlaskForm):
     name = StringField('Name')
-    email = StringField('Email', validators=[Email()])
+    email = StringField('Email')
     bug = StringField('Bug', validators=[DataRequired()])
     submit = SubmitField('Submit Bug Report')
