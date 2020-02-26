@@ -214,15 +214,8 @@ def bugreport():
 
     form = BugReportForm()
     if form.validate_on_submit():
-        namenotnone = True
-        if form.name.data is None:
-            namenotnone = False
 
-        emailnotnone = True
-        if form.email.data is None:
-            emailnotnone = False
-
-        html = render_template('bugreport_email.html', namenotnone=namenotnone, emailnotnone=emailnotnone, name=form.name.data, email=form.email.data, bug=form.bug.data)
+        html = render_template('bugreport_email.html', name=form.name.data, email=form.email.data, bug=form.bug.data)
         #send_email(user.email, subject, html)
         return html
 
