@@ -213,6 +213,24 @@ def bugreport():
         return redirect(url_for('index'))
 
     form = BugReportForm()
+    if form.validate_on_submit():
+        namenotnone = True
+        if form.name.data is None:
+            namenotnone = False
+
+        emailnotnone = True
+        if form.email.data is None:
+            emailnotnone = False
+
+        html = render_template('bugreport_email.html', namenotnone=namenotnone, emailnotnone=emailnotnone, name=form.name.data, email=form.email.data, bug=form.bug.data)
+        #send_email(user.email, subject, html)
+        return html
+
+        flash('Your bug report has been submitted', 'info')
+
+        return redirect(url_for('home'))
+
+    return render_template('bugreport.html', form=form)
 
 
 @app.route('/license', methods=['GET'])
