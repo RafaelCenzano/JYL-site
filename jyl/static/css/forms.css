@@ -1,6 +1,6 @@
 label {
-    font-size: 25px;
-    padding-right: 10px;
+  font-size: 25px;
+  padding-right: 10px;
 }
 
 #submit {
@@ -17,21 +17,21 @@ label {
 }
 
 .form-group {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .extra-link,
 .extra-link:visited {
-    text-decoration: none;
-    color: #51565e;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
+  text-decoration: none;
+  color: #51565e;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
 }
 
 .extra-link:hover,
 .extra-link:visited:hover {
-    text-decoration: none;
-    color: #31c44a;
+  text-decoration: none;
+  color: #31c44a;
 }
 
 input {
