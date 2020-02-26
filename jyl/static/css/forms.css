@@ -1,49 +1,49 @@
 label {
-  font-size: 25px;
-  padding-right: 10px;
+    font-size: 25px;
+    padding-right: 10px;
 }
 
 #submit {
-  background-color: rgb(145, 250, 145);
-  border: none;
-  color: rgb(20, 25, 20);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+    background-color: rgb(145, 250, 145);
+    border: none;
+    color: rgb(20, 25, 20);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 .form-group {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .extra-link,
 .extra-link:visited {
-  text-decoration: none;
-  color: #51565e;
-  -webkit-transition-duration: 0.5s;
-  transition-duration: 0.5s;
+    text-decoration: none;
+    color: #51565e;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
 }
 
 .extra-link:hover,
 .extra-link:visited:hover {
-  text-decoration: none;
-  color: #31c44a;
+    text-decoration: none;
+    color: #31c44a;
 }
 
 input {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .form-title {
-  font-size: 35px;
-  text-decoration: underline;
-  color: #041d42;
+    font-size: 35px;
+    text-decoration: underline;
+    color: #041d42;
 }
 
 .invalid-feedback {
-  color: rgb(227, 14, 14);
+    color: rgb(227, 14, 14);
 }
