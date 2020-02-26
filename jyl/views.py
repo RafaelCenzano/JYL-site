@@ -122,17 +122,25 @@ def reset_request():
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        token = user.get_reset_token()
-        reset_url = url_for('reset_token', token=token, _external=True)
-        subject = 'Password Reset Request'
-        html = render_template('reset_email.html', url=reset_url)
-        send_email(user.email, subject, html)
+        if user is None:
+            flash(
+                f'Password Reset Unsuccessful. User dosen\'t exsist',
+                'error')
+        else:
 
-        flash(
-            'An email has been sent with instructions to reset your password',
-            'info')
+            token = user.get_reset_token()
+            reset_url = url_for('reset_token', token=token, _external=True)
 
-        return redirect(url_for('index'))
+            subject = 'Password Reset Request'
+
+            html = render_template('password_reset.html', url=reset_url)
+            send_email(user.email, subject, html)
+
+            flash(
+                'An email has been sent with instructions to reset your password',
+                'info')
+
+            return redirect(url_for('index'))
 
     return render_template('reset_request.html', form=form)
 
