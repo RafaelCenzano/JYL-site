@@ -32,3 +32,10 @@ class ResetPasswordForm(FlaskForm):
         'Confirm Password', validators=[
             DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+
+class BugReport(FlaskForm):
+    name = StringField('Name')
+    email = StringField('Email', validators=[Email()])
+    bug = StringField('Bug', validators=[DataRequired()])
+    submit = SubmitField('Submit Bug Report')
