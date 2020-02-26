@@ -1,5 +1,5 @@
 from jyl import db, app, bcrypt
-from jyl.models import User
+from jyl.models import *
 from hashlib import sha256
 from datetime import datetime
 
