@@ -218,7 +218,7 @@ def bugreport():
     form = BugReportForm()
     if form.validate_on_submit():
 
-        html = render_template('bugreport_email.html', type='Bug Report', name=form.name.data, email=form.email.data, text=form.bug.data)
+        html = render_template('userform_email.html', type='Bug Report', name=form.name.data, email=form.email.data, text=form.bug.data)
         #send_email(user.email, subject, html)
         return html
 
@@ -229,7 +229,7 @@ def bugreport():
             return redirect(url_for(page))
         return redirect(url_for('index'))
 
-    return render_template('bugreport.html', form=form, type='Bug Report')
+    return render_template('userform.html', form=form, type='Bug Report')
 
 
 @app.route('/featurerequest', methods=['GET', 'POST'])
@@ -245,7 +245,7 @@ def featurerequest():
     form = FeatureRequestForm()
     if form.validate_on_submit():
 
-        html = render_template('bugreport_email.html', type='Feature request', name=form.name.data, email=form.email.data, text=form.feature.data)
+        html = render_template('userform_email.html', type='Feature request', name=form.name.data, email=form.email.data, text=form.feature.data)
         #send_email(user.email, subject, html)
         return html
 
@@ -256,7 +256,7 @@ def featurerequest():
             return redirect(url_for(page))
         return redirect(url_for('index'))
 
-    return render_template('bugreport.html', form=form, type='Bug Report')
+    return render_template('userform.html', form=form, type='Bug Report')
 
 
 @app.route('/license', methods=['GET'])
