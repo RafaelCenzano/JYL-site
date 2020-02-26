@@ -218,7 +218,7 @@ def bugreport():
     form = BugReportForm()
     if form.validate_on_submit():
 
-        html = render_template('bugreport_email.html', name=form.name.data, email=form.email.data, bug=form.bug.data)
+        html = render_template('bugreport_email.html', type='Bug Report', name=form.name.data, email=form.email.data, text=form.bug.data)
         #send_email(user.email, subject, html)
         return html
 
