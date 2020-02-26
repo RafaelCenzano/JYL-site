@@ -154,6 +154,9 @@ def reset_request():
                 f'An email has been sent to {form.email.data} with instructions to reset your password',
                 'info')
 
+            if 'current' in request.cookies:
+                page = request.cookies['current']
+                return redirect(url_for(page))
             return redirect(url_for('login'))
 
     return render_template('password_reset_request.html', form=form)
@@ -221,7 +224,10 @@ def bugreport():
 
         flash('Your bug report has been submitted', 'info')
 
-        return redirect(url_for('home'))
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('index'))
 
     return render_template('bugreport.html', form=form)
 
