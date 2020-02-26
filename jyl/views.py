@@ -170,7 +170,7 @@ def reset_token(token):
 
         return redirect(url_for('login'))
 
-    return render_template('reset_token.html', form=form)
+    return render_template('password_change.html', form=form)
 
 
 @app.route('/logout', methods=['GET'])
