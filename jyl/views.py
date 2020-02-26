@@ -1,7 +1,7 @@
 from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, current_user, logout_user, login_required, current_user
-from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm, BugReportForm
+from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm, BugReportForm, FeatureRequestForm
 from jyl.models import User
 from hashlib import sha256
 
@@ -229,7 +229,34 @@ def bugreport():
             return redirect(url_for(page))
         return redirect(url_for('index'))
 
-    return render_template('bugreport.html', form=form)
+    return render_template('bugreport.html', form=form, type='Bug Report')
+
+
+@app.route('/featurerequest', methods=['GET', 'POST'])
+def featurerequest():
+
+    if current_user.is_authenticated == False:
+        flash('You need to be logged in to fill out this form', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('index'))
+
+    form = FeatureRequestForm()
+    if form.validate_on_submit():
+
+        html = render_template('bugreport_email.html', type='Feature request', name=form.name.data, email=form.email.data, text=form.feature.data)
+        #send_email(user.email, subject, html)
+        return html
+
+        flash('Your feature request has been submitted', 'info')
+
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('index'))
+
+    return render_template('bugreport.html', form=form, type='Bug Report')
 
 
 @app.route('/license', methods=['GET'])
