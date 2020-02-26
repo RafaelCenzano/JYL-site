@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
     leader = db.Column(db.Boolean, unique=False, default=False)
     hours = db.Column(db.Float, unique=False, default=0.0)
     nicknameapprove = db.Column(db.Boolean, unique=False, default=False)
+    namecount = db.Column(db.Integer, unique=False, default=0)
 
     def __repr__(self):
         return f'User({self.username}, {self.email})'
@@ -58,6 +59,7 @@ class Meeting(db.Model):
     start = db.Column(db.DateTime, nullable=False, unique=False)
     end = db.Column(db.DateTime, nullable=False, unique=False)
     length = db.Column(db.Integer, nullable=False, unique=False)
+    hourcount = db.Column(db.Float, nullable=False, unique=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
@@ -82,7 +84,7 @@ class Event(db.Model):
 class EventMeeting(db.Model):
     eventid = db.Column(db.Integer, db.ForeignKey('event.id'),  primary_key=True, unique=False)
     userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
-    length = db.Column(db.Integer, nullable=False, unique=False)
+    hourcount = db.Column(db.Float, nullable=False, unique=False)
 
     def __repr__(self):
         return f'User: {self.userid} went to event:{self.eventid})'
