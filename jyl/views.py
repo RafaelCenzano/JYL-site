@@ -133,7 +133,7 @@ def reset_request():
 
             subject = 'Password Reset Request'
 
-            html = render_template('password_reset.html', url=reset_url)
+            html = render_template('password_reset_email.html', url=reset_url)
             send_email(user.email, subject, html)
 
             flash(
@@ -142,7 +142,7 @@ def reset_request():
 
             return redirect(url_for('index'))
 
-    return render_template('reset_request.html', form=form)
+    return render_template('password_reset_request.html', form=form)
 
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
