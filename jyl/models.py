@@ -62,7 +62,6 @@ class Meeting(db.Model):
 class UserMeeting(db.Model):
     meetingid = db.Column(db.Integer, db.ForeignKey('meeting.id'),  primary_key=True, unique=False)
     userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
-    hourcount = db.Column(db.Float, nullable=False, unique=False)
 
     def __repr__(self):
         return f'User: {self.userid} went to meeting:{self.meetingid})'
@@ -80,7 +79,6 @@ class Event(db.Model):
 class UserEvent(db.Model):
     eventid = db.Column(db.Integer, db.ForeignKey('event.id'),  primary_key=True, unique=False)
     userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
-    hourcount = db.Column(db.Float, nullable=False, unique=False)
 
     def __repr__(self):
         return f'User: {self.userid} went to event:{self.eventid})'
