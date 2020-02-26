@@ -76,12 +76,12 @@ def login():
 
     return render_template('login.html', form=form)
     
-'''
+
 @app.route('/confirm/<token>', methods=['GET', 'POST'])
 def confirm(token):
 
     if current_user.is_authenticated:
-        flash('You do not need to reset password as you are logged in already', 'warning')
+        flash('You do not need to confirm your account as you are logged in already', 'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
@@ -120,13 +120,13 @@ def confirm(token):
                 'danger')
 
     return render_template('login.html', form=form)
-'''
+
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
 
     if current_user.is_authenticated:
-        flash('You do not need to reset password as you are logged in already', 'warning')
+        flash('You do not need to reset your password as you are logged in already', 'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
@@ -154,7 +154,7 @@ def reset_request():
                 'An email has been sent with instructions to reset your password',
                 'info')
 
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
 
     return render_template('password_reset_request.html', form=form)
 
@@ -163,7 +163,7 @@ def reset_request():
 def reset_token(token):
 
     if current_user.is_authenticated:
-        flash('You do not need to reset password as you are logged in already', 'warning')
+        flash('You do not need to reset your password as you are logged in already', 'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
