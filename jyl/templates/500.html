@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}500{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="title">
+        <h1 class="fade-in float-up">500</h1>
+    </div>
+    <p>If this is not what you were expecting fill out a <a href="{{ url_for('bugreport') }}">bug report</a>.</p>
+    <p><a href="{{ url_for('index') }}">Head Home.</a></p>
+{% endblock %}
