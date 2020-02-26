@@ -147,7 +147,8 @@ def reset_request():
             subject = 'Password Reset Request'
 
             html = render_template('password_reset_email.html', url=reset_url)
-            send_email(user.email, subject, html)
+            #send_email(user.email, subject, html)
+            return html
 
             flash(
                 'An email has been sent with instructions to reset your password',
