@@ -33,6 +33,7 @@ def index():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
 
     if current_user.is_authenticated:
@@ -206,6 +207,7 @@ def logout():
 
 
 @app.route('/bugreport', methods=['GET', 'POST'])
+@app.route('/bugreport/', methods=['GET', 'POST'])
 def bugreport():
 
     if current_user.is_authenticated == False:
@@ -233,6 +235,7 @@ def bugreport():
 
 
 @app.route('/featurerequest', methods=['GET', 'POST'])
+@app.route('/featurerequest/', methods=['GET', 'POST'])
 def featurerequest():
 
     if current_user.is_authenticated == False:
@@ -260,6 +263,7 @@ def featurerequest():
 
 
 @app.route('/license', methods=['GET'])
+@app.route('/license/', methods=['GET'])
 def license():
 
     page = make_response(render_template('license.html'))
@@ -282,4 +286,18 @@ def back():
 
     else:
         return redirect(url_for('index'))
-        
+
+
+'''
+Error Handlers
+'''
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('500.html'), 500
