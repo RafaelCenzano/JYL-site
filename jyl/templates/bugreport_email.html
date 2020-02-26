@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    html, body {margin:0px; padding:0px; background-color: #ddd; color: #000;}
+    .jyl {text-decoration: none; color: #000;}
+    @media (prefers-color-scheme: dark) {
+        html, body {margin:0px; padding:0px; background-color: #242424; color: #ddd;}
+        .jyl {text-decoration: none; color: #ddd;}
+        a {color: #4971de;}
+    }
+    </style>
+</head>
+<body>
+    <p>Hi,</p>
+
+    <p>A Bug report for JYL Toolbox has been submitted</p>
+
+    {% if namenotnone %}
+    <p>Name: {{ name }}</p>
+    {% endif %}
+
+    {% if emailnotnone %}
+    <p>Email: {{ email }}</p>
+    {% endif %}
+
+    <p>{{ bug }}</p>
+
+    <p>- <a href="#" class="jyl">JYL Toolbox</a></p>
+</body>
+</html>
