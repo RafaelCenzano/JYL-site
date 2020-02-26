@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     namecount = db.Column(db.Integer, unique=False, default=0)
 
     def __repr__(self):
-        return f'User({self.username}, {self.email})'
+        return f'User({self.firstname} {self.lastname}, {self.email})'
 
     '''
     Create a reset token for the user
@@ -65,7 +65,7 @@ class UserMeeting(db.Model):
     hourcount = db.Column(db.Float, nullable=False, unique=False)
 
     def __repr__(self):
-        return f'User: {self.firstname} {self.lastname} went to meeting:{self.meetingid})'
+        return f'User: {self.userid} went to meeting:{self.meetingid})'
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
