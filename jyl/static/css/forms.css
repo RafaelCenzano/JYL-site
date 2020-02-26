@@ -43,3 +43,7 @@ input {
   text-decoration: underline;
   color: #041d42;
 }
+
+.invalid-feedback {
+  color: rgb(227, 14, 14);
+}
