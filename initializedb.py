@@ -5,6 +5,7 @@ from datetime import datetime
 
 db.create_all()
 
+'''
 pass1 = bcrypt.generate_password_hash(
             sha256(
                 ('pass' +
@@ -21,39 +22,40 @@ user_2 = User(firstname='rafael', lastname='cenzano', email='rafa@demo.com', pas
 db.session.add(user_2)
 
 db.session.commit()
+'''
 
 start = datetime(2020, 2, 26, 16, 30)
 
 end = datetime(2020, 2, 26, 18)
 
-meeting = Meeting(start=start, end=end, hourcount=1.5)
+#meeting = Meeting(start=start, end=end, hourcount=1.5)
 
 start2 = datetime(2020, 2, 19, 16, 30)
 
 end2 = datetime(2020, 2, 19, 18)
 
-meeting2 = Meeting(start=start2, end=end2, hourcount=1.5)
+#meeting2 = Meeting(start=start2, end=end2, hourcount=1.5)
 
 user1 = User.query.filter_by(email='raf@demo.com').first()
 user2 = User.query.filter_by(email='rafa@demo.com').first()
 
-print(meeting)
-print(meeting2)
+#print(meeting)
+#print(meeting2)
 
-print(user1)
-print(user2)
+#print(user1)
+#print(user2)
 
-db.session.add(meeting)
-db.session.add(meeting2)
+#db.session.add(meeting)
+#db.session.add(meeting2)
 
-db.session.commit()
+#db.session.commit()
 
 meeting1 = Meeting.query.filter_by(start=start).first()
 meeting2 = Meeting.query.filter_by(start=start2).first()
 
-usermeeting1 = UserMeeting(meetingid=meeting1.id, userid=user1.id)
-usermeeting2 = UserMeeting(meetingid=meeting1.id, userid=user2.id)
-usermeeting3 = UserMeeting(meetingid=meeting2.id, userid=user1.id)
+usermeeting1 = UserMeeting(meetingid=meeting1.id, userid=user1.id, hourcount=meeting1.hourcount)
+usermeeting2 = UserMeeting(meetingid=meeting1.id, userid=user2.id, hourcount=meeting1.hourcount)
+usermeeting3 = UserMeeting(meetingid=meeting2.id, userid=user1.id, hourcount=meeting1.hourcount)
 
 db.session.add(usermeeting1)
 db.session.add(usermeeting2)
