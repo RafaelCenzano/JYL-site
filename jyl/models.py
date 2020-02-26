@@ -18,7 +18,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
     confirmed = db.Column(db.Boolean, unique=False, default=False)
     admin = db.Column(db.Boolean, unique=False, default=False)
-    leader = db.Column(db.Boolean, unique=False, default=False)
     hours = db.Column(db.Float, unique=False, default=0.0)
     nicknameapprove = db.Column(db.Boolean, unique=False, default=False)
     namecount = db.Column(db.Integer, unique=False, default=0)
@@ -54,7 +53,6 @@ class Meeting(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     start = db.Column(db.DateTime, nullable=False, unique=False)
     end = db.Column(db.DateTime, nullable=False, unique=False)
-    length = db.Column(db.Integer, nullable=False, unique=False)
     hourcount = db.Column(db.Float, nullable=False, unique=False)
 
     def __repr__(self):
