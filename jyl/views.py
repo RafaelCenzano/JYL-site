@@ -291,7 +291,15 @@ def back():
 @app.route('/profile/<num>/<first>/<last>/')
 def profile(num, first, last):
 
-    if type(num) != type(5) or first is None or last is None or current_user.is_authenticated == False:
+    try:
+        int(num)
+        isInt = True
+
+    except ValueError:
+        isInt = False
+
+
+    if isInt or first is None or last is None or current_user.is_authenticated == False:
 
         flash('User not found', 'error')
         if 'current' in request.cookies:
