@@ -393,10 +393,6 @@ def meetingInfo(idOfMeeting):
 Error Handlers
 '''
 
-@app.route('/500')
-def error500():
-    return 500
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
