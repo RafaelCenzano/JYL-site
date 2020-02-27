@@ -57,7 +57,7 @@ class Meeting(db.Model):
     hourcount = db.Column(db.Float, nullable=False, unique=False)
     description = db.Column(db.String(100), nullable=False, unique=False)
     upvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
-    unsurevote = db.Column(db.Integer, nullable=False, unique=False, default=0)
+    unsurevote = db.Column(db.Integer, unique=False, default=0)
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
 
     def __repr__(self):
@@ -79,7 +79,7 @@ class Event(db.Model):
     hourcount = db.Column(db.Float, nullable=False, unique=False)
     description = db.Column(db.String(100), nullable=False, unique=False)
     upvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
-    unsurevote = db.Column(db.Integer, nullable=False, unique=False, default=0)
+    unsurevote = db.Column(db.Integer, unique=False, default=0)
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
 
     def __repr__(self):
