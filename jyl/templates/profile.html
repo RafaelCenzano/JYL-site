@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% user.nicknameapprove %}
+{% block title %}{{ user.firstname }} {{ user.lastname }}{% endblock %}
+{% else %}
+{% block title %}{{ user.nickname}}{% endblock %}
+{% endif %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+{% if user.nicknameapprove %}
+<h1>{{ user.nickname}}</h1>
+<h3>{{ user.firstname }} {{ user.lastname }}</h3>
+{% else %}
+<h1>{{ user.firstname }} {{ user.lastname }}</h1>
+{% endif %}
+{% if user.admin %}
+<p class="admin">Admin</p>
+{% endif %}
+{% if user.leader %}
+<p class="leader">Leader</p>
+{% endif %}
+<div class="half-grid">
+    <div class="column">
+        <h2>Meetings</h2>
+        {% if meetingsPresent %}
+        {% for recentMeetings in recentMeetingsAttended %}
+            <div class="profile-item meeting">
+                <a href="#">
+                    <h4>{{ recentMeetings.start.strftime('%B %-d, %Y') }}</h4>
+                    <p>{{ recentMeetings.description }}</p>
+                </a>
+            </div>
+        {% else %}
+            <div class="profile-item meeting">
+                <a href="#">
+                    <h4>User hasn't attended any meetings yet</h4>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="column">
+        <h2>Events</h2>
+        {% if eventsPresent %}
+        {% for recentEvents in recentEventsAttended %}
+            <div class="profile-item event">
+                <a href="#">
+                    <h4>{{ recentEvents.name }}</h4>
+                    <h5>{{ recentEvents.start.strftime('%B %-d, %Y') }}</h5>
+                    <p>{{ recentEvents.description }}</p>
+                </a>
+            </div>
+        {% else %}
+            <div class="profile-item event">
+                <a href="#">
+                    <h4>User hasn't attended any events yet</h4>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
