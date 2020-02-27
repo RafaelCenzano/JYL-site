@@ -290,6 +290,7 @@ def back():
 
 @app.route('/profile/<num>/<first>/<last>/')
 def profile(num, first, last):
+    '''
 
     if type(num) != type(5) or first is None or last is None or current_user.is_authenticated == False:
 
@@ -298,6 +299,7 @@ def profile(num, first, last):
             page = request.cookies['current']
             return redirect(url_for(page))
         return redirect(url_for('index'))
+    '''
 
     checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num)
 
