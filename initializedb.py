@@ -28,13 +28,13 @@ start = datetime(2020, 2, 26, 16, 30)
 
 end = datetime(2020, 2, 26, 18)
 
-meeting = Meeting(start=start, end=end, hourcount=1.5, desc='hello there')
+meeting = Meeting(start=start, end=end, hourcount=1.5, description='hello there')
 
 start2 = datetime(2020, 2, 19, 16, 30)
 
 end2 = datetime(2020, 2, 19, 18)
 
-meeting2 = Meeting(start=start2, end=end2, hourcount=1.5, desc='hello world')
+meeting2 = Meeting(start=start2, end=end2, hourcount=1.5, description='hello world')
 
 user1 = User.query.filter_by(email='raf@demo.com').first()
 user2 = User.query.filter_by(email='rafa@demo.com').first()
