@@ -291,6 +291,8 @@ def back():
 @app.route('/profile/<num>/<first>/<last>/')
 def profile(num, first, last):
 
+    return type(num) != type(5) or first is None or last is None or current_user.is_authenticated == False
+
     if type(num) != type(5) or first is None or last is None or current_user.is_authenticated == False:
 
         flash('User not found', 'error')
