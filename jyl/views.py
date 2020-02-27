@@ -293,11 +293,10 @@ def profile(num, first, last):
 
     try:
         int(num)
-        isInt = True
-
-    except ValueError:
         isInt = False
 
+    except ValueError:
+        isInt = True
 
     if isInt or first is None or last is None or current_user.is_authenticated == False:
 
@@ -306,7 +305,7 @@ def profile(num, first, last):
             page = request.cookies['current']
             return redirect(url_for(page))
         return redirect(url_for('index'))
-
+    
     checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num)
 
     if checkUser is None:
@@ -317,8 +316,8 @@ def profile(num, first, last):
             return redirect(url_for(page))
         return redirect(url_for('index'))
 
-    meetings = UserMeeting.query.filer_by(userid=checkUser.id).all()
-    events = UserEvent.query.filer_by(userid=checkUser.id).all()
+    meetings = UserMeeting.query.filter_by(userid=checkUser.id).all()
+    events = UserEvent.query.filter_by(userid=checkUser.id).all()
 
     totalHours = 0
     meetingHours = 0
