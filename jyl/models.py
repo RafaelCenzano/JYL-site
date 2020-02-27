@@ -29,6 +29,7 @@ class User(db.Model, UserMixin):
     '''
     Create a reset token for the user
     '''
+
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -65,11 +66,20 @@ class Meeting(db.Model):
 
 
 class UserMeeting(db.Model):
-    meetingid = db.Column(db.Integer, db.ForeignKey('meeting.id'),  primary_key=True, unique=False)
-    userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
+    meetingid = db.Column(
+        db.Integer,
+        db.ForeignKey('meeting.id'),
+        primary_key=True,
+        unique=False)
+    userid = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'),
+        primary_key=True,
+        unique=False)
 
     def __repr__(self):
         return f'User: {self.userid} went to meeting:{self.meetingid})'
+
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -87,10 +97,16 @@ class Event(db.Model):
 
 
 class UserEvent(db.Model):
-    eventid = db.Column(db.Integer, db.ForeignKey('event.id'),  primary_key=True, unique=False)
-    userid = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, unique=False)
+    eventid = db.Column(
+        db.Integer,
+        db.ForeignKey('event.id'),
+        primary_key=True,
+        unique=False)
+    userid = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'),
+        primary_key=True,
+        unique=False)
 
     def __repr__(self):
         return f'User: {self.userid} went to event:{self.eventid})'
-
-        
