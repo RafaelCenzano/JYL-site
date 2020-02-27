@@ -17,6 +17,8 @@ def load_user(id):
 def sendoff(where):
     if 'current' in request.cookies:
         page = request.cookies['current']
+        if 'profile' in page or 'meeting' in page:
+            return redirect(page)
         return redirect(url_for(page))
     return redirect(url_for(where))
 
@@ -225,12 +227,16 @@ def bugreport():
 
         flash('Your bug report has been submitted', 'info')
 
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
-    return render_template('userform.html', form=form, type='Bug Report')
+    page = make_response(render_template('userform.html', form=form, type='Bug Report'))
+
+    if 'current' in request.cookies:
+        current = request.cookies['current']
+        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+
+    page.set_cookie('current', 'bugreport', max_age=60 * 60 * 24 * 365)
+    return page
 
 
 @app.route('/featurerequest', methods=['GET', 'POST'])
@@ -255,12 +261,16 @@ def featurerequest():
 
         flash('Your feature request has been submitted', 'info')
 
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
-    return render_template('userform.html', form=form, type='Feature Request')
+    page = make_response(render_template('userform.html', form=form, type='Feature Request'))
+
+    if 'current' in request.cookies:
+        current = request.cookies['current']
+        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+
+    page.set_cookie('current', 'featurerequest', max_age=60 * 60 * 24 * 365)
+    return page
 
 
 @app.route('/license', methods=['GET'])
@@ -372,13 +382,20 @@ def profile(num, first, last):
     if len(recentEventsAttended) == 0:
         eventsPresent = False
 
-    return render_template(
+    page = make_response(render_template(
         'profile.html',
         meetingsPresent=meetingsPresent,
         eventsPresent=eventsPresent,
         recentMeetingsAttended=recentMeetingsAttended,
         recentEventsAttended=recentEventsAttended,
-        user=checkUser)
+        user=checkUser))
+
+    if 'current' in request.cookies:
+        current = request.cookies['current']
+        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+
+    page.set_cookie('current', url_for('profile', num=num, first=first, last=last), max_age=60 * 60 * 24 * 365)
+    return page
 
 
 @app.route('/meeting/<idOfMeeting>/')
@@ -386,10 +403,7 @@ def meetingInfo(idOfMeeting):
 
     if not current_user.is_authenticated:
         flash('Must be logged in to view a meeting', 'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('login'))
+        return sendoff('login')
 
     try:
         int(idOfMeeting)
