@@ -365,12 +365,16 @@ def profile(num, first, last):
     recentMeetings = Meeting.query.order_by('start').all()
     recentMeetingsAttended = []
 
+    recentMeetings.reverse()
+
     for meeting in recentMeetings:
         if meeting.id in meetingId and len(recentMeetingsAttended) < 5:
             recentMeetingsAttended.append(meeting)
 
     recentEvents = Meeting.query.order_by('start').all()
     recentEventsAttended = []
+
+    recentEvents.reverse()
 
     for event in recentMeetings:
         if event.id in eventId and len(recentEventsAttended) < 5:
@@ -426,11 +430,13 @@ def meetingInfo(idOfMeeting):
         return sendoff('index')
 
 
-
 '''
 Error Handlers
 '''
 
+@app.route('/500')
+def error500():
+    return 500
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -438,5 +444,5 @@ def page_not_found(e):
 
 
 @app.errorhandler(500)
-def server_error(e):
-    return render_template('500.html'), 500
+def error_for_server(e):
+    return render_template('500.html')
