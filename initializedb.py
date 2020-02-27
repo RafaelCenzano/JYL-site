@@ -18,7 +18,7 @@ pass2 = bcrypt.generate_password_hash(
                  app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
 user_1 = User(firstname='rafael', lastname='cenzano', email='raf@demo.com', password=pass1, confirmed=True, hours=0.0, nickname='raf', nicknameapprove=False)
 db.session.add(user_1)
-user_2 = User(firstname='rafael', lastname='cenzano', email='rafa@demo.com', password=pass2, confirmed=True, hours=0.0, nickname='raf', nicknameapprove=True)
+user_2 = User(firstname='rafael', lastname='cenzano', email='rafa@demo.com', password=pass2, confirmed=True, hours=0.0, nickname='raf', nicknameapprove=True, namecount=1)
 db.session.add(user_2)
 
 db.session.commit()
