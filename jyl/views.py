@@ -2,7 +2,7 @@ from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, current_user, logout_user, login_required, current_user
 from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm, BugReportForm, FeatureRequestForm
-from jyl.models import User
+from jyl.models import User, Meeting, UserMeeting, UserEvent, Event
 from hashlib import sha256
 
 
@@ -290,7 +290,6 @@ def back():
 
 @app.route('/profile/<num>/<first>/<last>/')
 def profile(num, first, last):
-    '''
 
     if type(num) != type(5) or first is None or last is None or current_user.is_authenticated == False:
 
@@ -299,7 +298,6 @@ def profile(num, first, last):
             page = request.cookies['current']
             return redirect(url_for(page))
         return redirect(url_for('index'))
-    '''
 
     checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num)
 
