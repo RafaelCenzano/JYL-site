@@ -291,6 +291,14 @@ def back():
 @app.route('/profile/<num>/<first>/<last>/')
 def profile(num, first, last):
 
+    if current_user.is_authenticated == False:
+        flash('Must be logged in to view a profile', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('login'))
+
+
     try:
         int(num)
         isInt = False
@@ -298,7 +306,7 @@ def profile(num, first, last):
     except ValueError:
         isInt = True
 
-    if isInt or first is None or last is None or current_user.is_authenticated == False:
+    if isInt or first is None or last is None:
 
         flash('User not found', 'error')
         if 'current' in request.cookies:
@@ -306,7 +314,7 @@ def profile(num, first, last):
             return redirect(url_for(page))
         return redirect(url_for('index'))
     
-    checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num)
+    checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num).first()
 
     if checkUser is None:
 
@@ -327,13 +335,16 @@ def profile(num, first, last):
     eventId = []
 
     for hoursInMeetings in meetings:
-        totalHours += hoursInMeetings.hourcount
-        meetingHours += hoursInMeetings.hourcount
-        meetingId.append(hoursInMeetings.id)
+        hours = Meeting.query.filter_by(id=hoursInMeetings.meetingid).first().hourcount
+        totalHours += hours
+        meetingHours += hours
+        meetingId.append(hoursInMeetings.meetingid)
 
     for hoursInEvents in events:
-        totalHours += hoursInEvents.hourcount
-        eventHours += hoursInEvents.hourcount
+        hours = Event.query.filter_by(id=hoursInEvents.eventid).first().hourcount
+        totalHours += hours
+        meetingHours += hours
+        eventId.append(hoursInEvents.eventid)
 
     checkUser.hours = totalHours
 

@@ -8,7 +8,6 @@
 }
 
 .half-grid {
-    margin-left: -50px;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: (50%)[2];
