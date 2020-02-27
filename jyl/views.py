@@ -14,6 +14,12 @@ def load_user(id):
         return None
 
 
+def sendoff(where):
+    if 'current' in request.cookies:
+        page = request.cookies['current']
+        return redirect(url_for(page))
+    return redirect(url_for(where))
+
 '''
 Views
 '''
@@ -38,10 +44,7 @@ def login():
 
     if current_user.is_authenticated:
         flash('You are already logged in', 'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -85,10 +88,7 @@ def confirm(token):
         flash(
             'You do not need to confirm your account as you are logged in already',
             'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -132,10 +132,7 @@ def reset_request():
         flash(
             'You do not need to reset your password as you are logged in already',
             'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
     form = RequestResetForm()
     if form.validate_on_submit():
@@ -159,10 +156,7 @@ def reset_request():
                 f'An email has been sent to {form.email.data} with instructions to reset your password',
                 'info')
 
-            if 'current' in request.cookies:
-                page = request.cookies['current']
-                return redirect(url_for(page))
-            return redirect(url_for('login'))
+            return sendoff('login')
 
     return render_template('password_reset_request.html', form=form)
 
@@ -174,10 +168,7 @@ def reset_token(token):
         flash(
             'You do not need to reset your password as you are logged in already',
             'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
     user = User.verify_reset_token(token)
     if user is None:
@@ -218,10 +209,7 @@ def bugreport():
 
     if not current_user.is_authenticated:
         flash('You need to be logged in to fill out this form', 'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('login'))
+        return sendoff('login')
 
     form = BugReportForm()
     if form.validate_on_submit():
@@ -251,10 +239,7 @@ def featurerequest():
 
     if not current_user.is_authenticated:
         flash('You need to be logged in to fill out this form', 'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('login'))
+        return sendoff('login')
 
     form = FeatureRequestForm()
     if form.validate_on_submit():
@@ -309,10 +294,7 @@ def profile(num, first, last):
 
     if not current_user.is_authenticated:
         flash('Must be logged in to view a profile', 'warning')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('login'))
+        return sendoff('login')
 
     try:
         int(num)
@@ -324,10 +306,7 @@ def profile(num, first, last):
     if isInt or first is None or last is None:
 
         flash('User not found', 'error')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
     checkUser = User.query.filter_by(
         firstname=first,
@@ -400,6 +379,32 @@ def profile(num, first, last):
         recentMeetingsAttended=recentMeetingsAttended,
         recentEventsAttended=recentEventsAttended,
         user=checkUser)
+
+
+@app.route('/meeting/<idOfMeeting>/')
+def meetingInfo(idOfMeeting):
+
+    if not current_user.is_authenticated:
+        flash('Must be logged in to view a meeting', 'warning')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('login'))
+
+    try:
+        int(idOfMeeting)
+
+    except ValueError:
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
+    checkMeeting = Meeting.query.filter_by(id=idOfMeeting).first()
+
+    if checkMeeting is None:
+
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
 
 
 '''
