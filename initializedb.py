@@ -5,7 +5,12 @@ from datetime import datetime
 
 db.create_all()
 
+user2 = User.query.filter_by(email='rafa@demo.com').first()
+user2.namecount = 1
 
+db.session.commit()
+
+'''
 pass1 = bcrypt.generate_password_hash(
             sha256(
                 ('pass' +
@@ -63,4 +68,4 @@ db.session.add(usermeeting3)
 
 # commit the chagnes to the db
 db.session.commit()
-
+'''
