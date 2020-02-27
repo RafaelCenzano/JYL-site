@@ -17,8 +17,11 @@ def load_user(id):
 def sendoff(where):
     if 'current' in request.cookies:
         page = request.cookies['current']
-        if 'profile' in page or 'meeting' in page:
-            return redirect(page)
+        if page == 'profile':
+            num = request.cookies['profile-num']
+            first = request.cookies['profile-first']
+            last = request.cookies['profile-last']
+            return redirect(url_for('profile', num=num, first=first, last=last))
         return redirect(url_for(page))
     return redirect(url_for(where))
 
@@ -394,7 +397,10 @@ def profile(num, first, last):
         current = request.cookies['current']
         page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
 
-    page.set_cookie('current', url_for('profile', num=num, first=first, last=last), max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'profile', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-num', num, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-first', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last', last, max_age=60 * 60 * 24 * 365)
     return page
 
 
