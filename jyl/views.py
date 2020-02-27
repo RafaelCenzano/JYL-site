@@ -2,7 +2,8 @@ from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, redirect, url_for, request, flash, make_response
 from flask_login import login_user, current_user, logout_user, login_required, current_user
 from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm, BugReportForm, FeatureRequestForm
-from jyl.models import User, Meeting, UserMeeting, UserEvent, Event
+from jyl.models import User
+from jyl.profile import profileProccessing
 from hashlib import sha256
 
 
@@ -329,72 +330,16 @@ def profile(num, first, last):
     if checkUser is None:
 
         flash('User not found', 'error')
-        if 'current' in request.cookies:
-            page = request.cookies['current']
-            return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return sendoff('index')
 
-    meetings = UserMeeting.query.filter_by(userid=checkUser.id).all()
-    events = UserEvent.query.filter_by(userid=checkUser.id).all()
-
-    totalHours = 0
-    meetingHours = 0
-    eventHours = 0
-
-    meetingId = []
-    eventId = []
-
-    for hoursInMeetings in meetings:
-        hours = Meeting.query.filter_by(
-            id=hoursInMeetings.meetingid).first().hourcount
-        totalHours += hours
-        meetingHours += hours
-        meetingId.append(hoursInMeetings.meetingid)
-
-    for hoursInEvents in events:
-        hours = Event.query.filter_by(
-            id=hoursInEvents.eventid).first().hourcount
-        totalHours += hours
-        meetingHours += hours
-        eventId.append(hoursInEvents.eventid)
-
-    checkUser.hours = totalHours
-
-    db.session.commit()
-
-    recentMeetings = Meeting.query.order_by('start').all()
-    recentMeetingsAttended = []
-
-    recentMeetings.reverse()
-
-    for meeting in recentMeetings:
-        if meeting.id in meetingId and len(recentMeetingsAttended) < 5:
-            recentMeetingsAttended.append(meeting)
-
-    recentEvents = Meeting.query.order_by('start').all()
-    recentEventsAttended = []
-
-    recentEvents.reverse()
-
-    for event in recentMeetings:
-        if event.id in eventId and len(recentEventsAttended) < 5:
-            recentEventsAttended.append(event)
-
-    meetingsPresent = True
-    eventsPresent = True
-
-    if len(recentMeetingsAttended) == 0:
-        meetingsPresent = False
-
-    if len(recentEventsAttended) == 0:
-        eventsPresent = False
+    profileData = profileProccessing(checkUser)
 
     page = make_response(render_template(
         'profile.html',
-        meetingsPresent=meetingsPresent,
-        eventsPresent=eventsPresent,
-        recentMeetingsAttended=recentMeetingsAttended,
-        recentEventsAttended=recentEventsAttended,
+        meetingsPresent=profileData['meetingsPresent'],
+        eventsPresent=profileData['eventsPresent'],
+        recentMeetingsAttended=profileData['recentMeetingsAttended'],
+        recentEventsAttended=profileData['recentEventsAttended'],
         user=checkUser))
 
     if 'current' in request.cookies:
@@ -428,6 +373,17 @@ def meetingInfo(idOfMeeting):
 
         flash('Meeting not found', 'error')
         return sendoff('index')
+
+    page = make_response(render_template(
+        'meeting.html', meeting=checkMeeting))
+
+    if 'current' in request.cookies:
+        current = request.cookies['current']
+        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+
+    page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('meeting-id', idOfMeeting, max_age=60 * 60 * 24 * 365)
+    return page
 
 
 '''
