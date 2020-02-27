@@ -215,7 +215,7 @@ def bugreport():
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     form = BugReportForm()
     if form.validate_on_submit():
@@ -243,7 +243,7 @@ def featurerequest():
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     form = FeatureRequestForm()
     if form.validate_on_submit():
@@ -287,6 +287,75 @@ def back():
     else:
         return redirect(url_for('index'))
 
+
+@app.route('/profile/<num>/<first>/<last>/')
+def profile(num, first, last):
+
+    if type(num) != type(5) or first is None or last is None or current_user.is_authenticated == False:
+
+        flash('User not found', 'error')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('index'))
+
+    checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num)
+
+    if checkUser is None:
+
+        flash('User not found', 'error')
+        if 'current' in request.cookies:
+            page = request.cookies['current']
+            return redirect(url_for(page))
+        return redirect(url_for('index'))
+
+    meetings = UserMeeting.query.filer_by(userid=checkUser.id).all()
+    events = UserEvent.query.filer_by(userid=checkUser.id).all()
+
+    totalHours = 0
+    meetingHours = 0
+    eventHours = 0
+
+    meetingId = []
+    eventId = []
+
+    for hoursInMeetings in meetings:
+        totalHours += hoursInMeetings.hourcount
+        meetingHours += hoursInMeetings.hourcount
+        meetingId.append(hoursInMeetings.id)
+
+    for hoursInEvents in events:
+        totalHours += hoursInEvents.hourcount
+        eventHours += hoursInEvents.hourcount
+
+    checkUser.hours = totalHours
+
+    db.session.commit()
+
+    recentMeetings = Meeting.query.order_by('start').all()
+    recentMeetingsAttended = []
+
+    for meeting in recentMeetings:
+        if meeting.id in meetingId and len(recentMeetingsAttended) < 5:
+            recentMeetingsAttended.append(meeting)
+
+    recentEvents = Meeting.query.order_by('start').all()
+    recentEventsAttended = []
+
+    for event in recentMeetings:
+        if event.id in eventId and len(recentEventsAttended) < 5:
+            recentEventsAttended.append(event)
+
+    meetingsPresent = True
+    eventsPresent = True
+
+    if len(recentMeetingsAttended) == 0:
+        meetingsPresent = False
+
+    if len(recentEventsAttended) == 0:
+        eventsPresent = False
+
+    return render_template('profile.html', meetingsPresent=meetingsPresent, eventsPresent=eventsPresent, recentMeetingsAttended=recentMeetingsAttended, recentEventsAttended=recentEventsAttended, user=checkUser)
 
 '''
 Error Handlers
