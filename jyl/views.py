@@ -10,9 +10,9 @@ from hashlib import sha256
 def load_user(id):
     try:
         return User.query.get(int(id))
-    except:
+    except BaseException:
         return None
-        
+
 
 '''
 Views
@@ -50,7 +50,7 @@ def login():
             flash(
                 f'Login Unsuccessful. User dosen\'t exsist',
                 'error')
-        else:  
+        else:
             confirm = user.confirmed
             confirmed = ''
             if not confirm:
@@ -76,13 +76,15 @@ def login():
                     'error')
 
     return render_template('login.html', form=form)
-    
+
 
 @app.route('/confirm/<token>', methods=['GET', 'POST'])
 def confirm(token):
 
     if current_user.is_authenticated:
-        flash('You do not need to confirm your account as you are logged in already', 'warning')
+        flash(
+            'You do not need to confirm your account as you are logged in already',
+            'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
@@ -127,7 +129,9 @@ def confirm(token):
 def reset_request():
 
     if current_user.is_authenticated:
-        flash('You do not need to reset your password as you are logged in already', 'warning')
+        flash(
+            'You do not need to reset your password as you are logged in already',
+            'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
@@ -167,7 +171,9 @@ def reset_request():
 def reset_token(token):
 
     if current_user.is_authenticated:
-        flash('You do not need to reset your password as you are logged in already', 'warning')
+        flash(
+            'You do not need to reset your password as you are logged in already',
+            'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
@@ -202,7 +208,7 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
         flash('Logout successful', 'success')
-        
+
     return redirect(url_for('index'))
 
 
@@ -210,7 +216,7 @@ def logout():
 @app.route('/bugreport/', methods=['GET', 'POST'])
 def bugreport():
 
-    if current_user.is_authenticated == False:
+    if not current_user.is_authenticated:
         flash('You need to be logged in to fill out this form', 'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
@@ -220,7 +226,12 @@ def bugreport():
     form = BugReportForm()
     if form.validate_on_submit():
 
-        html = render_template('userform_email.html', type='Bug Report', name=form.name.data, email=form.email.data, text=form.bug.data)
+        html = render_template(
+            'userform_email.html',
+            type='Bug Report',
+            name=form.name.data,
+            email=form.email.data,
+            text=form.bug.data)
         #send_email(user.email, subject, html)
         return html
 
@@ -238,7 +249,7 @@ def bugreport():
 @app.route('/featurerequest/', methods=['GET', 'POST'])
 def featurerequest():
 
-    if current_user.is_authenticated == False:
+    if not current_user.is_authenticated:
         flash('You need to be logged in to fill out this form', 'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
@@ -248,7 +259,12 @@ def featurerequest():
     form = FeatureRequestForm()
     if form.validate_on_submit():
 
-        html = render_template('userform_email.html', type='Feature request', name=form.name.data, email=form.email.data, text=form.bug.data)
+        html = render_template(
+            'userform_email.html',
+            type='Feature request',
+            name=form.name.data,
+            email=form.email.data,
+            text=form.bug.data)
         #send_email(user.email, subject, html)
         return html
 
@@ -271,7 +287,7 @@ def license():
     if 'current' in request.cookies:
         current = request.cookies['current']
         page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
-    
+
     page.set_cookie('current', 'license', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -291,13 +307,12 @@ def back():
 @app.route('/profile/<num>/<first>/<last>/')
 def profile(num, first, last):
 
-    if current_user.is_authenticated == False:
+    if not current_user.is_authenticated:
         flash('Must be logged in to view a profile', 'warning')
         if 'current' in request.cookies:
             page = request.cookies['current']
             return redirect(url_for(page))
         return redirect(url_for('login'))
-
 
     try:
         int(num)
@@ -313,8 +328,11 @@ def profile(num, first, last):
             page = request.cookies['current']
             return redirect(url_for(page))
         return redirect(url_for('index'))
-    
-    checkUser = User.query.filter_by(firstname=first, lastname=last, namecount=num).first()
+
+    checkUser = User.query.filter_by(
+        firstname=first,
+        lastname=last,
+        namecount=num).first()
 
     if checkUser is None:
 
@@ -335,13 +353,15 @@ def profile(num, first, last):
     eventId = []
 
     for hoursInMeetings in meetings:
-        hours = Meeting.query.filter_by(id=hoursInMeetings.meetingid).first().hourcount
+        hours = Meeting.query.filter_by(
+            id=hoursInMeetings.meetingid).first().hourcount
         totalHours += hours
         meetingHours += hours
         meetingId.append(hoursInMeetings.meetingid)
 
     for hoursInEvents in events:
-        hours = Event.query.filter_by(id=hoursInEvents.eventid).first().hourcount
+        hours = Event.query.filter_by(
+            id=hoursInEvents.eventid).first().hourcount
         totalHours += hours
         meetingHours += hours
         eventId.append(hoursInEvents.eventid)
@@ -373,7 +393,14 @@ def profile(num, first, last):
     if len(recentEventsAttended) == 0:
         eventsPresent = False
 
-    return render_template('profile.html', meetingsPresent=meetingsPresent, eventsPresent=eventsPresent, recentMeetingsAttended=recentMeetingsAttended, recentEventsAttended=recentEventsAttended, user=checkUser)
+    return render_template(
+        'profile.html',
+        meetingsPresent=meetingsPresent,
+        eventsPresent=eventsPresent,
+        recentMeetingsAttended=recentMeetingsAttended,
+        recentEventsAttended=recentEventsAttended,
+        user=checkUser)
+
 
 '''
 Error Handlers
