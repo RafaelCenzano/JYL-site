@@ -47,6 +47,7 @@
     50% {
         color: #1489c4;
     }
+
 }
 
 @keyframes colorchanger-blue {
@@ -58,6 +59,7 @@
     50% {
         color: #1489c4;
     }
+
 }
 
 @-webkit-keyframes colorchanger-purple {
@@ -69,6 +71,7 @@
     50% {
         color: #7034c9;
     }
+
 }
 
 @keyframes colorchanger-purple {
@@ -80,6 +83,7 @@
     50% {
         color: #7034c9;
     }
+
 }
 
 .meeting {
@@ -132,6 +136,7 @@
         margin: auto;
         margin-top: -10px;
     }
+
 }
 
 @media (min-width:1001px) {
@@ -154,6 +159,7 @@
         margin: auto;
         margin-top: -10px;
     }
+
 }
 
 @media (min-width:801px) {
@@ -162,5 +168,5 @@
         -webkit-transform: translateY(-9px);
         transform: translateY(-9px);
     }
-}
 
+}
