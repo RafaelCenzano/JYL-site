@@ -13,15 +13,12 @@
     color: black;
     padding: 16px;
     text-decoration: none;
+    text-align: center;
 }
 
 .sidebar a:hover:not(.active) {
     background-color: #555;
     color: white;
-}
-
-.sidebar .column {
-    text-align: center;
 }
 
 div.content {
