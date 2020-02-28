@@ -95,7 +95,8 @@
   .profile-item {
     width: 85%;
   }
-  .profile-item p {
+  .profile-item p,
+  .profile-item h4 {
     width: 90%;
   }
 }
@@ -104,7 +105,8 @@
   .profile-item {
     width: 75%;
   }
-  .profile-item p {
+  .profile-item p,
+  .profile-item h4 { {
     width: 85%;
   }
 }
