@@ -11,7 +11,7 @@ def bugreport():
 
     if not current_user.is_authenticated:
         flash('You need to be logged in to fill out this form', 'warning')
-        return sendoff('login')
+        return sendoff('login'), 403
 
     form = BugReportForm()
     if form.validate_on_submit():
@@ -45,7 +45,7 @@ def featurerequest():
 
     if not current_user.is_authenticated:
         flash('You need to be logged in to fill out this form', 'warning')
-        return sendoff('login')
+        return sendoff('login'), 403
 
     form = FeatureRequestForm()
     if form.validate_on_submit():

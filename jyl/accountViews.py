@@ -13,7 +13,7 @@ def login():
 
     if current_user.is_authenticated:
         flash('You are already logged in', 'warning')
-        return sendoff('index')
+        return sendoff('index'), 403
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -57,7 +57,7 @@ def confirm(token):
         flash(
             'You do not need to confirm your account as you are logged in already',
             'warning')
-        return sendoff('index')
+        return sendoff('index'), 403
 
     form = LoginForm()
     if form.validate_on_submit():

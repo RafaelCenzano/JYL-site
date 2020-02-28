@@ -63,7 +63,7 @@ def profile(num, first, last):
 
     if not current_user.is_authenticated:
         flash('Must be logged in to view a profile', 'warning')
-        return sendoff('login')
+        return sendoff('login'), 403
 
     try:
         int(num)
@@ -113,7 +113,7 @@ def meetingInfo(idOfMeeting):
 
     if not current_user.is_authenticated:
         flash('Must be logged in to view a meeting', 'warning')
-        return sendoff('login')
+        return sendoff('login'), 403
 
     try:
         int(idOfMeeting)
