@@ -1,153 +1,166 @@
 .half-grid .column {
-  text-align: center;
+    text-align: center;
 }
 
 .name {
-  margin-top: -5px;
-  font-size: 50px;
+    margin-top: -5px;
+    font-size: 50px;
 }
 
 .subname {
-  margin-top: -15px;
-  font-size: 25px;
+    margin-top: -15px;
+    font-size: 25px;
 }
 
 .profiletitle {
-  font-size: 40px;
-  text-decoration: underline;
-  margin-bottom: -8px;
-  margin: auto;
+    font-size: 40px;
+    text-decoration: underline;
+    margin-bottom: -8px;
+    margin: auto;
 }
 
 .profile-item h4 {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  color: #fff;
-  text-decoration: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #fff;
+    text-decoration: none;
 }
 
 .profile-item p {
-  padding-bottom: 10px;
-  margin: auto;
-  margin-top: -10px;
-  color: #fff;
-  text-decoration: none;
+    padding-bottom: 10px;
+    margin: auto;
+    margin-top: -10px;
+    color: #fff;
+    text-decoration: none;
 }
 
 .profile-item a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 @-webkit-keyframes colorchanger-blue {
-  0%,
-  100% {
-    color: #379fd4;
-  }
+    0%,
+    100% {
+        color: #379fd4;
+    }
 
-  50% {
-    color: #1489c4;
-  }
-
+    50% {
+        color: #1489c4;
+    }
 }
 
 @keyframes colorchanger-blue {
-  0%,
-  100% {
-    color: #379fd4;
-  }
+    0%,
+    100% {
+        color: #379fd4;
+    }
 
-  50% {
-    color: #1489c4;
-  }
-
+    50% {
+        color: #1489c4;
+    }
 }
 
 @-webkit-keyframes colorchanger-purple {
-  0%,
-  100% {
-    color: #5b17bf;
-  }
+    0%,
+    100% {
+        color: #5b17bf;
+    }
 
-  50% {
-    color: #7034c9;
-  }
-
+    50% {
+        color: #7034c9;
+    }
 }
 
 @keyframes colorchanger-purple {
-  0%,
-  100% {
-    color: #5b17bf;
-  }
+    0%,
+    100% {
+        color: #5b17bf;
+    }
 
-  50% {
-    color: #7034c9;
-  }
-
+    50% {
+        color: #7034c9;
+    }
 }
 
 .meeting {
-  -webkit-animation: colorchanger-blue 30s infinite;
-  animation: colorchanger-blue 30s infinite;
-  background-color: currentColor;
-  border-radius: 25px;
-  margin: -15px 0px 0px 0px;
-  transition: -webkit-transform .5s;
-  -webkit-transition: -webkit-transform .5s;
-  transition: transform .5s;
-  transition: transform .5s, -webkit-transform .5s;
-  transition: transform .5s, -webkit-transform .5s;
+    -webkit-animation: colorchanger-blue 30s infinite;
+    animation: colorchanger-blue 30s infinite;
+    background-color: currentColor;
+    border-radius: 25px;
+    margin: -15px 0px 0px 0px;
+    transition: -webkit-transform .5s;
+    -webkit-transition: -webkit-transform .5s;
+    transition: transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
 }
 
 .event {
-  -webkit-animation: colorchanger-purple 30s infinite;
-  animation: colorchanger-purple 30s infinite;
-  background-color: currentColor;
-  border-radius: 25px;
-  margin: -15px 0px 0px 0px;
-  transition: -webkit-transform .5s;
-  -webkit-transition: -webkit-transform .5s;
-  transition: transform .5s;
-  transition: transform .5s, -webkit-transform .5s;
-  transition: transform .5s, -webkit-transform .5s;
+    -webkit-animation: colorchanger-purple 30s infinite;
+    animation: colorchanger-purple 30s infinite;
+    background-color: currentColor;
+    border-radius: 25px;
+    margin: -15px 0px 0px 0px;
+    transition: -webkit-transform .5s;
+    -webkit-transition: -webkit-transform .5s;
+    transition: transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
 }
 
 .profile-item {
-  margin: auto;
+    margin: auto;
 }
 
 @media (max-width:1000px) {
-  .profile-item {
-    width: 85%;
-  }
+    .profile-item {
+        width: 85%;
+    }
 
-  .profile-item p,
-  .profile-item h4 {
-    width: 90%;
-  }
+    .profile-item p,
+    .profile-item h4 {
+        width: 90%;
+    }
 
+    .profile-item h4 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .profile-item p {
+        padding-bottom: 10px;
+        margin: auto;
+        margin-top: -10px;
+    }
 }
 
 @media (min-width:1001px) {
-  .profile-item {
-    width: 75%;
-  }
-
-  .profile-item p,
-  .profile-item h4 {
-    {
-      width: 85%;
+    .profile-item {
+        width: 75%;
     }
 
-  }
+    .profile-item p,
+    .profile-item h4 {
+        width: 85%;
+    }
 
-  @media (min-width:801px) {
+    .profile-item h4 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .profile-item p {
+        padding-bottom: 10px;
+        margin: auto;
+        margin-top: -10px;
+    }
+}
+
+@media (min-width:801px) {
     .meeting:hover,
     .event:hover {
-      -webkit-transform: translateY(-9px);
-      transform: translateY(-9px);
+        -webkit-transform: translateY(-9px);
+        transform: translateY(-9px);
     }
-
-  }
-
 }
+
