@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /profile
+Disallow: /meeting
+Disallow: /bugreport
+Disallow: /featurerequest
+Disallow: /back
+Disallow: /confirm
+Disallow: /reset_password/
+Disallow: /logout
+Sitemap: link
