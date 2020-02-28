@@ -3,11 +3,12 @@
 }
 
 .name{
+  margin-top: -5px;
   font-size: 50px;
-  margin-bottom: -15px;
 }
 
 .subname {
+  margin-top: -15px;
   font-size: 25px;
 }
 
@@ -86,7 +87,8 @@
 }
 
 .profile-item {
-  margin: 0 auto;
+  margin-top: -5px;
+  margin: auto;
 }
 
 @media (max-width:1000px) {
