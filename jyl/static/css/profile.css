@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.name{
+.name {
   margin-top: -5px;
   font-size: 50px;
 }
@@ -22,7 +22,6 @@
 .profile-item h4 {
   padding-top: 10px;
   padding-bottom: 10px;
-  margin: auto;
   color: #fff;
   text-decoration: none;
 }
@@ -39,6 +38,18 @@
   text-decoration: none;
 }
 
+@-webkit-keyframes colorchanger-blue {
+  0%,
+  100% {
+    color: #379fd4;
+  }
+
+  50% {
+    color: #1489c4;
+  }
+
+}
+
 @keyframes colorchanger-blue {
   0%,
   100% {
@@ -47,6 +58,18 @@
 
   50% {
     color: #1489c4;
+  }
+
+}
+
+@-webkit-keyframes colorchanger-purple {
+  0%,
+  100% {
+    color: #5b17bf;
+  }
+
+  50% {
+    color: #7034c9;
   }
 
 }
@@ -70,9 +93,10 @@
   border-radius: 25px;
   margin: -15px 0px 0px 0px;
   transition: -webkit-transform .5s;
+  -webkit-transition: -webkit-transform .5s;
   transition: transform .5s;
-  transition: transform .5s, 
-  -webkit-transform .5s;
+  transition: transform .5s, -webkit-transform .5s;
+  transition: transform .5s, -webkit-transform .5s;
 }
 
 .event {
@@ -82,9 +106,10 @@
   border-radius: 25px;
   margin: -15px 0px 0px 0px;
   transition: -webkit-transform .5s;
+  -webkit-transition: -webkit-transform .5s;
   transition: transform .5s;
-  transition: transform .5s, 
-  -webkit-transform .5s;
+  transition: transform .5s, -webkit-transform .5s;
+  transition: transform .5s, -webkit-transform .5s;
 }
 
 .profile-item {
@@ -95,27 +120,34 @@
   .profile-item {
     width: 85%;
   }
+
   .profile-item p,
   .profile-item h4 {
     width: 90%;
   }
+
 }
 
 @media (min-width:1001px) {
   .profile-item {
     width: 75%;
   }
-  .profile-item p,
-  .profile-item h4 { {
-    width: 85%;
-  }
-}
 
-@media (min-width:801px) {
-  .meeting:hover,
-  .event:hover {
-    -webkit-transform: translateY(-9px);
-    transform: translateY(-9px);
+  .profile-item p,
+  .profile-item h4 {
+    {
+      width: 85%;
+    }
+
+  }
+
+  @media (min-width:801px) {
+    .meeting:hover,
+    .event:hover {
+      -webkit-transform: translateY(-9px);
+      transform: translateY(-9px);
+    }
+
   }
 
 }
