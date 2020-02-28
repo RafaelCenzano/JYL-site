@@ -1,5 +1,5 @@
 from jyl import app, forms, db, bcrypt
-from flask import render_template, redirect, url_for, request, flash, make_response
+from flask import render_template, redirect, url_for, request, flash, make_response, send_file
 from flask_login import current_user
 from jyl.models import User
 from jyl.profile import profileProccessing
@@ -140,6 +140,19 @@ def meetingInfo(idOfMeeting):
     page.set_cookie('meeting-id', idOfMeeting, max_age=60 * 60 * 24 * 365)
     return page
 
+
+@app.route('/robots.txt', methods=['GET'])
+def robots():
+    return send_file('templates/seo/robots.txt')
+
+
+@app.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    sitemap_xml = render_template('seo/sitemap.xml')
+    response = make_response(sitemap_xml)
+    response.headers["Content-Type"] = "application/xml"
+    return response
+    
 
 '''
 Error Handlers
