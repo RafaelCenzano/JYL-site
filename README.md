@@ -1,6 +1,6 @@
 # JYL toolbox
 
-Flask website + postgresql app for JYL(Japanatown Youth Leaders
+Flask website + postgresql app for JYL (Japanatown Youth Leaders)
 
 ## Setup
 
@@ -8,7 +8,7 @@ Clone the repository and enter it
 
 ```
 git clone https://github.com/RafaelCenzano/jyl-site.git
-cd rafaelcenzano.com
+cd jylsite
 ```
 
 ### Requirements
@@ -16,13 +16,13 @@ cd rafaelcenzano.com
 Use pip to install needed libraries
 
 ```
-pip install -r requirements.txt
+make
 ```
 
 or
 
 ```
-make
+pip install -r requirements.txt
 ```
 
 ### Run 
