@@ -24,7 +24,6 @@
     padding-bottom: 10px;
     color: #fff;
     text-decoration: none;
-    margin: auto;
 }
 
 .profile-item p {
@@ -122,9 +121,8 @@
         width: 85%;
     }
 
-    .profile-item p,
-    .profile-item h4 {
-        width: 90%;
+    .profile-item p,{
+        max-width: 90%;
     }
 
     .profile-item h4 {
@@ -145,9 +143,8 @@
         width: 75%;
     }
 
-    .profile-item p,
-    .profile-item h4 {
-        width: 85%;
+    .profile-item p{
+        max-width: 85%;
     }
 
     .profile-item h4 {
