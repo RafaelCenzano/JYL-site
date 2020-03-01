@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, request, flash, make_respo
 from flask_login import current_user
 from jyl.models import User
 from jyl.profile import profileProccessing
-from jyl.helpers import sendoff
+from jyl.helpers import sendoff, cookieSwitch
 
 
 '''
@@ -16,9 +16,7 @@ def index():
 
     page = make_response(render_template('home.html'))
 
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+    page = cookieSwitch(page)
 
     page.set_cookie('current', 'index', max_age=60 * 60 * 24 * 365)
     return page
@@ -30,9 +28,7 @@ def license():
 
     page = make_response(render_template('license.html'))
 
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+    page = cookieSwitch(page)
 
     page.set_cookie('current', 'license', max_age=60 * 60 * 24 * 365)
     return page
@@ -97,14 +93,12 @@ def profile(num, first, last):
         recentEventsAttended=profileData['recentEventsAttended'],
         user=checkUser))
 
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+    page = cookieSwitch(page)
 
     page.set_cookie('current', 'profile', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-num', num, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-first', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
     return page
 
 
@@ -132,9 +126,7 @@ def meetingInfo(idOfMeeting):
     page = make_response(render_template(
         'meeting.html', meeting=checkMeeting))
 
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+    page = cookieSwitch(page)
 
     page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
     page.set_cookie('meeting-id', idOfMeeting, max_age=60 * 60 * 24 * 365)
