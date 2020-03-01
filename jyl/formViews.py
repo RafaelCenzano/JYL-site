@@ -2,7 +2,7 @@ from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, request, flash, make_response
 from flask_login import current_user
 from jyl.forms import BugReportForm, FeatureRequestForm
-from jyl.helpers import sendoff
+from jyl.helpers import sendoff, cookieSwitch
 
 
 @app.route('/bugreport', methods=['GET', 'POST'])
@@ -31,9 +31,7 @@ def bugreport():
 
     page = make_response(render_template('userform.html', form=form, type='Bug Report'))
 
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+    page = cookieSwitch(page)
 
     page.set_cookie('current', 'bugreport', max_age=60 * 60 * 24 * 365)
     return page
@@ -65,9 +63,8 @@ def featurerequest():
 
     page = make_response(render_template('userform.html', form=form, type='Feature Request'))
 
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+    page = cookieSwitch(page)
 
     page.set_cookie('current', 'featurerequest', max_age=60 * 60 * 24 * 365)
     return page
+
