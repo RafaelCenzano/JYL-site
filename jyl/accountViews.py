@@ -2,7 +2,7 @@ from hashlib import sha256
 from jyl.models import User
 from jyl import app, db, bcrypt
 from jyl.helpers import sendoff
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash, make_response
 from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -47,7 +47,11 @@ def login():
                     f'Login Unsuccessful. Please check email and password{confirmed}',
                     'error')
 
-    return render_template('login.html', form=form)
+    page = make_response(render_template('login.html', form=form))
+
+    page = cookieSwitch(page)
+
+    return page
 
 
 @app.route('/confirm/<token>', methods=['GET', 'POST'])
@@ -91,7 +95,11 @@ def confirm(token):
                 'Activation Unsuccessful. Please check email and password',
                 'danger')
 
-    return render_template('login.html', form=form)
+    page = make_response(render_template('login.html', form=form))
+
+    page = cookieSwitch(page)
+
+    return page
 
 
 @app.route('/reset_password', methods=['GET', 'POST'])
@@ -127,7 +135,11 @@ def reset_request():
 
             return sendoff('login')
 
-    return render_template('password_reset_request.html', form=form)
+    page = make_response(render_template('password_reset_request.html', form=form))
+
+    page = cookieSwitch(page)
+
+    return page
 
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -159,7 +171,11 @@ def reset_token(token):
 
         return redirect(url_for('login'))
 
-    return render_template('password_change.html', form=form)
+    page = make_response(render_template('password_change.html', form=form))
+
+    page = cookieSwitch(page)
+
+    return page
 
 
 @app.route('/logout', methods=['GET'])
@@ -170,3 +186,5 @@ def logout():
         flash('Logout successful', 'success')
 
     return redirect(url_for('index'))
+
+    
