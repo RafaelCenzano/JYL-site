@@ -56,10 +56,11 @@ class Meeting(db.Model):
     start = db.Column(db.DateTime, nullable=False, unique=False)
     end = db.Column(db.DateTime, nullable=False, unique=False)
     hourcount = db.Column(db.Float, nullable=False, unique=False)
-    description = db.Column(db.String(100), nullable=False, unique=False)
+    description = db.Column(db.String(500), nullable=False, unique=False)
     upvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
     unsurevote = db.Column(db.Integer, unique=False, default=0)
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
+    location = db.Column(db.String(150), nullable=False, unique=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
@@ -97,10 +98,11 @@ class Event(db.Model):
     start = db.Column(db.DateTime, nullable=False, unique=False)
     end = db.Column(db.DateTime, nullable=False, unique=False)
     hourcount = db.Column(db.Float, nullable=False, unique=False)
-    description = db.Column(db.String(100), nullable=False, unique=False)
+    description = db.Column(db.String(500), nullable=False, unique=False)
     upvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
     unsurevote = db.Column(db.Integer, unique=False, default=0)
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
+    location = db.Column(db.String(150), nullable=False, unique=False)
 
     def __repr__(self):
         return f'Event id:{self.id}, from {self.start} to {self.end})'
