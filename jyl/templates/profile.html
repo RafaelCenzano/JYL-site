@@ -7,21 +7,27 @@
 {% endblock %}
 
 {% block content %}
-{% if user.nicknameapprove %}
-<h1 class="name">{{ user.nickname}}</h1>
-<h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
-{% else %}
-<h1 class="name">{{ user.firstname }} {{ user.lastname }}</h1>
-{% endif %}
-{% if user.admin %}
-<p class="admin">Admin</p>
-{% endif %}
-{% if user.leader %}
-<p class="leader">Leader</p>
-{% endif %}
 <div class="half-grid">
     <div class="column">
+        {% if user.nicknameapprove %}
+        <h1 class="name">{{ user.nickname}}</h1>
+        <h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
+        {% else %}
+        <h1 class="name">{{ user.firstname }} {{ user.lastname }}</h1>
+        {% endif %}
+        {% if user.admin %}
+        <p class="tag admin">Admin</p>
+        {% endif %}
+        {% if user.leader %}
+        <p class="tag leader">Leader</p>
+        {% endif %}
+    </div>
+    <div class="column">
+        <div class="hours">{% if user.hours > 85.0 %}<h4 class="succeed">{% elif user.hours > 85.0/2.0 %}<h4 class="closing">{% else %}<h4 class="starting">{% endif %}{{ user.hours }}</h4></div>
+    </div>
+    <div class="column">
         <h2 class="profiletitle">Meetings</h2>
+        <div class="hours"><h4>{{ meetingHours }}</h4></div>
         {% if meetingsPresent %}
         {% for recentMeetings in recentMeetingsAttended %}
             <div class="profile-item meeting">
@@ -41,6 +47,7 @@
     </div>
     <div class="column">
         <h2 class="profiletitle">Events</h2>
+        <div class="hours"><h4>{{ eventHours }}</h4></div>
         {% if eventsPresent %}
         {% for recentEvents in recentEventsAttended %}
             <div class="profile-item event">
