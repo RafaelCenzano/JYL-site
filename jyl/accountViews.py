@@ -1,7 +1,7 @@
 from hashlib import sha256
 from jyl.models import User
 from jyl import app, db, bcrypt
-from jyl.helpers import sendoff
+from jyl.helpers import sendoff, cookieSwitch
 from flask import render_template, redirect, url_for, request, flash, make_response
 from jyl.forms import LoginForm, RequestResetForm, ResetPasswordForm
 from flask_login import login_user, current_user, logout_user, login_required
