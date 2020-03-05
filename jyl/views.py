@@ -71,7 +71,7 @@ def profile(num, first, last):
     if isInt or first is None or last is None:
 
         flash('User not found', 'error')
-        return sendoff('index')
+        return sendoff('index'), 404
 
     checkUser = User.query.filter_by(
         firstname=first,
@@ -116,7 +116,7 @@ def meetingInfo(idOfMeeting):
 
     except ValueError:
         flash('Meeting not found', 'error')
-        return sendoff('index')
+        return sendoff('index'), 404
 
     checkMeeting = Meeting.query.filter_by(id=idOfMeeting).first()
 
@@ -131,7 +131,7 @@ def meetingInfo(idOfMeeting):
     page = cookieSwitch(page)
 
     page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('meeting-id', idOfMeeting, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('meeting-id-current', idOfMeeting, max_age=60 * 60 * 24 * 365)
     return page
 
 
