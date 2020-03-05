@@ -87,12 +87,7 @@ def profile(num, first, last):
 
     page = make_response(render_template(
         'profile.html',
-        meetingsPresent=profileData['meetingsPresent'],
-        eventsPresent=profileData['eventsPresent'],
-        recentMeetingsAttended=profileData['recentMeetingsAttended'],
-        recentEventsAttended=profileData['recentEventsAttended'],
-        meetingHours=profileData['meetingHours'],
-        eventHours=profileData['eventHours'],
+        profileData=profileData,
         user=checkUser))
 
     page = cookieSwitch(page)
