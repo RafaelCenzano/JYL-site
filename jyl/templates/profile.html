@@ -27,9 +27,9 @@
     </div>
     <div class="column">
         <h2 class="profiletitle">Meetings</h2>
-        <div class="hours"><h4>{{ meetingHours }}</h4></div>
-        {% if meetingsPresent %}
-        {% for recentMeetings in recentMeetingsAttended %}
+        <div class="hours"><h4>{{ profileData['meetingHours'] }}</h4></div>
+        {% if profileData['meetingsPresent'] %}
+        {% for recentMeetings in profileData['recentMeetingsAttended'] %}
             <div class="profile-item meeting">
                 <a href="#">
                     <h4>{{ recentMeetings.start.strftime('%B %-d, %Y') }}</h4>
@@ -47,9 +47,9 @@
     </div>
     <div class="column">
         <h2 class="profiletitle">Events</h2>
-        <div class="hours"><h4>{{ eventHours }}</h4></div>
-        {% if eventsPresent %}
-        {% for recentEvents in recentEventsAttended %}
+        <div class="hours"><h4>{{ profileData['eventHours'] }}</h4></div>
+        {% if profileData['eventsPresent'] %}
+        {% for recentEvents in profileData['recentEventsAttended'] %}
             <div class="profile-item event">
                 <a href="#">
                     <h4>{{ recentEvents.name }}</h4>
