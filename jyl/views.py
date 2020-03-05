@@ -91,6 +91,8 @@ def profile(num, first, last):
         eventsPresent=profileData['eventsPresent'],
         recentMeetingsAttended=profileData['recentMeetingsAttended'],
         recentEventsAttended=profileData['recentEventsAttended'],
+        meetingHours=profileData['meetingHours'],
+        eventHours=profileData['eventHours'],
         user=checkUser))
 
     page = cookieSwitch(page)
