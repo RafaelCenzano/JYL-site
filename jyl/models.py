@@ -78,6 +78,10 @@ class UserMeeting(db.Model):
         unique=False)
     attended = db.Column(db.Boolean, default=False)
     going = db.Column(db.Boolean, default=False)
+    comment = db.Column(db.String(500), nullable=True)
+    upvote = db.Column(db.Boolean)
+    unsurevote = db.Column(db.Boolean)
+    downvote = db.Column(db.Boolean)
 
     def __repr__(self):
         if self.attended:
@@ -115,6 +119,10 @@ class UserEvent(db.Model):
         unique=False)
     attended = db.Column(db.Boolean, default=False)
     going = db.Column(db.Boolean, default=False)
+    comment = db.Column(db.String(500), nullable=True)
+    upvote = db.Column(db.Boolean)
+    unsurevote = db.Column(db.Boolean)
+    downvote = db.Column(db.Boolean)
 
     def __repr__(self):
         if self.attended:
