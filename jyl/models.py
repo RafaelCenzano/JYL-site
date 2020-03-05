@@ -76,9 +76,15 @@ class UserMeeting(db.Model):
         db.ForeignKey('user.id'),
         primary_key=True,
         unique=False)
+    attended = db.Column(db.Boolean, default=False)
+    going = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
-        return f'User: {self.userid} went to meeting:{self.meetingid})'
+        if self.attended:
+            return f'User: {self.userid} went to meeting:{self.meetingid})'
+        elif self.going:
+            return f'User: {self.userid} wants to go to meeting:{self.meetingid})'
+        return f'User: {self.userid} meeting:{self.meetingid})'
 
 
 class Event(db.Model):
@@ -107,6 +113,13 @@ class UserEvent(db.Model):
         db.ForeignKey('user.id'),
         primary_key=True,
         unique=False)
+    attended = db.Column(db.Boolean, default=False)
+    going = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
-        return f'User: {self.userid} went to event:{self.eventid})'
+        if self.attended:
+            return f'User: {self.userid} went to event:{self.eventid})'
+        elif self.going:
+            return f'User: {self.userid} wants to go to meeting:{self.eventid})'
+        return f'User: {self.userid} event:{self.eventid})'
+
