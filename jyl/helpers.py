@@ -39,4 +39,8 @@ def cookieSwitch(page):
         page.set_cookie('profile-first', current_first, max_age=60 * 60 * 24 * 365)
         page.set_cookie('profile-last', current_last, max_age=60 * 60 * 24 * 365)
 
+    if 'meeting-id-current' in request.cookies:
+        current_meeting = request.cookies['meeting-id-current']
+        page.set_cookie('meeting-id', current_meeting, max_age=60 * 60 * 24 * 365)
+
     return page
