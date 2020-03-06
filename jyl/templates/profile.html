@@ -23,11 +23,11 @@
         {% endif %}
     </div>
     <div class="column">
-        <div class="hours">{% if user.hours > 85.0 %}<h4 class="succeed">{% elif user.hours > 85.0/2.0 %}<h4 class="closing">{% else %}<h4 class="starting">{% endif %}{{ user.hours }}</h4></div>
+        <div class="hours lrg"><h4>{{ user.hours }}</h4></div>
     </div>
     <div class="column">
         <h2 class="profiletitle">Meetings</h2>
-        <div class="hours"><h4>{{ profileData['meetingHours'] }}</h4></div>
+        <div class="hours sml"><h4>{{ profileData['meetingHours'] }}</h4></div>
         {% if profileData['meetingsPresent'] %}
         {% for recentMeetings in profileData['recentMeetingsAttended'] %}
             <div class="profile-item meeting">
@@ -47,7 +47,7 @@
     </div>
     <div class="column">
         <h2 class="profiletitle">Events</h2>
-        <div class="hours"><h4>{{ profileData['eventHours'] }}</h4></div>
+        <div class="hours sml"><h4>{{ profileData['eventHours'] }}</h4></div>
         {% if profileData['eventsPresent'] %}
         {% for recentEvents in profileData['recentEventsAttended'] %}
             <div class="profile-item event">
@@ -67,4 +67,8 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block trailing_js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %}
