@@ -1,8 +1,9 @@
 from jyl import app, forms, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
 from flask_login import current_user
-from jyl.models import User
+from jyl.models import User, Meeting
 from jyl.profile import profileProccessing
+from jyl.meeting import meetingProccessing
 from jyl.helpers import sendoff, cookieSwitch
 
 
@@ -120,8 +121,10 @@ def meetingInfo(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    meetingData = meetingProccessing(checkMeeting)
+
     page = make_response(render_template(
-        'meeting.html', meeting=checkMeeting))
+        'meeting.html', meeting=checkMeeting, meetingData=meetingData))
 
     page = cookieSwitch(page)
 
