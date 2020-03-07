@@ -31,7 +31,7 @@
         {% if profileData['meetingsPresent'] %}
         {% for recentMeetings in profileData['recentMeetingsAttended'] %}
             <div class="profile-item meeting">
-                <a href="#">
+                <a href="{{ url_for('meetingInfo', idOfMeeting=recentMeetings.id) }}">
                     <h4>{{ recentMeetings.start.strftime('%B %-d, %Y') }}</h4>
                     <p>{{ recentMeetings.description }}</p>
                 </a>
