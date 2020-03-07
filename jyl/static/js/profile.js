@@ -1,4 +1,4 @@
-window.onload = () => {
+window.onload = function profileCircle() {
     var values = document.getElementsByClassName('hours');
     var number = parseInt(values[0].textContent);
     var redNum = 0;
