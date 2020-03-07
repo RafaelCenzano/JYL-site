@@ -6,7 +6,7 @@ def meetingProccessing(checkMeeting):
 
     meetingData = {}
 
-    users = UserMeeting.query.filter_by(userid=checkMeeting.id).all()
+    users = UserMeeting.query.filter_by(userid=checkMeeting.id, attended=True).all()
 
     length = checkMeeting.hourcount
 
@@ -17,3 +17,5 @@ def meetingProccessing(checkMeeting):
 
         meetingData['usersAttended'].append(people)
         meetingData['totalHours'] += length
+
+    return meetingData
