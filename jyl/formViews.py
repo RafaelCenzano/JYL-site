@@ -7,11 +7,8 @@ from jyl.helpers import sendoff, cookieSwitch
 
 @app.route('/bugreport', methods=['GET', 'POST'])
 @app.route('/bugreport/', methods=['GET', 'POST'])
+@login_required
 def bugreport():
-
-    if not current_user.is_authenticated:
-        flash('You need to be logged in to fill out this form', 'warning')
-        return sendoff('login'), 403
 
     form = BugReportForm()
     if form.validate_on_submit():
@@ -39,11 +36,8 @@ def bugreport():
 
 @app.route('/featurerequest', methods=['GET', 'POST'])
 @app.route('/featurerequest/', methods=['GET', 'POST'])
+@login_required
 def featurerequest():
-
-    if not current_user.is_authenticated:
-        flash('You need to be logged in to fill out this form', 'warning')
-        return sendoff('login'), 403
 
     form = FeatureRequestForm()
     if form.validate_on_submit():
