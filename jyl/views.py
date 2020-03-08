@@ -55,21 +55,11 @@ def back():
         return redirect(url_for('index'))
 
 
-@app.route('/profile/<num>/<first>/<last>/')
+@app.route('/profile/<int:num>/<first>/<last>/')
+@login_required
 def profile(num, first, last):
 
-    if not current_user.is_authenticated:
-        flash('Must be logged in to view a profile', 'warning')
-        return sendoff('login'), 403
-
-    try:
-        int(num)
-        isInt = False
-
-    except ValueError:
-        isInt = True
-
-    if isInt or first is None or last is None:
+    if isInt is None or first is None or last is None:
 
         flash('User not found', 'error')
         return sendoff('index'), 404
@@ -101,14 +91,8 @@ def profile(num, first, last):
 
 
 @app.route('/meeting/<idOfMeeting>/')
+@login_required
 def meetingInfo(idOfMeeting):
-
-    if not current_user.is_authenticated:
-        flash('Must be logged in to view a meeting', 'warning')
-        return sendoff('login'), 403
-
-    try:
-        int(idOfMeeting)
 
     except ValueError:
         flash('Meeting not found', 'error')
