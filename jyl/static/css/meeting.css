@@ -1,0 +1,10 @@
+.lrg {
+    background: rgb(0, 255, 0);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    margin: auto;
+    font-size: 25px;
+}
