@@ -95,6 +95,7 @@
     transition: -webkit-transform .5s;
     -webkit-transition: -webkit-transform .5s;
     transition: transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
     -webkit-transform .5s;
 }
 
@@ -107,6 +108,7 @@
     transition: -webkit-transform .5s;
     -webkit-transition: -webkit-transform .5s;
     transition: transform .5s;
+    transition: transform .5s, -webkit-transform .5s;
     -webkit-transform .5s;
 }
 
@@ -131,6 +133,23 @@
     line-height: 100px;
     margin: auto;
     font-size: 25px;
+}
+
+h1 {
+    color: rgb(30, 30, 30);
+    text-decoration: underline;
+}
+
+.edit,
+.edit:visited {
+    color: rgb(30, 30, 30);
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.edit:hover,
+.edit:visited:hover {
+    color: rgb(70, 70, 70);
 }
 
 @media (max-width:1000px) {
