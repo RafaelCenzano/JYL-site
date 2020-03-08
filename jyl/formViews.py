@@ -1,7 +1,7 @@
 from jyl import app, forms, db, bcrypt, login_manager
 from flask import render_template, request, flash, make_response
-from flask_login import current_user
 from jyl.forms import BugReportForm, FeatureRequestForm
+from flask_login import current_user, login_required
 from jyl.helpers import sendoff, cookieSwitch
 
 
