@@ -15,7 +15,8 @@ def meetingProccessing(checkMeeting):
 
     for people in users:
 
-        meetingData['usersAttended'].append(people)
-        meetingData['totalHours'] += length
+        if people.attended or people.going:
+            meetingData['usersAttended'].append(people)
+            meetingData['totalHours'] += length
 
     return meetingData
