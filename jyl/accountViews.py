@@ -179,11 +179,11 @@ def reset_token(token):
 
 
 @app.route('/logout', methods=['GET'])
+@login_required
 def logout():
 
-    if current_user.is_authenticated:
-        logout_user()
-        flash('Logout successful', 'success')
+    logout_user()
+    flash('Logout successful', 'success')
 
     return redirect(url_for('index'))
 
