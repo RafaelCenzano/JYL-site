@@ -5,6 +5,7 @@
         {% if current_user.is_authenticated %}
         {% if current_user.nicknameapprove %}
         <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">{{ current_user.nickname }} <i class="fas fa-user-cog nav-icon"></i></a>
+        <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
         {% else %}
         <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">{{ current_user.firstname }} {{ current_user.lastname }} <i class="fas fa-user-cog nav-icon"></i></a>
         <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
