@@ -4,17 +4,16 @@
 
 {% block head_css %}
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
-<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/error.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="half-grid">
     <div class="column">
         {% if user.nicknameapprove %}
-        <h1 class="name">{{ user.nickname}}</h1>
+        <h1 class="name">{% if current_user.id == user.id %}<a class="edit" href="#">{% endif %}{{ user.nickname}}{% if current_user.id == user.id %} <i class="fas fa-user-edit"></i></a>{% endif %}</h1>
         <h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
         {% else %}
-        <h1 class="name">{{ user.firstname }} {{ user.lastname }}</h1>
+        <h1 class="name">{% if current_user.id == user.id %}<a class="edit" href="#">{% endif %}{{ user.firstname }} {{ user.lastname }}{% if current_user.id == user.id %} <i class="fas fa-user-edit"></i></a>{% endif %}</h1>
         {% endif %}
         {% if user.admin %}
         <p class="tag admin">Admin</p>
@@ -26,13 +25,6 @@
     <div class="column">
         <div class="hours lrg"><h4>{{ user.hours }}</h4></div>
     </div>
-{% if current_user.id == user.id %}
-</div>
-<div>
-    <p><a class="button" href="#">Edit Profile</a></p>
-</div>
-<div class="half-grid">
-{% endif %}
     <div class="column">
         <h2 class="profiletitle">Meetings</h2>
         <div class="hours sml"><h4>{{ profileData['meetingHours'] }}</h4></div>
