@@ -21,7 +21,7 @@ def sendoff(where):
             return redirect(url_for('profile', num=num, first=first, last=last))
         elif 'meeting' in page:
             meetingid = request.cookies['meeting-id']
-            return redirect(url_for('meeting', idOfMeeting=meetingid))
+            return redirect(url_for('meetingInfo', idOfMeeting=meetingid))
         return redirect(url_for(page))
     return redirect(url_for(where))
 
