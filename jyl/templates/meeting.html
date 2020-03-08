@@ -9,7 +9,7 @@
 {% block content %}
 <div class="half-grid">
     <div class="column">
-        <h1>{{ meeting.start.strftime('%B %-d, %Y') }}</h1>
+        <h1>Meeting: {{ meeting.start.strftime('%B %-d, %Y') }}</h1>
         <h4>{{ meeting.description }}</h4>
         <h4>{{ meeting.location }}</h4>
     </div>
@@ -19,9 +19,6 @@
     <div class="column">
     </div>
     <div class="column">
-        {% if current_user.id in  %}
-        <button onclick="window.location.href = 'https://w3docs.com';">Click Here</button>
-        }
     </div>
 </div>
 {% endblock %}
