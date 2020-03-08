@@ -1,6 +1,6 @@
 from jyl import app, forms, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
-from flask_login import current_user
+from flask_login import current_user, login_required
 from jyl.models import User, Meeting
 from jyl.profile import profileProccessing
 from jyl.meeting import meetingProccessing
@@ -42,13 +42,13 @@ def back():
     if 'page' in request.cookies:
         page = request.cookies['page']
         if 'profile' in page:
-            num = request.cookies['profile-num']
+            num = int(request.cookies['profile-num'])
             first = request.cookies['profile-first']
             last = request.cookies['profile-last']
             return redirect(url_for('profile', num=num, first=first, last=last))
         elif 'meeting' in page:
-            meetingid = request.cookies['meeting-id']
-            return redirect(url_for('meeting', idOfMeeting=meetingid))
+            meetingid = int(request.cookies['meeting-id'])
+            return redirect(url_for('meetingInfo', idOfMeeting=meetingid))
         return redirect(url_for(page))
 
     else:
@@ -58,11 +58,6 @@ def back():
 @app.route('/profile/<int:num>/<first>/<last>/')
 @login_required
 def profile(num, first, last):
-
-    if isInt is None or first is None or last is None:
-
-        flash('User not found', 'error')
-        return sendoff('index'), 404
 
     checkUser = User.query.filter_by(
         firstname=first,
@@ -83,6 +78,8 @@ def profile(num, first, last):
 
     page = cookieSwitch(page)
 
+    num = repr(num)
+
     page.set_cookie('current', 'profile', max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
@@ -90,13 +87,9 @@ def profile(num, first, last):
     return page
 
 
-@app.route('/meeting/<idOfMeeting>/')
+@app.route('/meeting/<int:idOfMeeting>/')
 @login_required
 def meetingInfo(idOfMeeting):
-
-    except ValueError:
-        flash('Meeting not found', 'error')
-        return sendoff('index'), 404
 
     checkMeeting = Meeting.query.filter_by(id=idOfMeeting).first()
 
@@ -111,6 +104,8 @@ def meetingInfo(idOfMeeting):
         'meeting.html', meeting=checkMeeting, meetingData=meetingData))
 
     page = cookieSwitch(page)
+
+    idOfMeeting = repr(idOfMeeting)
 
     page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
     page.set_cookie('meeting-id-current', idOfMeeting, max_age=60 * 60 * 24 * 365)
