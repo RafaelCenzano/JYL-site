@@ -22,6 +22,9 @@ def sendoff(where):
         elif 'meeting' in page:
             meetingid = request.cookies['meeting-id']
             return redirect(url_for('meetingInfo', idOfMeeting=meetingid))
+        elif 'event' in page:
+            eventid = request.cookies['event-id']
+            return redirect(url_for('eventInfo', idOfEvent=eventid))
         return redirect(url_for(page))
     return redirect(url_for(where))
 
@@ -42,5 +45,9 @@ def cookieSwitch(page):
     if 'meeting-id-current' in request.cookies:
         current_meeting = request.cookies['meeting-id-current']
         page.set_cookie('meeting-id', current_meeting, max_age=60 * 60 * 24 * 365)
+
+    if 'event-id-current' in request.cookies:
+        current_event = request.cookies['event-id-current']
+        page.set_cookie('event-id', current_event, max_age=60 * 60 * 24 * 365)
 
     return page
