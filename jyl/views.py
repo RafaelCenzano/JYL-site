@@ -101,7 +101,7 @@ def meetingInfo(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
-    eventMeeting = eventMeetingProccessing(checkMeeting)
+    eventMeeting = eventMeetingProccessing(checkMeeting, meeting=True)
 
     page = make_response(render_template(
         'eventMeeting.html', eventMeeting=checkMeeting, eventMeetingData=eventMeeting))
@@ -126,7 +126,7 @@ def eventInfo(idOfEvent):
         flash('Event not found', 'error')
         return sendoff('index')
 
-    eventMeeting = eventMeetingProccessing(checkEvent)
+    eventMeeting = eventMeetingProccessing(checkEvent, meeting=False)
 
     page = make_response(render_template(
         'eventMeeting.html', eventMeeting=checkEvent, eventMeetingData=eventMeeting))
