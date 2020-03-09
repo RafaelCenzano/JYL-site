@@ -52,8 +52,7 @@
         {% for recentEvents in profileData['recentEventsAttended'] %}
             <div class="profile-item event">
                 <a href="#">
-                    <h4>{{ recentEvents.name }}</h4>
-                    <p>{{ recentEvents.start.strftime('%B %-d, %Y') }}</p>
+                    <h4>{{ recentEvents.name }} : {{ recentEvents.start.strftime('%B %-d, %Y') }}</h4>
                     <p>{{ recentEvents.description }}</p>
                 </a>
             </div>
