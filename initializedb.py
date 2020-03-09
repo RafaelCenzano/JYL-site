@@ -118,7 +118,7 @@ meeting4 = Meeting(
 
 start = datetime(2020, 1, 30, 10)
 end = datetime(2020, 1, 30, 18)
-event = Meeting(
+event = Event(
     name='An event!!!!',
     start=start,
     end=end,
@@ -131,7 +131,7 @@ event = Meeting(
 
 start1 = datetime(2020, 1, 30, 10)
 end1 = datetime(2020, 1, 30, 18)
-event1 = Meeting(
+event1 = Event(
     name='An event 223!!!!',
     start=start1,
     end=end1,
