@@ -9,12 +9,13 @@
 {% block content %}
 <div class="half-grid">
     <div class="column">
-        <h1>Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
-        <h4>{{ eventMeeting.description }}</h4>
-        <h4>{{ eventMeeting.location }}</h4>
+        <h1>{% if eventMeetingData['meeting'] %}Meeting: {% else %}Event: {{ eventMeeting.name }} {% endif %}{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        <h4>Length: {{ eventMeeting.hourcount }} hours</h4>
+        <h4>Description: {{ eventMeeting.description }}</h4>
+        <h4>Location: {{ eventMeeting.location }}</h4>
     </div>
     <div class="column">
-        <div class="lrg"><h4>{{ eventMeeting.hourcount }}</h4></div>
+        <div class="lrg"><h4>{{ eventMeetingData['totalHours'] }}</h4></div>
     </div>
     <div class="column">
     </div>
