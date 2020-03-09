@@ -37,7 +37,7 @@ def eventMeetingProccessing(check, meeting=True):
     for user in users:
 
         if user.attended or user.going:
-            meetingData['users'].append(user)
-            meetingData['totalHours'] += length
+            eventMeeting['users'].append(user)
+            eventMeeting['totalHours'] += length
 
     return eventMeeting
