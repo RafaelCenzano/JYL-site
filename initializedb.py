@@ -39,7 +39,9 @@ user2 = User(
     hours=0.0,
     nickname='raf',
     nicknameapprove=True,
-    namecount=1)
+    namecount=1,
+    admin=True,
+    leader=True)
 
 db.session.add(user1)
 db.session.add(user2)
