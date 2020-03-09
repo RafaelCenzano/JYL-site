@@ -3,20 +3,22 @@ from jyl.models import *
 from hashlib import sha256
 from datetime import datetime
 
+db.drop_all()
 db.create_all()
 
-'''
 pass1 = bcrypt.generate_password_hash(
     sha256(
         ('pass' +
          'raf@demo.com' +
          app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+
 pass2 = bcrypt.generate_password_hash(
     sha256(
         ('pass' +
          'rafa@demo.com' +
          app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
-user_1 = User(
+
+user1 = User(
     firstname='rafael',
     lastname='cenzano',
     email='raf@demo.com',
@@ -24,9 +26,11 @@ user_1 = User(
     confirmed=True,
     hours=0.0,
     nickname='raf',
-    nicknameapprove=False)
-db.session.add(user_1)
-user_2 = User(
+    nicknameapprove=False,
+    admin=True,
+    leader=True)
+
+user2 = User(
     firstname='rafael',
     lastname='cenzano',
     email='rafa@demo.com',
@@ -36,118 +40,138 @@ user_2 = User(
     nickname='raf',
     nicknameapprove=True,
     namecount=1)
-db.session.add(user_2)
 
+db.session.add(user1)
+db.session.add(user2)
 db.session.commit()
-'''
-'''
-start = datetime(2020, 2, 26, 16, 30)
 
-end = datetime(2020, 2, 26, 18)
+start0 = datetime(2020, 2, 26, 16, 30)
+end0 = datetime(2020, 2, 26, 18)
 
-meeting = Meeting(
-    start=start,
-    end=end,
+meeting0 = Meeting(
+    start=start0,
+    end=end0,
     hourcount=1.5,
-    description='hello there')
+    description='hello there',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='2012 Pine St.')
 
-start2 = datetime(2020, 2, 19, 16, 30)
+start1 = datetime(2020, 2, 19, 16, 30)
+end1 = datetime(2020, 2, 19, 18)
 
-end2 = datetime(2020, 2, 19, 18)
-
-meeting2 = Meeting(
-    start=start2,
-    end=end2,
+meeting1 = Meeting(
+    start=start1,
+    end=end1,
     hourcount=1.5,
-    description='hello world')
-
-user1 = User.query.filter_by(email='raf@demo.com').first()
-user2 = User.query.filter_by(email='rafa@demo.com').first()
-
-db.session.add(meeting)
-db.session.add(meeting2)
-
-db.session.commit()
-
-meeting1 = Meeting.query.filter_by(start=start).first()
-meeting2 = Meeting.query.filter_by(start=start2).first()
-
-usermeeting1 = UserMeeting(meetingid=meeting1.id, userid=user1.id)
-usermeeting2 = UserMeeting(meetingid=meeting1.id, userid=user2.id)
-usermeeting3 = UserMeeting(meetingid=meeting2.id, userid=user1.id)
-
-db.session.add(usermeeting1)
-db.session.add(usermeeting2)
-db.session.add(usermeeting3)
-
-# commit the chagnes to the db
-db.session.commit()
-'''
+    description='hello world',
+    location='2012 Pine St.')
 
 start = datetime(2020, 3, 4, 16, 30)
-
 end = datetime(2020, 3, 4, 18)
-
 meeting = Meeting(
     start=start,
     end=end,
     hourcount=1.5,
-    description='future meeting')
+    description='future meeting',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='2012 Pine St.')
 
 start2 = datetime(2020, 2, 12, 16, 30)
-
 end2 = datetime(2020, 2, 12, 18)
-
 meeting2 = Meeting(
     start=start2,
     end=end2,
     hourcount=1.5,
-    description='past meeting')
-
-db.session.add(meeting)
-db.session.add(meeting2)
-db.session.commit()
+    description='past meeting',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='2012 Pine St.')
 
 start3 = datetime(2020, 2, 5, 16, 30)
-
 end3 = datetime(2020, 2, 5, 18)
-
 meeting3 = Meeting(
     start=start3,
     end=end3,
     hourcount=1.5,
-    description='way past meeting')
-
-db.session.add(meeting3)
-db.session.commit()
+    description='way past meeting',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='2012 Pine St.')
 
 start4 = datetime(2020, 1, 29, 16, 30)
-
-end4 = datetime(2020, 1, 12, 18)
-
+end4 = datetime(2020, 1, 29, 18)
 meeting4 = Meeting(
     start=start4,
     end=end4,
     hourcount=1.5,
-    description='super far past meeting')
+    description='super far past meeting',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='2012 Pine St.')
 
+start = datetime(2020, 1, 30, 10)
+end = datetime(2020, 1, 30, 18)
+event = Meeting(
+    name='An event!!!!'
+    start=start,
+    end=end,
+    hourcount=8,
+    description='adsasadsad',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='1840 Sutter')
+
+start1 = datetime(2020, 1, 30, 10)
+end1 = datetime(2020, 1, 30, 18)
+event1 = Meeting(
+    name='An event 223!!!!'
+    start=start1,
+    end=end1,
+    hourcount=8,
+    description='235325325',
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
+    location='1840 Sutter')
+
+db.session.add(event)
+db.session.add(event1)
+db.session.add(meeting0)
+db.session.add(meeting1)
+db.session.add(meeting)
+db.session.add(meeting2)
+db.session.add(meeting3)
 db.session.add(meeting4)
 db.session.commit()
 
-user1 = User.query.filter_by(email='raf@demo.com').first()
-user2 = User.query.filter_by(email='rafa@demo.com').first()
+usermeeting0 = UserMeeting(meetingid=meeting0.id, userid=user1.id, attended=True, going=True)
+usermeeting = UserMeeting(meetingid=meeting1.id, userid=user1.id, attended=True, going=True)
+usermeeting1 = UserMeeting(meetingid=meeting.id, userid=user1.id, attended=True, going=True)
+usermeeting2 = UserMeeting(meetingid=meeting.id, userid=user2.id, attended=True, going=True)
+usermeeting3 = UserMeeting(meetingid=meeting2.id, userid=user1.id, attended=True, going=True)
+usermeeting4 = UserMeeting(meetingid=meeting3.id, userid=user1.id, attended=True, going=True)
+usermeeting5 = UserMeeting(meetingid=meeting3.id, userid=user2.id, attended=True, going=True)
+usermeeting6 = UserMeeting(meetingid=meeting4.id, userid=user1.id, attended=True, going=True)
+usermeeting7 = UserMeeting(meetingid=meeting4.id, userid=user2.id, attended=True, going=True)
+userevent = UserEvent(eventid=event.id, userid=user1.id, attended=True, going=True)
+userevent1 = UserEvent(eventid=event.id, userid=user2.id, attended=True, going=True)
+userevent2 = UserEvent(eventid=event1.id, userid=user1.id, attended=True, going=True)
+userevent3 = UserEvent(eventid=event1.id, userid=user2.id, attended=True, going=True)
 
-meeting1 = Meeting.query.filter_by(start=start).first()
-meeting2 = Meeting.query.filter_by(start=start2).first()
-
-usermeeting1 = UserMeeting(meetingid=meeting1.id, userid=user1.id)
-usermeeting2 = UserMeeting(meetingid=meeting1.id, userid=user2.id)
-usermeeting3 = UserMeeting(meetingid=meeting2.id, userid=user2.id)
-usermeeting4 = UserMeeting(meetingid=meeting3.id, userid=user1.id)
-usermeeting5 = UserMeeting(meetingid=meeting3.id, userid=user2.id)
-usermeeting6 = UserMeeting(meetingid=meeting4.id, userid=user1.id)
-usermeeting7 = UserMeeting(meetingid=meeting4.id, userid=user2.id)
-
+db.session.add(userevent)
+db.session.add(userevent1)
+db.session.add(userevent2)
+db.session.add(userevent3)
+db.session.add(usermeeting0)
+db.session.add(usermeeting)
 db.session.add(usermeeting1)
 db.session.add(usermeeting2)
 db.session.add(usermeeting3)
