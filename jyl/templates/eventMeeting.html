@@ -9,7 +9,11 @@
 {% block content %}
 <div class="half-grid">
     <div class="column">
-        <h1>{% if eventMeetingData['meeting'] %}Meeting: {% else %}Event: {{ eventMeeting.name }} {% endif %}{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        {% if eventMeetingData['meeting'] %}
+        <h1>Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        {% else %}
+        <h1>{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        {% endif %}
         <h4>Length: {{ eventMeeting.hourcount }} hours</h4>
         <h4>Description: {{ eventMeeting.description }}</h4>
         <h4>Location: {{ eventMeeting.location }}</h4>
