@@ -4,7 +4,7 @@ from jyl.models import User, Meeting, Event
 from jyl.profile import profileProccessing
 from jyl.helpers import sendoff, cookieSwitch
 from flask_login import current_user, login_required
-from jyl.eventMeeting import meetingProccessing
+from jyl.eventMeeting import eventMeetingProccessing
 
 
 '''
