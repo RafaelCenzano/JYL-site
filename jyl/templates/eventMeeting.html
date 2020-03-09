@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ eventMeeting.start.strftime('%-m/%-d/%Y') }}{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/eventMeeting.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="half-grid">
+    <div class="column">
+        <h1>Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        <h4>{{ eventMeeting.description }}</h4>
+        <h4>{{ eventMeeting.location }}</h4>
+    </div>
+    <div class="column">
+        <div class="lrg"><h4>{{ eventMeeting.hourcount }}</h4></div>
+    </div>
+    <div class="column">
+    </div>
+    <div class="column">
+    </div>
+</div>
+{% endblock %}
