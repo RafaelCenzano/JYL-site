@@ -9,7 +9,6 @@ def profileProccessing(checkUser):
     meetings = UserMeeting.query.filter_by(userid=checkUser.id).all()
     events = UserEvent.query.filter_by(userid=checkUser.id).all()
 
-    totalHours = 0
     profileData['meetingHours'] = 0
     profileData['eventHours'] = 0
 
@@ -17,22 +16,25 @@ def profileProccessing(checkUser):
     eventId = []
 
     for hoursInMeetings in meetings:
-        hours = Meeting.query.filter_by(
-            id=hoursInMeetings.meetingid).first().hourcount
-        totalHours += hours
-        profileData['meetingHours'] += hours
-        meetingId.append(hoursInMeetings.meetingid)
+        if hoursInMeetings.attended:
+            hours = Meeting.query.filter_by(
+                id=hoursInMeetings.meetingid).first().hourcount
+            profileData['meetingHours'] += hours
+            meetingId.append(hoursInMeetings.meetingid)
 
     for hoursInEvents in events:
-        hours = Event.query.filter_by(
-            id=hoursInEvents.eventid).first().hourcount
-        totalHours += hours
-        profileData['eventHours'] += hours
-        eventId.append(hoursInEvents.eventid)
+        if hoursInEvents.attended:
+            hours = Event.query.filter_by(
+                id=hoursInEvents.eventid).first().hourcount
+            profileData['eventHours'] += hours
+            eventId.append(hoursInEvents.eventid)
 
-    checkUser.hours = totalHours
+    checkUser.hours = profileData['meetingHours'] + profileData['eventHours']
 
     db.session.commit()
+
+    profileData['meetingsPresent'] = False
+    profileData['eventsPresent'] = False
 
     recentMeetings = Meeting.query.order_by('start').all()
     profileData['recentMeetingsAttended'] = []
@@ -42,8 +44,9 @@ def profileProccessing(checkUser):
     for meeting in recentMeetings:
         if meeting.id in meetingId and len(profileData['recentMeetingsAttended']) < 5:
             profileData['recentMeetingsAttended'].append(meeting)
+            profileData['meetingsPresent'] = True
 
-    recentEvents = Meeting.query.order_by('start').all()
+    recentEvents = Event.query.order_by('start').all()
     profileData['recentEventsAttended'] = []
 
     recentEvents.reverse()
@@ -51,14 +54,6 @@ def profileProccessing(checkUser):
     for event in recentEvents:
         if event.id in eventId and len(profileData['recentEventsAttended']) < 5:
             profileData['recentEventsAttended'].append(event)
-
-    profileData['meetingsPresent'] = True
-    profileData['eventsPresent'] = True
-
-    if len(profileData['recentMeetingsAttended']) == 0:
-        profileData['meetingsPresent'] = False
-
-    if len(profileData['recentEventsAttended']) == 0:
-        profileData['eventsPresent'] = False
+            profileData['eventsPresent'] = True
 
     return profileData
