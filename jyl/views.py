@@ -1,6 +1,6 @@
 from jyl import app, forms, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
-from jyl.models import User, Meeting
+from jyl.models import User, Meeting, Event
 from jyl.profile import profileProccessing
 from jyl.helpers import sendoff, cookieSwitch
 from flask_login import current_user, login_required
@@ -49,6 +49,9 @@ def back():
         elif 'meeting' in page:
             meetingid = int(request.cookies['meeting-id'])
             return redirect(url_for('meetingInfo', idOfMeeting=meetingid))
+        elif 'event' in page:
+            eventid = int(request.cookies['event-id'])
+            return redirect(url_for('eventInfo', idOfEvent=eventid))
         return redirect(url_for(page))
 
     else:
@@ -109,6 +112,31 @@ def meetingInfo(idOfMeeting):
 
     page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
     page.set_cookie('meeting-id-current', idOfMeeting, max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/event/<int:idOfEvent>')
+@login_required
+def eventInfo(idOfEvent):
+
+    checkEvent = Event.query.filter_by(id=idOfEvent).first()
+
+    if checkEvent is None:
+
+        flash('Event not found', 'error')
+        return sendoff('index')
+
+    eventMeeting = eventMeetingProccessing(checkEvent)
+
+    page = make_response(render_template(
+        'eventMeeting.html', eventMeeting=checkEvent, eventMeetingData=eventMeeting))
+
+    page = cookieSwitch(page)
+
+    idOfEvent = repr(idOfEvent)
+
+    page.set_cookie('current', 'event', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('event-id-current', idOfEvent, max_age=60 * 60 * 24 * 365)
     return page
 
 
