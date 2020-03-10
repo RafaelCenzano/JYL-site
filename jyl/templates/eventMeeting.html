@@ -22,8 +22,29 @@
         <div class="lrg"><h4>{{ eventMeetingData['totalHours'] }}</h4></div>
     </div>
     <div class="column">
+        <ul>
+            {% if eventMeetingData['future'] %}
+            <li><h3>Going</h3></li>
+            {% else %}
+            <li><h3>Attended</h3></li>
+            {% endif %}
+            {% for people in eventMeetingData['users'] %}
+            <li><a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</a></li>
+            {% endfor %}
+        </ul>
     </div>
     <div class="column">
+        <ul>
+            {% if eventMeetingData['future'] %}
+            <li><h3>JYL Resources</h3></li>
+            <li><a href="#">Help Request</a></li>
+            <li><a href="#">Upcoming Events</a></li>
+            <li><a href="#">Upcoming Meetings</a></li>
+            {% else %}
+            <li><h3>Reviews</h3></li>
+            <li>votes</li>
+            {% endif %}
+        </ul>
     </div>
 </div>
 {% endblock %}
