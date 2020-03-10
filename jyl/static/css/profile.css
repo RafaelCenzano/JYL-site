@@ -2,13 +2,53 @@
     text-align: center;
 }
 
+.underline {
+    text-decoration: underline;
+}
+
 .name {
     margin-top: -5px;
     font-size: 50px;
+    color: rgb(30, 30, 30);
 }
 
 .subname {
     margin-top: -15px;
+    font-size: 25px;
+}
+
+.edit,
+.edit:visited {
+    color: rgb(30, 30, 30);
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.edit:hover,
+.edit:visited:hover {
+    color: rgb(70, 70, 70);
+}
+
+.profile-edit {
+    font-size: 32px;
+}
+
+.sml {
+    background: #ddd;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin: auto;
+}
+
+.lrg {
+    background: #ddd;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    margin: auto;
     font-size: 25px;
 }
 
@@ -38,170 +78,12 @@
     text-decoration: none;
 }
 
-@-webkit-keyframes colorchanger-blue {
-    0%,
-    100% {
-        color: #379fd4;
-    }
-
-    50% {
-        color: #1489c4;
-    }
-
-}
-
-@keyframes colorchanger-blue {
-    0%,
-    100% {
-        color: #379fd4;
-    }
-
-    50% {
-        color: #1489c4;
-    }
-
-}
-
-@-webkit-keyframes colorchanger-purple {
-    0%,
-    100% {
-        color: #5b17bf;
-    }
-
-    50% {
-        color: #7034c9;
-    }
-
-}
-
-@keyframes colorchanger-purple {
-    0%,
-    100% {
-        color: #5b17bf;
-    }
-
-    50% {
-        color: #7034c9;
-    }
-
-}
-
-.meeting {
-    -webkit-animation: colorchanger-blue 30s infinite;
-    animation: colorchanger-blue 30s infinite;
-    background-color: currentColor;
-    border-radius: 25px;
-    margin: -15px 0px 0px 0px;
-    transition: -webkit-transform .5s;
-    -webkit-transition: -webkit-transform .5s;
-    transition: transform .5s;
-    transition: transform .5s, -webkit-transform .5s;
-    -webkit-transform .5s;
-}
-
-.event {
-    -webkit-animation: colorchanger-purple 30s infinite;
-    animation: colorchanger-purple 30s infinite;
-    background-color: currentColor;
-    border-radius: 25px;
-    margin: -15px 0px 0px 0px;
-    transition: -webkit-transform .5s;
-    -webkit-transition: -webkit-transform .5s;
-    transition: transform .5s;
-    transition: transform .5s, -webkit-transform .5s;
-    -webkit-transform .5s;
-}
-
 .profile-item {
     margin: auto;
 }
 
-.sml {
-    background: #ddd;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    margin: auto;
-}
-
-.lrg {
-    background: #ddd;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    margin: auto;
-    font-size: 25px;
-}
-
-h1 {
-    color: rgb(30, 30, 30);
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-.edit,
-.edit:visited {
-    color: rgb(30, 30, 30);
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
-}
-
-.edit:hover,
-.edit:visited:hover {
-    color: rgb(70, 70, 70);
-}
-
-.profile-edit {
-    font-size: 32px;
-}
-
-@media (max-width:1000px) {
-    .profile-item {
-        width: 85%;
-    }
-
-    .profile-item h4 {
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-
-    .profile-item p {
-        max-width: 90%;
-        padding-bottom: 10px;
-        margin: auto;
-        margin-top: -10px;
-    }
-
-}
-
-@media (min-width:1001px) {
-    .profile-item {
-        width: 75%;
-    }
-
-    .profile-item h4 {
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-
-    .profile-item p {
-        max-width: 85%;
-        padding-bottom: 10px;
-        margin: auto;
-        margin-top: -10px;
-    }
-
-}
-
 @media (min-width:801px) {
     .meeting:hover,
-    .event:hover {
-        -webkit-transform: translateY(-9px);
-        transform: translateY(-9px);
-    }
+    .event:hover {}
 
 }
