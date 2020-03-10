@@ -1,6 +1,6 @@
 from jyl import db
 from datetime import datetime
-from jyl.models import Meeting, UserMeeting, Event, UserEvent
+from jyl.models import Meeting, UserMeeting, Event, UserEvent, User
 
 
 def eventMeetingProccessing(check, meeting=True):
@@ -10,10 +10,10 @@ def eventMeetingProccessing(check, meeting=True):
     if check.start > datetime.now():
 
         if meeting:
-            users = UserMeeting.query.filter_by(userid=check.id, going=True).all()
+            users = UserMeeting.query.filter_by(meetingid=check.id, going=True).all()
             eventMeeting['meeting'] = True
         else:
-            users = UserEvent.query.filter_by(userid=check.id, going=True).all()
+            users = UserEvent.query.filter_by(eventid=check.id, going=True).all()
             eventMeeting['meeting'] = False
 
         eventMeeting['future'] = True
@@ -21,23 +21,24 @@ def eventMeetingProccessing(check, meeting=True):
     else:
 
         if meeting:
-            users = UserMeeting.query.filter_by(userid=check.id, attended=True).all()
+            users = UserMeeting.query.filter_by(meetingid=check.id, attended=True).all()
             eventMeeting['meeting'] = True
         else:
-            users = UserEvent.query.filter_by(userid=check.id, attended=True).all()
+            users = UserEvent.query.filter_by(eventid=check.id, attended=True).all()
             eventMeeting['meeting'] = False
 
         eventMeeting['future'] = False
 
     length = check.hourcount
 
+    eventMeeting['usermeeting'] = []
     eventMeeting['users'] = []
     eventMeeting['totalHours'] = 0
 
     for user in users:
 
-        if user.attended or user.going:
-            eventMeeting['users'].append(user)
-            eventMeeting['totalHours'] += length
+        eventMeeting['usermeeting'].append(user)
+        eventMeeting['users'].append(User.query.filter_by(id=user.userid).first())
+        eventMeeting['totalHours'] += length
 
     return eventMeeting
