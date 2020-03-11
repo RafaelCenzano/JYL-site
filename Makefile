@@ -10,3 +10,6 @@ update:
 
 run: clean
 	gunicorn run:app
+
+test: clean
+	python runtest.py
