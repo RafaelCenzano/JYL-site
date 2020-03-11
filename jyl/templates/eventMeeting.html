@@ -4,7 +4,7 @@
 
 {% block head_css %}
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
-<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/eventMeeting.css') }}">
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -25,9 +25,9 @@
     <div class="column">
         <ul class="first-ul hoverable">
             {% if eventMeetingData['future'] %}
-            <li><a href="#"><h3>Going</h3></a></li>
+            <li><a href="#going"><h2 class="profiletitle" id="going">Going</h2></a></li>
             {% else %}
-            <li><a href="#"><h3>Attended</h3></a></li>
+            <li><a href="#attended"><h2 class="profiletitle" id="attended">Attended</h2></a></li>
             {% endif %}
             {% for people in eventMeetingData['users'] %}
             <li>
@@ -41,12 +41,12 @@
     <div class="column">
         <ul class="second-ul hoverable">
             {% if eventMeetingData['future'] %}
-            <li><a href="#"><h3>JYL Resources</h3></a></li>
+            <li><a href="#resources"><h2 class="profiletitle" id="resources">JYL Resources</h2></a></li>
             <li><a href="#"><p>Help Request</p></a></li>
             <li><a href="#"><p>Upcoming Events</p></a></li>
             <li><a href="#"><p>Upcoming Meetings</p></a></li>
             {% else %}
-            <li><a href="#"><h3>Reviews</h3></a></li>
+            <li><a href="#reviews"><h2 class="profiletitle" id="reviews">Reviews</h2></a></li>
             <li><a href="#"><p>votes</p></a></li>
             {% endif %}
         </ul>
