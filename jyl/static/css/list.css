@@ -38,7 +38,8 @@ li:first-child:hover {
 }
 
 li p,
-li h4 {
+li h4,
+li a {
     text-decoration: none;
     color: #fff;
 }
