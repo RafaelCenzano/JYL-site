@@ -63,10 +63,3 @@
 .green {
     background: rgb(0, 255, 0);
 }
-
-@media (min-width:801px) {
-    .meeting:hover,
-    .event:hover {
-    }
-
-}
