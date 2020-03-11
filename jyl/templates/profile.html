@@ -4,6 +4,7 @@
 
 {% block head_css %}
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -28,45 +29,45 @@
     <div class="column">
         <div class="hours sml"><h4>{{ profileData['meetingHours'] }}</h4></div>
         <ul>
-        <li><a href="#"><h2 class="profiletitle" id="meetings">Meetings</h2></a></li>
-        {% if profileData['meetingsPresent'] %}
-        {% for recentMeetings in profileData['recentMeetingsAttended'] %}
-        <li>
-            <a href="{{ url_for('meetingInfo', idOfMeeting=recentMeetings.id) }}">
-                <h4>{{ recentMeetings.start.strftime('%B %-d, %Y') }}</h4>
-                <p>{{ recentMeetings.description }}</p>
-            </a>
-        </li>
-        {% endfor %}
-        {% else %}
-        <li class="profile-item meeting">
-            <a href="#meetings">
-                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any meetings yet</h4>
-            </a>
-        </li>
-        {% endif %}
+            <li><a href="#"><h2 class="profiletitle" id="meetings">Meetings</h2></a></li>
+            {% if profileData['meetingsPresent'] %}
+            {% for recentMeetings in profileData['recentMeetingsAttended'] %}
+            <li>
+                <a href="{{ url_for('meetingInfo', idOfMeeting=recentMeetings.id) }}">
+                    <h4>{{ recentMeetings.start.strftime('%B %-d, %Y') }}</h4>
+                    <p>{{ recentMeetings.description }}</p>
+                </a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li>
+                <a href="#meetings">
+                    <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any meetings yet</h4>
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
     <div class="column">
         <div class="hours sml"><h4>{{ profileData['eventHours'] }}</h4></div>
         <ul>
-        <li><h2 class="profiletitle" id="events">Events</h2></li>
-        {% if profileData['eventsPresent'] %}
-        {% for recentEvents in profileData['recentEventsAttended'] %}
-        <li>
-            <a href="{{ url_for('eventInfo', idOfEvent=recentEvents.id) }}">
-                <h4>{{ recentEvents.start.strftime('%B %-d, %Y') }}, {{ recentEvents.name }}</h4>
-                <p>{{ recentEvents.description }}</p>
-            </a>
-        </li>
-        {% endfor %}
-        {% else %}
-        <li>
-            <a href="#events">
-                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any events yet</h4>
-            </a>
-        </li>
-        {% endif %}
+            <li><a href="#"><h2 class="profiletitle" id="events">Events</h2></a></li>
+            {% if profileData['eventsPresent'] %}
+            {% for recentEvents in profileData['recentEventsAttended'] %}
+            <li>
+                <a href="{{ url_for('eventInfo', idOfEvent=recentEvents.id) }}">
+                    <h4>{{ recentEvents.start.strftime('%B %-d, %Y') }}, {{ recentEvents.name }}</h4>
+                    <p>{{ recentEvents.description }}</p>
+                </a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li>
+                <a href="#events">
+                    <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any events yet</h4>
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </div>
