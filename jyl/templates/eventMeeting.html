@@ -3,6 +3,7 @@
 {% block title %}{{ eventMeeting.start.strftime('%-m/%-d/%Y') }}{% endblock %}
 
 {% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/eventMeeting.css') }}">
 {% endblock %}
 
@@ -22,27 +23,31 @@
         <div class="lrg"><h4>{{ eventMeetingData['totalHours'] }}</h4></div>
     </div>
     <div class="column">
-        <ul>
+        <ul class="first-ul hoverable">
             {% if eventMeetingData['future'] %}
-            <li><h3>Going</h3></li>
+            <li><a href="#"><h3>Going</h3></a></li>
             {% else %}
-            <li><h3>Attended</h3></li>
+            <li><a href="#"><h3>Attended</h3></a></li>
             {% endif %}
             {% for people in eventMeetingData['users'] %}
-            <li><a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</a></li>
+            <li>
+                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                    <p>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</p>
+                </a>
+            </li>
             {% endfor %}
         </ul>
     </div>
     <div class="column">
-        <ul>
+        <ul class="second-ul hoverable">
             {% if eventMeetingData['future'] %}
-            <li><h3>JYL Resources</h3></li>
-            <li><a href="#">Help Request</a></li>
-            <li><a href="#">Upcoming Events</a></li>
-            <li><a href="#">Upcoming Meetings</a></li>
+            <li><a href="#"><h3>JYL Resources</h3></a></li>
+            <li><a href="#"><p>Help Request</p></a></li>
+            <li><a href="#"><p>Upcoming Events</p></a></li>
+            <li><a href="#"><p>Upcoming Meetings</p></a></li>
             {% else %}
-            <li><h3>Reviews</h3></li>
-            <li>votes</li>
+            <li><a href="#"><h3>Reviews</h3></a></li>
+            <li><a href="#"><p>votes</p></a></li>
             {% endif %}
         </ul>
     </div>
