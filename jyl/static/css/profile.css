@@ -57,33 +57,12 @@
     text-decoration: underline;
     margin-bottom: -8px;
     margin: auto;
-}
-
-.profile-item h4 {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: #fff;
-    text-decoration: none;
-}
-
-.profile-item p {
-    padding-bottom: 10px;
-    margin: auto;
-    margin-top: -10px;
-    color: #fff;
-    text-decoration: none;
-}
-
-.profile-item a {
-    text-decoration: none;
-}
-
-.profile-item {
-    margin: auto;
+    color: #ddd;
 }
 
 @media (min-width:801px) {
     .meeting:hover,
-    .event:hover {}
+    .event:hover {
+    }
 
 }
