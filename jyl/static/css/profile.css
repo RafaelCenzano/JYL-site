@@ -52,14 +52,6 @@
     font-size: 25px;
 }
 
-.profiletitle {
-    font-size: 40px;
-    text-decoration: underline;
-    margin-bottom: -8px;
-    margin: auto;
-    color: #ddd;
-}
-
 .green {
     background: rgb(0, 255, 0);
 }
