@@ -37,6 +37,18 @@ or
 gunicorn run:app
 ```
 
+### Test run
+
+```
+make test
+```
+
+or
+
+```
+python runtest.py
+```
+
 ## Authors
 
 * [**Rafael Cenzano**](https://github.com/RafaelCenzano)
