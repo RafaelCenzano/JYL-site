@@ -43,3 +43,16 @@ li a {
     text-decoration: none;
     color: #fff;
 }
+
+li h2 {
+    font-size: 40px;
+    text-decoration: underline;
+    margin-bottom: -8px;
+    margin: auto;
+    color: #ddd;
+    transition-duration: 0.4s;
+}
+
+li h2:hover {
+    color: #fff;
+}
