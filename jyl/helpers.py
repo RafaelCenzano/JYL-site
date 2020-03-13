@@ -12,42 +12,58 @@ def load_user(id):
 
 
 def sendoff(where):
-    if 'current' in request.cookies:
-        page = request.cookies['current']
-        if 'profile' in page:
-            num = request.cookies['profile-num']
-            first = request.cookies['profile-first']
-            last = request.cookies['profile-last']
+    siteCookies = request.cookies
+
+    if 'current' in siteCookies:
+        currentCookie = siteCookies['current']
+
+        if 'profile' in currentCookie:
+            num = siteCookies['profile-num']
+            first = siteCookies['profile-first']
+            last = siteCookies['profile-last']
             return redirect(url_for('profile', num=num, first=first, last=last))
-        elif 'meeting' in page:
-            meetingid = request.cookies['meeting-id']
+
+        elif 'meeting' in currentCookie:
+            meetingid = siteCookies['meeting-id']
             return redirect(url_for('meetingInfo', idOfMeeting=meetingid))
-        elif 'event' in page:
-            eventid = request.cookies['event-id']
+
+        elif 'event' in currentCookie:
+            eventid = siteCookies['event-id']
             return redirect(url_for('eventInfo', idOfEvent=eventid))
-        return redirect(url_for(page))
+
+        elif 'membersType' in currentCookie:
+            memberType = siteCookies['membertype']
+            return redirect(url_for('memberType', indentifier=memberType))
+
+        return redirect(url_for(currentCookie))
     return redirect(url_for(where))
 
 
-def cookieSwitch(page):
-    if 'current' in request.cookies:
-        current = request.cookies['current']
-        page.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+def cookieSwitch(pageItem):
+    siteCookies = request.cookies
 
-    if 'profile-num-current' in request.cookies:
-        current_num = request.cookies['profile-num-current']
-        current_first = request.cookies['profile-first-current']
-        current_last = request.cookies['profile-last-current']
-        page.set_cookie('profile-num', current_num, max_age=60 * 60 * 24 * 365)
-        page.set_cookie('profile-first', current_first, max_age=60 * 60 * 24 * 365)
-        page.set_cookie('profile-last', current_last, max_age=60 * 60 * 24 * 365)
+    if 'current' in siteCookies:
+        current = siteCookies['current']
+        pageItem.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
 
-    if 'meeting-id-current' in request.cookies:
-        current_meeting = request.cookies['meeting-id-current']
-        page.set_cookie('meeting-id', current_meeting, max_age=60 * 60 * 24 * 365)
+    if 'profile-num-current' in siteCookies:
+        currentNum = siteCookies['profile-num-current']
+        currentFirst = siteCookies['profile-first-current']
+        currentLast = siteCookies['profile-last-current']
+        pageItem.set_cookie('profile-num', currentNum, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie('profile-first', currentFirst, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie('profile-last', currentLast, max_age=60 * 60 * 24 * 365)
 
-    if 'event-id-current' in request.cookies:
-        current_event = request.cookies['event-id-current']
-        page.set_cookie('event-id', current_event, max_age=60 * 60 * 24 * 365)
+    if 'meeting-id-current' in siteCookies:
+        currentMeeting = siteCookies['meeting-id-current']
+        pageItem.set_cookie('meeting-id', currentMeeting, max_age=60 * 60 * 24 * 365)
 
-    return page
+    if 'event-id-current' in siteCookies:
+        currentEvent = siteCookies['event-id-current']
+        pageItem.set_cookie('event-id', currentEvent, max_age=60 * 60 * 24 * 365)
+
+    if 'membertype-current' in siteCookies:
+        currentMemberType = siteCookies['membertype-current']
+        pageItem.set_cookie('membertype', currentMemberType, max_age=60 * 60 * 24 * 365)
+
+    return pageItem
