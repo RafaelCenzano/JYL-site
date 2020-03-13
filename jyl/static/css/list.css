@@ -64,10 +64,10 @@ li h2 {
     text-decoration: underline;
     margin-bottom: -8px;
     margin: auto;
-    color: #ddd;
+    color: #fff;
     transition-duration: 0.4s;
 }
 
 li h2:hover {
-    color: #fff;
+    color: #a6feff;
 }
