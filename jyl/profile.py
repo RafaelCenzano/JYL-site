@@ -42,7 +42,7 @@ def profileProccessing(checkUser):
     recentMeetings.reverse()
 
     for meeting in recentMeetings:
-        if meeting.id in meetingId and len(profileData['recentMeetingsAttended']) < 5:
+        if meeting.id in meetingId:
             profileData['recentMeetingsAttended'].append(meeting)
             profileData['meetingsPresent'] = True
 
@@ -52,7 +52,7 @@ def profileProccessing(checkUser):
     recentEvents.reverse()
 
     for event in recentEvents:
-        if event.id in eventId and len(profileData['recentEventsAttended']) < 5:
+        if event.id in eventId:
             profileData['recentEventsAttended'].append(event)
             profileData['eventsPresent'] = True
 
