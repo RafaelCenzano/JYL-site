@@ -158,7 +158,7 @@ def members():
     members = User.query.order_by('lastname').all()
 
     page = make_response(render_template(
-        'members.html', members=members))
+        'members.html', members=members, identifier=False, indentify=''))
 
     page = cookieSwitch(page)
 
@@ -173,13 +173,20 @@ def memberType(identifier):
 
     eligibleMembers = []
 
-    if identifier == 'admin':
+    if identifier == 'Admin':
         for user in members:
             if user.admin:
                 eligibleMembers.append(user)
+    elif indentifier == 'Leader':
+        for user in members:
+            if user.leader:
+                eligibleMembers.append(user)
+    else:
+        flash(f'No users in this catagory {indentifier}', 'warning')
+        return sendoff('members')
 
     page = make_response(render_template(
-        'members.html', members=eligibleMembers))
+        'members.html', members=eligibleMembers, identifier=True, indentify=identifier))
 
     page = cookieSwitch(page)
 
