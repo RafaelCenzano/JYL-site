@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if identifier %}{{ indentify }} List{% else %}Member List{% endif %}{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="name">{% if identifier %}{{ indentify }} List{% else %}Member List{% endif %}</h1>
+<ul>
+    <li><a href="#"><h2 class="profiletitle">Members</h2></a></li>
+    {% for people in members %}
+    <li>
+        <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
