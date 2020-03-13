@@ -39,19 +39,30 @@ def license():
 @app.route('/back/')
 def back():
 
-    if 'page' in request.cookies:
-        page = request.cookies['page']
+    siteCookies = request.cookies
+
+    if 'page' in siteCookies:
+
+        page = siteCookies['page']
+
         if 'profile' in page:
-            num = int(request.cookies['profile-num'])
-            first = request.cookies['profile-first']
-            last = request.cookies['profile-last']
+            num = int(siteCookies['profile-num'])
+            first = siteCookies['profile-first']
+            last = siteCookies['profile-last']
             return redirect(url_for('profile', num=num, first=first, last=last))
+
         elif 'meeting' in page:
-            meetingid = int(request.cookies['meeting-id'])
-            return redirect(url_for('meetingInfo', idOfMeeting=meetingid))
+            meetingId = int(siteCookies['meeting-id'])
+            return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
+
         elif 'event' in page:
-            eventid = int(request.cookies['event-id'])
-            return redirect(url_for('eventInfo', idOfEvent=eventid))
+            eventId = int(siteCookies['event-id'])
+            return redirect(url_for('eventInfo', idOfEvent=eventId))
+
+        elif 'memberType' in page:
+            memberType = siteCookies['memberType']
+            return redirect(url_for('memberType', identifier=memberType))
+
         return redirect(url_for(page))
 
     else:
@@ -137,6 +148,43 @@ def eventInfo(idOfEvent):
 
     page.set_cookie('current', 'event', max_age=60 * 60 * 24 * 365)
     page.set_cookie('event-id-current', idOfEvent, max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/members')
+@login_required
+def members():
+    
+    members = User.query.order_by('lastname').all()
+
+    page = make_response(render_template(
+        'members.html', members=members))
+
+    page = cookieSwitch(page)
+
+    page.set_cookie('current', 'members', max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/members/<identifier>')
+def memberType(identifier):
+    
+    members = User.query.order_by('lastname').all()
+
+    eligibleMembers = []
+
+    if identifier == 'admin':
+        for user in members:
+            if user.admin:
+                eligibleMembers.append(user)
+
+    page = make_response(render_template(
+        'members.html', members=eligibleMembers))
+
+    page = cookieSwitch(page)
+
+    page.set_cookie('current', 'membersType', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('membertype-current', identifier, max_age=60 * 60 * 24 * 365)
     return page
 
 
