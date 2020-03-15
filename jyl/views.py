@@ -177,10 +177,12 @@ def memberType(identifier):
         for user in members:
             if user.admin:
                 eligibleMembers.append(user)
-    elif indentifier == 'Leader':
+
+    elif identifier == 'Leader':
         for user in members:
             if user.leader:
                 eligibleMembers.append(user)
+                
     else:
         flash(f'No users in this catagory {indentifier}', 'warning')
         return sendoff('members')
