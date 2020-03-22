@@ -1,5 +1,8 @@
 from jyl import app, forms, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
+from random import randint
+from hashlib import sha256
+from jyl.forms import CreateUser
 from jyl.models import User, Meeting, Event
 from jyl.profile import profileProccessing
 from jyl.helpers import sendoff, cookieSwitch
@@ -135,7 +138,7 @@ def creation():
         page.set_cookie('current', 'creation', max_age=60 * 60 * 24 * 365)
         return page
 
-    flash('Must be a Leader or Admin')
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 @app.route('/create/user', methods=['GET', 'POST'])
@@ -144,11 +147,45 @@ def userCreation():
 
     if current_user.leader or current_user.admin:
 
-        page = make_response(render_template('userEdit.html', create=True))
-        page = cookieSwitch(page)
-        page.set_cookie('current', 'modification', max_age=60 * 60 * 24 * 365)
+        form = CreateUser()
 
-    flash('Must be a Leader or Admin')
+        if form.validate_on_submit():
+
+            samename = User.query.filter_by(firstname=form.first.data, lastname=form.lastname.data).all()
+
+            passNum = randint(100000, 999999)
+
+            tempPass = bcrypt.generate_password_hash(sha256(
+                        (passNum +
+                         form.email.data +
+                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+
+            newUser = User(
+                firstname=form.first.data,
+                lastname=form.last.data,
+                email=form.email.data,
+                password=tempPass,
+                confirmed=True,
+                hours=0.0,
+                nickname=None,
+                nicknameapprove=False,
+                admin=form.admin.data,
+                leader=form.leader.data,
+                namecount=len(samename),
+                school=form.school.data)
+
+            db.session.add(newUser)
+            db.session.commit()
+
+            flash(f'User created for {form.first.data} {form.last.data}', 'success')
+            return(url_for('creation'))
+
+        page = make_response(render_template('userCreate.html', form=form))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'userCreation', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 @app.route('/create/event', methods=['GET', 'POST'])
@@ -166,7 +203,7 @@ def modification():
         page.set_cookie('current', 'modification', max_age=60 * 60 * 24 * 365)
         return page
 
-    flash('Must be a Leader or Admin')
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 @app.route('/edit/user', methods=['GET'])
