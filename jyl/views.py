@@ -130,7 +130,10 @@ def creation():
 
     if current_user.leader or current_user.admin:
 
-        return render_template('leaderDashboard.html', create=True)
+        page = make_response(render_template('leaderDashboard.html', create=True))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'creation', max_age=60 * 60 * 24 * 365)
+        return page
 
     flash('Must be a Leader or Admin')
     return sendoff('index')
@@ -141,7 +144,9 @@ def userCreation():
 
     if current_user.leader or current_user.admin:
 
-        return render_template('userEdit.html', create=True)
+        page = make_response(render_template('userEdit.html', create=True))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'modification', max_age=60 * 60 * 24 * 365)
 
     flash('Must be a Leader or Admin')
     return sendoff('index')
@@ -156,7 +161,10 @@ def modification():
 
     if current_user.leader or current_user.admin:
 
-        return render_template('leaderDashboard.html', create=False)
+        page = make_response(render_template('leaderDashboard.html', create=False))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'modification', max_age=60 * 60 * 24 * 365)
+        return page
 
     flash('Must be a Leader or Admin')
     return sendoff('index')
