@@ -12,7 +12,6 @@ Views
 '''
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
-@app.route('/home/', methods=['GET'])
 def index():
 
     page = make_response(render_template('home.html'))
@@ -35,8 +34,7 @@ def license():
     return page
 
 
-@app.route('/back')
-@app.route('/back/')
+@app.route('/back', methods=['GET'])
 def back():
 
     siteCookies = request.cookies
@@ -69,7 +67,7 @@ def back():
         return redirect(url_for('index'))
 
 
-@app.route('/profile/<int:num>/<first>/<last>/')
+@app.route('/profile/<int:num>/<first>/<last>', methods=['GET'])
 @login_required
 def profile(num, first, last):
 
@@ -101,7 +99,7 @@ def profile(num, first, last):
     return page
 
 
-@app.route('/meeting/<int:idOfMeeting>/')
+@app.route('/meeting/<int:idOfMeeting>', methods=['GET'])
 @login_required
 def meetingInfo(idOfMeeting):
 
@@ -126,7 +124,56 @@ def meetingInfo(idOfMeeting):
     return page
 
 
-@app.route('/event/<int:idOfEvent>')
+@app.route('/create', methods=['GET'])
+@login_required
+def creation():
+
+    if current_user.leader or current_user.admin:
+
+        return render_template('leaderDashboard.html', create=True)
+
+    flash('Must be a Leader or Admin')
+    return sendoff('index')
+
+@app.route('/create/user', methods=['GET', 'POST'])
+@login_required
+def userCreation():
+
+    if current_user.leader or current_user.admin:
+
+        return render_template('userEdit.html', create=True)
+
+    flash('Must be a Leader or Admin')
+    return sendoff('index')
+
+@app.route('/create/event', methods=['GET', 'POST'])
+
+@app.route('/create/meeting', methods=['GET', 'POST'])
+
+@app.route('/edit', methods=['GET'])
+@login_required
+def modification():
+
+    if current_user.leader or current_user.admin:
+
+        return render_template('leaderDashboard.html', create=False)
+
+    flash('Must be a Leader or Admin')
+    return sendoff('index')
+
+@app.route('/edit/user', methods=['GET'])
+
+@app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
+
+@app.route('/edit/event', methods=['GET'])
+
+@app.route('/edit/event/<int:eventId>', methods=['GET', 'POST'])
+
+@app.route('/edit/meeting', methods=['GET'])
+
+@app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
+
+@app.route('/event/<int:idOfEvent>', methods=['GET'])
 @login_required
 def eventInfo(idOfEvent):
 
@@ -151,7 +198,7 @@ def eventInfo(idOfEvent):
     return page
 
 
-@app.route('/members')
+@app.route('/members', methods=['GET'])
 @login_required
 def members():
     
@@ -166,7 +213,7 @@ def members():
     return page
 
 
-@app.route('/members/<identifier>')
+@app.route('/members/<identifier>', methods=['GET'])
 def memberType(identifier):
     
     members = User.query.order_by('lastname').all()
