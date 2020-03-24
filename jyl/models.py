@@ -22,6 +22,9 @@ class User(db.Model, UserMixin):
     hours = db.Column(db.Float, unique=False, default=0.0)
     nicknameapprove = db.Column(db.Boolean, unique=False, default=False)
     namecount = db.Column(db.Integer, unique=False, default=0)
+    school = db.Column(db.String(100), unique=False)
+    grade = db.Column(db.Integer, unique=False)
+    currentmember = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'User({self.firstname} {self.lastname}, {self.email})'
