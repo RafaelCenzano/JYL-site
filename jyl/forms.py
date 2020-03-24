@@ -1,5 +1,5 @@
 from jyl import db
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
 from flask_wtf import FlaskForm
 from jyl.models import User
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
@@ -53,4 +53,21 @@ class CreateUser(FlaskForm):
     last = StringField('Last name', validators=[DataRequired(), Length(max=30)])
     email = StringField('Email',
                         validators=[DataRequired(), Email(), Length(max=120)])
+    school = StringField('School', validators=[DataRequired(), Length(max=100)])
+    grade = IntegerField('Grade Number', validators=[DataRequired()])
+    leader = BooleanField('Leader')
+    admin = BooleanField('Admin')
     submit = SubmitField('Create User')
+
+
+class EditUser(FlaskForm):
+    school = StringField('School', validators=[DataRequired(), Length(max=100)])
+    grade = IntegerField('Grade Number', validators=[DataRequired()])
+    nickname = StringField('Nickname', validators=[Length(max=30)])
+    submit = SubmitField('Save Changes')
+
+
+class ContactLeader(FlaskForm):
+    message = StringField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send Message')
+
