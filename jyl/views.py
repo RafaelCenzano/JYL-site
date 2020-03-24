@@ -141,6 +141,7 @@ def creation():
     flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
+
 @app.route('/create/user', methods=['GET', 'POST'])
 @login_required
 def userCreation():
@@ -165,14 +166,16 @@ def userCreation():
                 lastname=form.last.data,
                 email=form.email.data,
                 password=tempPass,
-                confirmed=True,
+                confirmed=False,
                 hours=0.0,
                 nickname=None,
                 nicknameapprove=False,
                 admin=form.admin.data,
                 leader=form.leader.data,
                 namecount=len(samename),
-                school=form.school.data)
+                school=form.school.data,
+                grade=form.grade.data,
+                currentmember=True)
 
             db.session.add(newUser)
             db.session.commit()
@@ -188,9 +191,12 @@ def userCreation():
     flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
+
 @app.route('/create/event', methods=['GET', 'POST'])
 
+
 @app.route('/create/meeting', methods=['GET', 'POST'])
+
 
 @app.route('/edit', methods=['GET'])
 @login_required
@@ -206,17 +212,24 @@ def modification():
     flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
+
 @app.route('/edit/user', methods=['GET'])
+
 
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
 
+
 @app.route('/edit/event', methods=['GET'])
+
 
 @app.route('/edit/event/<int:eventId>', methods=['GET', 'POST'])
 
+
 @app.route('/edit/meeting', methods=['GET'])
 
+
 @app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
+
 
 @app.route('/event/<int:idOfEvent>', methods=['GET'])
 @login_required
