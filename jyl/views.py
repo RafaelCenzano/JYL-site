@@ -26,7 +26,6 @@ def index():
 
 
 @app.route('/license', methods=['GET'])
-@app.route('/license/', methods=['GET'])
 def license():
 
     page = make_response(render_template('license.html'))
@@ -166,7 +165,6 @@ def userCreation():
                 lastname=form.last.data,
                 email=form.email.data,
                 password=tempPass,
-                confirmed=False,
                 hours=0.0,
                 nickname=None,
                 nicknameapprove=False,
