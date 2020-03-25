@@ -16,7 +16,6 @@ class User(db.Model, UserMixin):
     nickname = db.Column(db.String(30), unique=False, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    confirmed = db.Column(db.Boolean, unique=False, default=False)
     admin = db.Column(db.Boolean, unique=False, default=False)
     leader = db.Column(db.Boolean, unique=False, default=False)
     hours = db.Column(db.Float, unique=False, default=0.0)
