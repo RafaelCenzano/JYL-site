@@ -8,7 +8,7 @@ Clone the repository and enter it
 
 ```
 git clone https://github.com/RafaelCenzano/jyl-site.git
-cd jylsite
+cd jyl-site
 ```
 
 ### Requirements
