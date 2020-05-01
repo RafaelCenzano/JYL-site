@@ -151,34 +151,44 @@ def userCreation():
 
         if form.validate_on_submit():
 
-            samename = User.query.filter_by(firstname=form.first.data, lastname=form.lastname.data).all()
+            try:
 
-            passNum = randint(100000, 999999)
+                samename = User.query.filter_by(firstname=form.first.data, lastname=form.lastname.data).all()
 
-            tempPass = bcrypt.generate_password_hash(sha256(
-                        (passNum +
-                         form.email.data +
-                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+                passNum = randint(100000, 999999)
 
-            newUser = User(
-                firstname=form.first.data,
-                lastname=form.last.data,
-                email=form.email.data,
-                password=tempPass,
-                hours=0.0,
-                nickname=None,
-                nicknameapprove=False,
-                admin=form.admin.data,
-                leader=form.leader.data,
-                namecount=len(samename),
-                school=form.school.data,
-                grade=form.grade.data,
-                currentmember=True)
+                tempPass = bcrypt.generate_password_hash(sha256(
+                            (passNum +
+                             form.email.data +
+                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
 
-            db.session.add(newUser)
-            db.session.commit()
+                newUser = User(
+                    firstname=form.first.data,
+                    lastname=form.last.data,
+                    email=form.email.data,
+                    password=tempPass,
+                    lifetimeHours=0.0,
+                    lifetimeMeetingHours=0.0,
+                    lifetimeEventHours=0.0,
+                    currentHours=0.0,
+                    currentMeetingHours=0.0,
+                    currentEvent=0.0,
+                    nickname=None,
+                    nicknameapprove=False,
+                    admin=form.admin.data,
+                    leader=form.leader.data,
+                    namecount=len(samename),
+                    school=form.school.data,
+                    grade=form.grade.data,
+                    currentmember=True)
 
-            flash(f'User created for {form.first.data} {form.last.data}', 'success')
+                db.session.add(newUser)
+                db.session.commit()
+                flash(f'User created for {form.first.data} {form.last.data}', 'success')
+
+            except BaseException as e:
+                flash(f'User couldn\'t be created. Error: {e}', 'error')
+                
             return(url_for('creation'))
 
         page = make_response(render_template('userCreate.html', form=form))
@@ -191,6 +201,36 @@ def userCreation():
 
 
 @app.route('/create/event', methods=['GET', 'POST'])
+@login_required
+def eventCreation():
+
+    if current_user.leader or current_user.admin:
+
+        form = CreateEvent()
+
+        if form.validate_on_submit():
+
+            try:
+
+                newEvent = Event()
+
+                db.session.add(newEvent)
+                db.session.commit()
+
+                flash(f'Event "{form.name.data}" created', 'success')
+
+            except BaseException as e:
+                flash(f'Event couldn\'t be created. Error: {e}', 'error')
+            
+            return(url_for('creation'))
+
+        page = make_response(render_template('eventCreate.html', form=form))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'eventCreation', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/create/meeting', methods=['GET', 'POST'])
