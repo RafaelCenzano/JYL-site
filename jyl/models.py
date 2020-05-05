@@ -68,6 +68,7 @@ class Meeting(db.Model):
     unsurevote = db.Column(db.Integer, unique=False, default=0)
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
     location = db.Column(db.String(150), unique=False)
+    currentYear = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
@@ -110,6 +111,7 @@ class Event(db.Model):
     unsurevote = db.Column(db.Integer, unique=False, default=0)
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
     location = db.Column(db.String(150), unique=False)
+    currentYear = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'Event id:{self.id}, from {self.start} to {self.end})'
