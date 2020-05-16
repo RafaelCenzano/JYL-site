@@ -21,14 +21,19 @@ class User(db.Model, UserMixin):
     lifetimeHours = db.Column(db.Float, unique=False, default=0.0)
     lifetimeMeetingHours = db.Column(db.Float, unique=False, default=0.0)
     lifetimeEventHours = db.Column(db.Float, unique=False, default=0.0)
+    lifetimeMeetingCount = db.Column(db.Integer, unique=False)
+    lifetimeEventCount = db.Column(db.Integer, unique=False)
     currentHours = db.Column(db.Float, unique=False, default=0.0)
     currentMeetingHours = db.Column(db.Float, unique=False, default=0.0)
     currentEventHours = db.Column(db.Float, unique=False, default=0.0)
+    currentMeetingCount = db.Column(db.Integer, unique=False)
+    currentEventCount = db.Column(db.Integer, unique=False)
     nicknameapprove = db.Column(db.Boolean, unique=False, default=False)
     namecount = db.Column(db.Integer, unique=False, default=0)
     school = db.Column(db.String(100), unique=False)
     grade = db.Column(db.Integer, unique=False)
     currentmember = db.Column(db.Boolean, unique=False)
+    bio = db.Column(db.String(500), unique=False)
 
     def __repr__(self):
         return f'User({self.firstname} {self.lastname}, {self.email})'
