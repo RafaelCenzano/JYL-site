@@ -83,21 +83,27 @@ meeting0 = Meeting(
     upvote=0,
     downvote=0,
     unsurevote=0,
-    location='2012 Pine St.')
+    location='2012 Pine St.',
+    currentYear=True)
 
 start1 = datetime(2020, 2, 19, 16, 30)
 end1 = datetime(2020, 2, 19, 18)
 
 meeting1 = Meeting(
+    currentYear=True,
     start=start1,
     end=end1,
     hourcount=1.5,
+    upvote=0,
+    downvote=0,
+    unsurevote=0,
     description='hello world',
     location='2012 Pine St.')
 
 start = datetime(2020, 3, 4, 16, 30)
 end = datetime(2020, 3, 4, 18)
 meeting = Meeting(
+    currentYear=True,
     start=start,
     end=end,
     hourcount=1.5,
@@ -110,6 +116,7 @@ meeting = Meeting(
 start2 = datetime(2020, 2, 12, 16, 30)
 end2 = datetime(2020, 2, 12, 18)
 meeting2 = Meeting(
+    currentYear=True,
     start=start2,
     end=end2,
     hourcount=1.5,
@@ -122,6 +129,7 @@ meeting2 = Meeting(
 start3 = datetime(2020, 2, 5, 16, 30)
 end3 = datetime(2020, 2, 5, 18)
 meeting3 = Meeting(
+    currentYear=True,
     start=start3,
     end=end3,
     hourcount=1.5,
@@ -134,6 +142,7 @@ meeting3 = Meeting(
 start4 = datetime(2020, 1, 29, 16, 30)
 end4 = datetime(2020, 1, 29, 18)
 meeting4 = Meeting(
+    currentYear=True,
     start=start4,
     end=end4,
     hourcount=1.5,
@@ -146,6 +155,7 @@ meeting4 = Meeting(
 start = datetime(2020, 1, 30, 10)
 end = datetime(2020, 1, 30, 18)
 event = Event(
+    currentYear=True,
     name='An event!!!!',
     start=start,
     end=end,
@@ -159,6 +169,7 @@ event = Event(
 start1 = datetime(2020, 1, 30, 10)
 end1 = datetime(2020, 1, 30, 18)
 event1 = Event(
+    currentYear=True,
     name='An event 223!!!!',
     start=start1,
     end=end1,
@@ -179,19 +190,19 @@ db.session.add(meeting3)
 db.session.add(meeting4)
 db.session.commit()
 
-usermeeting0 = UserMeeting(meetingid=meeting0.id, userid=user1.id, attended=True, going=True)
-usermeeting = UserMeeting(meetingid=meeting1.id, userid=user1.id, attended=True, going=True)
-usermeeting1 = UserMeeting(meetingid=meeting.id, userid=user1.id, attended=True, going=True)
-usermeeting2 = UserMeeting(meetingid=meeting.id, userid=user2.id, attended=True, going=True)
-usermeeting3 = UserMeeting(meetingid=meeting2.id, userid=user1.id, attended=True, going=True)
-usermeeting4 = UserMeeting(meetingid=meeting3.id, userid=user1.id, attended=True, going=True)
-usermeeting5 = UserMeeting(meetingid=meeting3.id, userid=user2.id, attended=True, going=True)
-usermeeting6 = UserMeeting(meetingid=meeting4.id, userid=user1.id, attended=True, going=True)
-usermeeting7 = UserMeeting(meetingid=meeting4.id, userid=user2.id, attended=True, going=True)
-userevent = UserEvent(eventid=event.id, userid=user1.id, attended=True, going=True)
-userevent1 = UserEvent(eventid=event.id, userid=user2.id, attended=True, going=True)
-userevent2 = UserEvent(eventid=event1.id, userid=user1.id, attended=True, going=True)
-userevent3 = UserEvent(eventid=event1.id, userid=user2.id, attended=True, going=True)
+usermeeting0 = UserMeeting(currentYear=True, meetingid=meeting0.id, userid=user1.id, attended=True, going=True)
+usermeeting = UserMeeting(currentYear=True, meetingid=meeting1.id, userid=user1.id, attended=True, going=True)
+usermeeting1 = UserMeeting(currentYear=True, meetingid=meeting.id, userid=user1.id, attended=True, going=True)
+usermeeting2 = UserMeeting(currentYear=True, meetingid=meeting.id, userid=user2.id, attended=True, going=True)
+usermeeting3 = UserMeeting(currentYear=True, meetingid=meeting2.id, userid=user1.id, attended=True, going=True)
+usermeeting4 = UserMeeting(currentYear=True, meetingid=meeting3.id, userid=user1.id, attended=True, going=True)
+usermeeting5 = UserMeeting(currentYear=True, meetingid=meeting3.id, userid=user2.id, attended=True, going=True)
+usermeeting6 = UserMeeting(currentYear=True, meetingid=meeting4.id, userid=user1.id, attended=True, going=True)
+usermeeting7 = UserMeeting(currentYear=True, meetingid=meeting4.id, userid=user2.id, attended=True, going=True)
+userevent = UserEvent(currentYear=True, eventid=event.id, userid=user1.id, attended=True, going=True)
+userevent1 = UserEvent(currentYear=True, eventid=event.id, userid=user2.id, attended=True, going=True)
+userevent2 = UserEvent(currentYear=True, eventid=event1.id, userid=user1.id, attended=True, going=True)
+userevent3 = UserEvent(currentYear=True, eventid=event1.id, userid=user2.id, attended=True, going=True)
 
 db.session.add(userevent)
 db.session.add(userevent1)
