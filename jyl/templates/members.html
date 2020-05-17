@@ -9,8 +9,10 @@
 
 {% block content %}
 <h1 class="name">{% if identifier %}{{ indentify }} List{% else %}Member List{% endif %}</h1>
+{% if oldthings > 0 %}
 <div class="half-grid">
     <div class="column">
+{% endif %}
         <ul>
             <li><h2 class="profiletitle">Current Members</h2></li>
             {% for people in currentMembers %}
@@ -21,6 +23,7 @@
             </a>
             {% endfor %}
         </ul>
+{% if oldthings > 0 %}
     </div>
     <div class="column">
         <ul>
@@ -35,4 +38,5 @@
         </ul>
     </div>
 </div>
+{% endif %}
 {% endblock %}
