@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ eventMeeting.start.strftime('%-m/%-d/%Y') }}{% endblock %}
+{% block title %}{% if eventMeetingData['meeting'] %}Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}{% else %}{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}{% endif %}{% endblock %}
 
 {% block head_css %}
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
