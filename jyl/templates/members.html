@@ -10,8 +10,18 @@
 {% block content %}
 <h1 class="name">{% if identifier %}{{ indentify }} List{% else %}Member List{% endif %}</h1>
 <ul>
-    <li><a href="#"><h2 class="profiletitle">Members</h2></a></li>
-    {% for people in members %}
+    <li><h2 class="profiletitle">Current Members</h2></li>
+    {% for people in currentMembers %}
+    <li>
+        <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+<ul>
+    <li><h2 class="profiletitle">Past Members</h2></li>
+    {% for people in oldMembers %}
     <li>
         <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
             <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
