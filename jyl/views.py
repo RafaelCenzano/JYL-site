@@ -4,7 +4,6 @@ from random import randint
 from hashlib import sha256
 from jyl.forms import CreateUser
 from jyl.models import User, Meeting, Event
-from jyl.profile import profileProccessing
 from jyl.helpers import sendoff, cookieSwitch
 from flask_login import current_user, login_required
 from jyl.eventMeeting import eventMeetingProccessing
@@ -83,11 +82,8 @@ def profile(num, first, last):
         flash('User not found', 'error')
         return sendoff('index')
 
-    profileData = profileProccessing(checkUser)
-
     page = make_response(render_template(
         'profile.html',
-        profileData=profileData,
         user=checkUser))
 
     page = cookieSwitch(page)
@@ -105,7 +101,7 @@ def profile(num, first, last):
 @login_required
 def meetingInfo(idOfMeeting):
 
-    checkMeeting = Meeting.query.filter_by(id=idOfMeeting).first()
+    checkMeeting = Meeting.query.get(idOfMeeting)
 
     if checkMeeting is None:
 
@@ -170,9 +166,13 @@ def userCreation():
                     lifetimeHours=0.0,
                     lifetimeMeetingHours=0.0,
                     lifetimeEventHours=0.0,
+                    lifetimeMeetingCount=0,
+                    lifetimeEventCount=0,
                     currentHours=0.0,
                     currentMeetingHours=0.0,
-                    currentEvent=0.0,
+                    currentEventHours=0.0,
+                    currentMeetingCount=0,
+                    currentEventCount=0,
                     nickname=None,
                     nicknameapprove=False,
                     admin=form.admin.data,
@@ -180,7 +180,8 @@ def userCreation():
                     namecount=len(samename),
                     school=form.school.data,
                     grade=form.grade.data,
-                    currentmember=True)
+                    currentmember=True,
+                    bio=None)
 
                 db.session.add(newUser)
                 db.session.commit()
@@ -273,7 +274,7 @@ def modification():
 @login_required
 def eventInfo(idOfEvent):
 
-    checkEvent = Event.query.filter_by(id=idOfEvent).first()
+    checkEvent = Event.query.get(idOfEvent)
 
     if checkEvent is None:
 
@@ -298,10 +299,11 @@ def eventInfo(idOfEvent):
 @login_required
 def members():
     
-    members = User.query.order_by('lastname').all()
+    currentMembers = User.query.filter_by(currentmember=True).order_by('lastname').all()
+    oldMembers = User.query.filter_by(currentmember=False).order_by('lastname').all()
 
     page = make_response(render_template(
-        'members.html', members=members, identifier=False, indentify=''))
+        'members.html', currentMembers=currentMembers, oldMembers=oldMembers, identifier=False, indentify='', oldthings=len(oldMembers)))
 
     page = cookieSwitch(page)
 
@@ -310,28 +312,23 @@ def members():
 
 
 @app.route('/members/<identifier>', methods=['GET'])
+@login_required
 def memberType(identifier):
-    
-    members = User.query.order_by('lastname').all()
-
-    eligibleMembers = []
 
     if identifier == 'Admin':
-        for user in members:
-            if user.admin:
-                eligibleMembers.append(user)
+        currentMembers = User.query.filter_by(admin=True, currentmember=True).order_by('lastname').all()
+        oldMembers = User.query.filter_by(admin=True, currentmember=False).order_by('lastname').all()
 
     elif identifier == 'Leader':
-        for user in members:
-            if user.leader:
-                eligibleMembers.append(user)
+        currentMembers = User.query.filter_by(leader=True, currentmember=True).order_by('lastname').all()
+        oldMembers = User.query.filter_by(leader=True, currentmember=False).order_by('lastname').all()
                 
     else:
-        flash(f'No users in this catagory {indentifier}', 'warning')
+        flash(f'No users in this catagory {identifier}', 'warning')
         return sendoff('members')
 
     page = make_response(render_template(
-        'members.html', members=eligibleMembers, identifier=True, indentify=identifier))
+        'members.html', currentMembers=currentMembers, oldMembers=oldMembers, identifier=True, indentify=identifier, oldthings=len(oldMembers)))
 
     page = cookieSwitch(page)
 
