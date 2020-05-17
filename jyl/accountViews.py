@@ -23,12 +23,7 @@ def login():
                 f'Login Unsuccessful. User dosen\'t exsist',
                 'error')
         else:
-            confirm = user.confirmed
-            confirmed = ''
-            if not confirm:
-                confirmed = ' and check to make sure you have activated your account'
-
-            if user and confirm and bcrypt.check_password_hash(
+            if bcrypt.check_password_hash(
                 user.password,
                 sha256(
                     (form.password.data +
@@ -44,7 +39,7 @@ def login():
 
             else:
                 flash(
-                    f'Login Unsuccessful. Please check email and password{confirmed}',
+                    'Login Unsuccessful. Please check email and password',
                     'error')
 
     page = make_response(render_template('login.html', form=form))
