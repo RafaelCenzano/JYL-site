@@ -9,24 +9,30 @@
 
 {% block content %}
 <h1 class="name">{% if identifier %}{{ indentify }} List{% else %}Member List{% endif %}</h1>
-<ul>
-    <li><h2 class="profiletitle">Current Members</h2></li>
-    {% for people in currentMembers %}
-    <li>
-        <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-            <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-<ul>
-    <li><h2 class="profiletitle">Past Members</h2></li>
-    {% for people in oldMembers %}
-    <li>
-        <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-            <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+<div class="half-grid">
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Current Members</h2></li>
+            {% for people in currentMembers %}
+            <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                <li>
+                    <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Past Members</h2></li>
+            {% for people in oldMembers %}
+            <li>
+                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                    <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}
