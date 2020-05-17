@@ -96,6 +96,7 @@ class UserMeeting(db.Model):
     upvote = db.Column(db.Boolean)
     unsurevote = db.Column(db.Boolean)
     downvote = db.Column(db.Boolean)
+    currentYear = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         if self.attended:
@@ -139,6 +140,7 @@ class UserEvent(db.Model):
     upvote = db.Column(db.Boolean)
     unsurevote = db.Column(db.Boolean)
     downvote = db.Column(db.Boolean)
+    currentYear = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         if self.attended:
