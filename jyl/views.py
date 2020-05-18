@@ -1,8 +1,8 @@
-import datetime
 from jyl import app, forms, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
 from random import randint
 from hashlib import sha256
+from datetime import datetime
 from jyl.forms import CreateUser
 from jyl.models import *
 from jyl.helpers import sendoff, cookieSwitch, cleanValue
@@ -132,7 +132,7 @@ def profileMeeting(num, first, last):
 
     for meetings in going:
         theMeeting = Meeting.query.get(meetings.meetingid)
-        if theMeeting.start > datetime.datetime.now():
+        if theMeeting.start > datetime.now():
             meetingsGoing.append(theMeeting)
 
     page = make_response(render_template(
@@ -183,7 +183,7 @@ def profileEvent(num, first, last):
 
     for events in going:
         theEvent = Event.query.get(events.eventid)
-        if theEvent.start > datetime.datetime.now():
+        if theEvent.start > datetime.now():
             eventsGoing.append(theEvent)
 
     page = make_response(render_template(
