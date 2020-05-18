@@ -1,3 +1,4 @@
+import datetime
 from jyl import app, forms, db, bcrypt
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
 from random import randint
@@ -91,6 +92,102 @@ def profile(num, first, last):
     num = repr(num)
 
     page.set_cookie('current', 'profile', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    return page
+
+@app.route('/profile/<int:num>/<first>/<last>/meetings', methods=['GET'])
+@login_required
+def profileMeeting(num, first, last):
+
+    checkUser = User.query.filter_by(
+        firstname=first,
+        lastname=last,
+        namecount=num).first()
+
+    if checkUser is None:
+
+        flash('User not found', 'error')
+        return sendoff('index')
+
+    attended = UserMeeting.query.filter_by(userid=checkUser.id, attended=True, currentYear=True).all()
+    going = UserMeeting.query.filter_by(userid=checkUser.id, going=True, attended=False, currentYear=True).all()
+
+    meetingsAttended = []
+
+    for meetings in attended:
+        meetingsAttended.append(Meeting.query.get(meetings.meetingid))
+
+    meetingsGoing = []
+
+    for meetings in going:
+        theMeeting = Meeting.query.get(meetings.meetingid)
+        if theMeeting.start > datetime.datetime.now():
+            meetingsGoing.append(theMeeting)
+
+    page = make_response(render_template(
+        'userEventMeeting.html',
+        user=checkUser,
+        itemsAttended=meetingsAttended,
+        itemsGoing=meetingsGoing,
+        attendedLen=len(meetingsAttended),
+        goingLen=len(meetingsGoing),
+        event=True))
+
+    page = cookieSwitch(page)
+
+    num = repr(num)
+
+    page.set_cookie('current', 'profileMeeting', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    return page
+
+@app.route('/profile/<int:num>/<first>/<last>/events', methods=['GET'])
+@login_required
+def profileEvent(num, first, last):
+
+    checkUser = User.query.filter_by(
+        firstname=first,
+        lastname=last,
+        namecount=num).first()
+
+    if checkUser is None:
+
+        flash('User not found', 'error')
+        return sendoff('index')
+
+    attended = UserEvent.query.filter_by(userid=checkUser.id, attended=True, currentYear=True).all()
+    going = UserEvent.query.filter_by(userid=checkUser.id, going=True, attended=False, currentYear=True).all()
+
+    eventsAttended = []
+
+    for events in attended:
+        eventsAttended.append(Event.query.get(events.eventid))
+
+    eventsGoing = []
+
+    for events in going:
+        theEvent = Event.query.get(events.eventid)
+        if theEvent.start > datetime.datetime.now():
+            eventsGoing.append(theEvent)
+
+    page = make_response(render_template(
+        'userEventMeeting.html',
+        user=checkUser,
+        itemsAttended=eventsAttended,
+        itemsGoing=eventsGoing,
+        attendedLen=len(eventsAttended),
+        goingLen=len(eventsGoing),
+        event=True))
+
+    page = cookieSwitch(page)
+
+    num = repr(num)
+
+    page.set_cookie('current', 'profileEvent', max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
