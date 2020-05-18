@@ -35,10 +35,11 @@
             {% endif %}
             {% for people in eventMeetingData['users'] %}
             <li>
-                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                <l>
                     <p>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</p>
-                </a>
-            </li>
+                </li>
+            </a>
             {% endfor %}
         </ul>
     </div>
