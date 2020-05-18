@@ -222,7 +222,7 @@ def meetingInfo(idOfMeeting):
     eventMeeting = eventMeetingProccessing(checkMeeting, meeting=True)
 
     page = make_response(render_template(
-        'eventMeeting.html', eventMeeting=checkMeeting, eventMeetingData=eventMeeting, hourcount=cleanValue(checkMeeting.hourcount))
+        'eventMeeting.html', eventMeeting=checkMeeting, eventMeetingData=eventMeeting, hourcount=cleanValue(checkMeeting.hourcount)))
 
     page = cookieSwitch(page)
 
