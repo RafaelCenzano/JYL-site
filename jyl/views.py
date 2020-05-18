@@ -99,6 +99,7 @@ def profile(num, first, last):
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-type-current', 'normal', max_age=60 * 60 * 24 * 365)
     return page
 
 @app.route('/profile/<int:num>/<first>/<last>/meetings', methods=['GET'])
@@ -149,6 +150,7 @@ def profileMeeting(num, first, last):
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-type-current', 'meeting', max_age=60 * 60 * 24 * 365)
     return page
 
 @app.route('/profile/<int:num>/<first>/<last>/events', methods=['GET'])
@@ -198,7 +200,7 @@ def profileEvent(num, first, last):
     page.set_cookie('current', 'profileEvent', max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-type-current', 'event', max_age=60 * 60 * 24 * 365)
     return page
 
 
