@@ -137,7 +137,7 @@ def profileMeeting(num, first, last):
         itemsGoing=meetingsGoing,
         attendedLen=len(meetingsAttended),
         goingLen=len(meetingsGoing),
-        event=True,
+        event=False,
         lifetimeHours=cleanValue(checkUser.lifetimeMeetingHours),
         currentHours=cleanValue(checkUser.currentMeetingHours)))
 
