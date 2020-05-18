@@ -1,19 +1,20 @@
 from jyl import db
 from datetime import datetime
 from jyl.models import Meeting, UserMeeting, Event, UserEvent, User
+from jyl.helpers import cleanValue
 
 
-def eventMeetingProccessing(check, meeting=True):
+def eventMeetingProccessing(check, meeting):
 
     eventMeeting = {}
 
     if check.start > datetime.now():
 
         if meeting:
-            users = UserMeeting.query.filter_by(meetingid=check.id, going=True).all()
+            users = UserMeeting.query.filter_by(meetingid=check.id, going=True, attended=False).all()
             eventMeeting['meeting'] = True
         else:
-            users = UserEvent.query.filter_by(eventid=check.id, going=True).all()
+            users = UserEvent.query.filter_by(eventid=check.id, going=True, attended=False).all()
             eventMeeting['meeting'] = False
 
         eventMeeting['future'] = True
@@ -31,14 +32,18 @@ def eventMeetingProccessing(check, meeting=True):
 
     length = check.hourcount
 
-    eventMeeting['usermeeting'] = []
+    eventMeeting['userreview'] = []
+    eventMeeting['userreviewwho'] = []
     eventMeeting['users'] = []
-    eventMeeting['totalHours'] = 0
 
     for user in users:
 
-        eventMeeting['usermeeting'].append(user)
-        eventMeeting['users'].append(User.query.filter_by(id=user.userid).first())
-        eventMeeting['totalHours'] += length
+        if user.comment is not None:
+            eventMeeting['userreview'].append(user)
+            theUser = User.query.get(user.userid)
+            eventMeeting['userreviewwho'].append(theUser)
+            eventMeeting['users'].append(theUser)
+        else:
+            eventMeeting['users'].append(User.query.get(user.userid))
 
     return eventMeeting
