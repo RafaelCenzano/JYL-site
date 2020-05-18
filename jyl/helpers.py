@@ -21,7 +21,11 @@ def sendoff(where):
             num = siteCookies['profile-num']
             first = siteCookies['profile-first']
             last = siteCookies['profile-last']
-            return redirect(url_for('profile', num=num, first=first, last=last))
+            if siteCookies['profile-type'] == 'normal':
+                return redirect(url_for('profile', num=num, first=first, last=last))
+            elif siteCookies['profile-type'] == 'meeting':
+                return redirect(url_for('profileMeeting', num=num, first=first, last=last))
+            return redirect(url_for('profileEvent', num=num, first=first, last=last))
 
         elif 'meeting' in currentCookie:
             meetingid = siteCookies['meeting-id']
@@ -50,9 +54,11 @@ def cookieSwitch(pageItem):
         currentNum = siteCookies['profile-num-current']
         currentFirst = siteCookies['profile-first-current']
         currentLast = siteCookies['profile-last-current']
+        currentType = siteCookies['profile-type-current']
         pageItem.set_cookie('profile-num', currentNum, max_age=60 * 60 * 24 * 365)
         pageItem.set_cookie('profile-first', currentFirst, max_age=60 * 60 * 24 * 365)
         pageItem.set_cookie('profile-last', currentLast, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie('profile-type', currentType, max_age=60 * 60 * 24 * 365)
 
     if 'meeting-id-current' in siteCookies:
         currentMeeting = siteCookies['meeting-id-current']
