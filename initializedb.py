@@ -48,16 +48,16 @@ user2 = User(
     lastname='cenzano',
     email='rafa@demo.com',
     password=pass2,
-    lifetimeHours=0.0,
-    lifetimeMeetingHours=0.0,
-    lifetimeEventHours=0.0,
-    lifetimeMeetingCount=0,
-    lifetimeEventCount=0,
-    currentHours=0.0,
-    currentMeetingHours=0.0,
-    currentEventHours=0.0,
-    currentMeetingCount=0,
-    currentEventCount=0,
+    lifetimeHours=25.5,
+    lifetimeMeetingHours=10.0,
+    lifetimeEventHours=15.5,
+    lifetimeMeetingCount=4,
+    lifetimeEventCount=4,
+    currentHours=20,
+    currentMeetingHours=10.0,
+    currentEventHours=10.0,
+    currentMeetingCount=3,
+    currentEventCount=3,
     nickname='raf',
     nicknameapprove=True,
     admin=True,
@@ -147,9 +147,9 @@ meeting4 = Meeting(
     end=end4,
     hourcount=1.5,
     description='super far past meeting',
-    upvote=0,
-    downvote=0,
-    unsurevote=0,
+    upvote=3,
+    downvote=1,
+    unsurevote=2,
     location='2012 Pine St.')
 
 start = datetime(2020, 1, 30, 10)
@@ -180,29 +180,46 @@ event1 = Event(
     unsurevote=0,
     location='1840 Sutter')
 
+start2 = datetime(2020, 7, 30, 10)
+end2 = datetime(2020, 7, 30, 18)
+event2 = Event(
+    currentYear=True,
+    name='A future event',
+    start=start2,
+    end=end2,
+    hourcount=8,
+    description='lots of text, yeet',
+    upvote=3,
+    downvote=1,
+    unsurevote=2,
+    location='1840 Sutter')
+
 db.session.add(event)
 db.session.add(event1)
+db.session.add(event2)
+db.session.add(meeting)
 db.session.add(meeting0)
 db.session.add(meeting1)
-db.session.add(meeting)
 db.session.add(meeting2)
 db.session.add(meeting3)
 db.session.add(meeting4)
 db.session.commit()
 
-usermeeting0 = UserMeeting(currentYear=True, meetingid=meeting0.id, userid=user1.id, attended=True, going=True)
-usermeeting = UserMeeting(currentYear=True, meetingid=meeting1.id, userid=user1.id, attended=True, going=True)
-usermeeting1 = UserMeeting(currentYear=True, meetingid=meeting.id, userid=user1.id, attended=True, going=True)
-usermeeting2 = UserMeeting(currentYear=True, meetingid=meeting.id, userid=user2.id, attended=True, going=True)
-usermeeting3 = UserMeeting(currentYear=True, meetingid=meeting2.id, userid=user1.id, attended=True, going=True)
-usermeeting4 = UserMeeting(currentYear=True, meetingid=meeting3.id, userid=user1.id, attended=True, going=True)
-usermeeting5 = UserMeeting(currentYear=True, meetingid=meeting3.id, userid=user2.id, attended=True, going=True)
-usermeeting6 = UserMeeting(currentYear=True, meetingid=meeting4.id, userid=user1.id, attended=True, going=True)
-usermeeting7 = UserMeeting(currentYear=True, meetingid=meeting4.id, userid=user2.id, attended=True, going=True)
-userevent = UserEvent(currentYear=True, eventid=event.id, userid=user1.id, attended=True, going=True)
-userevent1 = UserEvent(currentYear=True, eventid=event.id, userid=user2.id, attended=True, going=True)
-userevent2 = UserEvent(currentYear=True, eventid=event1.id, userid=user1.id, attended=True, going=True)
-userevent3 = UserEvent(currentYear=True, eventid=event1.id, userid=user2.id, attended=True, going=True)
+usermeeting0 = UserMeeting(currentYear=True, meetingid=meeting0.id, userid=user1.id, attended=True, going=True, comment='test1', upvote=True)
+usermeeting = UserMeeting(currentYear=True, meetingid=meeting1.id, userid=user1.id, attended=True, going=True, comment='4243', upvote=True)
+usermeeting1 = UserMeeting(currentYear=True, meetingid=meeting.id, userid=user1.id, attended=True, going=True, comment='sfafsaf', upvote=True)
+usermeeting2 = UserMeeting(currentYear=True, meetingid=meeting.id, userid=user2.id, attended=True, going=True, comment='asfvcvc', upvote=True)
+usermeeting3 = UserMeeting(currentYear=True, meetingid=meeting2.id, userid=user1.id, attended=True, going=True, comment='jhjytjy', unsurevote=True)
+usermeeting4 = UserMeeting(currentYear=True, meetingid=meeting3.id, userid=user1.id, attended=True, going=True, comment='tysdfsfdsfsdfdsfsdfds', upvote=True)
+usermeeting5 = UserMeeting(currentYear=True, meetingid=meeting3.id, userid=user2.id, attended=True, going=True, comment='adsdfsasd', downvote=True)
+usermeeting6 = UserMeeting(currentYear=True, meetingid=meeting4.id, userid=user1.id, attended=True, going=True, comment='adsdsfsdsdfsdfsdgsasd', downvote=True)
+usermeeting7 = UserMeeting(currentYear=True, meetingid=meeting4.id, userid=user2.id, attended=True, going=True, comment='adsdsgsdgsdgsdgsdasd', upvote=True)
+userevent = UserEvent(currentYear=True, eventid=event.id, userid=user1.id, attended=True, going=True, comment='danelle', upvote=True)
+userevent1 = UserEvent(currentYear=True, eventid=event.id, userid=user2.id, attended=True, going=True, comment='erkia', upvote=True)
+userevent2 = UserEvent(currentYear=True, eventid=event1.id, userid=user1.id, attended=True, going=True, comment='debbie', upvote=True)
+userevent3 = UserEvent(currentYear=True, eventid=event1.id, userid=user2.id, attended=True, going=True, comment='JOHN', upvote=True)
+userevent4 = UserEvent(currentYear=True, eventid=event2.id, userid=user1.id, attended=False, going=True, comment='adsdasd', upvote=True)
+userevent5 = UserEvent(currentYear=True, eventid=event2.id, userid=user2.id, attended=False, going=True, comment='mikio', unsurevote=True)
 
 db.session.add(userevent)
 db.session.add(userevent1)
