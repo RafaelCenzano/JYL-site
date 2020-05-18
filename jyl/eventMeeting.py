@@ -1,7 +1,6 @@
 from jyl import db
 from datetime import datetime
 from jyl.models import Meeting, UserMeeting, Event, UserEvent, User
-from jyl.helpers import cleanValue
 
 
 def eventMeetingProccessing(check, meeting):
