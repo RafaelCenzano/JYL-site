@@ -11,10 +11,10 @@
 <div class="half-grid">
     <div class="column">
         {% if user.nicknameapprove %}
-        <h1 class="name">{% if current_user.id == user.id or current_user.admin %}<a class="edit" href="#">{% endif %}<span class="underline">{{ user.nickname}}</span>{% if current_user.id == user.id or current_user.admin %} <i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
+        <h1 class="name"><a class="edit" href="{{ url_for('profile', num=user.namecount, user=people.firstname, last=user.lastname) }}"><span class="underline">{{ user.nickname}}</span></a></h1>
         <h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
         {% else %}
-        <h1 class="name">{% if current_user.id == user.id or current_user.admin %}<a class="edit" href="#">{% endif %}<span class="underline">{{ user.firstname }} {{ user.lastname }}</span>{% if current_user.id == user.id or current_user.admin %} <i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
+        <h1 class="name"><a class="edit" href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}"><span class="underline">{{ user.firstname }} {{ user.lastname }}</span></a></h1>
         {% endif %}
         {% if user.admin %}
         <p class="tag admin">Admin</p>
@@ -24,7 +24,7 @@
         {% endif %}
     </div>
     <div class="column">
-        <h4 class="desc">Current Hours:</h4>
+        <h4 class="desc">Current {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
         <div class="eventmeeting lrg"><h4>{{ currentHours }}</h4></div>
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
     </div>
