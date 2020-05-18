@@ -28,11 +28,11 @@
         {% endif %}
     </div>
     <div class="column">
-        <ul class="first-ul hoverable">
+        <ul>
             {% if eventMeetingData['future'] %}
-            <li><a href="#going"><h2 class="profiletitle" id="going">Going</h2></a></li>
+            <li><h2 class="profiletitle">Members Going</h2></li>
             {% else %}
-            <li><a href="#attended"><h2 class="profiletitle" id="attended">Attended</h2></a></li>
+            <li><h2 class="profiletitle">Members Attended</h2></li>
             {% endif %}
             {% for people in eventMeetingData['users'] %}
             <li>
@@ -44,15 +44,15 @@
         </ul>
     </div>
     <div class="column">
-        <ul class="second-ul hoverable">
+        <ul>
             {% if eventMeetingData['future'] %}
-            <li><a href="#resources"><h2 class="profiletitle" id="resources">JYL Resources</h2></a></li>
-            <li><a href="#"><p>Help Request</p></a></li>
-            <li><a href="#"><p>Upcoming Events</p></a></li>
-            <li><a href="#"><p>Upcoming Meetings</p></a></li>
+            <li><h2 class="profiletitle">JYL Resources</h2></li>
+            <a href="#"><li><p>Help Request</p></li></a>
+            <a href="#"><li><p>Upcoming Events</p></li></a>
+            <a href="#"><li><p>Upcoming Meetings</p></li></a>
             {% else %}
-            <li><a href="#reviews"><h2 class="profiletitle" id="reviews">Reviews</h2></a></li>
-            <li><a href="#"><p>votes</p></a></li>
+            <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
+            <a href="#"><li><p>votes</p></li></a>
             {% endif %}
         </ul>
     </div>
