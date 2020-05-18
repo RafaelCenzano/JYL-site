@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %}{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="half-grid">
+    <div class="column">
+        {% if user.nicknameapprove %}
+        <h1 class="name">{% if current_user.id == user.id or current_user.admin %}<a class="edit" href="#">{% endif %}<span class="underline">{{ user.nickname}}</span>{% if current_user.id == user.id or current_user.admin %} <i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
+        <h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
+        {% else %}
+        <h1 class="name">{% if current_user.id == user.id or current_user.admin %}<a class="edit" href="#">{% endif %}<span class="underline">{{ user.firstname }} {{ user.lastname }}</span>{% if current_user.id == user.id or current_user.admin %} <i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
+        {% endif %}
+        {% if user.admin %}
+        <p class="tag admin">Admin</p>
+        {% endif %}
+        {% if user.leader %}
+        <p class="tag leader">Leader</p>
+        {% endif %}
+    </div>
+    <div class="column">
+        <h4 class="desc">Current Hours:</h4>
+        <div class="eventmeeting lrg"><h4>{% if event %}{{ cleanValue(user.currentEventHours) }}{% else %}{{ cleanValue(user.currentMeetingHours) }}{% endif %}</h4></div>
+        <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {% if event %}{{ cleanValue(user.lifetimeEventHours) }}{% else %}{{ cleanValue(user.lifetimeMeetingHours) }}{% endif %}</h4>
+    </div>
+</div>
+{% if goingLen > 0 %}
+<div class="half-grid">
+    <div class="column">
+
+        <ul>
+            <li><h2 class="profiletitle">{% if event %}Events {% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %}{% else %}Meetings {% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %}{% endif %} is interested in attending</h2></li>
+            {% for eventmeeting in itemsGoing %}
+            <li>
+                {% if event %}
+                <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
+                {% else %}
+                <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
+                {% endif %}
+                    <h4>{{ eventmeeting.start.strftime('%B %-d, %Y') }}</h4>
+                    <p>{{ eventmeeting.description }}</p>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="column">
+{% endif %}
+        <ul>
+            <li><h2 class="profiletitle" id="events">{% if event %}Event{% else %}Meeting{% endif %}s attended</h2></li>
+            {% if attendedLen > 0 %}
+            {% for eventmeeting in itemsAttended %}
+            <li>
+                {% if event %}
+                <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
+                {% else %}
+                <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
+                {% endif %}
+                    <h4>{{ eventmeeting.start.strftime('%B %-d, %Y') }}, {{ eventmeeting.name }}</h4>
+                    <p>{{ eventmeeting.description }}</p>
+                </a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li>
+                <a href="#">
+                    <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any events yet</h4>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+{% if goingLen > 0 %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
