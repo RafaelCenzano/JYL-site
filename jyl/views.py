@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, request, flash, make_respo
 from random import randint
 from hashlib import sha256
 from jyl.forms import CreateUser
-from jyl.models import User, Meeting, Event
+from jyl.models import *
 from jyl.helpers import sendoff, cookieSwitch, cleanValue
 from flask_login import current_user, login_required
 from jyl.eventMeeting import eventMeetingProccessing
