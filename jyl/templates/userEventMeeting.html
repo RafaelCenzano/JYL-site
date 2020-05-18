@@ -11,7 +11,7 @@
 <div class="half-grid">
     <div class="column">
         {% if user.nicknameapprove %}
-        <h1 class="name"><a class="edit" href="{{ url_for('profile', num=user.namecount, user=people.firstname, last=user.lastname) }}"><span class="underline">{{ user.nickname}}</span></a></h1>
+        <h1 class="name"><a class="edit" href="{{ url_for('profile', num=user.namecount, user=user.firstname, last=user.lastname) }}"><span class="underline">{{ user.nickname}}</span></a></h1>
         <h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
         {% else %}
         <h1 class="name"><a class="edit" href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}"><span class="underline">{{ user.firstname }} {{ user.lastname }}</span></a></h1>
