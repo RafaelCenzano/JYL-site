@@ -25,14 +25,14 @@
     </div>
     <div class="column">
         <h4 class="desc">Current Hours:</h4>
-        <div class="hours lrg"><h4>{{ user.currentHours }}</h4></div>
-        <h4 class="desc">Lifetime Hours: {{ user.lifetimeHours }}</h4>
+        <div class="hours lrg"><h4>{{ cleanValue(user.currentHours) }}</h4></div>
+        <h4 class="desc">Lifetime Hours: {{ cleanValue(user.lifetimeHours) }}</h4>
     </div>
     <div class="column">
-        <a href="#"><h2 class="profiletitle" id="meetings">Meetings {{ user.currentMeetingHours }}</h2></a>
+        <a href="#"><h2 class="profiletitle" id="meetings">Meetings {{ cleanValue(user.currentMeetingHours) }}</h2></a>
     </div>
     <div class="column">
-        <a href="#"><h2 class="profiletitle" id="events">Events {{ user.currentEventHours }}</h2></a>
+        <a href="#"><h2 class="profiletitle" id="events">Events {{ cleanValue(user.currentEventHours) }}</h2></a>
     </div>
 </div>
 {% endblock %}
