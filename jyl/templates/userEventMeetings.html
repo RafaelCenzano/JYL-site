@@ -25,8 +25,8 @@
     </div>
     <div class="column">
         <h4 class="desc">Current Hours:</h4>
-        <div class="eventmeeting lrg"><h4>{% if event %}{{ cleanValue(user.currentEventHours) }}{% else %}{{ cleanValue(user.currentMeetingHours) }}{% endif %}</h4></div>
-        <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {% if event %}{{ cleanValue(user.lifetimeEventHours) }}{% else %}{{ cleanValue(user.lifetimeMeetingHours) }}{% endif %}</h4>
+        <div class="eventmeeting lrg"><h4>{{ currentHours }}</h4></div>
+        <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
     </div>
 </div>
 {% if goingLen > 0 %}
