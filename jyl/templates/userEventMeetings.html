@@ -34,7 +34,7 @@
     <div class="column">
 
         <ul>
-            <li><h2 class="profiletitle">{% if event %}Events {% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %}{% else %}Meetings {% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %}{% endif %} is interested in attending</h2></li>
+            <li><h2 class="profiletitle">Upcoming {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
             {% for eventmeeting in itemsGoing %}
             <li>
                 {% if event %}
