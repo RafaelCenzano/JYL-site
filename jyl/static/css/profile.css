@@ -52,6 +52,6 @@
     font-size: 25px;
 }
 
-.green {
+.green, .eventmeeting {
     background: rgb(0, 255, 0);
 }
