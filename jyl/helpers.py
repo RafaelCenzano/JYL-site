@@ -67,3 +67,8 @@ def cookieSwitch(pageItem):
         pageItem.set_cookie('membertype', currentMemberType, max_age=60 * 60 * 24 * 365)
 
     return pageItem
+
+def cleanValue(num):
+    if num.is_integer():
+        return int(num)
+    return num
