@@ -36,16 +36,16 @@
         <ul>
             <li><h2 class="profiletitle">Upcoming {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
             {% for eventmeeting in itemsGoing %}
-            <li>
-                {% if event %}
-                <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
-                {% else %}
-                <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
-                {% endif %}
+            {% if event %}
+            <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
+            {% else %}
+            <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
+            {% endif %}
+                <li>
                     <h4>{{ eventmeeting.start.strftime('%B %-d, %Y') }}</h4>
                     <p>{{ eventmeeting.description }}</p>
-                </a>
-            </li>
+                </li>
+            </a>
             {% endfor %}
         </ul>
     </div>
@@ -55,16 +55,16 @@
             <li><h2 class="profiletitle" id="events">{% if event %}Event{% else %}Meeting{% endif %}s attended</h2></li>
             {% if attendedLen > 0 %}
             {% for eventmeeting in itemsAttended %}
-            <li>
-                {% if event %}
-                <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
-                {% else %}
-                <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
-                {% endif %}
+            {% if event %}
+            <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
+            {% else %}
+            <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
+            {% endif %}
+                <li>
                     <h4>{{ eventmeeting.start.strftime('%B %-d, %Y') }}, {{ eventmeeting.name }}</h4>
                     <p>{{ eventmeeting.description }}</p>
-                </a>
-            </li>
+                </li>
+            </a>
             {% endfor %}
             {% else %}
             <li>
