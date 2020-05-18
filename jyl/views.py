@@ -137,7 +137,9 @@ def profileMeeting(num, first, last):
         itemsGoing=meetingsGoing,
         attendedLen=len(meetingsAttended),
         goingLen=len(meetingsGoing),
-        event=True))
+        event=True,
+        lifetimeHours=cleanValue(checkUser.lifetimeMeetingHours),
+        currentHours=cleanValue(checkUser.currentMeetingHours)))
 
     page = cookieSwitch(page)
 
@@ -185,7 +187,9 @@ def profileEvent(num, first, last):
         itemsGoing=eventsGoing,
         attendedLen=len(eventsAttended),
         goingLen=len(eventsGoing),
-        event=True))
+        event=True,
+        lifetimeHours=cleanValue(checkUser.lifetimeEventHours),
+        currentHours=cleanValue(checkUser.currentEventHours)))
 
     page = cookieSwitch(page)
 
