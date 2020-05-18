@@ -85,7 +85,11 @@ def profile(num, first, last):
 
     page = make_response(render_template(
         'profile.html',
-        user=checkUser))
+        user=checkUser,
+        lifetimeHours=cleanValue(checkUser.lifetimeHours),
+        currentHours=cleanValue(checkUser.currentHours),
+        currentMeetingHours=cleanValue(checkUser.currentMeetingHours),
+        currentEventHours=cleanValue(checkUser.currentEventHours)))
 
     page = cookieSwitch(page)
 
