@@ -16,10 +16,10 @@
     </div>
     <div class="column">
         {% if current_user.is_authenticated %}
-        <a href="#">My Events <i class="fas fa-calendar-check nav-icon"></i></a>
+        <a href="#">Upcoming Meetings <i class="fas fa-calendar-check nav-icon"></i></a>
         <a href="#">Upcoming Events <i class="fas fa-calendar-check nav-icon"></i></a>
         <a href="#">My Meetings <i class="fas fa-calendar-check nav-icon"></i></a>
-        <a href="#">Upcoming Meetings <i class="fas fa-calendar-check nav-icon"></i></a>
+        <a href="#">My Events <i class="fas fa-calendar-check nav-icon"></i></a>
         <a href="{{ url_for('members') }}">JYL Members <i class="fas fa-user nav-icon"></i></a>
         {% else %}
         <a href="#">Schedule <i class="fas fa-calendar-check nav-icon"></i></a>
