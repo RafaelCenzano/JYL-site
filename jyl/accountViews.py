@@ -130,7 +130,10 @@ def reset_request():
 
             return sendoff('login')
 
-    page = make_response(render_template('password_reset_request.html', form=form))
+    page = make_response(
+        render_template(
+            'password_reset_request.html',
+            form=form))
 
     page = cookieSwitch(page)
 
@@ -182,5 +185,3 @@ def logout():
         flash('Logout successful', 'success')
 
     return redirect(url_for('index'))
-
-    
