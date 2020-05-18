@@ -49,7 +49,11 @@ def back():
             num = int(siteCookies['profile-num'])
             first = siteCookies['profile-first']
             last = siteCookies['profile-last']
-            return redirect(url_for('profile', num=num, first=first, last=last))
+            if siteCookies['profile-type'] == 'normal':
+                return redirect(url_for('profile', num=num, first=first, last=last))
+            elif siteCookies['profile-type'] == 'meeting':
+                return redirect(url_for('profileMeeting', num=num, first=first, last=last))
+            return redirect(url_for('profileEvent', num=num, first=first, last=last))
 
         elif 'meeting' in page:
             meetingId = int(siteCookies['meeting-id'])
