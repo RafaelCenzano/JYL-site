@@ -37,17 +37,6 @@ or
 gunicorn run:app
 ```
 
-### Test run
-
-```
-make test
-```
-
-or
-
-```
-python runtest.py
-```
 
 ## Authors
 
