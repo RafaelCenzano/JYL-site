@@ -10,10 +10,12 @@ def eventMeetingProccessing(check, meeting):
     if check.start > datetime.now():
 
         if meeting:
-            users = UserMeeting.query.filter_by(meetingid=check.id, going=True, attended=False).all()
+            users = UserMeeting.query.filter_by(
+                meetingid=check.id, going=True, attended=False).all()
             eventMeeting['meeting'] = True
         else:
-            users = UserEvent.query.filter_by(eventid=check.id, going=True, attended=False).all()
+            users = UserEvent.query.filter_by(
+                eventid=check.id, going=True, attended=False).all()
             eventMeeting['meeting'] = False
 
         eventMeeting['future'] = True
@@ -21,10 +23,12 @@ def eventMeetingProccessing(check, meeting):
     else:
 
         if meeting:
-            users = UserMeeting.query.filter_by(meetingid=check.id, attended=True).all()
+            users = UserMeeting.query.filter_by(
+                meetingid=check.id, attended=True).all()
             eventMeeting['meeting'] = True
         else:
-            users = UserEvent.query.filter_by(eventid=check.id, attended=True).all()
+            users = UserEvent.query.filter_by(
+                eventid=check.id, attended=True).all()
             eventMeeting['meeting'] = False
 
         eventMeeting['future'] = False
