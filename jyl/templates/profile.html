@@ -29,10 +29,10 @@
         <h4 class="desc">Lifetime Hours: {{ cleanValue(user.lifetimeHours) }}</h4>
     </div>
     <div class="column">
-        <a href="#"><h2 class="profiletitle" id="meetings">Meetings {{ cleanValue(user.currentMeetingHours) }}</h2></a>
+        <a href="{{ url_for('profileMeeting', num=user.namecount, first=user.firstname, last=user.lastname) }}"><h2 class="profiletitle" id="meetings">Meetings {{ cleanValue(user.currentMeetingHours) }}</h2></a>
     </div>
     <div class="column">
-        <a href="#"><h2 class="profiletitle" id="events">Events {{ cleanValue(user.currentEventHours) }}</h2></a>
+        <a href="{{ url_for('profileEvent', num=user.namecount, first=user.firstname, last=user.lastname) }}"><h2 class="profiletitle" id="events">Events {{ cleanValue(user.currentEventHours) }}</h2></a>
     </div>
 </div>
 {% endblock %}
