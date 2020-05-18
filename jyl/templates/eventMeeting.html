@@ -53,8 +53,26 @@
             {% else %}
             <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
             <a href="#make-review"><li><span>{{ eventMeeting.upvote }}<i class="fas fa-smile-beam"></i></i></span><span>{{ eventMeeting.unsurevote }}<i class="fas fa-meh"></i></span><span>{{ eventMeeting.downvote }}<i class="fas fa-frown"></i></span></li></a>
-            {% for i in range(eventMeeting['userreview']) %}
-            <a href="#make-review"><li><h4>{% if eventMeeting['userreview'][i].upvote %}<i class="fas fa-smile-beam"></i>{% elif eventMeeting['userreview'][i].downvote %}<i class="fas fa-frown">{% else %}<i class="fas fa-meh">{% endif %} {% if eventMeeting['userreviewwho'][i].nicknameapprove %}{{ eventMeeting['userreviewwho'][i].nickname}}{% else %}{{ eventMeeting['userreviewwho'][i].firstname }} {{ eventMeeting['userreviewwho'][i].lastname }}{% endif %} {{ eventMeeting['userreview'][i].comment }}</h4></li></a>
+            {% for i in range(reviewlen) %}
+            <a href="#make-review">
+                <li>
+                    <h4>
+                    {% if eventMeetingData['userreview'][i].upvote %}
+                    <i class="fas fa-smile-beam"></i>
+                    {% elif eventMeetingData['userreview'][i].downvote %}
+                    <i class="fas fa-frown"></i>
+                    {% else %}
+                    <i class="fas fa-meh"></i>
+                    {% endif %}
+                    {% if eventMeetingData['userreviewwho'][i].nicknameapprove %}
+                    {{ eventMeetingData['userreviewwho'][i].nickname}}
+                    {% else %}
+                    {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}
+                    {% endif %}
+                    {{ eventMeetingData['userreview'][i].comment }}
+                    </h4>
+                </li>
+            </a>
             {% endfor %}
             {% endif %}
         </ul>
