@@ -21,7 +21,7 @@ bcrypt = Bcrypt(app)
 # Create Login manager
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-login_manager.login_message_category = 'info'
+login_manager.login_message_category = 'warning'
 
 # Create mail object from flask app object
 #mail = Mail(app)
