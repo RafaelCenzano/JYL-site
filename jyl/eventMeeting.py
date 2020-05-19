@@ -49,4 +49,6 @@ def eventMeetingProccessing(check, meeting):
         else:
             eventMeeting['users'].append(User.query.get(user.userid))
 
+    eventMeeting['users'].sort(key=lambda user: user.lastname)
+
     return eventMeeting
