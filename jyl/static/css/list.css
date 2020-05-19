@@ -21,11 +21,14 @@ li {
     transition-duration: 0.4s;
 }
 
-li:hover {
-    background: #7dd5f0;
-    border-right: 5px solid #34d6eb;
-    border-left: 5px solid #34d6eb;
-    cursor: pointer;
+@media (min-width:850px) {
+    li:hover {
+        background: #7dd5f0;
+        border-right: 5px solid #34d6eb;
+        border-left: 5px solid #34d6eb;
+        cursor: pointer;
+    }
+
 }
 
 li p,

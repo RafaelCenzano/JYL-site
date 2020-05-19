@@ -37,8 +37,11 @@ footer a:visited {
     transition-duration: 0.5s;
 }
 
-footer a:hover,
-footer a:visited:hover {
-    text-decoration: none;
-    color: #00b6ff;
+@media (min-width:850px) {
+    footer a:hover,
+    footer a:visited:hover {
+        text-decoration: none;
+        color: #00b6ff;
+    }
+
 }

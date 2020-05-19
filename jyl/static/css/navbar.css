@@ -16,9 +16,12 @@
     text-align: center;
 }
 
-.sidebar a:hover:not(.active) {
-    background-color: #364a5e;
-    color: #aef7fc;
+@media (min-width:850px) {
+    .sidebar a:hover:not(.active) {
+        background-color: #364a5e;
+        color: #aef7fc;
+    }
+
 }
 
 div.content {
@@ -53,4 +56,3 @@ div.content {
     }
 
 }
-

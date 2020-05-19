@@ -24,9 +24,12 @@
     transition-duration: 0.4s;
 }
 
-.edit:hover,
-.edit:visited:hover {
-    color: rgb(70, 70, 70);
+@media (min-width:850px) {
+    .edit:hover,
+    .edit:visited:hover {
+        color: rgb(70, 70, 70);
+    }
+
 }
 
 .profile-edit {
@@ -52,6 +55,7 @@
     font-size: 25px;
 }
 
-.green, .eventmeeting {
+.green,
+.eventmeeting {
     background: rgb(0, 255, 0);
 }

@@ -28,10 +28,13 @@ label {
     transition-duration: 0.5s;
 }
 
-.extra-link:hover,
-.extra-link:visited:hover {
-    text-decoration: none;
-    color: #31c44a;
+@media (min-width:850px) {
+    .extra-link:hover,
+    .extra-link:visited:hover {
+        text-decoration: none;
+        color: #31c44a;
+    }
+
 }
 
 input {
