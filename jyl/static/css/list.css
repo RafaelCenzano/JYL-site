@@ -11,7 +11,8 @@ ul {
     text-align: center;
 }
 
-li {
+li,
+li:visited {
     background: #7db6f0;
     border-bottom: 1px solid #ddd;
     border-right: 5px solid #348feb;
@@ -22,7 +23,8 @@ li {
 }
 
 @media (min-width:850px) {
-    li:hover {
+    li:hover,
+    li:visited:hover {
         background: #7dd5f0;
         border-right: 5px solid #34d6eb;
         border-left: 5px solid #34d6eb;
@@ -33,14 +35,16 @@ li {
 
 li p,
 li h4,
-li a {
+li a,
+li a:visited {
     margin: 0;
     padding: 0;
     text-decoration: none;
     color: #fff;
 }
 
-ul a {
+ul a,
+ul a:visited {
     text-decoration: none;
 }
 
