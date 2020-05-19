@@ -32,6 +32,9 @@
     transition: 0.3s;
 }
 
-.closebtn:hover {
-    color: black;
+@media (min-width:850px) {
+    .closebtn:hover {
+        color: black;
+    }
+
 }
