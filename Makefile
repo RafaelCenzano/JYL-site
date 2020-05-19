@@ -15,4 +15,4 @@ test: clean
 	python runtest.py
 
 stresstest: clean
-	web: gunicorn run:app -w 6 --preload --max-requests-jitter 300
+	gunicorn run:app -w 6 --preload --max-requests-jitter 300
