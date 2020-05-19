@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Upcoming {% if event %}Events{% else %}Meetings{% endif %}{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="name">Upcoming {% if event %}Events{% else %}Meetings{% endif %}</h1>
+{% if going > 0 %}
+<div class="half-grid">
+    <div class="column">
+{% endif %}
+        <ul>
+            <li><h2 class="profiletitle">Upcoming {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
+            {% for eventmeeting in upcomingThings %}
+            {% if event %}
+            <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
+            {% else %}
+            <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
+            {% endif %}
+                <li>
+                    <h4>{% if event %}{{ eventmeeting.name }}{% else %}Meeting{% endif %}: {{ eventmeeting.start.strftime('%B %-d, %Y') }}</h4>
+                    <p>{{ eventmeeting.description }}</p>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+{% if going > 0 %}
+    </div>
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Interested {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
+            {% for eventmeeting in interestedThings %}
+            {% if event %}
+            <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
+            {% else %}
+            <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
+            {% endif %}
+                <li>
+                    <h4>{% if event %}{{ eventmeeting.name }}{% else %}Meeting{% endif %}: {{ eventmeeting.start.strftime('%B %-d, %Y') }} <i class="fas fa-check-square"></i></h4>
+                    <p>{{ eventmeeting.description }}</p>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
