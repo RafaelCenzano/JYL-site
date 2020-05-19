@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, request, flash, make_respo
 from random import randint
 from hashlib import sha256
 from datetime import datetime
-from jyl.forms import CreateUser
+from jyl.forms import *
 from jyl.models import *
 from jyl.helpers import sendoff, cookieSwitch, cleanValue
 from flask_login import current_user, login_required
@@ -143,6 +143,7 @@ def profileMeeting(num, first, last):
 
     attended = UserMeeting.query.filter_by(
         userid=checkUser.id, attended=True, currentYear=True).all()
+
     going = UserMeeting.query.filter_by(
         userid=checkUser.id,
         going=True,
@@ -161,6 +162,9 @@ def profileMeeting(num, first, last):
         if theMeeting.start > datetime.now():
             meetingsGoing.append(theMeeting)
 
+    meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
+    meetingsGoing.sort(key=lambda meeting: meeting.start, reverse=True)
+
     page = make_response(render_template(
         'userEventMeeting.html',
         user=checkUser,
@@ -169,6 +173,7 @@ def profileMeeting(num, first, last):
         attendedLen=len(meetingsAttended),
         goingLen=len(meetingsGoing),
         event=False,
+        oldCheck=True,
         lifetimeHours=cleanValue(checkUser.lifetimeMeetingHours),
         currentHours=cleanValue(checkUser.currentMeetingHours)))
 
@@ -177,6 +182,57 @@ def profileMeeting(num, first, last):
     num = repr(num)
 
     page.set_cookie('current', 'profileMeeting', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie(
+        'profile-type-current',
+        'meeting',
+        max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/profile/<int:num>/<first>/<last>/meetings/old', methods=['GET'])
+@login_required
+def profileMeetingOld(num, first, last):
+
+    checkUser = User.query.filter_by(
+        firstname=first,
+        lastname=last,
+        namecount=num).first()
+
+    if checkUser is None:
+
+        flash('User not found', 'error')
+        return sendoff('index')
+
+    attended = UserMeeting.query.filter_by(
+        userid=checkUser.id, attended=True).all()
+
+    meetingsAttended = []
+
+    for meetings in attended:
+        meetingsAttended.append(Meeting.query.get(meetings.meetingid))
+
+    meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
+
+    page = make_response(render_template(
+        'userEventMeeting.html',
+        user=checkUser,
+        itemsAttended=meetingsAttended,
+        itemsGoing=[],
+        attendedLen=len(meetingsAttended),
+        goingLen=0,
+        event=False,
+        oldCheck=False,
+        lifetimeHours=cleanValue(checkUser.lifetimeMeetingHours),
+        currentHours=cleanValue(checkUser.currentMeetingHours)))
+
+    page = cookieSwitch(page)
+
+    num = repr(num)
+
+    page.set_cookie('current', 'profileMeetingOld', max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
@@ -223,6 +279,9 @@ def profileEvent(num, first, last):
         if theEvent.start > datetime.now():
             eventsGoing.append(theEvent)
 
+    eventsAttended.sort(key=lambda event: event.start, reverse=True)
+    eventsGoing.sort(key=lambda event: event.start, reverse=True)
+
     page = make_response(render_template(
         'userEventMeeting.html',
         user=checkUser,
@@ -231,6 +290,7 @@ def profileEvent(num, first, last):
         attendedLen=len(eventsAttended),
         goingLen=len(eventsGoing),
         event=True,
+        oldCheck=True,
         lifetimeHours=cleanValue(checkUser.lifetimeEventHours),
         currentHours=cleanValue(checkUser.currentEventHours)))
 
@@ -244,6 +304,57 @@ def profileEvent(num, first, last):
     page.set_cookie(
         'profile-type-current',
         'event',
+        max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/profile/<int:num>/<first>/<last>/events/old', methods=['GET'])
+@login_required
+def profileEventOld(num, first, last):
+
+    checkUser = User.query.filter_by(
+        firstname=first,
+        lastname=last,
+        namecount=num).first()
+
+    if checkUser is None:
+
+        flash('User not found', 'error')
+        return sendoff('index')
+
+    attended = UserEvent.query.filter_by(
+        userid=checkUser.id, attended=True).all()
+
+    eventsAttended = []
+
+    for events in attended:
+        eventsAttended.append(Event.query.get(events.eventid))
+
+    eventsAttended.sort(key=lambda event: event.start, reverse=True)
+
+    page = make_response(render_template(
+        'userEventMeeting.html',
+        user=checkUser,
+        itemsAttended=eventsAttended,
+        itemsGoing=[],
+        attendedLen=len(eventsAttended),
+        goingLen=0,
+        event=True,
+        oldCheck=False,
+        lifetimeHours=cleanValue(checkUser.lifetimeMeetingHours),
+        currentHours=cleanValue(checkUser.currentMeetingHours)))
+
+    page = cookieSwitch(page)
+
+    num = repr(num)
+
+    page.set_cookie('current', 'profileEventOld', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie(
+        'profile-type-current',
+        'meeting',
         max_age=60 * 60 * 24 * 365)
     return page
 
@@ -404,6 +515,10 @@ def eventCreation():
 
 
 @app.route('/create/meeting', methods=['GET', 'POST'])
+def meetingCreate():
+    return 'hello'
+
+
 @app.route('/edit', methods=['GET'])
 @login_required
 def modification():
@@ -423,11 +538,41 @@ def modification():
 
 
 @app.route('/edit/user', methods=['GET'])
+def userEditList(meetingId):
+    return 'hello'
+
+
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
+@app.route('/profile/<int:num>/<first>/<last>/edit', methods=['GET', 'POST'])
+def userEdit(userId=None, num=0, first=None, last=None):
+    return 'hello'
+
+
+@app.route('/profile/<int:num>/<first>/<last>/nickname', methods=['GET', 'POST'])
+def userNicknameRequest(num, first, last):
+    return 'hello'
+
+
 @app.route('/edit/event', methods=['GET'])
+def eventEditList():
+    return 'hello'
+
+
 @app.route('/edit/event/<int:eventId>', methods=['GET', 'POST'])
+def eventEdit(eventId):
+    return 'hello'
+
+
 @app.route('/edit/meeting', methods=['GET'])
+def meetingEditList():
+    return 'hello'
+
+
 @app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
+def meetingEdit(meetingId):
+    return 'hello'
+
+
 @app.route('/event/<int:idOfEvent>', methods=['GET'])
 @login_required
 def eventInfo(idOfEvent):
@@ -520,6 +665,78 @@ def memberType(identifier):
         'membertype-current',
         identifier,
         max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/upcoming/meetings', methods=['GET'])
+@login_required
+def upcomingMeetings():
+
+    meetings = []
+
+    for meet in Meeting.query.filter_by(currentYear=True).all():
+        if meet.start > datetime.now():
+            meetings.append(meet)
+
+    interested = []
+
+    for meet in UserMeeting.query.filter_by(currentYear=True, userid=current_user.id, going=True, attended=False).all():
+        meeting = Meeting.query.get(meet.meetingid)
+        if meeting.start > datetime.now():
+            interested.append(meeting)
+            if meeting in meetings:
+                meetings.remove(meeting)
+
+    meetings.sort(key=lambda meeting: meeting.start)
+    interested.sort(key=lambda meeting: meeting.start)
+
+    page = make_response(
+        render_template(
+            'upcomingEventMeeting.html',
+            upcomingThings=meetings,
+            interestedThings=interested,
+            going=len(interested),
+            event=False))
+
+    page = cookieSwitch(page)
+
+    page.set_cookie('current', 'upcomingMeetings', max_age=60 * 60 * 24 * 365)
+    return page
+
+
+@app.route('/upcoming/events', methods=['GET'])
+@login_required
+def upcomingEvents():
+
+    events = []
+
+    for thing in Event.query.filter_by(currentYear=True).all():
+        if thing.start > datetime.now():
+            events.append(thing)
+
+    interested = []
+
+    for thing in UserEvent.query.filter_by(currentYear=True, userid=current_user.id, going=True, attended=False).all():
+        event = Event.query.get(thing.eventid)
+        if event.start > datetime.now():
+            interested.append(event)
+            if event in events:
+                events.remove(event)
+
+    events.sort(key=lambda event: event.start)
+    interested.sort(key=lambda event: event.start)
+
+    page = make_response(
+        render_template(
+            'upcomingEventMeeting.html',
+            upcomingThings=events,
+            interestedThings=interested,
+            going=len(interested),
+            event=True))
+
+    page = cookieSwitch(page)
+
+    page.set_cookie('current', 'upcomingEvents', max_age=60 * 60 * 24 * 365)
     return page
 
 
