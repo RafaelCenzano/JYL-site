@@ -41,7 +41,7 @@ user1 = User(
     school='Lowell',
     grade=11,
     currentmember=True,
-    bio=None)
+    bio='876 q784538 9762547625376 328763252')
 
 user2 = User(
     firstname='rafael',
@@ -66,7 +66,7 @@ user2 = User(
     school='Lowell',
     grade=11,
     currentmember=True,
-    bio=None)
+    bio='88588 3g432hghjg hj2g4 jh23g4hj3g4 3hgj2343')
 
 db.session.add(user1)
 db.session.add(user2)
