@@ -9,7 +9,10 @@ update:
 	pip freeze > requirements.txt
 
 run: clean
-	gunicorn run:app
+	gunicorn run:app --reload -w 4
 
 test: clean
 	python runtest.py
+
+stresstest: clean
+	web: gunicorn run:app -w 6 --preload --max-requests-jitter 300
