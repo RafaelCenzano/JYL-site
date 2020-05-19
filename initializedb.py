@@ -194,9 +194,24 @@ event2 = Event(
     unsurevote=2,
     location='1840 Sutter')
 
+start3 = datetime(2020, 9, 30, 10)
+end3 = datetime(2020, 9, 30, 18)
+event3 = Event(
+    currentYear=True,
+    name='A future event test',
+    start=start3,
+    end=end3,
+    hourcount=8,
+    description='lots of text, yeeters',
+    upvote=3,
+    downvote=1,
+    unsurevote=2,
+    location='1840 Sutter')
+
 db.session.add(event)
 db.session.add(event1)
 db.session.add(event2)
+db.session.add(event3)
 db.session.add(meeting)
 db.session.add(meeting0)
 db.session.add(meeting1)
@@ -355,6 +370,16 @@ userevent5 = UserEvent(
     unsurevote=True,
     downvote=False,
     upvote=False)
+userevent6 = UserEvent(
+    currentYear=True,
+    eventid=event3.id,
+    userid=user1.id,
+    attended=False,
+    going=False,
+    comment='mikio',
+    unsurevote=True,
+    downvote=False,
+    upvote=False)
 
 db.session.add(userevent)
 db.session.add(userevent1)
@@ -362,6 +387,7 @@ db.session.add(userevent2)
 db.session.add(userevent3)
 db.session.add(userevent4)
 db.session.add(userevent5)
+db.session.add(userevent6)
 db.session.add(usermeeting)
 db.session.add(usermeeting0)
 db.session.add(usermeeting1)
