@@ -9,7 +9,7 @@ update:
 	pip freeze > requirements.txt
 
 run: clean
-	gunicorn run:app --reload -w 4
+	gunicorn run:app --reload
 
 test: clean
 	python runtest.py
