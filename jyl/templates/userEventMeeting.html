@@ -29,6 +29,10 @@
         {% if oldCheck %}
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
         {% endif %}
+        <p>{{ user.school }}, {{ user.grade }}</p>
+        {% if user.bio %}
+        <p>{{ user.bio }}</p>
+        {% endif %}
     </div>
 </div>
 {% if goingLen > 0 %}
