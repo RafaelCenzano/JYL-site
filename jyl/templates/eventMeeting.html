@@ -47,8 +47,8 @@
             {% if eventMeetingData['future'] %}
             <li><h2 class="profiletitle">JYL Resources</h2></li>
             <a href="#"><li><p>Help Request</p></li></a>
-            <a href="#5"><li><p>Upcoming Meetings</p></li></a>
-            <a href="#5"><li><p>Upcoming Events</p></li></a>
+            <a href="{{ url_for('upcomingMeetings') }}"><li><p>Upcoming Meetings</p></li></a>
+            <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
             <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
             <a href="#make-review"><li><span>{{ eventMeeting.upvote }}<i class="fas fa-smile-beam"></i></i></span><span>{{ eventMeeting.unsurevote }}<i class="fas fa-meh"></i></span><span>{{ eventMeeting.downvote }}<i class="fas fa-frown"></i></span></li></a>
