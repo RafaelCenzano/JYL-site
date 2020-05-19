@@ -22,6 +22,9 @@
         {% if user.leader %}
         <p class="tag leader">Leader</p>
         {% endif %}
+        {% if user.bio %}
+        <p>{{ user.bio }}</p>
+        {% endif %}
     </div>
     <div class="column">
         <h4 class="desc">Current Hours:</h4>
