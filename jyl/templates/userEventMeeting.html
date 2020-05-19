@@ -24,9 +24,11 @@
         {% endif %}
     </div>
     <div class="column">
-        <h4 class="desc">Current {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
-        <div class="eventmeeting lrg"><h4>{{ currentHours }}</h4></div>
+        <h4 class="desc">{% if oldCheck == False %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
+        <div class="eventmeeting lrg"><h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}{{ currentHours }}{% endif %}</h4></div>
+        {% if oldCheck %}
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
+        {% endif %}
     </div>
 </div>
 {% if goingLen > 0 %}
@@ -42,7 +44,7 @@
             <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
             {% endif %}
                 <li>
-                    <h4>{{ eventmeeting.start.strftime('%B %-d, %Y') }}</h4>
+                    <h4>{% if event %}{{ eventmeeting.name }}{% else %}Meeting{% endif %}: {{ eventmeeting.start.strftime('%B %-d, %Y') }}</h4>
                     <p>{{ eventmeeting.description }}</p>
                 </li>
             </a>
@@ -61,19 +63,29 @@
             <a href="{{ url_for('meetingInfo', idOfMeeting=eventmeeting.id) }}">
             {% endif %}
                 <li>
-                    <h4>{{ eventmeeting.start.strftime('%B %-d, %Y') }}, {{ eventmeeting.name }}</h4>
+                    <h4>{% if event %}{{ eventmeeting.name }}{% else %}Meeting{% endif %}: {{ eventmeeting.start.strftime('%B %-d, %Y') }}</h4>
                     <p>{{ eventmeeting.description }}</p>
                 </li>
             </a>
             {% endfor %}
             {% else %}
             <li>
-                <a href="#">
-                    <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any events yet</h4>
-                </a>
+                {% if oldCheck %}
+                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any {% if event %}event{% else %}meeting{% endif %}s yet</h4>
+                {% else %}
+                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} doesn't have old {% if event %}event{% else %}meeting{% endif %}s yet</h4>
+                {% endif %}
             </li>
             {% endif %}
         </ul>
+        {% if oldCheck %}
+        {% if event %}
+        <a href="{{ url_for('profileEventOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
+        {% else %}
+        <a href="{{ url_for('profileMeetingOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
+        {% endif %}
+        View Lifetime {% if event %}Event{% else %}Meeting{% endif %}s </a>
+        {% endif %}
 {% if goingLen > 0 %}
     </div>
 </div>
