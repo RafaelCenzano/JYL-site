@@ -65,12 +65,29 @@ def back():
                         num=num,
                         first=first,
                         last=last))
-            return redirect(
-                url_for(
-                    'profileEvent',
-                    num=num,
-                    first=first,
-                    last=last))
+            elif siteCookies['profile-type'] == 'event':
+                return redirect(
+                    url_for(
+                        'profileEvent',
+                        num=num,
+                        first=first,
+                        last=last))
+            elif siteCookies['profile-type'] == 'eventold':
+                return redirect(
+                    url_for(
+                        'profileEventOld',
+                        num=num,
+                        first=first,
+                        last=last))
+            elif siteCookies['profile-type'] == 'meetingold':
+                return redirect(
+                    url_for(
+                        'profileMeetingOld',
+                        num=num,
+                        first=first,
+                        last=last))
+            else:
+                flash('An error occured with profile cookies', 'warning')
 
         elif 'meeting' in page:
             meetingId = int(siteCookies['meeting-id'])
@@ -238,7 +255,7 @@ def profileMeetingOld(num, first, last):
     page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
     page.set_cookie(
         'profile-type-current',
-        'meeting',
+        'meetingold',
         max_age=60 * 60 * 24 * 365)
     return page
 
@@ -354,7 +371,7 @@ def profileEventOld(num, first, last):
     page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
     page.set_cookie(
         'profile-type-current',
-        'meeting',
+        'eventold',
         max_age=60 * 60 * 24 * 365)
     return page
 

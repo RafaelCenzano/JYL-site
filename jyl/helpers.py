@@ -25,7 +25,12 @@ def sendoff(where):
                 return redirect(url_for('profile', num=num, first=first, last=last))
             elif siteCookies['profile-type'] == 'meeting':
                 return redirect(url_for('profileMeeting', num=num, first=first, last=last))
-            return redirect(url_for('profileEvent', num=num, first=first, last=last))
+            elif siteCookies['profile-type'] == 'event':
+                return redirect(url_for('profileEvent', num=num, first=first, last=last))
+            elif siteCookies['profile-type'] == 'eventold':
+                return redirect(url_for('profileEventOld', num=num, first=first, last=last))
+            elif siteCookies['profile-type'] == 'meetingold':
+                return redirect(url_for('profileMeetingOld', num=num, first=first, last=last))
 
         elif 'meeting' in currentCookie:
             meetingid = siteCookies['meeting-id']
