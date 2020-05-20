@@ -545,6 +545,11 @@ def userEdit(userId=None, num=0, first=None, last=None):
     return 'hello'
 
 
+@app.route('/profile/<int:num>/<first>/<last>/request/nickname', methods=['GET', 'POST'])
+def userNickname(num, first, last):
+    return 'hello'
+
+
 @app.route('/profile/<int:num>/<first>/<last>/nickname', methods=['GET', 'POST'])
 def userNicknameRequest(num, first, last):
     return 'hello'
