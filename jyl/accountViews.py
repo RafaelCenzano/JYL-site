@@ -121,7 +121,26 @@ def reset_request():
             subject = 'Password Reset Request'
 
             html = render_template('password_reset_email.html', url=reset_url)
-            #send_email(user.email, subject, html)
+
+            text = f'''
+Hi,
+
+Somebody (hopefully you!) requested a password reset for a JYL Toolbox account.
+
+Your reset link is here: {reset_url}. It will expire in 30 minutes.
+
+- JYL Toolbox
+        '''
+
+        '''
+        msg = Message('Password Reset - JYL Toolbox',
+          sender='email@gmail.com',
+          recipients=[user.email])
+        msg.body = text
+        msg.html = html
+        mail.send(msg)
+        '''
+
             return html
 
             flash(
@@ -134,9 +153,7 @@ def reset_request():
         render_template(
             'password_reset_request.html',
             form=form))
-
     page = cookieSwitch(page)
-
     return page
 
 
@@ -170,9 +187,7 @@ def reset_token(token):
         return redirect(url_for('login'))
 
     page = make_response(render_template('password_change.html', form=form))
-
     page = cookieSwitch(page)
-
     return page
 
 
