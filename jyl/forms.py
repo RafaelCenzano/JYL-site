@@ -80,8 +80,6 @@ class EditUser(FlaskForm):
     first = StringField('First name', validators=[DataRequired(), Length(max=30)])
     last = StringField('Last name', validators=[DataRequired(), Length(max=30)])
     school = StringField('School', validators=[DataRequired(), Length(max=100)])
-    grade = IntegerField('Grade Number', validators=[DataRequired()])
-    nickname = StringField('Nickname', validators=[Optional(strip_whitespace=True), Length(max=30)])
     submit = SubmitField('Save Changes')
 
 
