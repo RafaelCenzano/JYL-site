@@ -608,6 +608,75 @@ def eventInfo(idOfEvent):
     return page
 
 
+@app.route('/event/<int:idOfEvent>/going', methods=['GET'])
+@login_required
+def eventGoing(idOfEvent):
+
+    checkEvent = Event.query.get(idOfEvent)
+
+    if checkEvent is None:
+
+        flash('Event not found', 'error')
+        return sendoff('index')
+
+    elif checkEvent.start <= datetime.now():
+
+        flash('Event occured already', 'error')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    eventuser = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+
+    if eventuser is not None and eventuser.going:
+
+        flash('Already showed interest in this event', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    elif eventuser.going == False:
+
+        eventuser.going = True
+        db.session.commit()
+
+    else:
+
+        userevent = UserEvent(eventid=idOfEvent, userid=current_user.id, attended=False, going=True, currentYear=True, upvote=False, unsurevote=False, downvote=False)
+        db.session.add(userevent)
+        db.session.commit()
+
+    return eventInfo(idOfEvent)
+
+
+@app.route('/event/<int:idOfEvent>/notgoing', methods=['GET'])
+@login_required
+def eventNotGoing(idOfEvent):
+
+    checkEvent = Event.query.get(idOfEvent)
+
+    if checkEvent is None:
+
+        flash('Event not found', 'error')
+        return sendoff('index')
+
+    elif checkEvent.start <= datetime.now():
+
+        flash('Event occured already', 'error')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    eventuser = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+
+    if eventuser is not None and eventuser.going == False:
+
+        flash('You haven\'t showed interest in this event', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    elif eventuser.going:
+
+        eventuser.going = False
+        db.session.commit()
+
+    return eventInfo(idOfEvent)
+
+
+
 @app.route('/members', methods=['GET'])
 @login_required
 def members():
