@@ -1,6 +1,7 @@
-from jyl.models import User
 from jyl import login_manager
 from flask import redirect, url_for, request
+from jyl.models import User
+from urllib.parse import urlparse
 
 
 @login_manager.user_loader
@@ -78,6 +79,18 @@ def cookieSwitch(pageItem):
         pageItem.set_cookie('membertype', currentMemberType, max_age=60 * 60 * 24 * 365)
 
     return pageItem
+
+
+def linkFormatting(s):
+    newStr = []
+    for st in s.split():
+        urlCheck = urlparse(st)
+        if urlCheck.scheme and urlCheck.netloc:
+            newStr.append(f'<a href="{st}">{st}</a>')
+        else:
+            newStr.append(st)
+    return ' '.join(newStr)
+
 
 def cleanValue(num):
     if num.is_integer():
