@@ -591,7 +591,7 @@ def eventInfo(idOfEvent):
     page = make_response(
         render_template(
             'eventMeeting.html',
-            desc=linkFormatting(checkEvent.description)
+            desc=linkFormatting(checkEvent.description),
             eventMeeting=checkEvent,
             eventMeetingData=eventMeeting,
             hourcount=cleanValue(
