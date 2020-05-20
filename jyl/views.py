@@ -5,7 +5,7 @@ from hashlib import sha256
 from datetime import datetime
 from jyl.forms import *
 from jyl.models import *
-from jyl.helpers import sendoff, cookieSwitch, cleanValue
+from jyl.helpers import *
 from flask_login import current_user, login_required
 from jyl.eventMeeting import eventMeetingProccessing
 
@@ -392,6 +392,7 @@ def meetingInfo(idOfMeeting):
     page = make_response(
         render_template(
             'eventMeeting.html',
+            desc=linkFormatting(checkMeeting.description),
             eventMeeting=checkMeeting,
             eventMeetingData=eventMeeting,
             hourcount=cleanValue(
@@ -411,16 +412,13 @@ def meetingInfo(idOfMeeting):
     return page
 
 
-@app.route('/create', methods=['GET'])
+@app.route('/leader/dashboard', methods=['GET'])
 @login_required
 def creation():
 
     if current_user.leader or current_user.admin:
 
-        page = make_response(
-            render_template(
-                'leaderDashboard.html',
-                create=True))
+        page = make_response(render_template('leaderDashboard.html'))
         page = cookieSwitch(page)
         page.set_cookie('current', 'creation', max_age=60 * 60 * 24 * 365)
         return page
@@ -536,24 +534,6 @@ def meetingCreate():
     return 'hello'
 
 
-@app.route('/edit', methods=['GET'])
-@login_required
-def modification():
-
-    if current_user.leader or current_user.admin:
-
-        page = make_response(
-            render_template(
-                'leaderDashboard.html',
-                create=False))
-        page = cookieSwitch(page)
-        page.set_cookie('current', 'modification', max_age=60 * 60 * 24 * 365)
-        return page
-
-    flash('Must be a Leader or Admin', 'warning')
-    return sendoff('index')
-
-
 @app.route('/edit/user', methods=['GET'])
 def userEditList(meetingId):
     return 'hello'
@@ -606,6 +586,7 @@ def eventInfo(idOfEvent):
     page = make_response(
         render_template(
             'eventMeeting.html',
+            desc=linkFormatting(checkEvent.description)
             eventMeeting=checkEvent,
             eventMeetingData=eventMeeting,
             hourcount=cleanValue(
