@@ -15,7 +15,7 @@
         {% else %}
         <h1>{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
         {% endif %}
-        <h4>Description: {{ eventMeeting.description }}</h4>
+        <h4>Description: {{ desc }}</h4>
         <h4>Location: {{ eventMeeting.location }}</h4>
     </div>
     <div class="column">
@@ -51,7 +51,13 @@
             <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
             <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
-            <a href="#make-review"><li><span>{{ eventMeeting.upvote }}<i class="fas fa-smile-beam"></i></i></span><span>{{ eventMeeting.unsurevote }}<i class="fas fa-meh"></i></span><span>{{ eventMeeting.downvote }}<i class="fas fa-frown"></i></span></li></a>
+            <a href="#make-review">
+                <li>
+                    <span>{{ eventMeeting.upvote }} <i class="fas fa-smile-beam"></i></span>
+                    <span>{{ eventMeeting.unsurevote }} <i class="fas fa-meh"></i></span>
+                    <span>{{ eventMeeting.downvote }} <i class="fas fa-frown"></i></span>
+                </li>
+            </a>
             {% for i in range(reviewlen) %}
             <a href="#make-review">
                 <li>
@@ -64,9 +70,9 @@
                     <i class="fas fa-meh"></i>
                     {% endif %}
                     {% if eventMeetingData['userreviewwho'][i].nicknameapprove %}
-                    {{ eventMeetingData['userreviewwho'][i].nickname}}
+                    {{ eventMeetingData['userreviewwho'][i].nickname}}: 
                     {% else %}
-                    {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}
+                    {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}: 
                     {% endif %}
                     {{ eventMeetingData['userreview'][i].comment }}
                     </h4>
