@@ -130,16 +130,16 @@ Somebody (hopefully you!) requested a password reset for a JYL Toolbox account.
 Your reset link is here: {reset_url}. It will expire in 30 minutes.
 
 - JYL Toolbox
-        '''
+            '''
 
-        '''
-        msg = Message('Password Reset - JYL Toolbox',
-          sender='email@gmail.com',
-          recipients=[user.email])
-        msg.body = text
-        msg.html = html
-        mail.send(msg)
-        '''
+            '''
+            msg = Message('Password Reset - JYL Toolbox',
+              sender='email@gmail.com',
+              recipients=[user.email])
+            msg.body = text
+            msg.html = html
+            mail.send(msg)
+            '''
 
             return html
 
