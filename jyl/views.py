@@ -439,6 +439,14 @@ def userCreation():
 
             try:
 
+                duplicationCheck = User.query.filter_by(email=form.email.data)
+
+                if duplicationCheck is not None:
+
+                    flash('Duplicate email found', 'error')
+
+                    return render_template('userCreate.html', form=form)
+
                 samename = User.query.filter_by(
                     firstname=form.first.data,
                     lastname=form.lastname.data).all()
