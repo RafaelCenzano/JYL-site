@@ -546,13 +546,13 @@ def userEdit(userId=None, num=0, first=None, last=None):
 
 
 @app.route('/profile/<int:num>/<first>/<last>/request/nickname', methods=['GET', 'POST'])
-def userNickname(num, first, last):
+def userNicknameRequest(num, first, last):
     return 'hello'
 
 
 @app.route('/profile/<int:num>/<first>/<last>/nickname', methods=['GET', 'POST'])
-def userNicknameRequest(num, first, last):
-    return 'hello'
+def userNicknameAccept(num, first, last):
+    return 'hello' 
 
 
 @app.route('/edit/event', methods=['GET'])
@@ -676,7 +676,6 @@ def eventNotGoing(idOfEvent):
     return eventInfo(idOfEvent)
 
 
-
 @app.route('/members', methods=['GET'])
 @login_required
 def members():
@@ -738,6 +737,25 @@ def memberType(identifier):
         identifier,
         max_age=60 * 60 * 24 * 365)
     return page
+
+
+@app.route('/membersdata', methods=['GET'])
+@login_required
+def memberData():
+
+    if current_user.leader:
+
+        users = User.query.filter_by(currentmember=True, leader=False).all()
+
+        users.sort(key=lambda user: user.lastname)
+
+        page = make_response(render_template('membersdata.html'), users=users)
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/upcoming/meetings', methods=['GET'])
@@ -812,7 +830,7 @@ def upcomingEvents():
     return page
 
 
-@app.route('/robots.txt', methods=['GET'])
+app.route('/robots.txt', methods=['GET'])
 def robots():
     return send_file('templates/seo/robots.txt')
 
