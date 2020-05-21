@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Leader Dashboard{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="name">Leader Dashboard</h1>
+<div class="half-grid">
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Create</h2></li>
+            <a href="{{ url_for('meetingCreate') }}">
+                <li>
+                    <h4>New Meeting</h4>
+                    <p>Create a new meeting</p>
+                </li>
+            </a>
+            <a href="{{ url_for('eventCreation') }}">
+                <li>
+                    <h4>New Event</h4>
+                    <p>Create a new event</p>
+                </li>
+            </a>
+            <a href="{{ url_for('userCreation') }}">
+                <li>
+                    <h4>New User</h4>
+                    <p>Create a new user</p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Edit</h2></li>
+            <a href="{{ url_for('meetingEditList') }}">
+                <li>
+                    <h4>Change Metting</h4>
+                    <p>Edit a meeting from a meeting list</p>
+                </li>
+            </a>
+            <a href="{{ url_for('eventEditList') }}">
+                <li>
+                    <h4>Change Event</h4>
+                    <p>Edit a meeting from an event list</p>
+                </li>
+            </a>
+            <a href="{{ url_for('userEditList') }}">
+                <li>
+                    <h4>Change User</h4>
+                    <p>Edit a user from a user list</p>
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+{% endblock %}
