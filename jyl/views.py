@@ -482,7 +482,9 @@ def userCreation():
                     school=form.school.data,
                     grade=form.grade.data,
                     currentmember=True,
-                    phonenumber=None,
+                    areacode=None,
+                    phone2=None,
+                    phone3=None,
                     showemail=False,
                     showphone=False,
                     bio=None)
