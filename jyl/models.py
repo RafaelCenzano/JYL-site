@@ -34,7 +34,9 @@ class User(db.Model, UserMixin):
     grade = db.Column(db.Integer, unique=False)
     currentmember = db.Column(db.Boolean, unique=False)
     bio = db.Column(db.String(500), unique=False)
-    phonenumber = db.Column(db.Integer, unique=True)
+    areacode = db.Column(db.Integer, unique=True)
+    phone2 = db.Column(db.Integer, unique=True)
+    phone3 = db.Column(db.Integer, unique=True)
     showemail = db.Column(db.Boolean, unique=False, default=False)
     showphone = db.Column(db.Boolean, unique=False, default=False)
 
