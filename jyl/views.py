@@ -474,6 +474,9 @@ def userCreation():
                     school=form.school.data,
                     grade=form.grade.data,
                     currentmember=True,
+                    phonenumber=None,
+                    showemail=False,
+                    showphone=False,
                     bio=None)
 
                 db.session.add(newUser)
