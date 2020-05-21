@@ -40,7 +40,6 @@ Email: {form.email.data}
         recipients = User.query.filter_by(admin=True, currentmember=True).all()
 
         msg = Message('Bug Report - JYL Toolbox',
-          sender='email@gmail.com',
           recipients=recipients)
         msg.body = text
         msg.html = html
@@ -93,7 +92,6 @@ Email: {form.email.data}
         recipients = User.query.filter_by(admin=True, currentmemner=True).all()
 
         msg = Message('Feature Request - JYL Toolbox',
-          sender='email@gmail.com',
           recipients=recipients)
         msg.body = text
         msg.html = html
