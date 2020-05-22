@@ -12,7 +12,9 @@
 <table id="example" class="display" style="width:100%">
   <thead>
     <tr>
-      <th class="th-sm">Name
+      <th class="th-sm">Last Name
+      </th>
+      <th class="th-sm">First Name
       </th>
       <th class="th-sm">Email
       </th>
@@ -47,7 +49,8 @@
   <tbody>
     {% for user in users %}
     <tr>
-      <td>{{ user.firstname }} {{ user.lastname }}</td>
+      <td>{{ user.lastname }}</td>
+      <td>{{ user.firstname }}</td>
       <td>{{ user.email }}</td>
       <td>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</td>
       <td>{{ user.school }}</td>
@@ -67,7 +70,9 @@
   </tbody>
   <tfoot>
     <tr>
-      <th class="th-sm">Name
+      <th class="th-sm">Last Name
+      </th>
+      <th class="th-sm">First Name
       </th>
       <th class="th-sm">Email
       </th>
