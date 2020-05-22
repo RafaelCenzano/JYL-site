@@ -777,7 +777,7 @@ def memberDataOld():
 
         page = make_response(render_template('membersdata.html', users=users, oldCheck=False))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'memberDataOld', max_age=60 * 60 * 24 * 365)
         return page
 
     flash('Must be a Leader', 'warning')
