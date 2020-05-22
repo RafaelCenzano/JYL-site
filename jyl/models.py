@@ -160,8 +160,8 @@ class Group(db.Model):
         db.ForeignKey('user.id'),
         primary_key=True,
         unique=False)
-    description = db.Column(db.String(500), nullable=False, unique=False)
     currentYear = db.Column(db.Boolean, unique=False)
+    goal = db.Column(db.String(500), unique=False)
 
     def __repr__(self):
         return f'Group id:{self.id}'
