@@ -149,6 +149,36 @@ class UserEvent(db.Model):
         if self.attended:
             return f'User: {self.userid} went to event:{self.eventid})'
         elif self.going:
-            return f'User: {self.userid} wants to go to meeting:{self.eventid})'
+            return f'User: {self.userid} wants to go to event:{self.eventid})'
         return f'User: {self.userid} event:{self.eventid})'
+
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    leaderid = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'),
+        primary_key=True,
+        unique=False)
+    description = db.Column(db.String(500), nullable=False, unique=False)
+    currentYear = db.Column(db.Boolean, unique=False)
+
+    def __repr__(self):
+        return f'Group id:{self.id}'
+
+
+class UserGroup(db.Model):
+    groupid = db.Column(
+        db.Integer,
+        db.ForeignKey('group.id'),
+        primary_key=True,
+        unique=False)
+    userid = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'),
+        primary_key=True,
+        unique=False)
+
+    def __repr__(self):
+        return f'User {userid} is in {groupid} group'
 
