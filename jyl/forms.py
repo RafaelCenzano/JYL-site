@@ -35,18 +35,9 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset Password')
 
 
-class BugReportForm(FlaskForm):
-    name = StringField('Name')
-    email = StringField('Email')
-    bug = StringField('Bug', validators=[DataRequired(), Length(max=500, message='Bug report must be 500 characters or less')])
-    submit = SubmitField('Submit Bug Report')
-
-
-class FeatureRequestForm(FlaskForm):
-    name = StringField('Name')
-    email = StringField('Email')
-    bug = StringField('Feature', validators=[DataRequired(), Length(max=500, message='Feature request must be 500 characters or less')])
-    submit = SubmitField('Submit Feature Request')
+class UserRequestForm(FlaskForm):
+    text = StringField('Message', validators=[DataRequired(), Length(max=1000, message='Bug report must be 1000 characters or less')])
+    submit = SubmitField('Submit')
 
 
 class CreateUser(FlaskForm):
