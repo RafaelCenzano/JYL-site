@@ -760,7 +760,7 @@ def memberData():
 
         users.sort(key=lambda user: user.lastname)
 
-        page = make_response(render_template('membersdata.html'), users=users)
+        page = make_response(render_template('membersdata.html', users=users))
         page = cookieSwitch(page)
         page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
         return page
