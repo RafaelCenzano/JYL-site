@@ -3,12 +3,13 @@
 {% block title %}Leader Dashboard{% endblock %}
 
 {% block head_css %}
-<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/table.css') }}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tables.css') }}">
 {% endblock %}
 
 {% block content %}
 <h1 class="name">Member Data</h1>
-<table id="selectedColumn" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+<table id="example" class="display" style="width:100%">
   <thead>
     <tr>
       <th class="th-sm">Name
@@ -56,7 +57,6 @@
       <td>{{ user.currentMeetingCount }}</td>
       <td>{{ user.currentEventHours }}</td>
       <td>{{ user.currentEventCount }}</td>
-      <td>{{ user.currentMeetingHours }}</td>
       <td>{{ user.lifetimeHours }}</td>
       <td>{{ user.lifetimeMeetingHours }}</td>
       <td>{{ user.lifetimeMeetingCount }}</td>
@@ -103,6 +103,7 @@
 {% endblock %}
 
 {% block trailing_js %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="{{ url_for('static', filename='js/table.js') }}"></script>
 {% endblock %}
