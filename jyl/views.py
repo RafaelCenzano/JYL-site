@@ -785,7 +785,7 @@ def memberDataOld():
 
 
 @app.route('/upcoming/meetings', methods=['GET'])
-@login_required
+@login_required 
 def upcomingMeetings():
 
     meetings = []
