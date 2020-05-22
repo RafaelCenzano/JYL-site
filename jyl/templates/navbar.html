@@ -14,8 +14,8 @@
     </div>
     <div class="column">
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('upcomingMeetings') }}">Upcoming Meetings <i class="fas fa-calendar-check nav-icon"></i></a>
-        <a href="{{ url_for('upcomingEvents') }}">Upcoming Events <i class="fas fa-calendar-check nav-icon"></i></a>
+        <a href="{{ url_for('upcomingMeetings') }}">Upcoming Meetings <i class="fas fa-calendar-plus"></i></a>
+        <a href="{{ url_for('upcomingEvents') }}">Upcoming Events <i class="fas fa-calendar-plus"></i></a>
         <a href="{{ url_for('profileMeeting', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">My Meetings <i class="fas fa-calendar-check nav-icon"></i></a>
         <a href="{{ url_for('profileEvent', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">My Events <i class="fas fa-calendar-check nav-icon"></i></a>
         <a href="{{ url_for('members') }}">JYL Members <i class="fas fa-user nav-icon"></i></a>
