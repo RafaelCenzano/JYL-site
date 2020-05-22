@@ -14,12 +14,14 @@ def bugreport():
     form = UserRequestForm()
     if form.validate_on_submit():
 
+        name = current_user.firstname + ' ' + current_user.lastname
+
         html = render_template(
             'userform_email.html',
             type='Bug Report',
-            name=form.name.data,
-            email=form.email.data,
-            text=form.bug.data)
+            name=name,
+            email=current_user.email,
+            text=form.text.data)
 
         text = f'''
 Hi,
@@ -28,9 +30,9 @@ A Bug Report for JYL Toolbox has been submitted
 
 Name: {form.name.data}
 
-Email: {form.email.data}
+Email: {current_user.email}
 
-{form.bug.data}
+{form.text.data}
 
 - JYL Toolbox
         '''
@@ -51,9 +53,7 @@ Email: {form.email.data}
         return sendoff('index')
 
     page = make_response(render_template('userform.html', form=form, type='Bug Report'))
-
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'bugreport', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -105,9 +105,7 @@ Email: {current_user.email}
         return sendoff('index')
 
     page = make_response(render_template('userform.html', form=form, type='Feature Request'))
-
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'featurerequest', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -123,6 +121,7 @@ def helprequest():
 
         html = render_template(
             'userform_email.html',
+            type='Help Request',
             name=name,
             email=current_user.email,
             text=form.text.data)
@@ -144,9 +143,9 @@ Email: {current_user.email}
         '''
 
         '''
-        recipients = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
+        recipients = User.query.filter_by(currentmember=True, Leader=True).all()
 
-        msg = Message('Feature Request - JYL Toolbox',
+        msg = Message('Help Request - JYL Toolbox',
           recipients=recipients)
         msg.body = text
         msg.html = html
@@ -155,14 +154,12 @@ Email: {current_user.email}
 
         return html
 
-        flash('Your feature request has been submitted', 'info')
+        flash('Your help request has been submitted', 'info')
 
         return sendoff('index')
 
-    page = make_response(render_template('userform.html', form=form, type='Feature Request'))
-
+    page = make_response(render_template('userform.html', form=form, type='Help Request'))
     page = cookieSwitch(page)
-
-    page.set_cookie('current', 'featurerequest', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'helprequest', max_age=60 * 60 * 24 * 365)
     return page
 
