@@ -12,36 +12,18 @@
     {{ form.hidden_tag() }}
     <h2 class="form-title">{{ type }}</h2>
     <div class="form-group">
-    {{ form.name.label(class="form-label-css") }}
-    <br>
-    {{ form.name() }}
-    </div>
     <div class="form-group">
-    {{ form.email.label(class="form-label-css") }}
+    {{ form.text.label(class="form-label-css") }}
     <br>
-    {% if form.email.errors %}
-        {{ form.email(class="form-control form-control-lg is-invalid") }}
+    {% if form.text.errors %}
+        {{ form.text(class="form-control form-control-lg is-invalid") }}
         <div class="invalid-feedback">
-            {% for error in form.email.errors %}
+            {% for error in form.text.errors %}
                 <span>{{ error }}</span>
             {% endfor %}
         </div>
     {% else %}
-        {{ form.email() }}
-    {% endif %}
-    </div>
-    <div class="form-group">
-    {{ form.bug.label(class="form-label-css") }}
-    <br>
-    {% if form.bug.errors %}
-        {{ form.bug(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-            {% for error in form.bug.errors %}
-                <span>{{ error }}</span>
-            {% endfor %}
-        </div>
-    {% else %}
-        {{ form.bug() }}
+        {{ form.text() }}
     {% endif %}
     </div>
     <div class="form-group">
