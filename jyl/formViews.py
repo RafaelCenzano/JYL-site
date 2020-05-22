@@ -37,7 +37,7 @@ Email: {form.email.data}
         '''
 
         '''
-        recipients = User.query.filter_by(admin=True, currentmember=True).all()
+        recipients = User.query.filter_by(admin=True, currentmember=True, leader=False).all()
 
         msg = Message('Bug Report - JYL Toolbox',
           recipients=recipients)
@@ -89,7 +89,7 @@ Email: {form.email.data}
         '''
 
         '''
-        recipients = User.query.filter_by(admin=True, currentmemner=True).all()
+        recipients = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
 
         msg = Message('Feature Request - JYL Toolbox',
           recipients=recipients)
