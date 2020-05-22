@@ -8,58 +8,50 @@
 {% endblock %}
 
 {% block content %}
+{% if oldCheck %}
 <h1 class="name">Member Data</h1>
+{% else %}
+<h1 class="name">Past Member Data</h1>
+{% endif %}
 <table id="example" class="display" style="width:100%">
   <thead>
     <tr>
-      <th class="th-sm">Last Name
-      </th>
-      <th class="th-sm">First Name
-      </th>
-      <th class="th-sm">Email
-      </th>
-      <th class="th-sm">Phone Number
-      </th>
-      <th class="th-sm">School
-      </th>
-      <th class="th-sm">Grade
-      </th>
-      <th class="th-sm">Current Hours
-      </th>
-      <th class="th-sm">Current Meeting Hours
-      </th>
-      <th class="th-sm">Current Meeting Count
-      </th>
-      <th class="th-sm">Current Event Hours
-      </th>
-      <th class="th-sm">Current Event Count
-      </th>
-      <th class="th-sm">Lifetime Hours
-      </th>
-      <th class="th-sm">Lifetime Meeting Hours
-      </th>
-      <th class="th-sm">Lifetime Meeting Count
-      </th>
-      <th class="th-sm">Lifetime Event Hours
-      </th>
-      <th class="th-sm">Lifetime Event Count
-      </th>
+      <th class="th-sm">Last Name</th>
+      <th class="th-sm">First Name</th>
+      <th class="th-sm">Email</th>
+      <th class="th-sm">Phone Number</th>
+      <th class="th-sm">School</th>
+      <th class="th-sm">Grade</th>
+      {% if oldCheck %}
+      <th class="th-sm">Current Hours</th>
+      <th class="th-sm">Current Meeting Hours</th>
+      <th class="th-sm">Current Meeting Count</th>
+      <th class="th-sm">Current Event Hours</th>
+      <th class="th-sm">Current Event Count</th>
+      {% endif %}
+      <th class="th-sm">Lifetime Hours</th>
+      <th class="th-sm">Lifetime Meeting Hours</th>
+      <th class="th-sm">Lifetime Meeting Count</th>
+      <th class="th-sm">Lifetime Event Hours</th>
+      <th class="th-sm">Lifetime Event Count</th>
     </tr>
   </thead>
   <tbody>
     {% for user in users %}
     <tr>
-      <td>{{ user.lastname }}</td>
+      <td>{{ user.lastname }}</a></td>
       <td>{{ user.firstname }}</td>
       <td>{{ user.email }}</td>
       <td>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</td>
       <td>{{ user.school }}</td>
       <td>{{ user.grade }}</td>
+      {% if oldCheck %}
       <td>{{ user.currentHours }}</td>
       <td>{{ user.currentMeetingHours }}</td>
       <td>{{ user.currentMeetingCount }}</td>
       <td>{{ user.currentEventHours }}</td>
       <td>{{ user.currentEventCount }}</td>
+      {% endif %}
       <td>{{ user.lifetimeHours }}</td>
       <td>{{ user.lifetimeMeetingHours }}</td>
       <td>{{ user.lifetimeMeetingCount }}</td>
@@ -70,41 +62,30 @@
   </tbody>
   <tfoot>
     <tr>
-      <th class="th-sm">Last Name
-      </th>
-      <th class="th-sm">First Name
-      </th>
-      <th class="th-sm">Email
-      </th>
-      <th class="th-sm">Phone Number
-      </th>
-      <th class="th-sm">School
-      </th>
-      <th class="th-sm">Grade
-      </th>
-      <th class="th-sm">Current Hours
-      </th>
-      <th class="th-sm">Current Meeting Hours
-      </th>
-      <th class="th-sm">Current Meeting Count
-      </th>
-      <th class="th-sm">Current Event Hours
-      </th>
-      <th class="th-sm">Current Event Count
-      </th>
-      <th class="th-sm">Lifetime Hours
-      </th>
-      <th class="th-sm">Lifetime Meeting Hours
-      </th>
-      <th class="th-sm">Lifetime Meeting Count
-      </th>
-      <th class="th-sm">Lifetime Event Hours
-      </th>
-      <th class="th-sm">Lifetime Event Count
-      </th>
+      <th class="th-sm">Last Name</th>
+      <th class="th-sm">First Name</th>
+      <th class="th-sm">Email</th>
+      <th class="th-sm">Phone Number</th>
+      <th class="th-sm">School</th>
+      <th class="th-sm">Grade</th>
+      {% if oldCheck %}
+      <th class="th-sm">Current Hours</th>
+      <th class="th-sm">Current Meeting Hours</th>
+      <th class="th-sm">Current Meeting Count</th>
+      <th class="th-sm">Current Event Hours</th>
+      <th class="th-sm">Current Event Count</th>
+      {% endif %}
+      <th class="th-sm">Lifetime Hours</th>
+      <th class="th-sm">Lifetime Meeting Hours</th>
+      <th class="th-sm">Lifetime Meeting Count</th>
+      <th class="th-sm">Lifetime Event Hours</th>
+      <th class="th-sm">Lifetime Event Count</th>
     </tr>
   </tfoot>
 </table>
+{% if oldCheck %}
+<a href="{{ url_for('memberDataOld') }}">View Past Member Data</a>
+{% endif %}
 {% endblock %}
 
 {% block trailing_js %}

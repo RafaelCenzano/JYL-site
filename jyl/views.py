@@ -758,14 +758,29 @@ def memberData():
 
         users = User.query.filter_by(currentmember=True, leader=False).all()
 
-        users.sort(key=lambda user: user.lastname)
-
-        page = make_response(render_template('membersdata.html', users=users))
+        page = make_response(render_template('membersdata.html', users=users, oldCheck=True))
         page = cookieSwitch(page)
         page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
         return page
 
-    flash('Must be a Leader or Admin', 'warning')
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/membersdata/old', methods=['GET'])
+@login_required
+def memberDataOld():
+
+    if current_user.leader:
+
+        users = User.query.filter_by(currentmember=False, leader=False).all()
+
+        page = make_response(render_template('membersdata.html', users=users, oldCheck=False))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader', 'warning')
     return sendoff('index')
 
 
