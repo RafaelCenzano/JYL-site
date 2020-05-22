@@ -2,6 +2,7 @@ from jyl import db, app, bcrypt
 from jyl.models import *
 from hashlib import sha256
 from datetime import datetime
+import random
 
 db.drop_all()
 db.create_all()
@@ -406,3 +407,45 @@ db.session.add(usermeeting7)
 
 # commit the chagnes to the db
 db.session.commit()
+
+firstnames = ['Jim','Dwight','Stanley','Phyllis','Toby','Micheal','Pam','Kelly','Ryan','Creed','Darryl','Mose','Angela']
+lastnames = ['Halpert','Schrute','Hudson','Vance','Flenderson','Scott','Halpert','Kapoor','Howard','Bratton','Philbin','Schrute','Schrute']
+
+for i in range(len(firstnames)):
+    
+    email = random.choice(['gmail','yahoo','outlook'])
+
+    first = repr(random.randrange(100,999))
+    last = repr(random.randrange(1000,9999))
+    middle = repr(random.randrange(100,999))
+
+    user = User(
+    firstname=firstnames[i],
+    lastname=lastnames[i],
+    email=f'{firstnames[i]}{lastnames[i]}@{email}.com',
+    password='hello',
+    lifetimeHours=round(random.random()*300,1),
+    lifetimeMeetingHours=round(random.random()*40*3,1),
+    lifetimeEventHours=round(random.random()*60*3,1),
+    lifetimeMeetingCount=random.randrange(3,50),
+    lifetimeEventCount=random.randrange(3,50),
+    currentHours=round(random.random()*100,1),
+    currentMeetingHours=round(random.random()*40,1),
+    currentEventHours=round(random.random()*60,1),
+    currentMeetingCount=random.randrange(3,25),
+    currentEventCount=random.randrange(3,25),
+    nickname='THE OFFICE',
+    nicknameapprove=False,
+    admin=False,
+    leader=False,
+    namecount=0,
+    school=random.choice(['Stamford','Scranton','New York']),
+    grade=random.randrange(9,12),
+    currentmember=True,
+    numberphone=f'{first}{middle}{last}',
+    showemail=True,
+    showphone=True,
+    bio='The Office is amazing')
+
+    db.session.add(user)
+    db.session.commit()
