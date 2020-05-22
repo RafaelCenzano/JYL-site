@@ -33,6 +33,7 @@
             {% else %}
             <li><h2 class="profiletitle">Members Attended</h2></li>
             {% endif %}
+            {% if eventMeetingData['users'] %}
             {% for people in eventMeetingData['users'] %}
             <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
                 <li>
@@ -40,6 +41,13 @@
                 </li>
             </a>
             {% endfor %}
+            {% else %}
+            {% if eventMeetingData['future'] %}
+            <li><p class="profiletitle">No members have shown interest in going</p></li>
+            {% else %}
+            <li><p class="profiletitle">No members have attended</p></li>
+            {% endif %}
+            {% endif %}
         </ul>
     </div>
     <div class="column">
