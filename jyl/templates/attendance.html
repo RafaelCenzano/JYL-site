@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <h2 class="form-title">Event Attendance</h2>
+    {% for user in inputs %}
+    <div class="form-group">
+        {% if user['check'] %}<input name="{{ user['id'] }}" type="checkbox" checked>{% else %}<input name="{{ user['id'] }}" type="checkbox">{% endif %}<label>{% if user['nicknameapprove'] %}{{ user['nickname'] }}{% else %}{{ user['firstname'] }} {{ user['lastname'] }}{% endif %}</label><br>
+    </div>
+    {% endfor %}
+    <div class="form-group">
+        <input type="submit" value="Submit"><br>
+    </div>
+</form>
+{% endblock content %}
