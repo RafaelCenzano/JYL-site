@@ -643,6 +643,8 @@ def userCreation():
                     numberphone=None,
                     showemail=False,
                     showphone=False,
+                    showaddr=False,
+                    address=None,
                     bio=None)
 
                 db.session.add(newUser)
