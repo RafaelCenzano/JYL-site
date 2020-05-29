@@ -45,6 +45,8 @@ user1 = User(
     numberphone='4156007000',
     showemail=False,
     showphone=False,
+    showaddr=False,
+    address='Place',
     bio='876 q784538 9762547625376 328763252')
 
 user2 = User(
@@ -73,6 +75,8 @@ user2 = User(
     numberphone='4157006000',
     showemail=True,
     showphone=True,
+    showaddr=True,
+    address='Place',
     bio='88588 3g432hghjg hj2g4 jh23g4hj3g4 3hgj2343')
 
 db.session.add(user1)
@@ -524,6 +528,8 @@ for i in range(len(firstnames)):
         numberphone=f'{first}{middle}{last}',
         showemail=True,
         showphone=True,
+        showaddr=True,
+        address=random.choice(['Stamford', 'Scranton', 'New York'],
         bio='The Office is amazing')
 
     db.session.add(user)
