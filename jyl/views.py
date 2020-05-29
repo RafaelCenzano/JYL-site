@@ -733,8 +733,158 @@ def eventEditList():
 
 
 @app.route('/edit/event/<int:eventId>', methods=['GET', 'POST'])
+@login_required
 def eventEdit(eventId):
-    return 'hello'
+    
+    if current_user.leader or current_user.admin:
+
+        checkEvent = Event.query.get(eventId)
+
+        if checkEvent is None:
+
+            flash('Event not found', 'error')
+            return sendoff('index')
+
+        form = CreateEvent()
+
+        if request.method == 'POST' and form.validate_on_submit():
+
+            checkEvent.name = form.name.data
+            checkEvent.description = form.description.data
+            checkEvent.location = form.location.data
+            checkEvent.start = form.starttime.data
+            checkEvent.end = form.endtime.data
+
+            db.session.commit()
+∂
+            flash('Event edited successfully!', 'success')
+            return redirect(url_for('eventEditList'))
+
+        form.name.data = checkEvent.name
+        form.description.data = checkEvent.description
+        form.location.data = checkEvent.location
+        form.starttime.data = checkEvent.start
+        form.endtime.data = checkEvent.end
+
+        page = make_response(render_template('editEvent.html', form=form))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+@app.route('/event/<int:eventId>/edit', methods=['GET', 'POST'])
+@login_required
+def eventEdit2(eventId):
+    
+    if current_user.leader or current_user.admin:
+
+        checkEvent = Event.query.get(eventId)
+
+        if checkEvent is None:
+
+            flash('Event not found', 'error')
+            return sendoff('index')
+
+        form = CreateEvent()
+
+        if request.method == 'POST' and form.validate_on_submit():
+
+            checkEvent.name = form.name.data
+            checkEvent.description = form.description.data
+            checkEvent.location = form.location.data
+            checkEvent.start = form.starttime.data
+            checkEvent.end = form.endtime.data
+
+            db.session.commit()
+
+            flash('Event edited successfully!', 'success')
+            return redirect(url_for('eventInfo', idOfEvent=eventId))
+
+        form.name.data = checkEvent.name
+        form.description.data = checkEvent.description
+        form.location.data = checkEvent.location
+        form.starttime.data = checkEvent.start
+        form.endtime.data = checkEvent.end
+
+        page = make_response(render_template('editEvent.html', form=form))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+@app.route('/event/<int:eventId>/attendance', methods=['GET', 'POST'])
+@login_required
+def eventAttendance(eventId):
+    
+    if current_user.leader or current_user.admin:
+
+        checkEvent = Event.query.get(eventId)
+
+        if checkEvent is None:
+
+            flash('Event not found', 'error')
+            return sendoff('index')
+
+        if request.method == 'POST':
+
+            users = User.query.filter_by(currentmember=True).all()
+            thisUserEvent = UserEvent.query.filter_by(eventid=eventId).all()
+
+            users.sort(key=lambda user: user.lastname)
+
+            for user in users:
+
+                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+
+                checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+
+                if checkUserEvent is not None and thisUser is None:
+                    checkUserEvent.attended = False
+                    db.session.commit()
+                elif checkUserEvent is not None and thisUser is not None:
+                    checkUserEvent.attended = True
+                    db.session.commit()
+                elif thisUser and checkUserEvent is None:
+                    newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    db.session.add(newUserEvent)
+                    db.session.commit()
+
+            flash('Event edited successfully!', 'success')
+            return redirect(url_for('eventInfo', idOfEvent=eventId))
+
+        users = User.query.filter_by(currentmember=True).all()
+        inputs = []
+
+        users.sort(key=lambda user: user.lastname)
+
+        for user in users:
+
+            checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+
+            data = {}
+
+            data['check'] = False
+
+            if checkUserEvent is not None and checkUserEvent.attended:
+                data['check'] = True
+
+            data['nicknameapprove'] = user.nicknameapprove
+            data['firstname'] = user.firstname
+            data['lastname'] = user.lastname
+            data['nickname'] = user.nickname
+            data['id'] = user.firstname + user.lastname + repr(user.namecount)
+
+            inputs.append(data)
+
+        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/edit/meeting', methods=['GET'])
