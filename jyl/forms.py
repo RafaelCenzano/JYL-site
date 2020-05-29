@@ -58,6 +58,7 @@ class CreateEvent(FlaskForm):
     location = StringField('Location', validators=[DataRequired(), Length(max=150)])
     starttime = DateTimeField('Start Time', validators=[DataRequired()])
     endtime = DateTimeField('End Time', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 class CreateMeeting(FlaskForm):
@@ -65,6 +66,7 @@ class CreateMeeting(FlaskForm):
     location = StringField('Location', validators=[DataRequired(), Length(max=150)])
     starttime = DateTimeField('Start Time', validators=[DataRequired()])
     endtime = DateTimeField('End Time', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 class EditUser(FlaskForm):
