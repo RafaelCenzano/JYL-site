@@ -20,6 +20,7 @@
       <th class="th-sm">First Name</th>
       <th class="th-sm">Email</th>
       <th class="th-sm">Phone Number</th>
+      <th class="th-sm">Address</th>
       <th class="th-sm">School</th>
       <th class="th-sm">Grade</th>
       {% if oldCheck %}
@@ -43,6 +44,7 @@
       <td>{{ user.firstname }}</td>
       <td>{{ user.email }}</td>
       <td>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</td>
+      <td>{{ user.address }}</td>
       <td>{{ user.school }}</td>
       <td>{{ user.grade }}</td>
       {% if oldCheck %}
@@ -66,6 +68,7 @@
       <th class="th-sm">First Name</th>
       <th class="th-sm">Email</th>
       <th class="th-sm">Phone Number</th>
+      <th class="th-sm">Address</th>
       <th class="th-sm">School</th>
       <th class="th-sm">Grade</th>
       {% if oldCheck %}
