@@ -529,7 +529,7 @@ for i in range(len(firstnames)):
         showemail=True,
         showphone=True,
         showaddr=True,
-        address=random.choice(['Stamford', 'Scranton', 'New York'],
+        address=random.choice(['Stamford', 'Scranton', 'New York']),
         bio='The Office is amazing')
 
     db.session.add(user)
