@@ -708,6 +708,7 @@ def userEditList(meetingId):
     return 'hello'
 
 
+# split or use one
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
 @app.route('/profile/<int:num>/<first>/<last>/edit', methods=['GET', 'POST'])
 def userEdit(userId=None, num=0, first=None, last=None):
