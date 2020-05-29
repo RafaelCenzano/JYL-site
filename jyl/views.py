@@ -756,7 +756,7 @@ def eventEdit(eventId):
             checkEvent.end = form.endtime.data
 
             db.session.commit()
-∂
+
             flash('Event edited successfully!', 'success')
             return redirect(url_for('eventEditList'))
 
@@ -953,10 +953,11 @@ def eventGoing(idOfEvent):
         flash('Already showed interest in this event', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    elif eventuser.going == False:
+    elif eventuser is not None and eventuser.going == False:
 
         eventuser.going = True
         db.session.commit()
+        flash('You have shown your interest in this event', 'success')
 
     else:
 
@@ -964,7 +965,7 @@ def eventGoing(idOfEvent):
         db.session.add(userevent)
         db.session.commit()
 
-    return eventInfo(idOfEvent)
+    return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
 
 @app.route('/event/<int:idOfEvent>/notgoing', methods=['GET'])
@@ -985,17 +986,18 @@ def eventNotGoing(idOfEvent):
 
     eventuser = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
 
-    if eventuser is not None and eventuser.going == False:
+    if eventuser is not None and eventuser.going == False or eventuser is None:
 
         flash('You haven\'t showed interest in this event', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    elif eventuser.going:
+    elif eventuser is not None and eventuser.going:
 
         eventuser.going = False
         db.session.commit()
+        flash('You have removed your interest in this event', 'success')
 
-    return eventInfo(idOfEvent)
+    return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
 
 @app.route('/members', methods=['GET'])
