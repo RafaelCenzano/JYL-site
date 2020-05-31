@@ -547,6 +547,15 @@ def meetingInfo(idOfMeeting):
 
     eventMeeting = eventMeetingProccessing(checkMeeting, meeting=True)
 
+    if eventMeeting['future']:
+        checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=current_user.id).first()
+
+        if checkUserMeeting is not None:
+            eventMeeting['usergoing'] = checkUserMeeting.going
+        else:
+            eventMeeting['usergoing'] = False
+
+
     page = make_response(
         render_template(
             'eventMeeting.html',
@@ -910,6 +919,14 @@ def eventInfo(idOfEvent):
 
     eventMeeting = eventMeetingProccessing(checkEvent, meeting=False)
 
+    if eventMeeting['future']:
+        checkUserEvent = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+
+        if checkUserEvent is not None:
+            eventMeeting['usergoing'] = checkUserEvent.going
+        else:
+            eventMeeting['usergoing'] = False
+
     page = make_response(
         render_template(
             'eventMeeting.html',
@@ -998,6 +1015,76 @@ def eventNotGoing(idOfEvent):
         flash('You have removed your interest in this event', 'success')
 
     return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+
+@app.route('/meeting/<int:idOfMeeting>/going', methods=['GET'])
+@login_required
+def meetingGoing(idOfMeeting):
+
+    checkMeeting = Meeting.query.get(idOfMeeting)
+
+    if checkMeeting is None:
+
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
+    elif checkMeeting.start <= datetime.now():
+
+        flash('Meeting occured already', 'error')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    meetinguser = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=current_user.id).first()
+
+    if meetinguser is not None and meetinguser.going:
+
+        flash('Already showed interest in this meeting', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    elif meetinguser is not None and meetinguser.going == False:
+
+        meetinguser.going = True
+        db.session.commit()
+        flash('You have shown your interest in this meeting', 'success')
+
+    else:
+
+        usermeeting = UserMeeting(meetingid=idOfMeeting, userid=current_user.id, attended=False, going=True, currentYear=True, upvote=False, unsurevote=False, downvote=False)
+        db.session.add(usermeeting)
+        db.session.commit()
+
+    return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+
+@app.route('/meeting/<int:idOfMeeting>/notgoing', methods=['GET'])
+@login_required
+def meetingNotGoing(idOfMeeting):
+
+    checkMeeting = Meeting.query.get(idOfMeeting)
+
+    if checkMeeting is None:
+
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
+    elif checkMeeting.start <= datetime.now():
+
+        flash('Meeting occured already', 'error')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    meetinguser = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=current_user.id).first()
+
+    if meetinguser is not None and meetinguser.going == False or meetinguser is None:
+
+        flash('You haven\'t showed interest in this meeting', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    elif meetinguser is not None and meetinguser.going:
+
+        meetinguser.going = False
+        db.session.commit()
+        flash('You have removed your interest in this meeting', 'success')
+
+    return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
 
 @app.route('/members', methods=['GET'])
