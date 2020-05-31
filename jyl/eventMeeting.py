@@ -9,6 +9,8 @@ def eventMeetingProccessing(check, meeting):
 
     if check.start > datetime.now():
 
+        eventMeeting['future'] = True
+
         if meeting:
             users = UserMeeting.query.filter_by(
                 meetingid=check.id, going=True, attended=False).all()
@@ -21,6 +23,8 @@ def eventMeetingProccessing(check, meeting):
         eventMeeting['future'] = True
 
     else:
+
+        eventMeeting['future'] = False
 
         if meeting:
             users = UserMeeting.query.filter_by(
