@@ -545,20 +545,19 @@ def meetingInfo(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
-    eventMeeting = eventMeetingProccessing(checkMeeting, meeting=True)
+    eventMeeting = eventMeetingProccessing(checkMeeting, True)
+
+    areyougoing = False
 
     if eventMeeting['future']:
-        checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=current_user.id).first()
-
-        if checkUserMeeting is not None:
-            eventMeeting['usergoing'] = checkUserMeeting.going
-        else:
-            eventMeeting['usergoing'] = False
-
+        checkUserEvent = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+        if checkUserEvent is not None and checkUserEvent.going:
+            areyougoing = True
 
     page = make_response(
         render_template(
             'eventMeeting.html',
+            areyougoing=areyougoing,
             desc=linkFormatting(checkMeeting.description),
             eventMeeting=checkMeeting,
             eventMeetingData=eventMeeting,
@@ -917,19 +916,19 @@ def eventInfo(idOfEvent):
         flash('Event not found', 'error')
         return sendoff('index')
 
-    eventMeeting = eventMeetingProccessing(checkEvent, meeting=False)
+    eventMeeting = eventMeetingProccessing(checkEvent, False)
+
+    areyougoing = False
 
     if eventMeeting['future']:
         checkUserEvent = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
-
-        if checkUserEvent is not None:
-            eventMeeting['usergoing'] = checkUserEvent.going
-        else:
-            eventMeeting['usergoing'] = False
+        if checkUserEvent is not None and checkUserEvent.going:
+            areyougoing = True
 
     page = make_response(
         render_template(
             'eventMeeting.html',
+            areyougoing=areyougoing,
             desc=linkFormatting(checkEvent.description),
             eventMeeting=checkEvent,
             eventMeetingData=eventMeeting,
