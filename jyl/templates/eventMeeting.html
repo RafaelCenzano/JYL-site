@@ -17,6 +17,21 @@
         {% endif %}
         <h4>Description: {{ desc }}</h4>
         <h4>Location: {{ eventMeeting.location }}</h4>
+        {% if eventMeetingData['future'] %}
+        {% if eventMeetingData['meeting'] %}
+        {% if eventMeeting['usergoing'] %}
+        <a href="{{ url_for('meetingNotGoing', idOfMeeting=eventMeeting.id) }}">I'm not going</a>
+        {% else %}
+        <a href="{{ url_for('meetingGoing', idOfMeeting=eventMeeting.id) }}">I'm going</a>
+        {% endif %}
+        {% else %}
+        {% if eventMeeting['usergoing'] %}
+        <a href="{{ url_for('eventNotGoing', idOfEvent=eventMeeting.id) }}">I'm not going</a>
+        {% else %}
+        <a href="{{ url_for('eventGoing', idOfEvent=eventMeeting.id) }}">I'm going</a>
+        {% endif %}
+        {% endif %}
+        {% endif %}
     </div>
     <div class="column">
         <div class="lrg green"><h4>{{ hourcount }}</h4></div>
