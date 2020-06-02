@@ -21,9 +21,7 @@ Views
 def index():
 
     page = make_response(render_template('home.html'))
-
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'index', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -32,9 +30,7 @@ def index():
 def license():
 
     page = make_response(render_template('license.html'))
-
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'license', max_age=60 * 60 * 24 * 365)
     return page
 
