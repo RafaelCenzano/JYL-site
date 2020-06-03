@@ -12,6 +12,48 @@
 <div class="half-grid">
     <div class="column">
         <ul>
+            <li><h2 class="profiletitle">View</h2></li>
+            <a href="#">
+                <li>
+                    <h4>Meetings</h4>
+                    <p>View a list of all meetings</p>
+                </li>
+            </a>
+            <a href="#">
+                <li>
+                    <h4>Events</h4>
+                    <p>View a list of all events</p>
+                </li>
+            </a>
+            <a href="{{ url_for('memberData') }}">
+                <li>
+                    <h4>Users</h4>
+                    <p>View a list of all users</p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Attendance</h2></li>
+            <a href="#">
+                <li>
+                    <h4>Meeting Attendance</h4>
+                    <p>Edit a meeting's attendance</p>
+                </li>
+            </a>
+            <a href="#">
+                <li>
+                    <h4>Event Attenadance</h4>
+                    <p>Edit an event's attendance</p>
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+<div class="half-grid">
+    <div class="column">
+        <ul>
             <li><h2 class="profiletitle">Create</h2></li>
             <a href="{{ url_for('meetingCreate') }}">
                 <li>
@@ -39,19 +81,19 @@
             <a href="{{ url_for('meetingEditList') }}">
                 <li>
                     <h4>Change Metting</h4>
-                    <p>Edit a meeting from a meeting list</p>
+                    <p>Edit a meeting</p>
                 </li>
             </a>
             <a href="{{ url_for('eventEditList') }}">
                 <li>
                     <h4>Change Event</h4>
-                    <p>Edit a meeting from an event list</p>
+                    <p>Edit a meeting</p>
                 </li>
             </a>
             <a href="{{ url_for('userEditList') }}">
                 <li>
                     <h4>Change User</h4>
-                    <p>Edit a user from a user list</p>
+                    <p>Edit a user</p>
                 </li>
             </a>
         </ul>
