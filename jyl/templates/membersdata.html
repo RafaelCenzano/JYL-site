@@ -40,8 +40,8 @@
   <tbody>
     {% for user in users %}
     <tr>
-      <td>{{ user.lastname }}</a></td>
-      <td>{{ user.firstname }}</td>
+      <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.lastname }}</a></td>
+      <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }}</a></td>
       <td>{{ user.email }}</td>
       <td>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</td>
       <td>{{ user.address }}</td>
