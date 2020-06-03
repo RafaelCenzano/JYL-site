@@ -716,7 +716,7 @@ def attendanceMeetingList():
 
 @app.route('/attendance/meeting/<int:idOfMeeting>', methods=['GET', 'POST'])
 @login_required
-def eventAttendance(idOfMeeting):
+def meetingAttendance(idOfMeeting):
     
     if current_user.leader or current_user.admin:
 
@@ -786,7 +786,7 @@ def eventAttendance(idOfMeeting):
 
 @app.route('/meeting/<int:idOfMeeting>/attendance', methods=['GET', 'POST'])
 @login_required
-def eventAttendance1(idOfMeeting):
+def meetingAttendance1(idOfMeeting):
     
     if current_user.leader or current_user.admin:
 
@@ -1043,7 +1043,7 @@ def eventAttendance(eventId):
 
 @app.route('/attendance/event/<int:eventId>', methods=['GET', 'POST'])
 @login_required
-def eventAttendance2(eventId):
+def eventAttendance1(eventId):
     
     if current_user.leader or current_user.admin:
 
