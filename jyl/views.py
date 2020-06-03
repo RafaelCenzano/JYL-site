@@ -704,6 +704,157 @@ def eventCreation():
     return sendoff('index')
 
 
+@app.route('/attendance/event', methods=['GET'])
+def attendanceEventList():
+    return 'hello'
+
+
+@app.route('/attendance/meeting', methods=['GET'])
+def attendanceMeetingList():
+    return 'hello'
+
+
+@app.route('/attendance/meeting/<int:idOfMeeting>', methods=['GET', 'POST'])
+@login_required
+def eventAttendance(idOfMeeting):
+    
+    if current_user.leader or current_user.admin:
+
+        checkMeeting = Meeting.query.get(idOfMeeting)
+
+        if checkMeeting is None:
+
+            flash('Meeting not found', 'error')
+            return sendoff('index')
+
+        if request.method == 'POST':
+
+            users = User.query.filter_by(currentmember=True).all()
+            users.sort(key=lambda user: user.lastname)
+
+            for user in users:
+
+                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+
+                checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+
+                if checkUserMeeting is not None and thisUser is None:
+                    checkUserMeeting.attended = False
+                    db.session.commit()
+                elif checkUserMeeting is not None and thisUser is not None:
+                    checkUserMeeting.attended = True
+                    db.session.commit()
+                elif thisUser and checkUserMeeting is None:
+                    newUserEvent = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    db.session.add(newUserEvent)
+                    db.session.commit()
+
+            flash('Attendance updated successfully!', 'success')
+            return redirect(url_for('attendanceMeetingList'))
+
+        users = User.query.filter_by(currentmember=True).all()
+        inputs = []
+
+        users.sort(key=lambda user: user.lastname)
+
+        for user in users:
+
+            checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+
+            data = {}
+
+            data['check'] = False
+
+            if checkUserMeeting is not None and checkUserMeeting.attended:
+                data['check'] = True
+
+            data['nicknameapprove'] = user.nicknameapprove
+            data['firstname'] = user.firstname
+            data['lastname'] = user.lastname
+            data['nickname'] = user.nickname
+            data['id'] = user.firstname + user.lastname + repr(user.namecount)
+
+            inputs.append(data)
+
+        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+@app.route('/meeting/<int:idOfMeeting>/attendance', methods=['GET', 'POST'])
+@login_required
+def eventAttendance1(idOfMeeting):
+    
+    if current_user.leader or current_user.admin:
+
+        checkMeeting = Meeting.query.get(idOfMeeting)
+
+        if checkMeeting is None:
+
+            flash('Meeting not found', 'error')
+            return sendoff('index')
+
+        if request.method == 'POST':
+
+            users = User.query.filter_by(currentmember=True).all()
+            users.sort(key=lambda user: user.lastname)
+
+            for user in users:
+
+                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+
+                checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+
+                if checkUserMeeting is not None and thisUser is None:
+                    checkUserMeeting.attended = False
+                    db.session.commit()
+                elif checkUserMeeting is not None and thisUser is not None:
+                    checkUserMeeting.attended = True
+                    db.session.commit()
+                elif thisUser and checkUserMeeting is None:
+                    newUserEvent = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    db.session.add(newUserEvent)
+                    db.session.commit()
+
+            flash('Attendance updated successfully!', 'success')
+            return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+        users = User.query.filter_by(currentmember=True).all()
+        inputs = []
+
+        users.sort(key=lambda user: user.lastname)
+
+        for user in users:
+
+            checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+
+            data = {}
+
+            data['check'] = False
+
+            if checkUserMeeting is not None and checkUserMeeting.attended:
+                data['check'] = True
+
+            data['nicknameapprove'] = user.nicknameapprove
+            data['firstname'] = user.firstname
+            data['lastname'] = user.lastname
+            data['nickname'] = user.nickname
+            data['id'] = user.firstname + user.lastname + repr(user.namecount)
+
+            inputs.append(data)
+
+        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+
 @app.route('/create/meeting', methods=['GET', 'POST'])
 def meetingCreate():
     return 'hello'
@@ -777,6 +928,7 @@ def eventEdit(eventId):
     flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
+
 @app.route('/event/<int:eventId>/edit', methods=['GET', 'POST'])
 @login_required
 def eventEdit2(eventId):
@@ -835,8 +987,6 @@ def eventAttendance(eventId):
         if request.method == 'POST':
 
             users = User.query.filter_by(currentmember=True).all()
-            thisUserEvent = UserEvent.query.filter_by(eventid=eventId).all()
-
             users.sort(key=lambda user: user.lastname)
 
             for user in users:
@@ -856,8 +1006,78 @@ def eventAttendance(eventId):
                     db.session.add(newUserEvent)
                     db.session.commit()
 
-            flash('Event edited successfully!', 'success')
+            flash('Attendance updated successfully!', 'success')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
+
+        users = User.query.filter_by(currentmember=True).all()
+        inputs = []
+
+        users.sort(key=lambda user: user.lastname)
+
+        for user in users:
+
+            checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+
+            data = {}
+
+            data['check'] = False
+
+            if checkUserEvent is not None and checkUserEvent.attended:
+                data['check'] = True
+
+            data['nicknameapprove'] = user.nicknameapprove
+            data['firstname'] = user.firstname
+            data['lastname'] = user.lastname
+            data['nickname'] = user.nickname
+            data['id'] = user.firstname + user.lastname + repr(user.namecount)
+
+            inputs.append(data)
+
+        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+@app.route('/attendance/event/<int:eventId>', methods=['GET', 'POST'])
+@login_required
+def eventAttendance2(eventId):
+    
+    if current_user.leader or current_user.admin:
+
+        checkEvent = Event.query.get(eventId)
+
+        if checkEvent is None:
+
+            flash('Event not found', 'error')
+            return sendoff('index')
+
+        if request.method == 'POST':
+
+            users = User.query.filter_by(currentmember=True).all()
+            users.sort(key=lambda user: user.lastname)
+
+            for user in users:
+
+                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+
+                checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+
+                if checkUserEvent is not None and thisUser is None:
+                    checkUserEvent.attended = False
+                    db.session.commit()
+                elif checkUserEvent is not None and thisUser is not None:
+                    checkUserEvent.attended = True
+                    db.session.commit()
+                elif thisUser and checkUserEvent is None:
+                    newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    db.session.add(newUserEvent)
+                    db.session.commit()
+
+            flash('Attendance updated successfully!', 'success')
+            return redirect(url_for('attendanceEventList'))
 
         users = User.query.filter_by(currentmember=True).all()
         inputs = []
