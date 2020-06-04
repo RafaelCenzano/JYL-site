@@ -1181,11 +1181,10 @@ def meetingEditList():
         futureMeetings.sort(key=lambda meeting: meeting.start)
         pastMeetings.sort(key=lambda meeting: meeting.start)
 
-        page = make_response(render_template('eventMeetingList.html', meeting=False, futureEventMeetings=futureMeetings, pastEventMeetings=pastMeetings))
+        page = make_response(render_template('eventMeetingList.html', meeting=True, futureEventMeetings=futureMeetings, pastEventMeetings=pastMeetings))
         page = cookieSwitch(page)
         page.set_cookie('current', 'meetingEditList', max_age=60 * 60 * 24 * 365)
         return page
-
 
     flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
@@ -1193,7 +1192,80 @@ def meetingEditList():
 
 @app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
 def meetingEdit(meetingId):
-    return 'hello'
+    
+    if current_user.leader or current_user.admin:
+
+        checkMeeting = Meeting.query.get(meetingId)
+
+        if checkMeeting is None:
+
+            flash('Meeting not found', 'error')
+            return sendoff('index')
+
+        form = CreateMeeting()
+
+        if request.method == 'POST' and form.validate_on_submit():
+
+            checkMeeting.description = form.description.data
+            checkMeeting.location = form.location.data
+            checkMeeting.start = form.starttime.data
+            checkMeeting.end = form.endtime.data
+
+            db.session.commit()
+
+            flash('Meeting edited successfully!', 'success')
+            return redirect(url_for('meetingEditList'))
+
+        form.description.data = checkMeeting.description
+        form.location.data = checkMeeting.location
+        form.starttime.data = checkMeeting.start
+        form.endtime.data = checkMeeting.end
+
+        page = make_response(render_template('editMeeting.html', form=form))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+@app.route('/meeting/<int:meetingId>/edit', methods=['GET', 'POST'])
+def meetingEdit1(meetingId):
+    
+    if current_user.leader or current_user.admin:
+
+        checkMeeting = Meeting.query.get(meetingId)
+
+        if checkMeeting is None:
+
+            flash('Meeting not found', 'error')
+            return sendoff('index')
+
+        form = CreateMeeting()
+
+        if request.method == 'POST' and form.validate_on_submit():
+
+            checkMeeting.description = form.description.data
+            checkMeeting.location = form.location.data
+            checkMeeting.start = form.starttime.data
+            checkMeeting.end = form.endtime.data
+
+            db.session.commit()
+
+            flash('Meeting edited successfully!', 'success')
+            return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
+
+        form.description.data = checkMeeting.description
+        form.location.data = checkMeeting.location
+        form.starttime.data = checkMeeting.start
+        form.endtime.data = checkMeeting.end
+
+        page = make_response(render_template('editMeeting.html', form=form))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/event/<int:idOfEvent>', methods=['GET'])
