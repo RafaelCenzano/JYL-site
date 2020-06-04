@@ -727,6 +727,11 @@ def meetingAttendance(idOfMeeting):
             flash('Meeting not found', 'error')
             return sendoff('index')
 
+        if checkMeeting.start > datetime.now():
+
+            flash('Meeting hasn\'t occured yet', 'warning')
+            return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
         if request.method == 'POST':
 
             users = User.query.filter_by(currentmember=True).all()
@@ -796,6 +801,11 @@ def meetingAttendance1(idOfMeeting):
 
             flash('Meeting not found', 'error')
             return sendoff('index')
+
+        if checkEvent.start > datetime.now():
+
+            flash('Event hasn\'t occured yet', 'warning')
+            return redirect(url_for('attendanceMeetingList'))
 
         if request.method == 'POST':
 
@@ -884,7 +894,34 @@ def userNicknameAccept(num, first, last):
 
 @app.route('/edit/event', methods=['GET'])
 def eventEditList():
-    return 'hello'
+    
+
+    if current_user.leader or current_user.admin:
+
+        currentEvents = Event.query.filter_by(currentYear=True).all()
+
+        futureEvents = []
+        pastEvents = []
+
+        now = datetime.now()
+
+        for event in currentEvents:
+            if event.start > now:
+                futureEvents.append(event)
+            else:
+                pastEvents.append(event)
+
+        futureEvents.sort(key=lambda event: event.start)
+        pastEvents.sort(key=lambda event: event.start)
+
+        page = make_response(render_template('eventMeetingList.html', meeting=False, futureEventMeetings=futureEvents, pastEventMeetings=pastEvents))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'eventEditList', max_age=60 * 60 * 24 * 365)
+        return page
+
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/edit/event/<int:eventId>', methods=['GET', 'POST'])
@@ -984,6 +1021,11 @@ def eventAttendance(eventId):
             flash('Event not found', 'error')
             return sendoff('index')
 
+        if checkEvent.start > datetime.now():
+
+            flash('Event hasn\'t occured yet', 'warning')
+            return redirect(url_for('eventInfo', idOfEvent=eventId))
+
         if request.method == 'POST':
 
             users = User.query.filter_by(currentmember=True).all()
@@ -1053,6 +1095,11 @@ def eventAttendance1(eventId):
 
             flash('Event not found', 'error')
             return sendoff('index')
+
+        if checkEvent.start > datetime.now():
+
+            flash('Event hasn\'t occured yet', 'warning')
+            return redirect(url_for('attendanceEventList'))
 
         if request.method == 'POST':
 
