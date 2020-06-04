@@ -871,14 +871,17 @@ def meetingCreate():
 
 
 @app.route('/edit/user', methods=['GET'])
-def userEditList(meetingId):
+def userEditList():
     return 'hello'
 
 
-# split or use one
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
+def userEdit(userId):
+    return 'hello'
+
+
 @app.route('/profile/<int:num>/<first>/<last>/edit', methods=['GET', 'POST'])
-def userEdit(userId=None, num=0, first=None, last=None):
+def userEdit1(num, first, last):
     return 'hello'
 
 
@@ -895,7 +898,6 @@ def userNicknameAccept(num, first, last):
 @app.route('/edit/event', methods=['GET'])
 def eventEditList():
     
-
     if current_user.leader or current_user.admin:
 
         currentEvents = Event.query.filter_by(currentYear=True).all()
@@ -1160,7 +1162,33 @@ def eventAttendance1(eventId):
 
 @app.route('/edit/meeting', methods=['GET'])
 def meetingEditList():
-    return 'hello'
+    
+    if current_user.leader or current_user.admin:
+
+        currentMeeting = Meeting.query.filter_by(currentYear=True).all()
+
+        futureMeetings = []
+        pastMeetings = []
+
+        now = datetime.now()
+
+        for meeting in currentMeeting:
+            if meeting.start > now:
+                futureMeetings.append(meeting)
+            else:
+                pastMeetings.append(meeting)
+
+        futureMeetings.sort(key=lambda meeting: meeting.start)
+        pastMeetings.sort(key=lambda meeting: meeting.start)
+
+        page = make_response(render_template('eventMeetingList.html', meeting=False, futureEventMeetings=futureMeetings, pastEventMeetings=pastMeetings))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'meetingEditList', max_age=60 * 60 * 24 * 365)
+        return page
+
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
