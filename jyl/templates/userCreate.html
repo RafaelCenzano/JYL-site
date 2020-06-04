@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Create User{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">Create User</h2>
+    <div class="form-group">
+    {{ form.first.label(class="form-label-css") }}
+    <br>
+    {% if form.first.errors %}
+        {{ form.first(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.first.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.first() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.last.label(class="form-label-css") }}
+    <br>
+    {% if form.last.errors %}
+        {{ form.last(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.last.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.last() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.email.label(class="form-label-css") }}
+    <br>
+    {% if form.email.errors %}
+        {{ form.email(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.email() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.school.label(class="form-label-css") }}
+    <br>
+    {% if form.school.errors %}
+        {{ form.school(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.school.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.school() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.grade.label(class="form-label-css") }}
+    <br>
+    {% if form.grade.errors %}
+        {{ form.grade(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.grade.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.grade() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    <br>
+    {% if form.leader.errors %}
+        {{ form.leader(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.leader.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.leader() }}{{ form.leader.label(class="form-label-css") }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    <br>
+    {% if form.admin.errors %}
+        {{ form.admin(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.admin.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.admin() }}{{ form.admin.label(class="form-label-css") }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock content %}
