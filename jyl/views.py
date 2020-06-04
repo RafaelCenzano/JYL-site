@@ -710,6 +710,7 @@ def attendanceEventList():
     if current_user.leader or current_user.admin:
 
         currentEvents = Event.query.filter_by(currentYear=True).all()
+        currentEvents.sort(key=lambda event: event.start)
         now = datetime.now()
 
         page = make_response(render_template('attendanceList.html', meeting=False, eventMeetings=currentEvents, now=now))
@@ -726,10 +727,11 @@ def attendanceMeetingList():
     
     if current_user.leader or current_user.admin:
 
-        currentEvents = Meeting.query.filter_by(currentYear=True).all()
+        currentMeetings = Meeting.query.filter_by(currentYear=True).all()
+        currentMeetings.sort(key=lambda meeting: meeting.start)
         now = datetime.now()
 
-        page = make_response(render_template('attendanceList.html', meeting=True, eventMeetings=currentEvents, now=now))
+        page = make_response(render_template('attendanceList.html', meeting=True, eventMeetings=currentMeetings, now=now))
         page = cookieSwitch(page)
         page.set_cookie('current', 'attendanceMeetingList', max_age=60 * 60 * 24 * 365)
         return page
