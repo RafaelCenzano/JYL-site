@@ -36,7 +36,7 @@ class ResetPasswordForm(FlaskForm):
 
 
 class UserRequestForm(FlaskForm):
-    text = StringField('Message', validators=[DataRequired(), Length(max=1000, message='Bug report must be 1000 characters or less')])
+    text = StringField('Message', validators=[DataRequired(), Length(max=1000, message='Message must be 1000 characters or less')])
     submit = SubmitField('Submit')
 
 
