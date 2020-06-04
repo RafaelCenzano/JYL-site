@@ -16,7 +16,7 @@
         <h1>{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
         {% endif %}
         <h4>Description: {{ desc }}</h4>
-        <h4>Location: {{ eventMeeting.location }}</h4>
+        <h4>Location: <a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}</a></h4>
         {% if eventMeetingData['future'] and not current_user.leader %}
         {% if eventMeetingData['meeting'] %}
         {% if areyougoing %}
