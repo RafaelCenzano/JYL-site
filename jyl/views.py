@@ -647,7 +647,6 @@ def userCreation():
                     numberphone=None,
                     showemail=False,
                     showphone=False,
-                    showaddr=False,
                     address=None,
                     bio=None)
 
@@ -1516,9 +1515,7 @@ def members():
             identifier=False,
             indentify='',
             oldthings=len(oldMembers)))
-
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'members', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -1551,9 +1548,7 @@ def memberType(identifier):
             identifier=True,
             indentify=identifier,
             oldthings=len(oldMembers)))
-
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'membersType', max_age=60 * 60 * 24 * 365)
     page.set_cookie(
         'membertype-current',
@@ -1627,7 +1622,6 @@ def upcomingMeetings():
             event=False))
 
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'upcomingMeetings', max_age=60 * 60 * 24 * 365)
     return page
 
@@ -1663,7 +1657,6 @@ def upcomingEvents():
             event=True))
 
     page = cookieSwitch(page)
-
     page.set_cookie('current', 'upcomingEvents', max_age=60 * 60 * 24 * 365)
     return page
 
