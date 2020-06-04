@@ -17,7 +17,7 @@
         {% endif %}
         <h4>Description: {{ desc }}</h4>
         <h4>Location: {{ eventMeeting.location }}</h4>
-        {% if eventMeetingData['future'] %}
+        {% if eventMeetingData['future'] and not current_user.leader %}
         {% if eventMeetingData['meeting'] %}
         {% if areyougoing %}
         <a href="{{ url_for('meetingNotGoing', idOfMeeting=eventMeeting.id) }}">I'm not going</a>
@@ -29,6 +29,20 @@
         <a href="{{ url_for('eventNotGoing', idOfEvent=eventMeeting.id) }}">I'm not going</a>
         {% else %}
         <a href="{{ url_for('eventGoing', idOfEvent=eventMeeting.id) }}">I'm going</a>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        {% if current_user.leader %}
+        {% if eventMeetingData['meeting'] %}
+        <a href="#">Edit Meeting</a>
+        {% else %}
+        <a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">Edit Event</a>
+        {% endif %}
+        {% if not eventMeetingData['future'] %}
+        {% if eventMeetingData['meeting'] %}
+        <a href="{{ url_for('meetingAttendance1', idOfMeeting=eventMeeting.id) }}">Meeting Attendance</a>
+        {% else %}
+        <a href="{{ url_for('eventAttendance', eventId=eventMeeting.id) }}">Event Attendance</a>
         {% endif %}
         {% endif %}
         {% endif %}
@@ -65,7 +79,7 @@
         <ul>
             {% if eventMeetingData['future'] %}
             <li><h2 class="profiletitle">JYL Resources</h2></li>
-            <a href="#"><li><p>Help Request</p></li></a>
+            <a href="{{ url_for('helprequest') }}"><li><p>Help Request</p></li></a>
             <a href="{{ url_for('upcomingMeetings') }}"><li><p>Upcoming Meetings</p></li></a>
             <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
