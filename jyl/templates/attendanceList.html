@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if meeting %}Meeting{% else %}Event{% endif %} List{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h1>
+<ul>
+    <li><h2 class="profiletitle">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h2></li>
+    {% if eventMeetings %}
+    {% for eventMeeting in eventMeetings %}
+    {% if meeting %}
+    <a href="{{ url_for('meetingAttendance', idOfMeeting=eventMeeting.id) }}">
+    {% else %}
+    <a href="{{ url_for('eventAttendance1', eventId=eventMeeting.id) }}">
+    {% endif %}
+        <li>
+            {% if meeting %}
+            <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
+            {% else %}
+            <h4>{{ eventMeeting.name }}</h4>
+            <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
+            {% endif %}
+            <p>{{ eventMeeting.description }}</p>
+            <p>{{ eventMeeting.attendancecount }} {% if eventMeeting.attendancecount == 1 %}person{% else %}people{% endif %} attended</p>
+        </li>
+    </a>
+    {% endfor %}
+    {% else %}
+    <li>
+        <h4>No {% if meeting %}meeting{% else %}event{% endif %}s found</h4>
+    </li>
+    {% endif %}
+</ul>
+{% endblock %}
