@@ -38,7 +38,6 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(500), unique=False)
     showemail = db.Column(db.Boolean, unique=False, default=False)
     showphone = db.Column(db.Boolean, unique=False, default=False)
-    showaddr = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
         return f'User({self.firstname} {self.lastname}, {self.email})'
