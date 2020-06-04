@@ -123,6 +123,7 @@ class Event(db.Model):
     downvote = db.Column(db.Integer, nullable=False, unique=False, default=0)
     location = db.Column(db.String(150), unique=False)
     currentYear = db.Column(db.Boolean, unique=False)
+    attendancecount = db.Column(db.Integer, unique=False)
 
     def __repr__(self):
         return f'Event id:{self.id}, from {self.start} to {self.end})'

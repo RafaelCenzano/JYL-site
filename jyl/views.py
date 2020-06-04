@@ -706,12 +706,36 @@ def eventCreation():
 
 @app.route('/attendance/event', methods=['GET'])
 def attendanceEventList():
-    return 'hello'
+    
+    if current_user.leader or current_user.admin:
+
+        currentEvents = Event.query.filter_by(currentYear=True).all()
+        now = datetime.now()
+
+        page = make_response(render_template('attendanceList.html', meeting=False, eventMeetings=currentEvents, now=now))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'attendanceEventList', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/attendance/meeting', methods=['GET'])
 def attendanceMeetingList():
-    return 'hello'
+    
+    if current_user.leader or current_user.admin:
+
+        currentEvents = Meeting.query.filter_by(currentYear=True).all()
+        now = datetime.now()
+
+        page = make_response(render_template('attendanceList.html', meeting=True, eventMeetings=currentEvents, now=now))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'attendanceMeetingList', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/attendance/meeting/<int:idOfMeeting>', methods=['GET', 'POST'])
@@ -736,6 +760,7 @@ def meetingAttendance(idOfMeeting):
 
             users = User.query.filter_by(currentmember=True).all()
             users.sort(key=lambda user: user.lastname)
+            count = 0
 
             for user in users:
 
@@ -749,10 +774,15 @@ def meetingAttendance(idOfMeeting):
                 elif checkUserMeeting is not None and thisUser is not None:
                     checkUserMeeting.attended = True
                     db.session.commit()
+                    count += 1
                 elif thisUser and checkUserMeeting is None:
-                    newUserEvent = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
-                    db.session.add(newUserEvent)
+                    newUserMeeting = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    db.session.add(newUserMeeting)
                     db.session.commit()
+                    count += 1
+
+            checkMeeting.attendancecount = count
+            db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('attendanceMeetingList'))
@@ -811,6 +841,7 @@ def meetingAttendance1(idOfMeeting):
 
             users = User.query.filter_by(currentmember=True).all()
             users.sort(key=lambda user: user.lastname)
+            count = 0
 
             for user in users:
 
@@ -824,10 +855,15 @@ def meetingAttendance1(idOfMeeting):
                 elif checkUserMeeting is not None and thisUser is not None:
                     checkUserMeeting.attended = True
                     db.session.commit()
+                    count += 1
                 elif thisUser and checkUserMeeting is None:
-                    newUserEvent = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
-                    db.session.add(newUserEvent)
+                    newUserMeeting = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    db.session.add(newUserMeeting)
                     db.session.commit()
+                    count += 1
+
+            checkMeeting.attendancecount = count
+            db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -1032,6 +1068,7 @@ def eventAttendance(eventId):
 
             users = User.query.filter_by(currentmember=True).all()
             users.sort(key=lambda user: user.lastname)
+            count = 0
 
             for user in users:
 
@@ -1045,10 +1082,15 @@ def eventAttendance(eventId):
                 elif checkUserEvent is not None and thisUser is not None:
                     checkUserEvent.attended = True
                     db.session.commit()
+                    count += 1
                 elif thisUser and checkUserEvent is None:
                     newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
                     db.session.add(newUserEvent)
                     db.session.commit()
+                    count += 1
+
+            checkEvent.attendancecount = count
+            db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
@@ -1107,6 +1149,7 @@ def eventAttendance1(eventId):
 
             users = User.query.filter_by(currentmember=True).all()
             users.sort(key=lambda user: user.lastname)
+            count = 0
 
             for user in users:
 
@@ -1120,10 +1163,15 @@ def eventAttendance1(eventId):
                 elif checkUserEvent is not None and thisUser is not None:
                     checkUserEvent.attended = True
                     db.session.commit()
+                    count += 1
                 elif thisUser and checkUserEvent is None:
                     newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
                     db.session.add(newUserEvent)
                     db.session.commit()
+                    count += 1
+
+            checkEvent.attendancecount = count
+            db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('attendanceEventList'))
