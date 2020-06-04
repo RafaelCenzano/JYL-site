@@ -601,19 +601,19 @@ def userCreation():
 
             try:
 
-                duplicationCheck = User.query.filter_by(email=form.email.data)
+                duplicationCheck = User.query.filter_by(email=form.email.data).first()
 
                 if duplicationCheck is not None:
 
-                    flash('Duplicate email found', 'error')
+                    flash(f'Duplicate email found', 'error')
 
                     return render_template('userCreate.html', form=form)
 
                 samename = User.query.filter_by(
                     firstname=form.first.data,
-                    lastname=form.lastname.data).all()
+                    lastname=form.last.data).all()
 
-                passNum = randint(100000, 999999)
+                passNum = repr(randint(100000, 999999))
 
                 tempPass = bcrypt.generate_password_hash(
                     sha256(
@@ -659,7 +659,7 @@ def userCreation():
             except BaseException as e:
                 flash(f'User couldn\'t be created. Error: {e}', 'error')
 
-            return(url_for('creation'))
+            return(redirect(url_for('creation')))
 
         page = make_response(render_template('userCreate.html', form=form))
         page = cookieSwitch(page)
