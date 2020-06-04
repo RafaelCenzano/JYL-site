@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if meeting %}Meeting{% else %}Event{% endif %} List{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %} List</h1>
+<div class="half-grid">
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Future {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
+            {% if futureEventMeetings %}
+            {% for eventMeeting in futureEventMeetings %}
+            <a href="{{ url_for('eventEdit', eventId=eventMeeting.id) }}">
+                <li>
+                    {% if meeting %}
+                    <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
+                    {% else %}
+                    <h4>{{ eventMeeting.name }}</h4>
+                    <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
+                    {% endif %}
+                    <p>{{ eventMeeting.description }}</p>
+                </li>
+            </a>
+            {% endfor %}
+            {% else %}
+            <li>
+                <h4>No future {% if meeting %}meeting{% else %}event{% endif %}s</h4>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Past {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
+            {% if pastEventMeetings %}
+            {% for eventMeeting in pastEventMeetings %}
+            <a href="{{ url_for('eventEdit', eventId=eventMeeting.id) }}">
+                <li>
+                    {% if meeting %}
+                    <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
+                    {% else %}
+                    <h4>{{ eventMeeting.name }}</h4>
+                    <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
+                    {% endif %}
+                    <p>{{ eventMeeting.description }}</p>
+                </li>
+            </a>
+            {% endfor %}
+            {% else %}
+            <li>
+                <h4>No future {% if meeting %}meeting{% else %}event{% endif %}s</h4>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
