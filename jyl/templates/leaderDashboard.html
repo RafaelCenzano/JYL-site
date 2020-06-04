@@ -36,13 +36,13 @@
     <div class="column">
         <ul>
             <li><h2 class="profiletitle">Attendance</h2></li>
-            <a href="#">
+            <a href="{{ url_for('attendanceMeetingList') }}">
                 <li>
                     <h4>Meeting Attendance</h4>
                     <p>Edit a meeting's attendance</p>
                 </li>
             </a>
-            <a href="#">
+            <a href="{{ url_for('attendanceEventList') }}">
                 <li>
                     <h4>Event Attenadance</h4>
                     <p>Edit an event's attendance</p>
