@@ -42,7 +42,7 @@
               <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }}</a></td>
               <td>{{ user.email }}</td>
               <td>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</td>
-              <td><a href="https://www.google.com/maps/place/{{ user.address.replace(' ', '+') }}">{{ user.address }}</a></td>
+              <td><a href="https://www.google.com/maps/place/{{ user.address.replace(' ', '+') }}" target="_blank">{{ user.address }}</a></td>
               <td>{{ user.school }}</td>
               <td>{{ user.grade }}</td>
               {% if oldCheck %}
