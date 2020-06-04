@@ -34,7 +34,7 @@
         {% endif %}
         {% if current_user.leader %}
         {% if eventMeetingData['meeting'] %}
-        <a href="#">Edit Meeting</a>
+        <a href="{{ url_for('meetingEdit1', meetingId=eventMeeting.id) }}">Edit Meeting</a>
         {% else %}
         <a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">Edit Event</a>
         {% endif %}
