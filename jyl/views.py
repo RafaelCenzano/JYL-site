@@ -80,7 +80,11 @@ Email: {current_user.email}
 
         return sendoff('index')
 
-    page = make_response(render_template('userform.html', form=form, type='Bug Report'))
+    page = make_response(
+        render_template(
+            'userform.html',
+            form=form,
+            type='Bug Report'))
     page = cookieSwitch(page)
     page.set_cookie('current', 'bugreport', max_age=60 * 60 * 24 * 365)
     return page
@@ -132,7 +136,11 @@ Email: {current_user.email}
 
         return sendoff('index')
 
-    page = make_response(render_template('userform.html', form=form, type='Feature Request'))
+    page = make_response(
+        render_template(
+            'userform.html',
+            form=form,
+            type='Feature Request'))
     page = cookieSwitch(page)
     page.set_cookie('current', 'featurerequest', max_age=60 * 60 * 24 * 365)
     return page
@@ -186,11 +194,15 @@ Email: {current_user.email}
 
         return sendoff('index')
 
-    page = make_response(render_template('userform.html', form=form, type='Help Request'))
+    page = make_response(
+        render_template(
+            'userform.html',
+            form=form,
+            type='Help Request'))
     page = cookieSwitch(page)
     page.set_cookie('current', 'helprequest', max_age=60 * 60 * 24 * 365)
     return page
-    
+
 
 @app.route('/back', methods=['GET'])
 def back():
@@ -546,8 +558,9 @@ def meetingInfo(idOfMeeting):
     areyougoing = False
 
     if eventMeeting['future']:
-        checkUserEvent = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
-        if checkUserEvent is not None and checkUserEvent.going:
+        checkUserMeeting = UserMeeting.query.filter_by(
+            meetingid=idOfMeeting, userid=current_user.id).first()
+        if checkUserMeeting is not None and checkUserMeeting.going:
             areyougoing = True
 
     page = make_response(
@@ -601,7 +614,8 @@ def userCreation():
 
             try:
 
-                duplicationCheck = User.query.filter_by(email=form.email.data).first()
+                duplicationCheck = User.query.filter_by(
+                    email=form.email.data).first()
 
                 if duplicationCheck is not None:
 
@@ -705,16 +719,24 @@ def eventCreation():
 
 @app.route('/attendance/event', methods=['GET'])
 def attendanceEventList():
-    
+
     if current_user.leader or current_user.admin:
 
         currentEvents = Event.query.filter_by(currentYear=True).all()
         currentEvents.sort(key=lambda event: event.start)
         now = datetime.now()
 
-        page = make_response(render_template('attendanceList.html', meeting=False, eventMeetings=currentEvents, now=now))
+        page = make_response(
+            render_template(
+                'attendanceList.html',
+                meeting=False,
+                eventMeetings=currentEvents,
+                now=now))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'attendanceEventList', max_age=60 * 60 * 24 * 365)
+        page.set_cookie(
+            'current',
+            'attendanceEventList',
+            max_age=60 * 60 * 24 * 365)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -723,16 +745,24 @@ def attendanceEventList():
 
 @app.route('/attendance/meeting', methods=['GET'])
 def attendanceMeetingList():
-    
+
     if current_user.leader or current_user.admin:
 
         currentMeetings = Meeting.query.filter_by(currentYear=True).all()
         currentMeetings.sort(key=lambda meeting: meeting.start)
         now = datetime.now()
 
-        page = make_response(render_template('attendanceList.html', meeting=True, eventMeetings=currentMeetings, now=now))
+        page = make_response(
+            render_template(
+                'attendanceList.html',
+                meeting=True,
+                eventMeetings=currentMeetings,
+                now=now))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'attendanceMeetingList', max_age=60 * 60 * 24 * 365)
+        page.set_cookie(
+            'current',
+            'attendanceMeetingList',
+            max_age=60 * 60 * 24 * 365)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -742,7 +772,7 @@ def attendanceMeetingList():
 @app.route('/attendance/meeting/<int:idOfMeeting>', methods=['GET', 'POST'])
 @login_required
 def meetingAttendance(idOfMeeting):
-    
+
     if current_user.leader or current_user.admin:
 
         checkMeeting = Meeting.query.get(idOfMeeting)
@@ -765,9 +795,14 @@ def meetingAttendance(idOfMeeting):
 
             for user in users:
 
-                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+                thisUser = request.form.get(
+                    user.firstname +
+                    user.lastname +
+                    repr(
+                        user.namecount))
 
-                checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+                checkUserMeeting = UserMeeting.query.filter_by(
+                    meetingid=idOfMeeting, userid=user.id).first()
 
                 if checkUserMeeting is not None and thisUser is None:
 
@@ -800,7 +835,16 @@ def meetingAttendance(idOfMeeting):
 
                 elif thisUser and checkUserMeeting is None:
 
-                    newUserMeeting = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    newUserMeeting = UserMeeting(
+                        meetingid=idOfMeeting,
+                        userid=user.id,
+                        attended=True,
+                        going=True,
+                        comment=None,
+                        upvote=False,
+                        unsurevote=False,
+                        downvote=False,
+                        currentYear=True)
                     db.session.add(newUserMeeting)
 
                     thisUserQuery = User.query.get(user.id)
@@ -827,7 +871,8 @@ def meetingAttendance(idOfMeeting):
 
         for user in users:
 
-            checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+            checkUserMeeting = UserMeeting.query.filter_by(
+                meetingid=idOfMeeting, userid=user.id).first()
 
             data = {}
 
@@ -844,7 +889,11 @@ def meetingAttendance(idOfMeeting):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', meeting=True, inputs=inputs))
+        page = make_response(
+            render_template(
+                'attendance.html',
+                meeting=True,
+                inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -855,7 +904,7 @@ def meetingAttendance(idOfMeeting):
 @app.route('/meeting/<int:idOfMeeting>/attendance', methods=['GET', 'POST'])
 @login_required
 def meetingAttendance1(idOfMeeting):
-    
+
     if current_user.leader or current_user.admin:
 
         checkMeeting = Meeting.query.get(idOfMeeting)
@@ -865,7 +914,7 @@ def meetingAttendance1(idOfMeeting):
             flash('Meeting not found', 'error')
             return sendoff('index')
 
-        if checkEvent.start > datetime.now():
+        if checkMeeting.start > datetime.now():
 
             flash('Event hasn\'t occured yet', 'warning')
             return redirect(url_for('attendanceMeetingList'))
@@ -878,9 +927,14 @@ def meetingAttendance1(idOfMeeting):
 
             for user in users:
 
-                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+                thisUser = request.form.get(
+                    user.firstname +
+                    user.lastname +
+                    repr(
+                        user.namecount))
 
-                checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+                checkUserMeeting = UserMeeting.query.filter_by(
+                    meetingid=idOfMeeting, userid=user.id).first()
 
                 if checkUserMeeting is not None and thisUser is None:
 
@@ -912,8 +966,17 @@ def meetingAttendance1(idOfMeeting):
                     count += 1
 
                 elif thisUser and checkUserMeeting is None:
-                    
-                    newUserMeeting = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+
+                    newUserMeeting = UserMeeting(
+                        meetingid=idOfMeeting,
+                        userid=user.id,
+                        attended=True,
+                        going=True,
+                        comment=None,
+                        upvote=False,
+                        unsurevote=False,
+                        downvote=False,
+                        currentYear=True)
                     db.session.add(newUserMeeting)
 
                     thisUserQuery = User.query.get(user.id)
@@ -940,7 +1003,8 @@ def meetingAttendance1(idOfMeeting):
 
         for user in users:
 
-            checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
+            checkUserMeeting = UserMeeting.query.filter_by(
+                meetingid=idOfMeeting, userid=user.id).first()
 
             data = {}
 
@@ -957,7 +1021,11 @@ def meetingAttendance1(idOfMeeting):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', meeting=True, inputs=inputs))
+        page = make_response(
+            render_template(
+                'attendance.html',
+                meeting=True,
+                inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -965,10 +1033,49 @@ def meetingAttendance1(idOfMeeting):
     return sendoff('index')
 
 
-
 @app.route('/create/meeting', methods=['GET', 'POST'])
 def meetingCreate():
-    return 'hello'
+
+    if current_user.leader or current_user.admin:
+
+        form = CreateMeeting()
+
+        if request.method == 'POST' and form.validate_on_submit():
+
+            length = (form.endtime.data -
+                      form.starttime.data).total_seconds() / (60 * 60)
+
+            newMeeting = Meeting(
+                start=form.starttime.data,
+                end=form.endtime.data,
+                hourcount=length,
+                description=form.description.data,
+                upvote=0,
+                unsurevote=0,
+                downvote=0,
+                location=form.location.data,
+                currentYear=True,
+                attendancecount=0)
+
+            db.session.add(newMeeting)
+            db.session.commit()
+
+            meetingDate = form.starttime.data.strftime('%B %-d, %Y')
+            flash(f'New meeting created for {meetingDate}', 'success')
+            return redirect(url_for('creation'))
+
+        now = datetime.now()
+
+        form.starttime.data = now.replace(hour=12+4, minute=30)
+        form.endtime.data = now.replace(hour=12+6)
+        form.location.data = '2012 Pine Street San Francisco CA'
+
+        page = make_response(render_template('createMeeting.html', form=form))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
 
 
 @app.route('/edit/user', methods=['GET'])
@@ -986,19 +1093,21 @@ def userEdit1(num, first, last):
     return 'hello'
 
 
-@app.route('/profile/<int:num>/<first>/<last>/request/nickname', methods=['GET', 'POST'])
+@app.route('/profile/<int:num>/<first>/<last>/request/nickname',
+           methods=['GET', 'POST'])
 def userNicknameRequest(num, first, last):
     return 'hello'
 
 
-@app.route('/profile/<int:num>/<first>/<last>/nickname', methods=['GET', 'POST'])
+@app.route('/profile/<int:num>/<first>/<last>/nickname',
+           methods=['GET', 'POST'])
 def userNicknameAccept(num, first, last):
-    return 'hello' 
+    return 'hello'
 
 
 @app.route('/edit/event', methods=['GET'])
 def eventEditList():
-    
+
     if current_user.leader or current_user.admin:
 
         currentEvents = Event.query.filter_by(currentYear=True).all()
@@ -1017,11 +1126,15 @@ def eventEditList():
         futureEvents.sort(key=lambda event: event.start)
         pastEvents.sort(key=lambda event: event.start)
 
-        page = make_response(render_template('eventMeetingList.html', meeting=False, futureEventMeetings=futureEvents, pastEventMeetings=pastEvents))
+        page = make_response(
+            render_template(
+                'eventMeetingList.html',
+                meeting=False,
+                futureEventMeetings=futureEvents,
+                pastEventMeetings=pastEvents))
         page = cookieSwitch(page)
         page.set_cookie('current', 'eventEditList', max_age=60 * 60 * 24 * 365)
         return page
-
 
     flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
@@ -1030,7 +1143,7 @@ def eventEditList():
 @app.route('/edit/event/<int:eventId>', methods=['GET', 'POST'])
 @login_required
 def eventEdit(eventId):
-    
+
     if current_user.leader or current_user.admin:
 
         checkEvent = Event.query.get(eventId)
@@ -1072,7 +1185,7 @@ def eventEdit(eventId):
 @app.route('/event/<int:eventId>/edit', methods=['GET', 'POST'])
 @login_required
 def eventEdit2(eventId):
-    
+
     if current_user.leader or current_user.admin:
 
         checkEvent = Event.query.get(eventId)
@@ -1114,7 +1227,7 @@ def eventEdit2(eventId):
 @app.route('/event/<int:eventId>/attendance', methods=['GET', 'POST'])
 @login_required
 def eventAttendance(eventId):
-    
+
     if current_user.leader or current_user.admin:
 
         checkEvent = Event.query.get(eventId)
@@ -1137,9 +1250,14 @@ def eventAttendance(eventId):
 
             for user in users:
 
-                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+                thisUser = request.form.get(
+                    user.firstname +
+                    user.lastname +
+                    repr(
+                        user.namecount))
 
-                checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+                checkUserEvent = UserEvent.query.filter_by(
+                    eventid=eventId, userid=user.id).first()
 
                 if checkUserEvent is not None and thisUser is None:
 
@@ -1172,7 +1290,16 @@ def eventAttendance(eventId):
 
                 elif thisUser and checkUserEvent is None:
 
-                    newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    newUserEvent = UserEvent(
+                        eventid=eventId,
+                        userid=user.id,
+                        attended=True,
+                        going=True,
+                        comment=None,
+                        upvote=False,
+                        unsurevote=False,
+                        downvote=False,
+                        currentYear=True)
                     db.session.add(newUserEvent)
 
                     thisUserQuery = User.query.get(user.id)
@@ -1182,7 +1309,7 @@ def eventAttendance(eventId):
                     thisUserQuery.currentHours += checkEvent.hourcount
                     thisUserQuery.currentEventHours += checkEvent.hourcount
                     thisUserQuery.currentEventCount += 1
-                    
+
                     db.session.commit()
                     count += 1
 
@@ -1199,7 +1326,8 @@ def eventAttendance(eventId):
 
         for user in users:
 
-            checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+            checkUserEvent = UserEvent.query.filter_by(
+                eventid=eventId, userid=user.id).first()
 
             data = {}
 
@@ -1216,7 +1344,11 @@ def eventAttendance(eventId):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', meeting=False, inputs=inputs))
+        page = make_response(
+            render_template(
+                'attendance.html',
+                meeting=False,
+                inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -1227,7 +1359,7 @@ def eventAttendance(eventId):
 @app.route('/attendance/event/<int:eventId>', methods=['GET', 'POST'])
 @login_required
 def eventAttendance1(eventId):
-    
+
     if current_user.leader or current_user.admin:
 
         checkEvent = Event.query.get(eventId)
@@ -1250,9 +1382,14 @@ def eventAttendance1(eventId):
 
             for user in users:
 
-                thisUser = request.form.get(user.firstname + user.lastname + repr(user.namecount))
+                thisUser = request.form.get(
+                    user.firstname +
+                    user.lastname +
+                    repr(
+                        user.namecount))
 
-                checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+                checkUserEvent = UserEvent.query.filter_by(
+                    eventid=eventId, userid=user.id).first()
 
                 if checkUserEvent is not None and thisUser is None:
 
@@ -1285,7 +1422,16 @@ def eventAttendance1(eventId):
 
                 elif thisUser and checkUserEvent is None:
 
-                    newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
+                    newUserEvent = UserEvent(
+                        eventid=eventId,
+                        userid=user.id,
+                        attended=True,
+                        going=True,
+                        comment=None,
+                        upvote=False,
+                        unsurevote=False,
+                        downvote=False,
+                        currentYear=True)
                     db.session.add(newUserEvent)
 
                     thisUserQuery = User.query.get(user.id)
@@ -1295,7 +1441,7 @@ def eventAttendance1(eventId):
                     thisUserQuery.currentHours += checkEvent.hourcount
                     thisUserQuery.currentEventHours += checkEvent.hourcount
                     thisUserQuery.currentEventCount += 1
-                    
+
                     db.session.commit()
                     count += 1
 
@@ -1312,7 +1458,8 @@ def eventAttendance1(eventId):
 
         for user in users:
 
-            checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
+            checkUserEvent = UserEvent.query.filter_by(
+                eventid=eventId, userid=user.id).first()
 
             data = {}
 
@@ -1329,7 +1476,11 @@ def eventAttendance1(eventId):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', meeting=False, inputs=inputs))
+        page = make_response(
+            render_template(
+                'attendance.html',
+                meeting=False,
+                inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -1339,7 +1490,7 @@ def eventAttendance1(eventId):
 
 @app.route('/edit/meeting', methods=['GET'])
 def meetingEditList():
-    
+
     if current_user.leader or current_user.admin:
 
         currentMeeting = Meeting.query.filter_by(currentYear=True).all()
@@ -1358,9 +1509,17 @@ def meetingEditList():
         futureMeetings.sort(key=lambda meeting: meeting.start)
         pastMeetings.sort(key=lambda meeting: meeting.start)
 
-        page = make_response(render_template('eventMeetingList.html', meeting=True, futureEventMeetings=futureMeetings, pastEventMeetings=pastMeetings))
+        page = make_response(
+            render_template(
+                'eventMeetingList.html',
+                meeting=True,
+                futureEventMeetings=futureMeetings,
+                pastEventMeetings=pastMeetings))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'meetingEditList', max_age=60 * 60 * 24 * 365)
+        page.set_cookie(
+            'current',
+            'meetingEditList',
+            max_age=60 * 60 * 24 * 365)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -1369,7 +1528,7 @@ def meetingEditList():
 
 @app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
 def meetingEdit(meetingId):
-    
+
     if current_user.leader or current_user.admin:
 
         checkMeeting = Meeting.query.get(meetingId)
@@ -1408,7 +1567,7 @@ def meetingEdit(meetingId):
 
 @app.route('/meeting/<int:meetingId>/edit', methods=['GET', 'POST'])
 def meetingEdit1(meetingId):
-    
+
     if current_user.leader or current_user.admin:
 
         checkMeeting = Meeting.query.get(meetingId)
@@ -1461,7 +1620,8 @@ def eventInfo(idOfEvent):
     areyougoing = False
 
     if eventMeeting['future']:
-        checkUserEvent = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+        checkUserEvent = UserEvent.query.filter_by(
+            eventid=idOfEvent, userid=current_user.id).first()
         if checkUserEvent is not None and checkUserEvent.going:
             areyougoing = True
 
@@ -1502,7 +1662,8 @@ def eventGoing(idOfEvent):
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    eventuser = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+    eventuser = UserEvent.query.filter_by(
+        eventid=idOfEvent, userid=current_user.id).first()
 
     if eventuser is not None and eventuser.going:
 
@@ -1517,7 +1678,15 @@ def eventGoing(idOfEvent):
 
     else:
 
-        userevent = UserEvent(eventid=idOfEvent, userid=current_user.id, attended=False, going=True, currentYear=True, upvote=False, unsurevote=False, downvote=False)
+        userevent = UserEvent(
+            eventid=idOfEvent,
+            userid=current_user.id,
+            attended=False,
+            going=True,
+            currentYear=True,
+            upvote=False,
+            unsurevote=False,
+            downvote=False)
         db.session.add(userevent)
         db.session.commit()
 
@@ -1540,7 +1709,8 @@ def eventNotGoing(idOfEvent):
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    eventuser = UserEvent.query.filter_by(eventid=idOfEvent, userid=current_user.id).first()
+    eventuser = UserEvent.query.filter_by(
+        eventid=idOfEvent, userid=current_user.id).first()
 
     if eventuser is not None and eventuser.going == False or eventuser is None:
 
@@ -1572,7 +1742,8 @@ def meetingGoing(idOfMeeting):
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    meetinguser = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=current_user.id).first()
+    meetinguser = UserMeeting.query.filter_by(
+        meetingid=idOfMeeting, userid=current_user.id).first()
 
     if meetinguser is not None and meetinguser.going:
 
@@ -1587,7 +1758,15 @@ def meetingGoing(idOfMeeting):
 
     else:
 
-        usermeeting = UserMeeting(meetingid=idOfMeeting, userid=current_user.id, attended=False, going=True, currentYear=True, upvote=False, unsurevote=False, downvote=False)
+        usermeeting = UserMeeting(
+            meetingid=idOfMeeting,
+            userid=current_user.id,
+            attended=False,
+            going=True,
+            currentYear=True,
+            upvote=False,
+            unsurevote=False,
+            downvote=False)
         db.session.add(usermeeting)
         db.session.commit()
 
@@ -1610,7 +1789,8 @@ def meetingNotGoing(idOfMeeting):
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    meetinguser = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=current_user.id).first()
+    meetinguser = UserMeeting.query.filter_by(
+        meetingid=idOfMeeting, userid=current_user.id).first()
 
     if meetinguser is not None and meetinguser.going == False or meetinguser is None:
 
@@ -1693,7 +1873,11 @@ def memberData():
 
         users = User.query.filter_by(currentmember=True, leader=False).all()
 
-        page = make_response(render_template('membersdata.html', users=users, oldCheck=True))
+        page = make_response(
+            render_template(
+                'membersdata.html',
+                users=users,
+                oldCheck=True))
         page = cookieSwitch(page)
         page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
         return page
@@ -1710,7 +1894,11 @@ def memberDataOld():
 
         users = User.query.filter_by(currentmember=False, leader=False).all()
 
-        page = make_response(render_template('membersdata.html', users=users, oldCheck=False))
+        page = make_response(
+            render_template(
+                'membersdata.html',
+                users=users,
+                oldCheck=False))
         page = cookieSwitch(page)
         page.set_cookie('current', 'memberDataOld', max_age=60 * 60 * 24 * 365)
         return page
@@ -1720,7 +1908,7 @@ def memberDataOld():
 
 
 @app.route('/upcoming/meetings', methods=['GET'])
-@login_required 
+@login_required
 def upcomingMeetings():
 
     meetings = []
@@ -1731,7 +1919,11 @@ def upcomingMeetings():
 
     interested = []
 
-    for meet in UserMeeting.query.filter_by(currentYear=True, userid=current_user.id, going=True, attended=False).all():
+    for meet in UserMeeting.query.filter_by(
+            currentYear=True,
+            userid=current_user.id,
+            going=True,
+            attended=False).all():
         meeting = Meeting.query.get(meet.meetingid)
         if meeting.start > datetime.now():
             interested.append(meeting)
@@ -1766,7 +1958,11 @@ def upcomingEvents():
 
     interested = []
 
-    for thing in UserEvent.query.filter_by(currentYear=True, userid=current_user.id, going=True, attended=False).all():
+    for thing in UserEvent.query.filter_by(
+            currentYear=True,
+            userid=current_user.id,
+            going=True,
+            attended=False).all():
         event = Event.query.get(thing.eventid)
         if event.start > datetime.now():
             interested.append(event)
@@ -1790,6 +1986,8 @@ def upcomingEvents():
 
 
 app.route('/robots.txt', methods=['GET'])
+
+
 def robots():
     return send_file('templates/seo/robots.txt')
 
