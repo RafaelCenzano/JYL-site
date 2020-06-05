@@ -9,17 +9,18 @@
 
 {% block content %}
 {% if oldCheck %}
-<h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %}Data</h1>
+<h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %} Data</h1>
 {% else %}
 <h1 class="name">Past {% if meeting %}Meeting{% else %}Event{% endif %} Data</h1>
 {% endif %}
 <table id="example" class="display" style="width:100%">
     <thead>
           <tr>
+              <th class="th-sm">Month</th>
+              <th class="th-sm">Date</th>
               {% if not meeting %}
               <th class="th-sm">Name</th>
               {% endif %}
-              <th class="th-sm">Date</th>
               <th class="th-sm">Start</th>
               <th class="th-sm">End</th>
               <th class="th-sm">Length</th>
@@ -30,24 +31,28 @@
       <tbody>
           {% for eventMeeting in eventMeetings %}
           <tr>
+              <td>{{ eventMeeting.start.strftime('%-m') }}</td>
               {% if not meeting %}
-              <td>{{ eventMeeting.name }}</td>
-              {% endif %}
               <td>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</td>
+              <td><a href="{{ url_for('eventInfo', idOfEvent=eventMeeting.id) }}">{{ eventMeeting.name }}</a></td>
+              {% else %}
+              <td><a href="{{ url_for('meetingInfo', idOfMeeting=eventMeeting.id) }}">{{ eventMeeting.start.strftime('%B %-d, %Y') }}</a></td>
+              {% endif %}
               <td>{{ eventMeeting.start.strftime('%-I:%M %p') }}</td>
               <td>{{ eventMeeting.end.strftime('%-I:%M %p') }}</td>
               <td>{{ eventMeeting.hourcount }}</td>
-              <td>{{ eventMeeting.attendancecount }}</td>
+              <td>{% if meeting %}<a href="{{ url_for('meetingAttendance1', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventAttendance', eventId=eventMeeting.id) }}">{% endif %}{{ eventMeeting.attendancecount }}</a></td>
               <td><a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}</a></td>
           </tr>
           {% endfor %}
       </tbody>
       <tfoot>
           <tr>
+              <th class="th-sm">Month</th>
+              <th class="th-sm">Date</th>
               {% if not meeting %}
               <th class="th-sm">Name</th>
               {% endif %}
-              <th class="th-sm">Date</th>
               <th class="th-sm">Start</th>
               <th class="th-sm">End</th>
               <th class="th-sm">Length</th>
@@ -57,7 +62,11 @@
     </tfoot>
 </table>
 {% if oldCheck %}
-<a href="#">View Past {% if meeting %}Meeting{% else %}Event{% endif %} Data</a>
+{% if meeting %}
+<a href="{{ url_for('meetingDataOld') }}">View Past Meeting Data</a>
+{% else %}
+<a href="{{ url_for('eventDataOld') }}">View Past Event Data</a>
+{% endif %}
 {% endif %}
 {% endblock %}
 
