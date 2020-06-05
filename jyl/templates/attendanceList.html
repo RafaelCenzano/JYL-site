@@ -13,7 +13,7 @@
     <li><h2 class="profiletitle">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h2></li>
     {% if eventMeetings %}
     {% for eventMeeting in eventMeetings %}
-    {% if not eventMeeting.start > now %}
+    {% if not pacific.localize(eventMeeting.start) > now %}
     {% if meeting %}
     <a href="{{ url_for('meetingAttendance', idOfMeeting=eventMeeting.id) }}">
     {% else %}
