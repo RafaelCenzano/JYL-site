@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if meeting %}Meeting{% else %}Event{% endif %} Data{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tables.css') }}">
+{% endblock %}
+
+{% block content %}
+{% if oldCheck %}
+<h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %}Data</h1>
+{% else %}
+<h1 class="name">Past {% if meeting %}Meeting{% else %}Event{% endif %} Data</h1>
+{% endif %}
+<table id="example" class="display" style="width:100%">
+    <thead>
+          <tr>
+              {% if not meeting %}
+              <th class="th-sm">Name</th>
+              {% endif %}
+              <th class="th-sm">Date</th>
+              <th class="th-sm">Start</th>
+              <th class="th-sm">End</th>
+              <th class="th-sm">Length</th>
+              <th class="th-sm">Attendance Count</th>
+              <th class="th-sm">Location</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for eventMeeting in eventMeetings %}
+          <tr>
+              {% if not meeting %}
+              <td>{{ eventMeeting.name }}</td>
+              {% endif %}
+              <td>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</td>
+              <td>{{ eventMeeting.start.strftime('%-I:%M %p') }}</td>
+              <td>{{ eventMeeting.end.strftime('%-I:%M %p') }}</td>
+              <td>{{ eventMeeting.hourcount }}</td>
+              <td>{{ eventMeeting.attendancecount }}</td>
+              <td><a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}</a></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+      <tfoot>
+          <tr>
+              {% if not meeting %}
+              <th class="th-sm">Name</th>
+              {% endif %}
+              <th class="th-sm">Date</th>
+              <th class="th-sm">Start</th>
+              <th class="th-sm">End</th>
+              <th class="th-sm">Length</th>
+              <th class="th-sm">Attendance Count</th>
+              <th class="th-sm">Location</th>
+          </tr>
+    </tfoot>
+</table>
+{% if oldCheck %}
+<a href="#">View Past {% if meeting %}Meeting{% else %}Event{% endif %} Data</a>
+{% endif %}
+{% endblock %}
+
+{% block trailing_js %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="{{ url_for('static', filename='js/table.js') }}"></script>
+{% endblock %}
