@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Create Event{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">Create Event</h2>
+    <div class="form-group">
+    {{ form.name.label(class="form-label-css") }}
+    <br>
+    {% if form.name.errors %}
+        {{ form.name(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.name.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.name() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.description.label(class="form-label-css") }}
+    <br>
+    {% if form.description.errors %}
+        {{ form.description(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.description.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.description(cols='25', rows='10') }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.location.label(class="form-label-css") }}
+    <br>
+    {% if form.location.errors %}
+        {{ form.location(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.location.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.location() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.starttime.label(class="form-label-css") }}
+    <br>
+    {% if form.starttime.errors %}
+        {{ form.starttime(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.starttime.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.starttime() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.endtime.label(class="form-label-css") }}
+    <br>
+    {% if form.endtime.errors %}
+        {{ form.endtime(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.endtime.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.endtime() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock content %}
