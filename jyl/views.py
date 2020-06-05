@@ -770,15 +770,47 @@ def meetingAttendance(idOfMeeting):
                 checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
 
                 if checkUserMeeting is not None and thisUser is None:
+
                     checkUserMeeting.attended = False
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours -= checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingHours -= checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingCount -= 1
+                    thisUserQuery.currentHours -= checkMeeting.hourcount
+                    thisUserQuery.currentMeetingHours -= checkMeeting.hourcount
+                    thisUserQuery.currentMeetingCount -= 1
+
                     db.session.commit()
+
                 elif checkUserMeeting is not None and thisUser is not None:
+
                     checkUserMeeting.attended = True
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingCount += 1
+                    thisUserQuery.currentHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingCount += 1
+
                     db.session.commit()
                     count += 1
+
                 elif thisUser and checkUserMeeting is None:
+
                     newUserMeeting = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
                     db.session.add(newUserMeeting)
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingCount += 1
+                    thisUserQuery.currentHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingCount += 1
+
                     db.session.commit()
                     count += 1
 
@@ -812,7 +844,7 @@ def meetingAttendance(idOfMeeting):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = make_response(render_template('attendance.html', meeting=True, inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -851,15 +883,47 @@ def meetingAttendance1(idOfMeeting):
                 checkUserMeeting = UserMeeting.query.filter_by(meetingid=idOfMeeting, userid=user.id).first()
 
                 if checkUserMeeting is not None and thisUser is None:
+
                     checkUserMeeting.attended = False
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours -= checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingHours -= checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingCount -= 1
+                    thisUserQuery.currentHours -= checkMeeting.hourcount
+                    thisUserQuery.currentMeetingHours -= checkMeeting.hourcount
+                    thisUserQuery.currentMeetingCount -= 1
+
                     db.session.commit()
+
                 elif checkUserMeeting is not None and thisUser is not None:
+
                     checkUserMeeting.attended = True
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingCount += 1
+                    thisUserQuery.currentHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingCount += 1
+
                     db.session.commit()
                     count += 1
+
                 elif thisUser and checkUserMeeting is None:
+                    
                     newUserMeeting = UserMeeting(meetingid=idOfMeeting, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
                     db.session.add(newUserMeeting)
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.lifetimeMeetingCount += 1
+                    thisUserQuery.currentHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingHours += checkMeeting.hourcount
+                    thisUserQuery.currentMeetingCount += 1
+
                     db.session.commit()
                     count += 1
 
@@ -893,7 +957,7 @@ def meetingAttendance1(idOfMeeting):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = make_response(render_template('attendance.html', meeting=True, inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -1078,15 +1142,47 @@ def eventAttendance(eventId):
                 checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
 
                 if checkUserEvent is not None and thisUser is None:
+
                     checkUserEvent.attended = False
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours -= checkEvent.hourcount
+                    thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
+                    thisUserQuery.lifetimeEventCount -= 1
+                    thisUserQuery.currentHours -= checkEvent.hourcount
+                    thisUserQuery.currentEventHours -= checkEvent.hourcount
+                    thisUserQuery.currentEventCount -= 1
+
                     db.session.commit()
+
                 elif checkUserEvent is not None and thisUser is not None:
+
                     checkUserEvent.attended = True
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventCount += 1
+                    thisUserQuery.currentHours += checkEvent.hourcount
+                    thisUserQuery.currentEventHours += checkEvent.hourcount
+                    thisUserQuery.currentEventCount += 1
+
                     db.session.commit()
                     count += 1
+
                 elif thisUser and checkUserEvent is None:
+
                     newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
                     db.session.add(newUserEvent)
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventCount += 1
+                    thisUserQuery.currentHours += checkEvent.hourcount
+                    thisUserQuery.currentEventHours += checkEvent.hourcount
+                    thisUserQuery.currentEventCount += 1
+                    
                     db.session.commit()
                     count += 1
 
@@ -1120,7 +1216,7 @@ def eventAttendance(eventId):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = make_response(render_template('attendance.html', meeting=False, inputs=inputs))
         page = cookieSwitch(page)
         return page
 
@@ -1159,15 +1255,47 @@ def eventAttendance1(eventId):
                 checkUserEvent = UserEvent.query.filter_by(eventid=eventId, userid=user.id).first()
 
                 if checkUserEvent is not None and thisUser is None:
+
                     checkUserEvent.attended = False
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours -= checkEvent.hourcount
+                    thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
+                    thisUserQuery.lifetimeEventCount -= 1
+                    thisUserQuery.currentHours -= checkEvent.hourcount
+                    thisUserQuery.currentEventHours -= checkEvent.hourcount
+                    thisUserQuery.currentEventCount -= 1
+
                     db.session.commit()
+
                 elif checkUserEvent is not None and thisUser is not None:
+
                     checkUserEvent.attended = True
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventCount += 1
+                    thisUserQuery.currentHours += checkEvent.hourcount
+                    thisUserQuery.currentEventHours += checkEvent.hourcount
+                    thisUserQuery.currentEventCount += 1
+
                     db.session.commit()
                     count += 1
+
                 elif thisUser and checkUserEvent is None:
+
                     newUserEvent = UserEvent(eventid=eventId, userid=user.id, attended=True, going=True, comment=None, upvote=False, unsurevote=False, downvote=False, currentYear=True)
                     db.session.add(newUserEvent)
+
+                    thisUserQuery = User.query.get(user.id)
+                    thisUserQuery.lifetimeHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventHours += checkEvent.hourcount
+                    thisUserQuery.lifetimeEventCount += 1
+                    thisUserQuery.currentHours += checkEvent.hourcount
+                    thisUserQuery.currentEventHours += checkEvent.hourcount
+                    thisUserQuery.currentEventCount += 1
+                    
                     db.session.commit()
                     count += 1
 
@@ -1201,7 +1329,7 @@ def eventAttendance1(eventId):
 
             inputs.append(data)
 
-        page = make_response(render_template('attendance.html', inputs=inputs))
+        page = make_response(render_template('attendance.html', meeting=False, inputs=inputs))
         page = cookieSwitch(page)
         return page
 
