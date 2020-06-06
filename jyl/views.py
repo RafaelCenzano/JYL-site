@@ -260,11 +260,11 @@ def back():
             else:
                 flash('An error occured with profile cookies', 'warning')
 
-        elif 'meeting' in page:
+        elif 'meeting' == page:
             meetingId = int(siteCookies['meeting-id'])
             return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
 
-        elif 'event' in page:
+        elif 'event' == page:
             eventId = int(siteCookies['event-id'])
             return redirect(url_for('eventInfo', idOfEvent=eventId))
 
