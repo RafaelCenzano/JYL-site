@@ -492,7 +492,7 @@ if sys.argv[1] == 'testing':
         'Cordray',
         'J',
         'Filipelli',
-        'Packer', 
+        'Packer',
         'Hasagawa',
         'Johnson',
         'Nickerson',
