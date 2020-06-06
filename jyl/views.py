@@ -640,6 +640,25 @@ def userCreation():
                          form.email.data +
                          app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
 
+                if form.address.data == '':
+                    address = None
+
+                else:
+                    address = form.address.data
+
+                if form.phone.data == '':
+                    phone = None
+
+                else:
+                    try:
+                        phone = repr(int(form.phone.data))
+                        if len(phone) != 10:
+                            raise BaseException
+                    except:
+                        flash('Phone number must 10 digits long and only contain numbers', 'warning')
+                        form.phone.data = ''
+                        return render_template('userCreate.html', form=form)
+
                 newUser = User(
                     firstname=form.first.data,
                     lastname=form.last.data,
@@ -663,10 +682,10 @@ def userCreation():
                     school=form.school.data,
                     grade=form.grade.data,
                     currentmember=True,
-                    numberphone=None,
+                    numberphone=phone,
                     showemail=False,
                     showphone=False,
-                    address=None,
+                    address=address,
                     bio=None)
 
                 db.session.add(newUser)
@@ -1105,15 +1124,95 @@ def meetingCreate():
 
 @app.route('/edit/user', methods=['GET'])
 def userEditList():
-    return 'hello'
+    
+    if current_user.leader:
+
+        currentMembers = User.query.filter_by(currentmember=True).order_by('lastname').all()
+
+        page = make_response(render_template('memberEdit.html', currentMembers=currentMembers))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'userEditList', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
 
 
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
 def userEdit(userId):
-    return 'hello'
+    
+    if current_user.leader:
+
+        form = CreateUser()
+        user = User.query.get(userId)
+
+        if form.validate_on_submit():
+
+            if form.address.data == '':
+                address = None
+
+            else:
+                address = form.address.data
+
+            if form.phone.data == '':
+                phone = None
+
+            else:
+                try:
+                    phone = repr(int(form.phone.data))
+                    if len(phone) != 10:
+                        raise BaseException
+                except:
+                    flash('Phone number must 10 digits long and only contain numbers', 'warning')
+                    form.phone.data = ''
+                    return render_template('userCreate.html', form=form)
+
+            user.firstname = form.first.data
+            user.lastname = form.last.data
+            user.email = form.email.data
+            user.school = form.school.data
+            user.grade = form.grade.data
+            user.address = address
+            user.numberphone = phone
+            user.leader = form.leader.data
+            user.admin = form.admin.data
+
+            db.session.commit()
+            flash(
+                f'User edited successfully',
+                'success')
+
+            return(redirect(url_for('creation')))
+
+        if user.address is None:
+            address = ''
+        else:
+            address = user.address
+
+        if user.numberphone is None:
+            phone = ''
+        else:
+            phone = user.numberphone
+
+        form.first.data = user.firstname
+        form.last.data = user.lastname
+        form.email.data = user.email
+        form.school.data = user.school
+        form.grade.data = user.grade
+        form.address.data = address
+        form.phone.data = phone
+        form.leader.data = user.leader
+        form.admin.data = user.admin
+
+        page = make_response(render_template('userEdit.html', form=form))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
 
 
-@app.route('/profile/<int:num>/<first>/<last>/edit', methods=['GET', 'POST'])
+@app.route('/profile/<int:num>/<first>/<last>/settings', methods=['GET', 'POST'])
 def userEdit1(num, first, last):
     return 'hello'
 
