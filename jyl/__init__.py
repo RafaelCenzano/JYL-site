@@ -37,3 +37,4 @@ db.create_all()
 import jyl.helpers
 import jyl.views
 import jyl.accountViews
+import jyl.tasks
