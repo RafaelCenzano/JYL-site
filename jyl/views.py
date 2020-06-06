@@ -292,6 +292,10 @@ def profile(num, first, last):
         flash('User not found', 'error')
         return sendoff('index')
 
+    if checkUser.leader:
+
+        return redirect(url_for('memberType', identifier='leader'))
+
     page = make_response(render_template(
         'profile.html',
         user=checkUser,
@@ -328,6 +332,10 @@ def profileMeeting(num, first, last):
 
         flash('User not found', 'error')
         return sendoff('index')
+
+    if checkUser.leader:
+
+        return redirect(url_for('memberType', identifier='leader'))
 
     attended = UserMeeting.query.filter_by(
         userid=checkUser.id, attended=True, currentYear=True).all()
@@ -395,6 +403,10 @@ def profileMeetingOld(num, first, last):
         flash('User not found', 'error')
         return sendoff('index')
 
+    if checkUser.leader:
+
+        return redirect(url_for('memberType', identifier='leader'))
+
     attended = UserMeeting.query.filter_by(
         userid=checkUser.id, attended=True).all()
 
@@ -446,6 +458,10 @@ def profileEvent(num, first, last):
         flash('User not found', 'error')
         return sendoff('index')
 
+    if checkUser.leader:
+
+        return redirect(url_for('memberType', identifier='leader'))
+
     attended = UserEvent.query.filter_by(
         userid=checkUser.id,
         attended=True,
@@ -491,6 +507,7 @@ def profileEvent(num, first, last):
     page.set_cookie('current', 'profileEvent', max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
     page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
     page.set_cookie(
         'profile-type-current',
         'event',
@@ -511,6 +528,10 @@ def profileEventOld(num, first, last):
 
         flash('User not found', 'error')
         return sendoff('index')
+
+    if checkUser.leader:
+
+        return redirect(url_for('memberType', identifier='leader'))
 
     attended = UserEvent.query.filter_by(
         userid=checkUser.id, attended=True).all()
@@ -1223,9 +1244,9 @@ def userNicknameRequest(num, first, last):
     return 'hello'
 
 
-@app.route('/profile/<int:num>/<first>/<last>/nickname',
+@app.route('/edit/user/<int:userId>/nickname',
            methods=['GET', 'POST'])
-def userNicknameAccept(num, first, last):
+def userNicknameAccept(userId):
     return 'hello'
 
 
@@ -1960,13 +1981,13 @@ def members():
 @login_required
 def memberType(identifier):
 
-    if identifier == 'Admin':
+    if identifier.lower() == 'admin':
         currentMembers = User.query.filter_by(
             admin=True, currentmember=True).order_by('lastname').all()
         oldMembers = User.query.filter_by(
             admin=True, currentmember=False).order_by('lastname').all()
 
-    elif identifier == 'Leader':
+    elif identifier.lower() == 'leader':
         currentMembers = User.query.filter_by(
             leader=True, currentmember=True).order_by('lastname').all()
         oldMembers = User.query.filter_by(
