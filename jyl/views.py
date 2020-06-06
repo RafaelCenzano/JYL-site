@@ -675,8 +675,10 @@ def userCreation():
                         phone = repr(int(form.phone.data))
                         if len(phone) != 10:
                             raise BaseException
-                    except:
-                        flash('Phone number must 10 digits long and only contain numbers', 'warning')
+                    except BaseException:
+                        flash(
+                            'Phone number must 10 digits long and only contain numbers',
+                            'warning')
                         form.phone.data = ''
                         return render_template('userCreate.html', form=form)
 
@@ -852,8 +854,9 @@ def meetingAttendance(idOfMeeting):
 
         if request.method == 'POST':
 
-            users = User.query.filter_by(currentmember=True).all()
-            users.sort(key=lambda user: user.lastname)
+            users = User.query.filter_by(
+                currentmember=True, leader=False).all()
+            users.sort(key=lambda user: user.lastname.lower())
             count = 0
 
             for user in users:
@@ -927,10 +930,10 @@ def meetingAttendance(idOfMeeting):
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('attendanceMeetingList'))
 
-        users = User.query.filter_by(currentmember=True).all()
+        users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
-        users.sort(key=lambda user: user.lastname)
+        users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
@@ -986,8 +989,9 @@ def meetingAttendance1(idOfMeeting):
 
         if request.method == 'POST':
 
-            users = User.query.filter_by(currentmember=True).all()
-            users.sort(key=lambda user: user.lastname)
+            users = User.query.filter_by(
+                currentmember=True, leader=False).all()
+            users.sort(key=lambda user: user.lastname.lower())
             count = 0
 
             for user in users:
@@ -1061,10 +1065,10 @@ def meetingAttendance1(idOfMeeting):
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-        users = User.query.filter_by(currentmember=True).all()
+        users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
-        users.sort(key=lambda user: user.lastname)
+        users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
@@ -1145,12 +1149,16 @@ def meetingCreate():
 
 @app.route('/edit/user', methods=['GET'])
 def userEditList():
-    
+
     if current_user.leader:
 
-        currentMembers = User.query.filter_by(currentmember=True).order_by('lastname').all()
+        currentMembers = User.query.filter_by(currentmember=True).all()
+        currentMembers.sort(key=lambda user: user.lastname.lower())
 
-        page = make_response(render_template('memberEdit.html', currentMembers=currentMembers))
+        page = make_response(
+            render_template(
+                'memberEdit.html',
+                currentMembers=currentMembers))
         page = cookieSwitch(page)
         page.set_cookie('current', 'userEditList', max_age=60 * 60 * 24 * 365)
         return page
@@ -1161,7 +1169,7 @@ def userEditList():
 
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
 def userEdit(userId):
-    
+
     if current_user.leader:
 
         form = CreateUser()
@@ -1183,8 +1191,10 @@ def userEdit(userId):
                     phone = repr(int(form.phone.data))
                     if len(phone) != 10:
                         raise BaseException
-                except:
-                    flash('Phone number must 10 digits long and only contain numbers', 'warning')
+                except BaseException:
+                    flash(
+                        'Phone number must 10 digits long and only contain numbers',
+                        'warning')
                     form.phone.data = ''
                     return render_template('userCreate.html', form=form)
 
@@ -1233,7 +1243,8 @@ def userEdit(userId):
     return sendoff('index')
 
 
-@app.route('/profile/<int:num>/<first>/<last>/settings', methods=['GET', 'POST'])
+@app.route('/profile/<int:num>/<first>/<last>/settings',
+           methods=['GET', 'POST'])
 def userEdit1(num, first, last):
     return 'hello'
 
@@ -1391,8 +1402,9 @@ def eventAttendance(eventId):
 
         if request.method == 'POST':
 
-            users = User.query.filter_by(currentmember=True).all()
-            users.sort(key=lambda user: user.lastname)
+            users = User.query.filter_by(
+                currentmember=True, leader=False).all()
+            users.sort(key=lambda user: user.lastname.lower())
             count = 0
 
             for user in users:
@@ -1466,10 +1478,10 @@ def eventAttendance(eventId):
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
 
-        users = User.query.filter_by(currentmember=True).all()
+        users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
-        users.sort(key=lambda user: user.lastname)
+        users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
@@ -1525,8 +1537,9 @@ def eventAttendance1(eventId):
 
         if request.method == 'POST':
 
-            users = User.query.filter_by(currentmember=True).all()
-            users.sort(key=lambda user: user.lastname)
+            users = User.query.filter_by(
+                currentmember=True, leader=False).all()
+            users.sort(key=lambda user: user.lastname.lower())
             count = 0
 
             for user in users:
@@ -1600,10 +1613,10 @@ def eventAttendance1(eventId):
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('attendanceEventList'))
 
-        users = User.query.filter_by(currentmember=True).all()
+        users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
-        users.sort(key=lambda user: user.lastname)
+        users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
@@ -1960,9 +1973,12 @@ def meetingNotGoing(idOfMeeting):
 def members():
 
     currentMembers = User.query.filter_by(
-        currentmember=True).order_by('lastname').all()
+        currentmember=True).all()
     oldMembers = User.query.filter_by(
-        currentmember=False).order_by('lastname').all()
+        currentmember=False).all()
+
+    currentMembers.sort(key=lambda user: user.lastname.lower())
+    oldMembers.sort(key=lambda user: user.lastname.lower())
 
     page = make_response(
         render_template(
@@ -1983,19 +1999,22 @@ def memberType(identifier):
 
     if identifier.lower() == 'admin':
         currentMembers = User.query.filter_by(
-            admin=True, currentmember=True).order_by('lastname').all()
+            admin=True, currentmember=True).all()
         oldMembers = User.query.filter_by(
-            admin=True, currentmember=False).order_by('lastname').all()
+            admin=True, currentmember=False).all()
 
     elif identifier.lower() == 'leader':
         currentMembers = User.query.filter_by(
-            leader=True, currentmember=True).order_by('lastname').all()
+            leader=True, currentmember=True).all()
         oldMembers = User.query.filter_by(
-            leader=True, currentmember=False).order_by('lastname').all()
+            leader=True, currentmember=False).all()
 
     else:
         flash(f'No users in this catagory {identifier}', 'warning')
         return sendoff('members')
+
+    currentMembers.sort(key=lambda user: user.lastname.lower())
+    oldMembers.sort(key=lambda user: user.lastname.lower())
 
     page = make_response(
         render_template(
