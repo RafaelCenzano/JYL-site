@@ -3,8 +3,10 @@ from apscheduler.triggers.interval import IntervalTrigger
 import atexit
 from datetime import datetime
 
+
 def print_time():
-  print(datetime.now().strftime('%H:%M:%S'))
+    print(datetime.now().strftime('%H:%M:%S'))
+
 
 # create schedule for printing time
 scheduler = BackgroundScheduler()
