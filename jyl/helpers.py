@@ -23,15 +23,40 @@ def sendoff(where):
             first = siteCookies['profile-first']
             last = siteCookies['profile-last']
             if siteCookies['profile-type'] == 'normal':
-                return redirect(url_for('profile', num=num, first=first, last=last))
+                return redirect(
+                    url_for(
+                        'profile',
+                        num=num,
+                        first=first,
+                        last=last))
             elif siteCookies['profile-type'] == 'meeting':
-                return redirect(url_for('profileMeeting', num=num, first=first, last=last))
+                return redirect(
+                    url_for(
+                        'profileMeeting',
+                        num=num,
+                        first=first,
+                        last=last))
             elif siteCookies['profile-type'] == 'event':
-                return redirect(url_for('profileEvent', num=num, first=first, last=last))
+                return redirect(
+                    url_for(
+                        'profileEvent',
+                        num=num,
+                        first=first,
+                        last=last))
             elif siteCookies['profile-type'] == 'eventold':
-                return redirect(url_for('profileEventOld', num=num, first=first, last=last))
+                return redirect(
+                    url_for(
+                        'profileEventOld',
+                        num=num,
+                        first=first,
+                        last=last))
             elif siteCookies['profile-type'] == 'meetingold':
-                return redirect(url_for('profileMeetingOld', num=num, first=first, last=last))
+                return redirect(
+                    url_for(
+                        'profileMeetingOld',
+                        num=num,
+                        first=first,
+                        last=last))
 
         elif 'meeting' in currentCookie:
             meetingid = siteCookies['meeting-id']
@@ -61,22 +86,43 @@ def cookieSwitch(pageItem):
         currentFirst = siteCookies['profile-first-current']
         currentLast = siteCookies['profile-last-current']
         currentType = siteCookies['profile-type-current']
-        pageItem.set_cookie('profile-num', currentNum, max_age=60 * 60 * 24 * 365)
-        pageItem.set_cookie('profile-first', currentFirst, max_age=60 * 60 * 24 * 365)
-        pageItem.set_cookie('profile-last', currentLast, max_age=60 * 60 * 24 * 365)
-        pageItem.set_cookie('profile-type', currentType, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'profile-num',
+            currentNum,
+            max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'profile-first',
+            currentFirst,
+            max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'profile-last',
+            currentLast,
+            max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'profile-type',
+            currentType,
+            max_age=60 * 60 * 24 * 365)
 
     if 'meeting-id-current' in siteCookies:
         currentMeeting = siteCookies['meeting-id-current']
-        pageItem.set_cookie('meeting-id', currentMeeting, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'meeting-id',
+            currentMeeting,
+            max_age=60 * 60 * 24 * 365)
 
     if 'event-id-current' in siteCookies:
         currentEvent = siteCookies['event-id-current']
-        pageItem.set_cookie('event-id', currentEvent, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'event-id',
+            currentEvent,
+            max_age=60 * 60 * 24 * 365)
 
     if 'membertype-current' in siteCookies:
         currentMemberType = siteCookies['membertype-current']
-        pageItem.set_cookie('membertype', currentMemberType, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie(
+            'membertype',
+            currentMemberType,
+            max_age=60 * 60 * 24 * 365)
 
     return pageItem
 
