@@ -1,4 +1,5 @@
 from jyl import app, forms, db, bcrypt
+from pytz import timezone
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
 from random import randint
 from hashlib import sha256
@@ -9,6 +10,10 @@ from flask_mail import Mail, Message
 from jyl.helpers import *
 from flask_login import current_user, login_required
 from jyl.eventMeeting import eventMeetingProccessing
+
+
+# Timezone
+pacific = timezone('US/Pacific')
 
 
 '''
@@ -339,10 +344,11 @@ def profileMeeting(num, first, last):
         meetingsAttended.append(Meeting.query.get(meetings.meetingid))
 
     meetingsGoing = []
+    now = pacific.localize(datetime.now())
 
     for meetings in going:
         theMeeting = Meeting.query.get(meetings.meetingid)
-        if theMeeting.start > datetime.now():
+        if pacific.localize(theMeeting.start) > now:
             meetingsGoing.append(theMeeting)
 
     meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
@@ -456,10 +462,11 @@ def profileEvent(num, first, last):
         eventsAttended.append(Event.query.get(events.eventid))
 
     eventsGoing = []
+    now = pacific.localize(datetime.now())
 
     for events in going:
         theEvent = Event.query.get(events.eventid)
-        if theEvent.start > datetime.now():
+        if pacific.localize(theEvent.start) > now:
             eventsGoing.append(theEvent)
 
     eventsAttended.sort(key=lambda event: event.start, reverse=True)
@@ -576,9 +583,7 @@ def meetingInfo(idOfMeeting):
                 eventMeeting['userreview'])))
 
     page = cookieSwitch(page)
-
     idOfMeeting = repr(idOfMeeting)
-
     page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
     page.set_cookie(
         'meeting-id-current',
@@ -696,12 +701,26 @@ def eventCreation():
 
             try:
 
-                newEvent = Event()
+                length = round((form.endtime.data -
+                                form.starttime.data).total_seconds() / (60 * 60), 2)
+                newEvent = Event(
+                    name=form.name.data,
+                    start=form.starttime.data,
+                    end=form.endtime.data,
+                    hourcount=length,
+                    description=form.description.data,
+                    upvote=0,
+                    unsurevote=0,
+                    downvote=0,
+                    location=form.location.data,
+                    currentYear=True,
+                    attendancecount=0)
 
                 db.session.add(newEvent)
                 db.session.commit()
 
                 flash(f'Event "{form.name.data}" created', 'success')
+                return redirect(url_for('creation'))
 
             except BaseException as e:
                 flash(f'Event couldn\'t be created. Error: {e}', 'error')
@@ -724,14 +743,15 @@ def attendanceEventList():
 
         currentEvents = Event.query.filter_by(currentYear=True).all()
         currentEvents.sort(key=lambda event: event.start)
-        now = datetime.now()
+        now = pacific.localize(datetime.now())
 
         page = make_response(
             render_template(
                 'attendanceList.html',
                 meeting=False,
                 eventMeetings=currentEvents,
-                now=now))
+                now=now,
+                pacific=pacific))
         page = cookieSwitch(page)
         page.set_cookie(
             'current',
@@ -750,14 +770,15 @@ def attendanceMeetingList():
 
         currentMeetings = Meeting.query.filter_by(currentYear=True).all()
         currentMeetings.sort(key=lambda meeting: meeting.start)
-        now = datetime.now()
+        now = pacific.localize(datetime.now())
 
         page = make_response(
             render_template(
                 'attendanceList.html',
                 meeting=True,
                 eventMeetings=currentMeetings,
-                now=now))
+                now=now,
+                pacific=pacific))
         page = cookieSwitch(page)
         page.set_cookie(
             'current',
@@ -782,7 +803,9 @@ def meetingAttendance(idOfMeeting):
             flash('Meeting not found', 'error')
             return sendoff('index')
 
-        if checkMeeting.start > datetime.now():
+        if pacific.localize(
+                checkMeeting.start) > pacific.localize(
+                datetime.now()):
 
             flash('Meeting hasn\'t occured yet', 'warning')
             return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -914,7 +937,9 @@ def meetingAttendance1(idOfMeeting):
             flash('Meeting not found', 'error')
             return sendoff('index')
 
-        if checkMeeting.start > datetime.now():
+        if pacific.localize(
+                checkMeeting.start) > pacific.localize(
+                datetime.now()):
 
             flash('Event hasn\'t occured yet', 'warning')
             return redirect(url_for('attendanceMeetingList'))
@@ -1042,8 +1067,8 @@ def meetingCreate():
 
         if request.method == 'POST' and form.validate_on_submit():
 
-            length = (form.endtime.data -
-                      form.starttime.data).total_seconds() / (60 * 60)
+            length = round((form.endtime.data -
+                            form.starttime.data).total_seconds() / (60 * 60), 2)
 
             newMeeting = Meeting(
                 start=form.starttime.data,
@@ -1064,10 +1089,10 @@ def meetingCreate():
             flash(f'New meeting created for {meetingDate}', 'success')
             return redirect(url_for('creation'))
 
-        now = datetime.now()
+        now = pacific.localize(datetime.now())
 
-        form.starttime.data = now.replace(hour=12+4, minute=30)
-        form.endtime.data = now.replace(hour=12+6)
+        form.starttime.data = now.replace(hour=12 + 4, minute=30, second=0)
+        form.endtime.data = now.replace(hour=12 + 6, minute=0, second=0)
         form.location.data = '2012 Pine Street San Francisco CA'
 
         page = make_response(render_template('createMeeting.html', form=form))
@@ -1115,10 +1140,10 @@ def eventEditList():
         futureEvents = []
         pastEvents = []
 
-        now = datetime.now()
+        now = pacific.localize(datetime.now())
 
         for event in currentEvents:
-            if event.start > now:
+            if pacific.localize(event.start) > now:
                 futureEvents.append(event)
             else:
                 pastEvents.append(event)
@@ -1237,7 +1262,9 @@ def eventAttendance(eventId):
             flash('Event not found', 'error')
             return sendoff('index')
 
-        if checkEvent.start > datetime.now():
+        if pacific.localize(
+                checkEvent.start) > pacific.localize(
+                datetime.now()):
 
             flash('Event hasn\'t occured yet', 'warning')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
@@ -1369,7 +1396,9 @@ def eventAttendance1(eventId):
             flash('Event not found', 'error')
             return sendoff('index')
 
-        if checkEvent.start > datetime.now():
+        if pacific.localize(
+                checkEvent.start) > pacific.localize(
+                datetime.now()):
 
             flash('Event hasn\'t occured yet', 'warning')
             return redirect(url_for('attendanceEventList'))
@@ -1498,10 +1527,10 @@ def meetingEditList():
         futureMeetings = []
         pastMeetings = []
 
-        now = datetime.now()
+        now = pacific.localize(datetime.now())
 
         for meeting in currentMeeting:
-            if meeting.start > now:
+            if pacific.localize(meeting.start) > now:
                 futureMeetings.append(meeting)
             else:
                 pastMeetings.append(meeting)
@@ -1657,7 +1686,7 @@ def eventGoing(idOfEvent):
         flash('Event not found', 'error')
         return sendoff('index')
 
-    elif checkEvent.start <= datetime.now():
+    elif pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
 
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -1704,7 +1733,7 @@ def eventNotGoing(idOfEvent):
         flash('Event not found', 'error')
         return sendoff('index')
 
-    elif checkEvent.start <= datetime.now():
+    elif pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
 
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -1737,7 +1766,7 @@ def meetingGoing(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
-    elif checkMeeting.start <= datetime.now():
+    elif pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
 
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -1784,7 +1813,7 @@ def meetingNotGoing(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
-    elif checkMeeting.start <= datetime.now():
+    elif pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
 
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -1907,14 +1936,106 @@ def memberDataOld():
     return sendoff('index')
 
 
+@app.route('/meetingsdata', methods=['GET'])
+@login_required
+def meetingData():
+
+    if current_user.leader:
+
+        meetings = Meeting.query.filter_by(currentYear=True).all()
+
+        page = make_response(
+            render_template(
+                'eventMeetingViews.html',
+                meeting=True,
+                eventMeetings=meetings,
+                oldCheck=True))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'meetingData', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/meetingsdata/old', methods=['GET'])
+@login_required
+def meetingDataOld():
+
+    if current_user.leader:
+
+        meetings = Meeting.query.filter_by(currentYear=False).all()
+
+        page = make_response(
+            render_template(
+                'eventMeetingViews.html',
+                meeting=True,
+                eventMeetings=meetings,
+                oldCheck=False))
+        page = cookieSwitch(page)
+        page.set_cookie(
+            'current',
+            'meetingDataOld',
+            max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/eventsdata', methods=['GET'])
+@login_required
+def eventData():
+
+    if current_user.leader:
+
+        events = Event.query.filter_by(currentYear=True).all()
+
+        page = make_response(
+            render_template(
+                'eventMeetingViews.html',
+                meeting=False,
+                eventMeetings=events,
+                oldCheck=True))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'eventData', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/meetingsdata/old', methods=['GET'])
+@login_required
+def eventDataOld():
+
+    if current_user.leader:
+
+        events = Event.query.filter_by(currentYear=False).all()
+
+        page = make_response(
+            render_template(
+                'eventMeetingViews.html',
+                meeting=False,
+                eventMeetings=events,
+                oldCheck=False))
+        page = cookieSwitch(page)
+        page.set_cookie('current', 'eventDataOld', max_age=60 * 60 * 24 * 365)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
 @app.route('/upcoming/meetings', methods=['GET'])
 @login_required
 def upcomingMeetings():
 
     meetings = []
+    now = pacific.localize(datetime.now())
 
     for meet in Meeting.query.filter_by(currentYear=True).all():
-        if meet.start > datetime.now():
+        if pacific.localize(meet.start) > now:
             meetings.append(meet)
 
     interested = []
@@ -1925,7 +2046,7 @@ def upcomingMeetings():
             going=True,
             attended=False).all():
         meeting = Meeting.query.get(meet.meetingid)
-        if meeting.start > datetime.now():
+        if pacific.localize(meeting.start) > now:
             interested.append(meeting)
             if meeting in meetings:
                 meetings.remove(meeting)
@@ -1951,9 +2072,10 @@ def upcomingMeetings():
 def upcomingEvents():
 
     events = []
+    now = pacific.localize(datetime.now())
 
     for thing in Event.query.filter_by(currentYear=True).all():
-        if thing.start > datetime.now():
+        if pacific.localize(thing.start) > now:
             events.append(thing)
 
     interested = []
@@ -1964,7 +2086,7 @@ def upcomingEvents():
             going=True,
             attended=False).all():
         event = Event.query.get(thing.eventid)
-        if event.start > datetime.now():
+        if pacific.localize(event.start) > now:
             interested.append(event)
             if event in events:
                 events.remove(event)
