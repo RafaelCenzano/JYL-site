@@ -12,7 +12,7 @@
 <ul>
     <li><h2 class="profiletitle">Members</h2></li>
     {% for people in currentMembers %}
-    <a href="#">
+    <a href="{{ url_for('userEdit', userId=people.id) }}">
         <li>
             <h3>{{ people.firstname }} {{ people.lastname }}</h3>
         </li>
