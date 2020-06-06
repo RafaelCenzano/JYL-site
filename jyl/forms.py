@@ -47,10 +47,12 @@ class CreateUser(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email(), Length(max=120)])
     school = StringField('School', validators=[DataRequired(), Length(max=100)])
+    address = TextAreaField('Address', widget=TextArea(), validators=[Length(max=500)])
+    phone = StringField('Phone Number', validators=[Length(max=10)])
     grade = IntegerField('Grade Number', validators=[DataRequired()])
     leader = BooleanField('Leader')
     admin = BooleanField('Admin')
-    submit = SubmitField('Create User')
+    submit = SubmitField('Submit')
 
 
 class CreateEvent(FlaskForm):
