@@ -34,7 +34,7 @@
             <li>
                 <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
                     <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}
-                    {% if people.showphone %} - ({{ people.numberphone[:3] }}){{ people.numberphone[3:6] }}-{{ people.numberphone[6:] }}{% endif %}
+                    {% if people.showphone and people.numberphone %} - ({{ people.numberphone[:3] }}){{ people.numberphone[3:6] }}-{{ people.numberphone[6:] }}{% endif %}
                     {% if people.showemail %} - {{ people.email }}{% endif %}{% if people.leader %} - Leader{% endif %}{% if people.admin %} - Admin{% endif %}</h4>
                 </a>
             </li>
