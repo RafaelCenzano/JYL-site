@@ -12,6 +12,12 @@
     color: rgb(30, 30, 30);
 }
 
+@media screen and (max-width:850px) {
+    .name {
+        text-align: center;
+    }
+}
+
 .subname {
     margin-top: -15px;
     font-size: 25px;
