@@ -184,4 +184,3 @@ class UserGroup(db.Model):
 
     def __repr__(self):
         return f'User {userid} is in {groupid} group'
-
