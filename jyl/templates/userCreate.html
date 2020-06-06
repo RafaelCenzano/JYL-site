@@ -82,6 +82,34 @@
     {% endif %}
     </div>
     <div class="form-group">
+    {{ form.address.label(class="form-label-css") }}
+    <br>
+    {% if form.address.errors %}
+        {{ form.address(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.address.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.address(cols='30', rows='1') }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {{ form.phone.label(class="form-label-css") }}
+    <br>
+    {% if form.phone.errors %}
+        {{ form.phone(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.phone.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.phone() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
     {% if form.leader.errors %}
         {{ form.leader(class="form-control form-control-lg is-invalid") }}
         <div class="invalid-feedback">
