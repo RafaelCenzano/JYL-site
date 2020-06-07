@@ -5,11 +5,11 @@ from datetime import datetime
 import random
 import sys
 
-db.drop_all()
-db.create_all()
-
 
 if sys.argv[1] == 'testing':
+
+    db.drop_all()
+    db.create_all()
     # testing db setup
 
     pass1 = bcrypt.generate_password_hash(
@@ -50,7 +50,12 @@ if sys.argv[1] == 'testing':
         numberphone='4156007000',
         showemail=False,
         showphone=False,
-        showaddr=False,
+        meetingAlertoneday=False,
+        meetingAlertthreeday=False,
+        meetingAlertoneweek=False,
+        eventAlertoneday=False,
+        eventAlertthreeday=False,
+        eventAlertoneweek=False,
         address='Place',
         bio='876 q784538 9762547625376 328763252')
 
@@ -80,7 +85,12 @@ if sys.argv[1] == 'testing':
         numberphone='4157006000',
         showemail=True,
         showphone=True,
-        showaddr=True,
+        meetingAlertoneday=False,
+        meetingAlertthreeday=False,
+        meetingAlertoneweek=False,
+        eventAlertoneday=False,
+        eventAlertthreeday=False,
+        eventAlertoneweek=False,
         address='Place',
         bio='88588 3g432hghjg hj2g4 jh23g4hj3g4 3hgj2343')
 
@@ -92,6 +102,7 @@ if sys.argv[1] == 'testing':
     end0 = datetime(2020, 2, 26, 18)
 
     meeting0 = Meeting(
+        attendancecheck=True,
         start=start0,
         end=end0,
         hourcount=1.5,
@@ -106,6 +117,7 @@ if sys.argv[1] == 'testing':
     end1 = datetime(2020, 2, 19, 18)
 
     meeting1 = Meeting(
+        attendancecheck=True,
         currentYear=True,
         start=start1,
         end=end1,
@@ -118,7 +130,9 @@ if sys.argv[1] == 'testing':
 
     start = datetime(2020, 3, 4, 16, 30)
     end = datetime(2020, 3, 4, 18)
+
     meeting = Meeting(
+        attendancecheck=True,
         currentYear=True,
         start=start,
         end=end,
@@ -131,7 +145,9 @@ if sys.argv[1] == 'testing':
 
     start2 = datetime(2020, 2, 12, 16, 30)
     end2 = datetime(2020, 2, 12, 18)
+
     meeting2 = Meeting(
+        attendancecheck=True,
         currentYear=True,
         start=start2,
         end=end2,
@@ -144,7 +160,9 @@ if sys.argv[1] == 'testing':
 
     start3 = datetime(2020, 2, 5, 16, 30)
     end3 = datetime(2020, 2, 5, 18)
+
     meeting3 = Meeting(
+        attendancecheck=True,
         currentYear=True,
         start=start3,
         end=end3,
@@ -157,7 +175,9 @@ if sys.argv[1] == 'testing':
 
     start4 = datetime(2020, 1, 29, 16, 30)
     end4 = datetime(2020, 1, 29, 18)
+
     meeting4 = Meeting(
+        attendancecheck=True,
         currentYear=True,
         start=start4,
         end=end4,
@@ -170,7 +190,9 @@ if sys.argv[1] == 'testing':
 
     start = datetime(2020, 1, 30, 10)
     end = datetime(2020, 1, 30, 18)
+
     event = Event(
+        attendancecheck=True,
         currentYear=True,
         name='An event!!!!',
         start=start,
@@ -184,7 +206,9 @@ if sys.argv[1] == 'testing':
 
     start1 = datetime(2020, 1, 30, 10)
     end1 = datetime(2020, 1, 30, 18)
+
     event1 = Event(
+        attendancecheck=True,
         currentYear=True,
         name='An event 223!!!!',
         start=start1,
@@ -198,7 +222,9 @@ if sys.argv[1] == 'testing':
 
     start2 = datetime(2020, 7, 30, 10)
     end2 = datetime(2020, 7, 30, 18)
+
     event2 = Event(
+        attendancecheck=True,
         currentYear=True,
         name='A future event',
         start=start2,
@@ -212,7 +238,9 @@ if sys.argv[1] == 'testing':
 
     start3 = datetime(2020, 9, 30, 10)
     end3 = datetime(2020, 9, 30, 18)
+
     event3 = Event(
+        attendancecheck=True,
         currentYear=True,
         name='A future event test',
         start=start3,
@@ -533,17 +561,31 @@ if sys.argv[1] == 'testing':
             numberphone=f'{first}{middle}{last}',
             showemail=True,
             showphone=True,
-            showaddr=True,
+            meetingAlertoneday=False,
+            meetingAlertthreeday=False,
+            meetingAlertoneweek=False,
+            eventAlertoneday=False,
+            eventAlertthreeday=False,
+            eventAlertoneweek=False,
             address=random.choice(['Stamford', 'Scranton', 'New York']),
             bio='The Office is amazing')
 
         db.session.add(user)
         db.session.commit()
 
-elif sys.argv[1] == 'production':
-    # production setup
+elif sys.argv[1] == 'migrate':
 
-    pass
+    users = User.query.filter_by(currentmember=True).all()
+    print(users)
+    for user in users:
+        users.meetingAlertoneday = False
+        users.meetingAlertthreeday = False
+        users.meetingAlertoneweek = False
+        users.eventAlertoneday = False
+        users.eventAlertthreeday = False
+        users.eventAlertoneweek = False
+        db.session.commit()
+        print(user.meetingAlertoneweek)
 
 else:
     sys.exit('No argument or exsisting argument found')

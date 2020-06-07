@@ -708,6 +708,12 @@ def userCreation():
                     numberphone=phone,
                     showemail=False,
                     showphone=False,
+                    meetingAlertoneday=False,
+                    meetingAlertthreeday=False,
+                    meetingAlertoneweek=False,
+                    eventAlertoneday=False,
+                    eventAlertthreeday=False,
+                    eventAlertoneweek=False,
                     address=address,
                     bio=None)
 

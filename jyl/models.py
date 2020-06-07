@@ -38,12 +38,12 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(500), unique=False)
     showemail = db.Column(db.Boolean, unique=False, default=False)
     showphone = db.Column(db.Boolean, unique=False, default=False)
-    meetingAlert1day = db.Column(db.Boolean, unique=False, nullable=False)
-    meetingAlert3day = db.Column(db.Boolean, unique=False, nullable=False)
-    meetingAlert1week = db.Column(db.Boolean, unique=False, nullable=False)
-    eventAlert1day = db.Column(db.Boolean, unique=False, nullable=False)
-    eventAlert3day = db.Column(db.Boolean, unique=False, nullable=False)
-    eventAlert1week = db.Column(db.Boolean, unique=False, nullable=False)
+    meetingAlertoneday = db.Column(db.Boolean, unique=False)
+    meetingAlertthreeday = db.Column(db.Boolean, unique=False)
+    meetingAlertoneweek = db.Column(db.Boolean, unique=False)
+    eventAlertoneday = db.Column(db.Boolean, unique=False)
+    eventAlertthreeday = db.Column(db.Boolean, unique=False)
+    eventAlertoneweek = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'User({self.firstname} {self.lastname}, {self.email})'
