@@ -135,3 +135,15 @@ class UserSettings(FlaskForm):
     bio = TextAreaField('Bio', widget=TextArea(), validators=[Length(max=500, message='Bio must be 500 characters or less')])
     showemail = BooleanField('Make your email public')
     showphone = BooleanField('Make your phone number public')
+    meetingAlertoneday = BooleanField('Meeting email reminder 1 day before')
+    meetingAlertthreeday = BooleanField('Meeting email reminder 3 days before')
+    meetingAlertoneweek = BooleanField('Meeting email reminder 1 week before')
+    eventAlertoneday = BooleanField('Event email reminder 1 day before')
+    eventAlertthreeday = BooleanField('Event email reminder 3 days before')
+    eventAlertoneweek = BooleanField('Event email reminder 1 week before')
+
+
+class LeaderSetting(FlaskForm):
+    bio = TextAreaField('Bio', widget=TextArea(), validators=[Length(max=500, message='Bio must be 500 characters or less')])
+    showemail = BooleanField('Make your email public')
+    showphone = BooleanField('Make your phone number public')
