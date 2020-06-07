@@ -12,8 +12,9 @@
     color: rgb(30, 30, 30);
 }
 
-@media screen and (max-width:850px) {
+@media screen and (max-width:1200px) {
     .name {
+        margin: auto;
         text-align: center;
     }
 }
