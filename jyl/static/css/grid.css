@@ -16,7 +16,7 @@
 }
 
 
-@media only screen and (max-width:1000px) {
+@media only screen and (max-width:1200px) {
     .grid {
         display: -ms-grid;
         display: grid;
@@ -40,6 +40,5 @@
         display: grid;
         -ms-grid-columns: (100%)[1];
         grid-template-columns: repeat(1, 100%);
-        grid-column-gap: 3px;
     }
 }
