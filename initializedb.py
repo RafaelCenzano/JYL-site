@@ -576,7 +576,6 @@ if sys.argv[1] == 'testing':
 elif sys.argv[1] == 'migrate':
 
     users = User.query.filter_by(currentmember=True).all()
-    print(users)
     for user in users:
         users.meetingAlertoneday = False
         users.meetingAlertthreeday = False
