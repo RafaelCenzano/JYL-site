@@ -584,7 +584,6 @@ elif sys.argv[1] == 'migrate':
         users.eventAlertthreeday = False
         users.eventAlertoneweek = False
         db.session.commit()
-        print(user.meetingAlertoneweek)
 
 else:
     sys.exit('No argument or exsisting argument found')
