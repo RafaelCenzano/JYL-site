@@ -56,3 +56,23 @@ li h2 {
     color: #fff;
     transition-duration: 0.4s;
 }
+
+li h4 {
+    font-size: 28px;
+}
+
+li p {
+    font-size: 22px;
+}
+
+@media (max-width: 400px) {
+    li h2 {
+        font-size: 33px;
+    }
+    li h4 {
+        font-size: 24px;
+    }
+    li p {
+        font-size: 18px;
+    }
+}
