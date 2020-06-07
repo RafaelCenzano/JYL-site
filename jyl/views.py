@@ -1253,8 +1253,33 @@ def userEdit(userId):
 
 @app.route('/profile/<int:num>/<first>/<last>/settings',
            methods=['GET', 'POST'])
+@login_required
 def userEdit1(num, first, last):
-    return 'hello'
+    
+    checkUser = User.query.filter_by(namecount=num, firstname=first, lastname=last).first()
+
+    if checkUser is not None and current_user.id == checkUser.id:
+        
+        if checkUser.leader:
+
+            form = LeaderSetting()
+
+            if form.validate_on_submit():
+                pass
+
+            if checkUser.bio:
+                bio = checkUser.bio
+            else:
+                bio = ''
+
+            form.bio.data = bio
+            form.showemail.data = checkUser.showemail
+            form.showphone.data = checkUser.showphone
+
+            return render_template('leaderSetting', form=form)
+
+    flash('You can\'t access this settings page', 'warning')
+    return redirect(url_for('profile', num=num, first=first, last=last))
 
 
 @app.route('/profile/<int:num>/<first>/<last>/request/nickname',
@@ -1827,7 +1852,12 @@ def eventGoing(idOfEvent):
         flash('Event not found', 'error')
         return sendoff('index')
 
-    elif pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
+    if current_user.leader:
+
+        flash('Leaders don\'t attend events like members')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
 
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -1874,7 +1904,12 @@ def eventNotGoing(idOfEvent):
         flash('Event not found', 'error')
         return sendoff('index')
 
-    elif pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
+    if current_user.leader:
+
+        flash('Leaders don\'t attend events like members')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
 
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -1907,7 +1942,12 @@ def meetingGoing(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
-    elif pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
+    if current_user.leader:
+
+        flash('Leaders don\'t attend meetings like members')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
 
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -1954,7 +1994,12 @@ def meetingNotGoing(idOfMeeting):
         flash('Meeting not found', 'error')
         return sendoff('index')
 
-    elif pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
+    if current_user.leader:
+
+        flash('Leaders don\'t attend meetings like members')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
 
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -2030,7 +2075,7 @@ def memberType(identifier):
             currentMembers=currentMembers,
             oldMembers=oldMembers,
             identifier=True,
-            indentify=identifier,
+            indentify=identifier.capitalize(),
             oldthings=len(oldMembers)))
     page = cookieSwitch(page)
     page.set_cookie('current', 'membersType', max_age=60 * 60 * 24 * 365)
