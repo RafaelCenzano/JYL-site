@@ -132,6 +132,6 @@ class ConfirmPassword(FlaskForm):
 
 
 class UserSettings(FlaskForm):
-    bio = TextAreaField('Bio', widget=TextArea(), Length(max=500, message='Bio must be 500 characters or less')])
-    showemail= BooleanField('Make your email public')
-    showphone= BooleanField('Make your phone number public')
+    bio = TextAreaField('Bio', widget=TextArea(), validators=[Length(max=500, message='Bio must be 500 characters or less')])
+    showemail = BooleanField('Make your email public')
+    showphone = BooleanField('Make your phone number public')

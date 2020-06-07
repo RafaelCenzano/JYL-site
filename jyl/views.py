@@ -756,7 +756,8 @@ def eventCreation():
                     downvote=0,
                     location=form.location.data,
                     currentYear=True,
-                    attendancecount=0)
+                    attendancecount=0,
+                    attendancecheck=False)
 
                 db.session.add(newEvent)
                 db.session.commit()
@@ -1124,7 +1125,8 @@ def meetingCreate():
                 downvote=0,
                 location=form.location.data,
                 currentYear=True,
-                attendancecount=0)
+                attendancecount=0,
+                attendancecheck=False)
 
             db.session.add(newMeeting)
             db.session.commit()

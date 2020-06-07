@@ -38,6 +38,12 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(500), unique=False)
     showemail = db.Column(db.Boolean, unique=False, default=False)
     showphone = db.Column(db.Boolean, unique=False, default=False)
+    meetingAlert1day = db.Column(db.Boolean, unique=False, nullable=False)
+    meetingAlert3day = db.Column(db.Boolean, unique=False, nullable=False)
+    meetingAlert1week = db.Column(db.Boolean, unique=False, nullable=False)
+    eventAlert1day = db.Column(db.Boolean, unique=False, nullable=False)
+    eventAlert3day = db.Column(db.Boolean, unique=False, nullable=False)
+    eventAlert1week = db.Column(db.Boolean, unique=False, nullable=False)
 
     def __repr__(self):
         return f'User({self.firstname} {self.lastname}, {self.email})'
@@ -79,6 +85,7 @@ class Meeting(db.Model):
     location = db.Column(db.String(150), unique=False)
     currentYear = db.Column(db.Boolean, unique=False)
     attendancecount = db.Column(db.Integer, unique=False)
+    attendancecheck = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
@@ -124,6 +131,7 @@ class Event(db.Model):
     location = db.Column(db.String(150), unique=False)
     currentYear = db.Column(db.Boolean, unique=False)
     attendancecount = db.Column(db.Integer, unique=False)
+    attendancecheck = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'Event id:{self.id}, from {self.start} to {self.end})'
