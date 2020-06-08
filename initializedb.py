@@ -585,5 +585,56 @@ elif sys.argv[1] == 'migrate':
         users.eventAlertoneweek = False
         db.session.commit()
 
+elif sys.argv[1] == 'clear':
+    db.drop_all()
+    db.create_all()
+
+elif sys.argv[1] == 'production':
+    db.create_all()
+
+    pass1 = bcrypt.generate_password_hash(
+        sha256(
+            ('pass' +
+             'demo@domain.com' +
+             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+
+    user = User(
+        firstname='zStart',
+        lastname='zAdmin',
+        email='demo@domain.com',
+        password=pass1,
+        lifetimeHours=0,
+        lifetimeMeetingHours=0,
+        lifetimeEventHours=0,
+        lifetimeMeetingCount=0,
+        lifetimeEventCount=0,
+        currentHours=0,
+        currentMeetingHours=0,
+        currentEventHours=0,
+        currentMeetingCount=0,
+        currentEventCount=0,
+        nickname='Drew',
+        nicknameapprove=False,
+        admin=True,
+        leader=True,
+        namecount=0,
+        school='Cornell',
+        grade=12,
+        currentmember=True,
+        numberphone='5555555555',
+        showemail=False,
+        showphone=False,
+        meetingAlertoneday=False,
+        meetingAlertthreeday=False,
+        meetingAlertoneweek=False,
+        eventAlertoneday=False,
+        eventAlertthreeday=False,
+        eventAlertoneweek=False,
+        address='Scranton PA',
+        bio='The Office is amazing')
+
+    db.session.add(user)
+    db.session.commit()
+
 else:
     sys.exit('No argument or exsisting argument found')

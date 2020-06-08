@@ -71,7 +71,11 @@ Email: {current_user.email}
         '''
 
         '''
-        recipients = User.query.filter_by(admin=True, currentmember=True, leader=False).all()
+        users = User.query.filter_by(admin=True, currentmember=True, leader=False).all()
+
+        recipients = []
+        for user in users:
+            recipients.append(user.email)
 
         msg = Message('Bug Report - JYL Toolbox',
           recipients=recipients)
@@ -126,7 +130,11 @@ Email: {current_user.email}
         '''
 
         '''
-        recipients = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
+        users = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
+
+        recipients = []
+        for user in users:
+            recipients.append(user.email)
 
         msg = Message('Feature Request - JYL Toolbox',
           recipients=recipients)
@@ -184,7 +192,11 @@ Email: {current_user.email}
         '''
 
         '''
-        recipients = User.query.filter_by(currentmember=True, Leader=True).all()
+        users = User.query.filter_by(currentmember=True, Leader=True).all()
+    
+        recipients = []
+        for user in users:
+            recipients.append(user.email)
 
         msg = Message('Help Request - JYL Toolbox',
           recipients=recipients)
@@ -719,6 +731,32 @@ def userCreation():
 
                 db.session.add(newUser)
                 db.session.commit()
+
+                html = render_template('newuser.html', password=passNum)
+                text = f'''
+Hi,
+
+A JYL Toolbox has been created for you
+
+Login here: https://url.com
+
+Use this email and this password: {passNum}
+
+For security reasons, you should reset your password since this was a temporary password.
+
+- JYL Toolbox
+                '''
+
+                '''
+                recipient = []
+                recipient.append(form.email.data)
+                msg = Message('New User - JYL Toolbox',
+                  recipients=recipient)
+                msg.body = text
+                msg.html = html
+                mail.send(msg)
+                '''
+
                 flash(
                     f'User created for {form.first.data} {form.last.data}',
                     'success')
@@ -1265,7 +1303,12 @@ def userEdit1(num, first, last):
             form = LeaderSetting()
 
             if form.validate_on_submit():
-                pass
+                
+                if form.bio.data == '':
+                    bio = None
+                else:
+                    bio = form.bio.data
+                checkUser
 
             if checkUser.bio:
                 bio = checkUser.bio
