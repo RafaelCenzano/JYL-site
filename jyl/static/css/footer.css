@@ -1,12 +1,15 @@
 footer {
+  position: fixed;
+   bottom: 0;
+   width: 100%;
     padding-top: 10px;
     text-align: center;
     background-color: #c9ced6;
 }
 
 footer h4 {
-    margin-top: -2px;
-    padding-bottom: 10px;
+    margin-top: 4px;
+    padding-bottom: 0;
 }
 
 footer h5 {
@@ -15,6 +18,10 @@ footer h5 {
     margin-top: -5px;
     margin-bottom: -5px;
     text-decoration: underline;
+}
+
+footer h6 {
+    margin-top: -6px;
 }
 
 @media only screen and (max-width:750px) {
