@@ -55,4 +55,9 @@ div.content {
         float: none;
     }
 
+    div.content {
+        margin: 0;
+        padding: 0;
+    }
+
 }
