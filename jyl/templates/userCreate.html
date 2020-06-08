@@ -118,7 +118,10 @@
             {% endfor %}
         </div>
     {% else %}
-        {{ form.leader() }}{{ form.leader.label(class="form-label-css") }}
+        <label class="container">{{ form.leader.label() }}
+            {{ form.leader() }}
+            <span class="checkmark"></span>
+        </label>
     {% endif %}
     </div>
     <div class="form-group">
@@ -130,7 +133,10 @@
             {% endfor %}
         </div>
     {% else %}
-        {{ form.admin() }}{{ form.admin.label(class="form-label-css") }}
+        <label class="container">{{ form.admin.label() }}
+            {{ form.admin() }}
+            <span class="checkmark"></span>
+        </label>
     {% endif %}
     </div>
     <div class="form-group">
