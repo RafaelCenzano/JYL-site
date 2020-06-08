@@ -1,6 +1,5 @@
 .sidebar {
-    margin: 0;
-    padding: 0;
+    top: 0;
     width: 200px;
     background-color: #c9ced6;
     position: fixed;
@@ -26,8 +25,7 @@
 
 div.content {
     margin-left: 200px;
-    padding: 1px 16px;
-    height: 1000px;
+    padding: 0;
 }
 
 @media screen and (max-width:1200px) {
@@ -44,6 +42,8 @@ div.content {
 
     .sidebar a {
         float: left;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     div.content {
