@@ -1,10 +1,16 @@
 footer {
-    position: fixed;
-    bottom: 0;
     width: 100%;
     padding-top: 10px;
     text-align: center;
     background-color: #c9ced6;
+}
+
+@media (min-width:1200px) {
+    footer {
+        position: fixed;
+        bottom: 0;
+    }
+
 }
 
 footer h4 {
@@ -40,7 +46,6 @@ footer a:visited {
     text-decoration: none;
     color: #001f51;
     margin: auto;
-    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
 }
 
