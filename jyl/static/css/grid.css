@@ -1,5 +1,6 @@
 .grid {
-    margin-left: -50px;
+    justify-items: center;
+    align-content: center;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: (25%)[4];
