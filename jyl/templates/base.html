@@ -64,8 +64,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/flash.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/grid.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/footer.css') }}">
@@ -83,8 +83,8 @@
         {% include "flash.html" %}
         {% block content %}
         {% endblock %}
-        {% include "footer.html" %}
     </div>
+    {% include "footer.html" %}
     {% block trailing_js %}
     {% endblock %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/flash.js') }}"></script>
