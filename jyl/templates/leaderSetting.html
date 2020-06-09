@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="" autocomplete="off">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">Settings</h2>
+    <div class="form-group">
+    {{ form.bio.label(class="form-label-css") }}
+    <br>
+    {% if form.bio.errors %}
+        {{ form.bio(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.bio.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.bio(cols='30', rows='10') }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.showemail.errors %}
+        {{ form.showemail(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.showemail.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.showemail.label() }}
+            {{ form.showemail() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.showphone.errors %}
+        {{ form.showphone(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.showphone.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.showphone.label() }}
+            {{ form.showphone() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock content %}
