@@ -6,6 +6,7 @@
         {% if not current_user.leader %}
         <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">{% if current_user.nicknameapprove %}{{ current_user.nickname }}{% else %}{{ current_user.firstname }} {{ current_user.lastname }}{% endif %} <i class="fas fa-user-cog nav-icon"></i></a>
         {% endif %}
+        <a href="{{ url_for('userEdit1', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">Settings <i class="fas fa-cog"></i></a>
         {% if current_user.admin %}
         <a href="{{ url_for('creation') }}">Leader Dashboard <i class="fas fa-table"></i></a>
         {% endif %}
