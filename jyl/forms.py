@@ -83,7 +83,7 @@ class CreateUser(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class CreateEvent(FlaskForm):
+class CreateEventMeeting(FlaskForm):
     name = StringField(
     'Event name',
     validators=[
@@ -95,24 +95,6 @@ class CreateEvent(FlaskForm):
     'Description', widget=TextArea(), validators=[
         DataRequired(), Length(
             max=500, message='Description must be 500 characters or less')])
-    location = TextAreaField(
-    'Location',
-    widget=TextArea(),
-    validators=[
-        DataRequired(),
-        Length(
-            max=150,
-             message='Location must be 150 characters or less')])
-    starttime = DateTimeField('Start Time', validators=[DataRequired()])
-    endtime = DateTimeField('End Time', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-
-class CreateMeeting(FlaskForm):
-    description = TextAreaField(
-    'Description', widget=TextArea(), validators=[
-        DataRequired(), Length(
-            max=500, message='Message must be 500 characters or less')])
     location = TextAreaField(
     'Location',
     widget=TextArea(),

@@ -781,7 +781,7 @@ def eventCreation():
 
     if current_user.leader or current_user.admin:
 
-        form = CreateEvent()
+        form = CreateEventMeeting()
 
         if form.validate_on_submit():
 
@@ -1155,7 +1155,7 @@ def meetingCreate():
 
     if current_user.leader or current_user.admin:
 
-        form = CreateMeeting()
+        form = CreateEventMeeting()
 
         if request.method == 'POST' and form.validate_on_submit():
 
