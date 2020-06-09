@@ -24,6 +24,7 @@
     {% else %}
         {{ form.bio(cols='30', rows='10') }}
     {% endif %}
+    <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}">Request Nickname</a></p>
     </div>
     <h3>Privacy</h3>
     <div class="form-group">
