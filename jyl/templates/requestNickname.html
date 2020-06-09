@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Request Nickname{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="" autocomplete="off">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">Request Nickname</h2>
+    <div class="form-group">
+    {{ form.nickname.label(class="form-label-css") }}
+    <br>
+    {% if form.nickname.errors %}
+        {{ form.nickname(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.nickname.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.nickname() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.understand.errors %}
+        {{ form.understand(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.understand.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.understand.label() }}
+            {{ form.understand() }}
+            <span class="checkmark"></span>
+        </label>
+        <p>that my nickname request is sent to the leaders to be approved and if I submit a new nickame it will be have to be re-approved</p>
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock content %}
