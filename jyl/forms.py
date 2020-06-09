@@ -141,9 +141,11 @@ class UserSettings(FlaskForm):
     eventAlertoneday = BooleanField('Event email reminder 1 day before')
     eventAlertthreeday = BooleanField('Event email reminder 3 days before')
     eventAlertoneweek = BooleanField('Event email reminder 1 week before')
+    submit = SubmitField('Submit')
 
 
 class LeaderSetting(FlaskForm):
     bio = TextAreaField('Bio', widget=TextArea(), validators=[Length(max=500, message='Bio must be 500 characters or less')])
     showemail = BooleanField('Make your email public')
     showphone = BooleanField('Make your phone number public')
+    submit = SubmitField('Submit')
