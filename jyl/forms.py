@@ -14,7 +14,7 @@ Forms for jyl toolbox
 
 class LoginForm(FlaskForm):
     email = StringField('Email',
-                        validators=[DataRequired(), Email()])
+                        validators=[DataRequired(), Email(), Length(max=120)])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
@@ -28,7 +28,7 @@ class RequestResetForm(FlaskForm):
 
 class ResetPasswordForm(FlaskForm):
     email = StringField('Email',
-                        validators=[DataRequired(), Email()])
+                        validators=[DataRequired(), Email(), Length(max=120)])
     password = PasswordField(
     'Password',
     validators=[
@@ -59,11 +59,11 @@ class CreateUser(FlaskForm):
     first = StringField(
     'First name', validators=[
         DataRequired(), Length(
-            max=30)])
+            max=30, message='First name must be 30 characters or less')])
     last = StringField(
     'Last name', validators=[
         DataRequired(), Length(
-            max=30)])
+            max=30, message='Last name must be 30 characters or less')])
     email = StringField('Email',
                         validators=[DataRequired(), Email(), Length(max=120)])
     school = StringField(
@@ -149,3 +149,14 @@ class LeaderSetting(FlaskForm):
     showemail = BooleanField('Make your email public')
     showphone = BooleanField('Make your phone number public')
     submit = SubmitField('Submit')
+
+
+class RequestNickname(FlaskForm):
+    nickname = StringField(
+    'Nickname', validators=[
+        DataRequired(), Length(
+            max=30, message='Nickname must be 30 characters or less')])
+    understand = BooleanField('I am aware')
+    # that my nickname request is sent to the leaders to be approved and if I submit a new nickame it will be have to be re-approved
+    submit = SubmitField('Submit')
+
