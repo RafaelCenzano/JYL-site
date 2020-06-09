@@ -158,8 +158,8 @@ if sys.argv[1] == 'testing':
         unsurevote=0,
         location='2012 Pine St.')
 
-    start3 = datetime(2020, 2, 5, 16, 30)
-    end3 = datetime(2020, 2, 5, 18)
+    start3 = datetime(2020, 7, 5, 16, 30)
+    end3 = datetime(2020, 7, 5, 18)
 
     meeting3 = Meeting(
         attendancecheck=True,
@@ -173,8 +173,8 @@ if sys.argv[1] == 'testing':
         unsurevote=0,
         location='2012 Pine St.')
 
-    start4 = datetime(2020, 1, 29, 16, 30)
-    end4 = datetime(2020, 1, 29, 18)
+    start4 = datetime(2020, 8, 29, 16, 30)
+    end4 = datetime(2020, 8, 29, 18)
 
     meeting4 = Meeting(
         attendancecheck=True,
