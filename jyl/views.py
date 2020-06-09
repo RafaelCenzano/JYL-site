@@ -1308,7 +1308,12 @@ def userEdit1(num, first, last):
                     bio = None
                 else:
                     bio = form.bio.data
-                checkUser
+
+                checkUser.bio = bio
+                checkUser.showemail = form.showemail.data
+                checkUser.showphone = form.showphone.data
+
+                return sendoff('index')
 
             if checkUser.bio:
                 bio = checkUser.bio
@@ -1319,7 +1324,45 @@ def userEdit1(num, first, last):
             form.showemail.data = checkUser.showemail
             form.showphone.data = checkUser.showphone
 
-            return render_template('leaderSetting', form=form)
+            return render_template('leaderSetting.html', form=form)
+
+        form = UserSettings()
+
+        if form.validate_on_submit():
+                
+            if form.bio.data == '':
+                bio = None
+            else:
+                bio = form.bio.data
+
+            checkUser.bio = bio
+            checkUser.showemail = form.showemail.data
+            checkUser.showphone = form.showphone.data
+            checkUser.meetingAlertoneday = form.meetingAlertoneday.data
+            checkUser.meetingAlertthreeday = form.meetingAlertthreeday.data
+            checkUser.meetingAlertoneweek = form.meetingAlertoneweek.data
+            checkUser.eventAlertoneday = form.eventAlertoneday.data
+            checkUser.eventAlertthreeday = form.eventAlertthreeday.data
+            checkUser.eventAlertoneweek = form.eventAlertoneweek.data
+
+            return sendoff('profile')
+
+        if checkUser.bio:
+            bio = checkUser.bio
+        else:
+            bio = ''
+
+        form.bio.data = bio
+        form.showemail.data = checkUser.showemail
+        form.showphone.data = checkUser.showphone
+        form.meetingAlertoneday.data = checkUser.meetingAlertoneday
+        form.meetingAlertthreeday.data = checkUser.meetingAlertthreeday
+        form.meetingAlertoneweek.data = checkUser.meetingAlertoneweek
+        form.eventAlertoneday.data = checkUser.eventAlertoneday
+        form.eventAlertthreeday.data = checkUser.eventAlertthreeday
+        form.eventAlertoneweek.data = checkUser.eventAlertoneweek
+
+        return render_template('userSetting.html', form=form)
 
     flash('You can\'t access this settings page', 'warning')
     return redirect(url_for('profile', num=num, first=first, last=last))
