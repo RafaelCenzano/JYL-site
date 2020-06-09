@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Edit Meeting{% endblock %}
+{% block title %}{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %}{% endblock %}
 
 {% block head_css %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
@@ -10,7 +10,23 @@
 <form method="POST" action="">
     <!-- Part of protecting the site from attacks -->
     {{ form.hidden_tag() }}
-    <h2 class="form-title">Edit Meeting</h2>
+    <h2 class="form-title">{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %}</h2>
+    {% if not meeting %}
+    <div class="form-group">
+    {{ form.name.label(class="form-label-css") }}
+    <br>
+    {% if form.name.errors %}
+        {{ form.name(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.name.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.name() }}
+    {% endif %}
+    </div>
+    {% endif %}
     <div class="form-group">
     {{ form.description.label(class="form-label-css") }}
     <br>

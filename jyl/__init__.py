@@ -34,7 +34,5 @@ db.create_all()
 
 
 # Import all views
-import jyl.helpers
 import jyl.views
-import jyl.accountViews
 import jyl.tasks

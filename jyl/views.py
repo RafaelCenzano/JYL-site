@@ -814,7 +814,7 @@ def eventCreation():
 
             return(url_for('creation'))
 
-        page = make_response(render_template('eventMeetingCreate.html', form=form, meeting=False))
+        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=False, edit=False))
         page = cookieSwitch(page)
         page.set_cookie('current', 'eventCreation', max_age=60 * 60 * 24 * 365)
         return page
@@ -1188,7 +1188,7 @@ def meetingCreate():
         form.endtime.data = now.replace(hour=12 + 6, minute=0, second=0)
         form.location.data = '2012 Pine Street San Francisco CA'
 
-        page = make_response(render_template('eventMeetingCreate.html', form=form, meeting=True))
+        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=True, edit=False))
         page = cookieSwitch(page)
         return page
 
@@ -1466,7 +1466,7 @@ def eventEdit(eventId):
             flash('Event not found', 'error')
             return sendoff('index')
 
-        form = CreateEvent()
+        form = CreateEventMeeting()
 
         if request.method == 'POST' and form.validate_on_submit():
 
@@ -1487,7 +1487,7 @@ def eventEdit(eventId):
         form.starttime.data = checkEvent.start
         form.endtime.data = checkEvent.end
 
-        page = make_response(render_template('editEvent.html', form=form))
+        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=False, edit=True))
         page = cookieSwitch(page)
         return page
 
@@ -1859,7 +1859,7 @@ def meetingEdit(meetingId):
             flash('Meeting not found', 'error')
             return sendoff('index')
 
-        form = CreateMeeting()
+        form = CreateEventMeeting()
 
         if request.method == 'POST' and form.validate_on_submit():
 
@@ -1878,7 +1878,7 @@ def meetingEdit(meetingId):
         form.starttime.data = checkMeeting.start
         form.endtime.data = checkMeeting.end
 
-        page = make_response(render_template('editMeeting.html', form=form))
+        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=True, edit=True))
         page = cookieSwitch(page)
         return page
 
