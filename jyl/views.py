@@ -1,4 +1,4 @@
-from jyl import app, forms, db, bcrypt
+from jyl import app, db, bcrypt
 from pytz import timezone
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
 from random import randint
@@ -8,7 +8,7 @@ from jyl.forms import *
 from jyl.models import *
 from flask_mail import Mail, Message
 from jyl.helpers import *
-from flask_login import current_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 from jyl.eventMeeting import eventMeetingProccessing
 
 
@@ -824,6 +824,7 @@ def eventCreation():
 
 
 @app.route('/attendance/event', methods=['GET'])
+@login_required
 def attendanceEventList():
 
     if current_user.leader or current_user.admin:
@@ -851,6 +852,7 @@ def attendanceEventList():
 
 
 @app.route('/attendance/meeting', methods=['GET'])
+@login_required
 def attendanceMeetingList():
 
     if current_user.leader or current_user.admin:
@@ -1148,6 +1150,7 @@ def meetingAttendance1(idOfMeeting):
 
 
 @app.route('/create/meeting', methods=['GET', 'POST'])
+@login_required
 def meetingCreate():
 
     if current_user.leader or current_user.admin:
@@ -1194,6 +1197,7 @@ def meetingCreate():
 
 
 @app.route('/edit/user', methods=['GET'])
+@login_required
 def userEditList():
 
     if current_user.leader:
@@ -1214,6 +1218,7 @@ def userEditList():
 
 
 @app.route('/edit/user/<int:userId>', methods=['GET', 'POST'])
+@login_required
 def userEdit(userId):
 
     if current_user.leader:
@@ -1313,6 +1318,8 @@ def userEdit1(num, first, last):
                 checkUser.showemail = form.showemail.data
                 checkUser.showphone = form.showphone.data
 
+                db.session.commit()
+
                 return sendoff('index')
 
             if checkUser.bio:
@@ -1324,7 +1331,7 @@ def userEdit1(num, first, last):
             form.showemail.data = checkUser.showemail
             form.showphone.data = checkUser.showphone
 
-            return render_template('leaderSetting.html', form=form)
+            return render_template('leaderSetting.html', form=form, user=checkUser)
 
         form = UserSettings()
 
@@ -1345,6 +1352,8 @@ def userEdit1(num, first, last):
             checkUser.eventAlertthreeday = form.eventAlertthreeday.data
             checkUser.eventAlertoneweek = form.eventAlertoneweek.data
 
+            db.session.commit()
+
             return sendoff('profile')
 
         if checkUser.bio:
@@ -1362,7 +1371,7 @@ def userEdit1(num, first, last):
         form.eventAlertthreeday.data = checkUser.eventAlertthreeday
         form.eventAlertoneweek.data = checkUser.eventAlertoneweek
 
-        return render_template('userSetting.html', form=form)
+        return render_template('userSetting.html', form=form, user=checkUser)
 
     flash('You can\'t access this settings page', 'warning')
     return redirect(url_for('profile', num=num, first=first, last=last))
@@ -1370,17 +1379,46 @@ def userEdit1(num, first, last):
 
 @app.route('/profile/<int:num>/<first>/<last>/request/nickname',
            methods=['GET', 'POST'])
+@login_required
 def userNicknameRequest(num, first, last):
-    return 'hello'
+    
+    checkUser = User.query.filter_by(namecount=num, firstname=first, lastname=last).first()
+
+    if checkUser is not None and current_user.id == checkUser.id:
+
+        form = RequestNickname()
+
+        if form.validate_on_submit():
+
+            if not form.understand.data:
+
+                flash('You must check the required checkbox')
+                return render_template('requestNickname.html', form=form)
+
+            checkUser.nickname = form.nickname.data
+            checkUser.nicknameapprove = False
+
+            db.session.commit()
+
+            return redirect(url_for('profile', num=num, first=first, last=last))
+
+        if checkUser.nickname:
+            form.nickname.data = checkUser.nickname
+
+        return render_template('requestNickname.html', form=form)
+
+    flash('You can\'t access this nickname request page', 'warning')
+    return redirect(url_for('profile', num=num, first=first, last=last))
 
 
-@app.route('/edit/user/<int:userId>/nickname',
-           methods=['GET', 'POST'])
-def userNicknameAccept(userId):
+@app.route('/edit/nickname')
+@login_required
+def nicknameList():
     return 'hello'
 
 
 @app.route('/edit/event', methods=['GET'])
+@login_required
 def eventEditList():
 
     if current_user.leader or current_user.admin:
@@ -1770,6 +1808,7 @@ def eventAttendance1(eventId):
 
 
 @app.route('/edit/meeting', methods=['GET'])
+@login_required
 def meetingEditList():
 
     if current_user.leader or current_user.admin:
@@ -1808,6 +1847,7 @@ def meetingEditList():
 
 
 @app.route('/edit/meeting/<int:meetingId>', methods=['GET', 'POST'])
+@login_required
 def meetingEdit(meetingId):
 
     if current_user.leader or current_user.admin:
@@ -1847,6 +1887,7 @@ def meetingEdit(meetingId):
 
 
 @app.route('/meeting/<int:meetingId>/edit', methods=['GET', 'POST'])
+@login_required
 def meetingEdit1(meetingId):
 
     if current_user.leader or current_user.admin:
@@ -2385,9 +2426,206 @@ def upcomingEvents():
     return page
 
 
-app.route('/robots.txt', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+
+    if current_user.is_authenticated:
+        flash('You are already logged in', 'warning')
+        return sendoff('index'), 403
+
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None:
+            flash(
+                f'Login Unsuccessful. User dosen\'t exsist',
+                'error')
+        else:
+            if bcrypt.check_password_hash(
+                user.password,
+                sha256(
+                    (form.password.data +
+                     form.email.data +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                login_user(user, remember=form.remember.data)
+                next_page = request.args.get('next')
+
+                flash(f'Logged in successfully.', 'success')
+                return redirect(next_page) if next_page else redirect(
+                    url_for('index'))
+
+            else:
+                flash(
+                    'Login Unsuccessful. Please check email and password',
+                    'error')
+
+    page = make_response(render_template('login.html', form=form))
+
+    page = cookieSwitch(page)
+
+    return page
 
 
+@app.route('/confirm/<token>', methods=['GET', 'POST'])
+def confirm(token):
+
+    if current_user.is_authenticated:
+        flash(
+            'You do not need to confirm your account as you are logged in already',
+            'warning')
+        return sendoff('index'), 403
+
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        email = confirm_token(token) == form.email.data
+
+        if user.confirmed:
+            flash('Account already confirmed. Please login.', 'info')
+            return redirect(url_for('login'))
+
+        if user and email and bcrypt.check_password_hash(
+            user.password,
+            sha256(
+                (form.password.data +
+                 form.email.data +
+                 app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+            user.confirmed = True
+
+            db.session.add(user)
+            db.session.commit()
+
+            login_user(user, remember=form.remember.data)
+            next_page = request.args.get('next')
+
+            return redirect(next_page) if next_page else redirect(
+                url_for('index'))
+
+        else:
+            flash(
+                'Activation Unsuccessful. Please check email and password',
+                'danger')
+
+    page = make_response(render_template('login.html', form=form))
+
+    page = cookieSwitch(page)
+
+    return page
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+
+    if current_user.is_authenticated:
+        flash(
+            'You do not need to reset your password as you are logged in already',
+            'warning')
+        return sendoff('index')
+
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None:
+            flash(
+                f'Password Reset Unsuccessful. User dosen\'t exsist',
+                'error')
+        else:
+
+            token = user.get_reset_token()
+            reset_url = url_for('reset_token', token=token, _external=True)
+
+            subject = 'Password Reset Request'
+
+            html = render_template('password_reset_email.html', url=reset_url)
+
+            text = f'''
+Hi,
+
+Somebody (hopefully you!) requested a password reset for a JYL Toolbox account.
+
+Your reset link is here: {reset_url}. It will expire in 30 minutes.
+
+- JYL Toolbox
+            '''
+
+            '''
+            msg = Message('Password Reset - JYL Toolbox',
+              sender='email@gmail.com',
+              recipients=[user.email])
+            msg.body = text
+            msg.html = html
+            mail.send(msg)
+            '''
+
+            return html
+
+            flash(
+                f'An email has been sent to {form.email.data} with instructions to reset your password',
+                'info')
+
+            return sendoff('login')
+
+    page = make_response(
+        render_template(
+            'password_reset_request.html',
+            form=form))
+    page = cookieSwitch(page)
+    return page
+
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+
+    if current_user.is_authenticated:
+        flash(
+            'You do not need to reset your password as you are logged in already',
+            'warning')
+        return sendoff('index')
+
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'error')
+        return redirect(url_for('reset_request'))
+
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(
+            sha256(
+                (form.password.data +
+                 form.email.data +
+                 app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+        user.password = hashed_password
+
+        db.session.commit()
+
+        flash('Your password has been updated!', 'success')
+
+        return redirect(url_for('login'))
+
+    page = make_response(render_template('password_change.html', form=form))
+    page = cookieSwitch(page)
+    return page
+
+
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+
+    if current_user.is_authenticated:
+        logout_user()
+        flash('Logout successful', 'success')
+
+    return redirect(url_for('index'))
+
+
+'''
+SEO
+'''
+
+
+@app.route('/robots.txt', methods=['GET'])
 def robots():
     return send_file('templates/seo/robots.txt')
 
