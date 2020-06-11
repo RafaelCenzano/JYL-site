@@ -1,11 +1,10 @@
 .grid {
-    justify-items: center;
-    align-content: center;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: (25%)[4];
     grid-template-columns: repeat(4, 25%);
     grid-column-gap: 10px;
+    margin-left: -40px;
 }
 
 .half-grid {
@@ -17,13 +16,14 @@
 }
 
 
-@media only screen and (max-width:1200px) {
+@media only screen and (max-width:900px) {
     .grid {
         display: -ms-grid;
         display: grid;
         -ms-grid-columns: (50%)[2];
         grid-template-columns: repeat(2, 50%);
         grid-column-gap: 5px;
+        margin-left: -10px;
     }
     .half-grid {
         display: -ms-grid;
@@ -41,5 +41,6 @@
         display: grid;
         -ms-grid-columns: (100%)[1];
         grid-template-columns: repeat(1, 100%);
+        margin-left: -5px;
     }
 }
