@@ -18,16 +18,14 @@
         {% endif %}
         {% if user.admin %}<p class="tag admin">Admin</p>{% endif %}{% if user.leader %}<p class="tag leader">Leader</p>{% endif %}
         <p>{{ user.school }}, {{ user.grade }}</p>
-        {% if user.bio %}
-        <p>{{ user.bio }}</p>
-        {% endif %}
+        {% if user.showemail %}<p>{{ user.email }}</p>{% endif %}
+        {% if user.showphone and user.numberphone %}<p>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</p>{% endif %}
+        {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
     </div>
     <div class="column">
         <h4 class="desc">Current Hours:</h4>
         <div class="hours lrg"><h4>{{ currentHours }}</h4></div>
         <h4 class="desc">Lifetime Hours: {{ lifetimeHours }}</h4>
-        {% if user.showemail %}<p>{{ user.email }}</p>{% endif %}
-        {% if user.showphone and user.numberphone %}<p>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</p>{% endif %}
     </div>
     <div class="column">
         <a href="{{ url_for('profileMeeting', num=user.namecount, first=user.firstname, last=user.lastname) }}"><h2 class="profiletitle" id="meetings">Meetings {{ currentMeetingHours }}</h2></a>
