@@ -1411,10 +1411,103 @@ def userNicknameRequest(num, first, last):
     return redirect(url_for('profile', num=num, first=first, last=last))
 
 
-@app.route('/edit/nickname')
+@app.route('/edit/nickname', methods=['GET'])
 @login_required
 def nicknameList():
-    return 'hello'
+    
+    if current_user.leader:
+        
+        users = User.query.filter_by(nicknameapprove=False).all()
+        nickedMembers = User.query.filter_by(nicknameapprove=True).all()
+        applicableMembers = []
+        
+        for user in users:
+            if user.nickname:
+                applicableMembers.append(user)
+
+        applicableMembers.sort(key=lambda user: user.lastname.lower())
+        nickedMembers.sort(key=lambda user: user.lastname.lower())
+
+        return render_template('nicknameList.html', unapproved=applicableMembers, approved=nickedMembers)
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/edit/nickname/<int:userId>/approve', methods=['GET', 'POST'])
+@login_required
+def approveNickname(userId):
+
+    if current_user.leader:
+
+        checkUser = User.query.get(userId)
+
+        if checkUser:
+            
+            if not checkUser.nicknameapprove and checkUser.nickname is not None:
+
+                form = ConfirmPassword()
+
+                if form.validate_on_submit():
+                    
+                    if bcrypt.check_password_hash(current_user.password, sha256((form.password.data + current_user.email + app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+                        
+                        checkUser.nicknameapprove = True
+                        db.session.commit()
+
+                        return redirect(url_for('nicknameList'))
+
+                    flash('Incorrect password', 'error')
+                    form.password.data = ''
+
+                return render_template('passwordConfirm.html', form=form, title='Approve Nickname', message=f'Enter your password to approve {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+
+            flash('User doesn\'t have a nickname request', 'error')
+            return sendoff('index')
+
+        flash('User not found', 'warning')
+        return sendoff('index')
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/edit/nickname/<int:userId>/deny', methods=['GET', 'POST'])
+@login_required
+def disapproveNickname(userId):
+
+    if current_user.leader:
+
+        checkUser = User.query.get(userId)
+
+        if checkUser:
+            
+            if not checkUser.nicknameapprove and checkUser.nickname is not None:
+
+                form = ConfirmPassword()
+
+                if form.validate_on_submit():
+                    
+                    if bcrypt.check_password_hash(current_user.password, sha256((form.password.data + current_user.email + app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+                        
+                        checkUser.nicknameapprove = True
+                        db.session.commit()
+
+                        return redirect(url_for('nicknameList'))
+
+                    flash('Incorrect password', 'error')
+                    form.password.data = ''
+
+                return render_template('passwordConfirm.html', form=form, title='Deny Nickname', message=f'Enter your password to remove {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+
+            flash('User doesn\'t have a nickname request', 'error')
+            return sendoff('index')
+
+        flash('User not found', 'warning')
+        return sendoff('index')
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
 
 
 @app.route('/edit/event', methods=['GET'])
