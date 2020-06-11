@@ -41,7 +41,7 @@
               <td>{{ eventMeeting.start.strftime('%-I:%M %p') }}</td>
               <td>{{ eventMeeting.end.strftime('%-I:%M %p') }}</td>
               <td>{{ eventMeeting.hourcount }}</td>
-              <td>{% if meeting %}<a href="{{ url_for('meetingAttendance1', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventAttendance', eventId=eventMeeting.id) }}">{% endif %}{{ eventMeeting.attendancecount }}</a></td>
+              <td>{% if not eventMeeting.attendancecount or eventMeeting.attendancecount == 0 %}0{% else %}{% if meeting %}<a href="{{ url_for('meetingAttendance1', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventAttendance', eventId=eventMeeting.id) }}">{% endif %}{{ eventMeeting.attendancecount }}</a>{% endif %}</td>
               <td><a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}</a></td>
           </tr>
           {% endfor %}
