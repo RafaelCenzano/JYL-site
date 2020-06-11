@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Nickname List{% endblock %}
+
+{% block head_css %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="name">Nickname List</h1>
+{% if approved %}
+<div class="half-grid">
+    <div class="column">
+{% endif %}
+        <ul>
+            <li><h2 class="profiletitle">Unapproved Nicknames</h2></li>
+            {% if unapproved %}
+            {% for user in unapproved %}
+            <li class="non-hover">
+                <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
+                <h3>Requested Nickname: {{ user.nickname }}</h3>
+                <p><a href="{{ url_for('approveNickname', userId=user.id) }}">Accept <i class="fas fa-thumbs-up"></i></a> | <a href="{{ url_for('disapproveNickname', userId=user.id) }}">Deny <i class="fas fa-thumbs-down"></i></a></p>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li>
+                <h3>No nicknames were found</h3>
+            </li>
+            {% endif %}
+        </ul>
+{% if approved %}
+    </div>
+    <div class="column">
+        <ul>
+            <li><h2 class="profiletitle">Approved Nicknames</h2></li>
+            {% for user in approved %}
+            <li class="non-hover">
+                <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
+                <h3>Current Nickname: {{ user.nickname }}</h3>
+                <p><a href="#">Remove this nickname <i class="fas fa-ban"></i></a></p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
