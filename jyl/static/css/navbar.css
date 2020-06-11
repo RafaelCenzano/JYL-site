@@ -1,5 +1,6 @@
 .sidebar {
     top: 0;
+    left: 0;
     width: 200px;
     background-color: #c9ced6;
     position: fixed;
@@ -15,7 +16,7 @@
     text-align: center;
 }
 
-@media (min-width:1200px) {
+@media (min-width:900px) {
     .sidebar a:hover:not(.active) {
         background-color: #364a5e;
         color: #aef7fc;
@@ -24,11 +25,11 @@
 }
 
 div.content {
-    margin-left: 200px;
+    margin-left: 205px;
     padding: 0;
 }
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width:900px) {
     .sidebar {
         width: 100%;
         height: auto;
