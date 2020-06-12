@@ -193,7 +193,7 @@ Email: {current_user.email}
 
         '''
         users = User.query.filter_by(currentmember=True, Leader=True).all()
-    
+
         recipients = []
         for user in users:
             recipients.append(user.email)
@@ -814,7 +814,12 @@ def eventCreation():
 
             return(url_for('creation'))
 
-        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=False, edit=False))
+        page = make_response(
+            render_template(
+                'eventMeetingForm.html',
+                form=form,
+                meeting=False,
+                edit=False))
         page = cookieSwitch(page)
         page.set_cookie('current', 'eventCreation', max_age=60 * 60 * 24 * 365)
         return page
@@ -1188,7 +1193,12 @@ def meetingCreate():
         form.endtime.data = now.replace(hour=12 + 6, minute=0, second=0)
         form.location.data = '2012 Pine Street San Francisco CA'
 
-        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=True, edit=False))
+        page = make_response(
+            render_template(
+                'eventMeetingForm.html',
+                form=form,
+                meeting=True,
+                edit=False))
         page = cookieSwitch(page)
         return page
 
@@ -1294,21 +1304,82 @@ def userEdit(userId):
     return sendoff('index')
 
 
+@app.route('/edit/user/<int:userId>/delete', methods=['GET', 'POST'])
+@login_required
+def userDelete(userId):
+
+    if current_user.leader:
+
+        checkUser = User.query.get(userId)
+
+        form = ConfirmPassword()
+
+        if form.validate_on_submit():
+
+            if bcrypt.check_password_hash(
+                current_user.password,
+                sha256(
+                    (form.password.data +
+                     current_user.email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                if checkUser.id == current_user.id:
+                    logout_user()
+
+                meetings = UserMeeting.query.filter_by(userid=userId).all()
+                events = UserEvent.query.filter_by(userid=userId).all()
+
+                for meeting in meetings:
+                    db.session.delete(meeting)
+                    db.session.commit()
+
+                for event in events:
+                    db.session.delete(event)
+                    db.session.commit()
+
+                db.session.delete(checkUser)
+                db.session.commit()
+
+                flash('User data deleted', 'success')
+                return redirect(url_for('creation'))
+
+            flash('Incorrect password', 'error')
+            form.password.data = ''
+
+        if checkUser.id == current_user.id:
+
+            flash(
+                'Warning you are on a path to delete your own account',
+                'warning')
+
+        return render_template(
+            'passwordConfirm.html',
+            form=form,
+            title='Delete User',
+            message=f'Enter your password to delete {checkUser.firstname} {checkUser.lastname}\'s account, their data, and data related to their account')
+
+    flash('Must be a leader', 'warning')
+    return sendoff('index')
+
+
 @app.route('/profile/<int:num>/<first>/<last>/settings',
            methods=['GET', 'POST'])
 @login_required
 def userEdit1(num, first, last):
-    
-    checkUser = User.query.filter_by(namecount=num, firstname=first, lastname=last).first()
+
+    checkUser = User.query.filter_by(
+        namecount=num,
+        firstname=first,
+        lastname=last).first()
 
     if checkUser is not None and current_user.id == checkUser.id:
-        
+
         if checkUser.leader:
 
             form = LeaderSetting()
 
             if form.validate_on_submit():
-                
+
                 if form.bio.data == '':
                     bio = None
                 else:
@@ -1331,12 +1402,13 @@ def userEdit1(num, first, last):
             form.showemail.data = checkUser.showemail
             form.showphone.data = checkUser.showphone
 
-            return render_template('leaderSetting.html', form=form, user=checkUser)
+            return render_template(
+                'leaderSetting.html', form=form, user=checkUser)
 
         form = UserSettings()
 
         if form.validate_on_submit():
-                
+
             if form.bio.data == '':
                 bio = None
             else:
@@ -1381,8 +1453,11 @@ def userEdit1(num, first, last):
            methods=['GET', 'POST'])
 @login_required
 def userNicknameRequest(num, first, last):
-    
-    checkUser = User.query.filter_by(namecount=num, firstname=first, lastname=last).first()
+
+    checkUser = User.query.filter_by(
+        namecount=num,
+        firstname=first,
+        lastname=last).first()
 
     if checkUser is not None and current_user.id == checkUser.id:
 
@@ -1400,7 +1475,12 @@ def userNicknameRequest(num, first, last):
 
             db.session.commit()
 
-            return redirect(url_for('profile', num=num, first=first, last=last))
+            return redirect(
+                url_for(
+                    'profile',
+                    num=num,
+                    first=first,
+                    last=last))
 
         if checkUser.nickname:
             form.nickname.data = checkUser.nickname
@@ -1414,13 +1494,13 @@ def userNicknameRequest(num, first, last):
 @app.route('/edit/nickname', methods=['GET'])
 @login_required
 def nicknameList():
-    
+
     if current_user.leader:
-        
+
         users = User.query.filter_by(nicknameapprove=False).all()
         nickedMembers = User.query.filter_by(nicknameapprove=True).all()
         applicableMembers = []
-        
+
         for user in users:
             if user.nickname:
                 applicableMembers.append(user)
@@ -1428,7 +1508,10 @@ def nicknameList():
         applicableMembers.sort(key=lambda user: user.lastname.lower())
         nickedMembers.sort(key=lambda user: user.lastname.lower())
 
-        return render_template('nicknameList.html', unapproved=applicableMembers, approved=nickedMembers)
+        return render_template(
+            'nicknameList.html',
+            unapproved=applicableMembers,
+            approved=nickedMembers)
 
     flash('Must be a Leader', 'warning')
     return sendoff('index')
@@ -1443,24 +1526,34 @@ def approveNickname(userId):
         checkUser = User.query.get(userId)
 
         if checkUser:
-            
+
             if not checkUser.nicknameapprove and checkUser.nickname is not None:
 
                 form = ConfirmPassword()
 
                 if form.validate_on_submit():
-                    
-                    if bcrypt.check_password_hash(current_user.password, sha256((form.password.data + current_user.email + app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
-                        
+
+                    if bcrypt.check_password_hash(
+                        current_user.password,
+                        sha256(
+                            (form.password.data +
+                             current_user.email +
+                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
                         checkUser.nicknameapprove = True
                         db.session.commit()
 
+                        flash('Nickname approved', 'success')
                         return redirect(url_for('nicknameList'))
 
                     flash('Incorrect password', 'error')
                     form.password.data = ''
 
-                return render_template('passwordConfirm.html', form=form, title='Approve Nickname', message=f'Enter your password to approve {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+                return render_template(
+                    'passwordConfirm.html',
+                    form=form,
+                    title='Approve Nickname',
+                    message=f'Enter your password to approve {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
 
             flash('User doesn\'t have a nickname request', 'error')
             return sendoff('index')
@@ -1481,26 +1574,86 @@ def disapproveNickname(userId):
         checkUser = User.query.get(userId)
 
         if checkUser:
-            
+
             if not checkUser.nicknameapprove and checkUser.nickname is not None:
 
                 form = ConfirmPassword()
 
                 if form.validate_on_submit():
-                    
-                    if bcrypt.check_password_hash(current_user.password, sha256((form.password.data + current_user.email + app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
-                        
-                        checkUser.nicknameapprove = True
+
+                    if bcrypt.check_password_hash(
+                        current_user.password,
+                        sha256(
+                            (form.password.data +
+                             current_user.email +
+                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                        checkUser.nicknameapprove = False
+                        checkUser.nickname = None
                         db.session.commit()
 
+                        flash('Nickname denied', 'success')
                         return redirect(url_for('nicknameList'))
 
                     flash('Incorrect password', 'error')
                     form.password.data = ''
 
-                return render_template('passwordConfirm.html', form=form, title='Deny Nickname', message=f'Enter your password to remove {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+                return render_template(
+                    'passwordConfirm.html',
+                    form=form,
+                    title='Deny Nickname',
+                    message=f'Enter your password to deny {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
 
             flash('User doesn\'t have a nickname request', 'error')
+            return sendoff('index')
+
+        flash('User not found', 'warning')
+        return sendoff('index')
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/edit/nickname/<int:userId>/remove', methods=['GET', 'POST'])
+@login_required
+def removeNickname(userId):
+
+    if current_user.leader:
+
+        checkUser = User.query.get(userId)
+
+        if checkUser:
+
+            if checkUser.nicknameapprove and checkUser.nickname is not None:
+
+                form = ConfirmPassword()
+
+                if form.validate_on_submit():
+
+                    if bcrypt.check_password_hash(
+                        current_user.password,
+                        sha256(
+                            (form.password.data +
+                             current_user.email +
+                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                        checkUser.nicknameapprove = False
+                        checkUser.nickname = None
+                        db.session.commit()
+
+                        flash('Nickname removed', 'success')
+                        return redirect(url_for('nicknameList'))
+
+                    flash('Incorrect password', 'error')
+                    form.password.data = ''
+
+                return render_template(
+                    'passwordConfirm.html',
+                    form=form,
+                    title='Remove Nickname',
+                    message=f'Enter your password to remove {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+
+            flash('User doesn\'t have a nickname', 'error')
             return sendoff('index')
 
         flash('User not found', 'warning')
@@ -1580,11 +1733,63 @@ def eventEdit(eventId):
         form.starttime.data = checkEvent.start
         form.endtime.data = checkEvent.end
 
-        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=False, edit=True))
+        page = make_response(
+            render_template(
+                'eventMeetingForm.html',
+                form=form,
+                meeting=False,
+                edit=True,
+                eventMeeting=checkEvent))
         page = cookieSwitch(page)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+@app.route('/edit/event/<int:eventId>/delete', methods=['GET', 'POST'])
+@login_required
+def eventDelete(eventId):
+
+    if current_user.leader:
+
+        checkEvent = Event.query.get(eventId)
+
+        form = ConfirmPassword()
+
+        if form.validate_on_submit():
+
+            if bcrypt.check_password_hash(
+                current_user.password,
+                sha256(
+                    (form.password.data +
+                     current_user.email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                events = UserEvent.query.filter_by(eventid=eventId).all()
+
+                for event in events:
+                    db.session.delete(event)
+                    db.session.commit()
+
+                db.session.delete(checkEvent)
+                db.session.commit()
+
+                flash('Event data deleted', 'success')
+                return redirect(url_for('creation'))
+
+            flash('Incorrect password', 'error')
+            form.password.data = ''
+
+        date = checkEvent.start.strftime('%B %-d, %Y')
+
+        return render_template(
+            'passwordConfirm.html',
+            form=form,
+            title='Delete Event',
+            message=f'Enter your password to delete event: {checkEvent.name} that is/was on {date}')
+
+    flash('Must be a leader', 'warning')
     return sendoff('index')
 
 
@@ -1601,7 +1806,7 @@ def eventEdit2(eventId):
             flash('Event not found', 'error')
             return sendoff('index')
 
-        form = CreateEvent()
+        form = CreateEventMeeting()
 
         if request.method == 'POST' and form.validate_on_submit():
 
@@ -1622,7 +1827,13 @@ def eventEdit2(eventId):
         form.starttime.data = checkEvent.start
         form.endtime.data = checkEvent.end
 
-        page = make_response(render_template('editEvent.html', form=form))
+        page = make_response(
+            render_template(
+                'eventMeetingForm.html',
+                form=form,
+                meeting=False,
+                edit=True,
+                eventMeeting=checkEvent))
         page = cookieSwitch(page)
         return page
 
@@ -1971,11 +2182,63 @@ def meetingEdit(meetingId):
         form.starttime.data = checkMeeting.start
         form.endtime.data = checkMeeting.end
 
-        page = make_response(render_template('eventMeetingForm.html', form=form, meeting=True, edit=True))
+        page = make_response(
+            render_template(
+                'eventMeetingForm.html',
+                form=form,
+                meeting=True,
+                edit=True,
+                eventMeeting=checkMeeting))
         page = cookieSwitch(page)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
+    return sendoff('index')
+
+
+@app.route('/edit/meeting/<int:meetingId>/delete', methods=['GET', 'POST'])
+@login_required
+def meetingDelete(meetingId):
+
+    if current_user.leader:
+
+        checkMeeting = Meeting.query.get(meetingId)
+
+        form = ConfirmPassword()
+
+        if form.validate_on_submit():
+
+            if bcrypt.check_password_hash(
+                current_user.password,
+                sha256(
+                    (form.password.data +
+                     current_user.email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                meetings = UserMeeting.query.filter_by(meetingid=meetingId).all()
+
+                for meeting in meetings:
+                    db.session.delete(meeting)
+                    db.session.commit()
+
+                db.session.delete(checkMeeting)
+                db.session.commit()
+
+                flash('Meeting data deleted', 'success')
+                return redirect(url_for('creation'))
+
+            flash('Incorrect password', 'error')
+            form.password.data = ''
+
+        date = checkMeeting.start.strftime('%B %-d, %Y')
+
+        return render_template(
+            'passwordConfirm.html',
+            form=form,
+            title='Delete Meeting',
+            message=f'Enter your password to delete meeting: {date}')
+
+    flash('Must be a leader', 'warning')
     return sendoff('index')
 
 
@@ -1992,7 +2255,7 @@ def meetingEdit1(meetingId):
             flash('Meeting not found', 'error')
             return sendoff('index')
 
-        form = CreateMeeting()
+        form = CreateEventMeeting()
 
         if request.method == 'POST' and form.validate_on_submit():
 
@@ -2011,7 +2274,13 @@ def meetingEdit1(meetingId):
         form.starttime.data = checkMeeting.start
         form.endtime.data = checkMeeting.end
 
-        page = make_response(render_template('editMeeting.html', form=form))
+        page = make_response(
+            render_template(
+                'eventMeetingForm.html',
+                form=form,
+                meeting=True,
+                edit=True,
+                eventMeeting=checkMeeting))
         page = cookieSwitch(page)
         return page
 
@@ -2053,9 +2322,7 @@ def eventInfo(idOfEvent):
                 eventMeeting['userreview'])))
 
     page = cookieSwitch(page)
-
     idOfEvent = repr(idOfEvent)
-
     page.set_cookie('current', 'event', max_age=60 * 60 * 24 * 365)
     page.set_cookie('event-id-current', idOfEvent, max_age=60 * 60 * 24 * 365)
     return page
@@ -2167,7 +2434,9 @@ def meetingGoing(idOfMeeting):
         flash('Leaders don\'t attend meetings like members')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    if pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
+    if pacific.localize(
+            checkMeeting.start) <= pacific.localize(
+            datetime.now()):
 
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -2219,7 +2488,9 @@ def meetingNotGoing(idOfMeeting):
         flash('Leaders don\'t attend meetings like members')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    if pacific.localize(checkMeeting.start) <= pacific.localize(datetime.now()):
+    if pacific.localize(
+            checkMeeting.start) <= pacific.localize(
+            datetime.now()):
 
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
