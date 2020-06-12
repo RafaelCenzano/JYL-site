@@ -25,7 +25,7 @@
         {{ form.bio(cols='30', rows='10') }}
     {% endif %}
     </div>
-    <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}">Request Nickname</a></p>
+    <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}" class="extra-link">Request Nickname</a></p>
     <div class="form-group">
     {% if form.showemail.errors %}
         {{ form.showemail(class="form-control form-control-lg is-invalid") }}
