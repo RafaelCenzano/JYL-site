@@ -806,7 +806,7 @@ def eventCreation():
                 db.session.add(newEvent)
                 db.session.commit()
 
-                flash(f'Event "{form.name.data}" created', 'success')
+                flash(f'Event {form.name.data} created', 'success')
                 return redirect(url_for('creation'))
 
             except BaseException as e:
@@ -1161,6 +1161,7 @@ def meetingCreate():
     if current_user.leader or current_user.admin:
 
         form = CreateEventMeeting()
+        form.name.data = 'filler'
 
         if request.method == 'POST' and form.validate_on_submit():
 
