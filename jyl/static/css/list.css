@@ -83,3 +83,22 @@ li p {
         font-size: 15px;
     }
 }
+
+.buttons {
+    margin-top: 6px;
+}
+
+.accept, .deny {
+    padding: 3px 5px;
+    margin: 4px 6px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.accept {
+    background-color: #00f22d;
+}
+
+.deny {
+    background-color: #fc0505;
+}
