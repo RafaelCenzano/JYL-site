@@ -4,13 +4,19 @@
 
 {% block head_css %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/flatpickr.min.css') }}">
+Usage
+{% endblock %}
+
+{% block head_js %}
+<script src="{{ url_for('static', filename='js/flatpickr.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <form method="POST" action="">
     <!-- Part of protecting the site from attacks -->
     {{ form.hidden_tag() }}
-    <h2 class="form-title">{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %}</h2>
+    <h2 class="form-title datepicker">{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %}</h2>
     {% if edit %}<p>{% if meeting %}<a href="{{ url_for('meetingDelete', meetingId=eventMeeting.id) }}" class="extra-link">{% else %}<a href="{{ url_for('eventDelete', eventId=eventMeeting.id) }}" class="extra-link">{% endif %}Delete this {% if meeting %}meeting{% else %}event{% endif %}</a></p>{% endif %}
     {% if not meeting %}
     <div class="form-group">
@@ -89,3 +95,16 @@
     </div>
 </form>
 {% endblock content %}
+
+{% block trailing_js %}
+<script>
+flatpickr("#starttime", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i:ss",
+});
+flatpickr("#endtime", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i:ss",
+});
+</script>
+{% endblock %}
