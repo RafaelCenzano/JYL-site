@@ -3,6 +3,12 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
+@media (max-width: 900px){
+    body{
+        text-align: center;
+    }
+}
+
 .center-align {
     text-align: center;
 }
