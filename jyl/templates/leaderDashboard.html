@@ -97,6 +97,7 @@
         </ul>
     </div>
 </div>
+{% if current_user.leader %}
 <ul>
     <li><h2>Manage</h2></li>
     <a href="{{ url_for('nicknameList') }}">
@@ -106,4 +107,5 @@
         </li>
     </a>
 </ul>
+{% endif %}
 {% endblock %}
