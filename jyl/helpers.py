@@ -1,7 +1,11 @@
+from re import search
 from jyl import login_manager
 from flask import redirect, url_for, request
 from jyl.models import User
 from urllib.parse import urlparse
+
+
+SECONDS_IN_YEAR = 60 * 60 * 24 * 365
 
 
 @login_manager.user_loader
@@ -79,7 +83,7 @@ def cookieSwitch(pageItem):
 
     if 'current' in siteCookies:
         current = siteCookies['current']
-        pageItem.set_cookie('page', current, max_age=60 * 60 * 24 * 365)
+        pageItem.set_cookie('page', current, max_age=SECONDS_IN_YEAR)
 
     if 'profile-num-current' in siteCookies:
         currentNum = siteCookies['profile-num-current']
@@ -89,53 +93,58 @@ def cookieSwitch(pageItem):
         pageItem.set_cookie(
             'profile-num',
             currentNum,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         pageItem.set_cookie(
             'profile-first',
             currentFirst,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         pageItem.set_cookie(
             'profile-last',
             currentLast,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         pageItem.set_cookie(
             'profile-type',
             currentType,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
 
     if 'meeting-id-current' in siteCookies:
         currentMeeting = siteCookies['meeting-id-current']
         pageItem.set_cookie(
             'meeting-id',
             currentMeeting,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
 
     if 'event-id-current' in siteCookies:
         currentEvent = siteCookies['event-id-current']
         pageItem.set_cookie(
             'event-id',
             currentEvent,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
 
     if 'membertype-current' in siteCookies:
         currentMemberType = siteCookies['membertype-current']
         pageItem.set_cookie(
             'membertype',
             currentMemberType,
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
 
     return pageItem
 
 
-def linkFormatting(s):
-    newStr = []
-    for st in s.split():
-        urlCheck = urlparse(st)
+class linkFormatting:
+
+    def __init__(self, s):
+        self.text = s
+        self.url = False
+        self.email = False
+
+        urlCheck = urlparse(s)
         if urlCheck.scheme and urlCheck.netloc:
-            newStr.append(f'<a href="{st}">{st}</a>')
-        else:
-            newStr.append(st)
-    return ' '.join(newStr)
+            self.url = True
+
+        emailCheck = search(r'[\w\.-]+@[\w\.-]+', s)
+        if emailCheck:
+            self.email = True
 
 
 def cleanValue(num):
