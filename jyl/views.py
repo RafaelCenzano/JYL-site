@@ -2642,7 +2642,7 @@ def memberDataOld():
 @login_required
 def meetingData():
 
-    if current_user.leader:
+    if current_user.leader or current_user.admin:
 
         meetings = Meeting.query.filter_by(currentYear=True).all()
 
@@ -2656,7 +2656,7 @@ def meetingData():
         page.set_cookie('current', 'meetingData', max_age=SECONDS_IN_YEAR)
         return page
 
-    flash('Must be a Leader', 'warning')
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 
@@ -2664,7 +2664,7 @@ def meetingData():
 @login_required
 def meetingDataOld():
 
-    if current_user.leader:
+    if current_user.leader or current_user.admin:
 
         meetings = Meeting.query.filter_by(currentYear=False).all()
 
@@ -2681,7 +2681,7 @@ def meetingDataOld():
             max_age=SECONDS_IN_YEAR)
         return page
 
-    flash('Must be a Leader', 'warning')
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 
@@ -2689,7 +2689,7 @@ def meetingDataOld():
 @login_required
 def eventData():
 
-    if current_user.leader:
+    if current_user.leader or current_user.admin:
 
         events = Event.query.filter_by(currentYear=True).all()
 
@@ -2703,15 +2703,15 @@ def eventData():
         page.set_cookie('current', 'eventData', max_age=SECONDS_IN_YEAR)
         return page
 
-    flash('Must be a Leader', 'warning')
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 
-@app.route('/meetingsdata/old', methods=['GET'])
+@app.route('/eventsdata/old', methods=['GET'])
 @login_required
 def eventDataOld():
 
-    if current_user.leader:
+    if current_user.leader or current_user.admin:
 
         events = Event.query.filter_by(currentYear=False).all()
 
@@ -2725,7 +2725,7 @@ def eventDataOld():
         page.set_cookie('current', 'eventDataOld', max_age=SECONDS_IN_YEAR)
         return page
 
-    flash('Must be a Leader', 'warning')
+    flash('Must be a Leader or Admin', 'warning')
     return sendoff('index')
 
 
