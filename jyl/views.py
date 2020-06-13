@@ -27,7 +27,7 @@ def index():
 
     page = make_response(render_template('home.html'))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'index', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'index', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -36,7 +36,7 @@ def license():
 
     page = make_response(render_template('license.html'))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'license', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'license', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -95,7 +95,7 @@ Email: {current_user.email}
             form=form,
             type='Bug Report'))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'bugreport', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'bugreport', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -155,7 +155,7 @@ Email: {current_user.email}
             form=form,
             type='Feature Request'))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'featurerequest', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'featurerequest', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -217,7 +217,7 @@ Email: {current_user.email}
             form=form,
             type='Help Request'))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'helprequest', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'helprequest', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -320,14 +320,14 @@ def profile(num, first, last):
 
     num = repr(num)
 
-    page.set_cookie('current', 'profile', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'profile', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'profile-type-current',
         'normal',
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -390,14 +390,14 @@ def profileMeeting(num, first, last):
 
     num = repr(num)
 
-    page.set_cookie('current', 'profileMeeting', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'profileMeeting', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'profile-type-current',
         'meeting',
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -445,14 +445,14 @@ def profileMeetingOld(num, first, last):
 
     num = repr(num)
 
-    page.set_cookie('current', 'profileMeetingOld', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'profileMeetingOld', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'profile-type-current',
         'meetingold',
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -516,14 +516,14 @@ def profileEvent(num, first, last):
 
     num = repr(num)
 
-    page.set_cookie('current', 'profileEvent', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'profileEvent', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'profile-type-current',
         'event',
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -571,14 +571,14 @@ def profileEventOld(num, first, last):
 
     num = repr(num)
 
-    page.set_cookie('current', 'profileEventOld', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-num-current', num, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-first-current', first, max_age=60 * 60 * 24 * 365)
-    page.set_cookie('profile-last-current', last, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'profileEventOld', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'profile-type-current',
         'eventold',
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -603,11 +603,15 @@ def meetingInfo(idOfMeeting):
         if checkUserMeeting is not None and checkUserMeeting.going:
             areyougoing = True
 
+    desc = []
+    for word in checkMeeting.description.split(' '):
+        desc.append(linkFormatting(word))
+
     page = make_response(
         render_template(
             'eventMeeting.html',
             areyougoing=areyougoing,
-            desc=linkFormatting(checkMeeting.description),
+            desc=desc,
             eventMeeting=checkMeeting,
             eventMeetingData=eventMeeting,
             hourcount=cleanValue(
@@ -617,11 +621,11 @@ def meetingInfo(idOfMeeting):
 
     page = cookieSwitch(page)
     idOfMeeting = repr(idOfMeeting)
-    page.set_cookie('current', 'meeting', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'meeting', max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'meeting-id-current',
         idOfMeeting,
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -633,7 +637,7 @@ def creation():
 
         page = make_response(render_template('leaderDashboard.html'))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'creation', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'creation', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -768,7 +772,7 @@ For security reasons, you should reset your password since this was a temporary 
 
         page = make_response(render_template('userCreate.html', form=form))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'userCreation', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'userCreation', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -821,7 +825,7 @@ def eventCreation():
                 meeting=False,
                 edit=False))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'eventCreation', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'eventCreation', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -849,7 +853,7 @@ def attendanceEventList():
         page.set_cookie(
             'current',
             'attendanceEventList',
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -877,7 +881,7 @@ def attendanceMeetingList():
         page.set_cookie(
             'current',
             'attendanceMeetingList',
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -1165,6 +1169,14 @@ def meetingCreate():
 
         if request.method == 'POST' and form.validate_on_submit():
 
+            if form.endtime.data <= form.starttime.data:
+                flash('Endtime must be after starttime', 'error')
+                return render_template(
+                            'eventMeetingForm.html',
+                            form=form,
+                            meeting=True,
+                            edit=False)
+
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
 
@@ -1221,7 +1233,7 @@ def userEditList():
                 'memberEdit.html',
                 currentMembers=currentMembers))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'userEditList', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'userEditList', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -1693,7 +1705,7 @@ def eventEditList():
                 futureEventMeetings=futureEvents,
                 pastEventMeetings=pastEvents))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'eventEditList', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'eventEditList', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -2144,7 +2156,7 @@ def meetingEditList():
         page.set_cookie(
             'current',
             'meetingEditList',
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader or Admin', 'warning')
@@ -2165,6 +2177,7 @@ def meetingEdit(meetingId):
             return sendoff('index')
 
         form = CreateEventMeeting()
+        form.name.data = 'filler'
 
         if request.method == 'POST' and form.validate_on_submit():
 
@@ -2257,6 +2270,7 @@ def meetingEdit1(meetingId):
             return sendoff('index')
 
         form = CreateEventMeeting()
+        form.name.data = 'filler'
 
         if request.method == 'POST' and form.validate_on_submit():
 
@@ -2310,11 +2324,15 @@ def eventInfo(idOfEvent):
         if checkUserEvent is not None and checkUserEvent.going:
             areyougoing = True
 
+    desc = []
+    for word in checkEvent.description.split(' '):
+        desc.append(linkFormatting(word))
+
     page = make_response(
         render_template(
             'eventMeeting.html',
             areyougoing=areyougoing,
-            desc=linkFormatting(checkEvent.description),
+            desc=desc,
             eventMeeting=checkEvent,
             eventMeetingData=eventMeeting,
             hourcount=cleanValue(
@@ -2324,8 +2342,8 @@ def eventInfo(idOfEvent):
 
     page = cookieSwitch(page)
     idOfEvent = repr(idOfEvent)
-    page.set_cookie('current', 'event', max_age=60 * 60 * 24 * 365)
-    page.set_cookie('event-id-current', idOfEvent, max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'event', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('event-id-current', idOfEvent, max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -2534,7 +2552,7 @@ def members():
             indentify='',
             oldthings=len(oldMembers)))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'members', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'members', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -2570,11 +2588,11 @@ def memberType(identifier):
             indentify=identifier.capitalize(),
             oldthings=len(oldMembers)))
     page = cookieSwitch(page)
-    page.set_cookie('current', 'membersType', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'membersType', max_age=SECONDS_IN_YEAR)
     page.set_cookie(
         'membertype-current',
         identifier,
-        max_age=60 * 60 * 24 * 365)
+        max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -2592,7 +2610,7 @@ def memberData():
                 users=users,
                 oldCheck=True))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'memberData', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'memberData', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -2613,7 +2631,7 @@ def memberDataOld():
                 users=users,
                 oldCheck=False))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'memberDataOld', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'memberDataOld', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -2635,7 +2653,7 @@ def meetingData():
                 eventMeetings=meetings,
                 oldCheck=True))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'meetingData', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'meetingData', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -2660,7 +2678,7 @@ def meetingDataOld():
         page.set_cookie(
             'current',
             'meetingDataOld',
-            max_age=60 * 60 * 24 * 365)
+            max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -2682,7 +2700,7 @@ def eventData():
                 eventMeetings=events,
                 oldCheck=True))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'eventData', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'eventData', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -2704,7 +2722,7 @@ def eventDataOld():
                 eventMeetings=events,
                 oldCheck=False))
         page = cookieSwitch(page)
-        page.set_cookie('current', 'eventDataOld', max_age=60 * 60 * 24 * 365)
+        page.set_cookie('current', 'eventDataOld', max_age=SECONDS_IN_YEAR)
         return page
 
     flash('Must be a Leader', 'warning')
@@ -2747,7 +2765,7 @@ def upcomingMeetings():
             event=False))
 
     page = cookieSwitch(page)
-    page.set_cookie('current', 'upcomingMeetings', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'upcomingMeetings', max_age=SECONDS_IN_YEAR)
     return page
 
 
@@ -2787,7 +2805,7 @@ def upcomingEvents():
             event=True))
 
     page = cookieSwitch(page)
-    page.set_cookie('current', 'upcomingEvents', max_age=60 * 60 * 24 * 365)
+    page.set_cookie('current', 'upcomingEvents', max_age=SECONDS_IN_YEAR)
     return page
 
 
