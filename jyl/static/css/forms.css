@@ -1,10 +1,11 @@
-label {
+.form-label-css {
     font-size: 25px;
     padding-right: 10px;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #submit {
-    background-color: rgb(145, 250, 145);
+    background-color: rgb(176, 255, 176);
     border: none;
     color: rgb(20, 25, 20);
     padding: 15px 32px;
@@ -12,8 +13,10 @@ label {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 8px 0 0 0;
     cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 10px;
 }
 
 .extra-link,
@@ -23,21 +26,39 @@ label {
     transition-duration: 0.5s;
 }
 
-@media (min-width:850px) {
+@media (min-width:900px) {
     .extra-link:hover,
     .extra-link:visited:hover {
         text-decoration: none;
         color: #31c44a;
     }
 
+    #submit:hover {
+        background-color: rgb(0, 255, 0);
+    }
+
 }
 
-input {
+@media (max-width:899px){
+    #submit {
+        background-color: rgb(0, 255, 0);
+    }
+
+    form {
+        display: inline-block;
+    }
+}
+
+.form-group input {
     font-size: 16px;
 }
 
+.form-group {
+    margin-top: 5px;
+}
+
 .form-title {
-    font-size: 35px;
+    font-size: 40px;
     text-decoration: underline;
     color: #041d42;
 }
@@ -110,4 +131,20 @@ input {
     border: solid white;
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
+}
+
+textarea {
+    outline: none;
+    resize: none;
+    overflow: auto;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+}
+
+form {
+    top: 0;
+}
+
+.container {
+    margin-top: 8px;
 }
