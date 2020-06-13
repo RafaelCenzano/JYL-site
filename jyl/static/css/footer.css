@@ -4,6 +4,12 @@ footer {
     background-color: #c9ced6;
 }
 
+@media only screen and (max-width:900px) {
+    footer {
+        margin-top: 15px;
+    }
+}
+
 footer h4 {
     margin-top: 4px;
     padding-bottom: 0;
