@@ -20,7 +20,7 @@
             <li class="non-hover">
                 <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
                 <h3>Requested Nickname: {{ user.nickname }}</h3>
-                <p><a href="{{ url_for('approveNickname', userId=user.id) }}">Accept <i class="fas fa-thumbs-up"></i></a> | <a href="{{ url_for('disapproveNickname', userId=user.id) }}">Deny <i class="fas fa-thumbs-down"></i></a></p>
+                <p><a href="{{ url_for('approveNickname', userId=user.id) }}" class="accept">Accept <i class="fas fa-thumbs-up"></i></a> | <a href="{{ url_for('disapproveNickname', userId=user.id) }}" class="deny">Deny <i class="fas fa-thumbs-down"></i></a></p>
             </li>
             {% endfor %}
             {% else %}
@@ -38,7 +38,7 @@
             <li class="non-hover">
                 <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
                 <h3>Current Nickname: {{ user.nickname }}</h3>
-                <p><a href="{{ url_for('removeNickname', userId=user.id) }}">Remove this nickname <i class="fas fa-ban"></i></a></p>
+                <p><a href="{{ url_for('removeNickname', userId=user.id) }}" class="deny">Remove this nickname <i class="fas fa-ban"></i></a></p>
             </li>
             {% endfor %}
         </ul>
