@@ -16,7 +16,7 @@ Usage
 <form method="POST" action="">
     <!-- Part of protecting the site from attacks -->
     {{ form.hidden_tag() }}
-    <h2 class="form-title datepicker">{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %}</h2>
+    <h2 class="form-title date">{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %}</h2>
     {% if edit %}<p>{% if meeting %}<a href="{{ url_for('meetingDelete', meetingId=eventMeeting.id) }}" class="extra-link">{% else %}<a href="{{ url_for('eventDelete', eventId=eventMeeting.id) }}" class="extra-link">{% endif %}Delete this {% if meeting %}meeting{% else %}event{% endif %}</a></p>{% endif %}
     {% if not meeting %}
     <div class="form-group">
