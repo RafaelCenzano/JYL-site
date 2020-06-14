@@ -84,7 +84,11 @@
                 </li>
             </a>
             {% for i in range(reviewlen) %}
+            {% if current_user.id == eventMeetingData['userreview'][i].userid %}
+            <a href="#edit-review">
+            {% else %}
             <a href="#make-review">
+            {% endif %}
                 <li>
                     <h4>
                     {% if eventMeetingData['userreview'][i].upvote %}
@@ -99,7 +103,8 @@
                     {% else %}
                     {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}: 
                     {% endif %}
-                    {{ eventMeetingData['userreview'][i].comment }}
+                    {{ eventMeetingData['userreview'][i].comment }} 
+                    {% if current_user.id == eventMeetingData['userreview'][i].userid %}<i class="far fa-edit"></i>{% endif %}
                     </h4>
                 </li>
             </a>
