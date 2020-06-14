@@ -41,6 +41,6 @@
         display: grid;
         -ms-grid-columns: (100%)[1];
         grid-template-columns: repeat(1, 100%);
-        margin-left: -5px;
+        margin-left: -35px;
     }
 }
