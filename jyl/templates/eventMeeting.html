@@ -76,7 +76,11 @@
             <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
             <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
+            {% if current_user.id == eventMeetingData['userreview'][i].userid %}
+            <a href="#edit-review">
+            {% else %}
             <a href="#make-review">
+            {% endif %}
                 <li>
                     <span>{{ eventMeeting.upvote }} <i class="fas fa-smile-beam"></i></span>
                     <span>{{ eventMeeting.unsurevote }} <i class="fas fa-meh"></i></span>
