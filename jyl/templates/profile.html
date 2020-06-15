@@ -11,10 +11,10 @@
 <div class="half-grid">
     <div class="column">
         {% if user.nicknameapprove %}
-        <h1 class="name">{% if current_user.id == user.id %}<a class="edit" href="{{ url_for('userEdit1', num=user.namecount, first=user.firstname, last=user.lastname) }}">{% elif current_user.leader %}<a class="edit" href="{{ url_for('userEdit', userId=user.id ) }}">{% endif %}<span class="underline">{{ user.nickname}}</span>{% if current_user.id == user.id or current_user.leader %} <i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
+        <h1 class="name">{% if current_user.id == user.id %}<a class="edit" href="{{ url_for('userEdit1', num=user.namecount, first=user.firstname, last=user.lastname) }}">{% elif current_user.leader %}<a class="edit" href="{{ url_for('userEdit', userId=user.id ) }}">{% endif %}<span class="underline">{{ user.nickname}}</span>{% if current_user.id == user.id or current_user.leader %}<i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
         <h3 class="subname">{{ user.firstname }} {{ user.lastname }}</h3>
         {% else %}
-        <h1 class="name">{% if current_user.id == user.id %}<a class="edit" href="{{ url_for('userEdit1', num=user.namecount, first=user.firstname, last=user.lastname) }}">{% elif current_user.leader %}<a class="edit" href="{{ url_for('userEdit', userId=user.id ) }}">{% endif %}<span class="underline">{{ user.firstname }} {{ user.lastname }}</span>{% if current_user.id == user.id or current_user.leader %} <i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
+        <h1 class="name">{% if current_user.id == user.id %}<a class="edit" href="{{ url_for('userEdit1', num=user.namecount, first=user.firstname, last=user.lastname) }}">{% elif current_user.leader %}<a class="edit" href="{{ url_for('userEdit', userId=user.id ) }}">{% endif %}<span class="underline">{{ user.firstname }} {{ user.lastname }}</span>{% if current_user.id == user.id or current_user.leader %}<i class="fas fa-user-edit profile-edit"></i></a>{% endif %}</h1>
         {% endif %}
         {% if user.admin %}<p class="tag admin">Admin</p>{% endif %}{% if user.leader %}<p class="tag leader">Leader</p>{% endif %}
         <p>{{ user.school }}, {{ user.grade }}</p>
