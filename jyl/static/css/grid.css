@@ -4,7 +4,7 @@
     -ms-grid-columns: (25%)[4];
     grid-template-columns: repeat(4, 25%);
     grid-column-gap: 10px;
-    margin-left: -40px;
+    margin-left: -20px;
 }
 
 .half-grid {
