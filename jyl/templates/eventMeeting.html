@@ -15,37 +15,32 @@
         {% else %}
         <h1>{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
         {% endif %}
-        <h4>Description: {% for word in desc %}{% if word.url %}<a href="{{ word.text }}" target="_blank">{% endif %}{% if word.email %}<a href="mailto:{{ word.text }}">{% endif %}{{ word.text }}{% if word.url or word.email %}</a>{% endif %} {% endfor %}</h4>
-        <h4>Location: <a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }} <i class="fas fa-location-arrow"></i></a></h4>
+        <h4 class="description">Description: {% for word in desc %}{% if word.url %}<a href="{{ word.text }}" target="_blank">{% endif %}{% if word.email %}<a href="mailto:{{ word.text }}">{% endif %}{{ word.text }}{% if word.url or word.email %}</a>{% endif %} {% endfor %}</h4>
+        <h4 class="location">Location: <a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}<i class="fas fa-map-marker-alt"></i></a></h4>
         {% if eventMeetingData['future'] and not current_user.leader %}
         {% if eventMeetingData['meeting'] %}
         {% if areyougoing %}
-        <a href="{{ url_for('meetingNotGoing', idOfMeeting=eventMeeting.id) }}">I'm not going</a>
+        <p class="editing"><a href="{{ url_for('meetingNotGoing', idOfMeeting=eventMeeting.id) }}">I'm not going</a></p>
         {% else %}
-        <a href="{{ url_for('meetingGoing', idOfMeeting=eventMeeting.id) }}">I'm going</a>
+        <p class="editing"><a href="{{ url_for('meetingGoing', idOfMeeting=eventMeeting.id) }}">I'm going</a></p>
         {% endif %}
         {% else %}
         {% if areyougoing %}
-        <a href="{{ url_for('eventNotGoing', idOfEvent=eventMeeting.id) }}">I'm not going</a>
+        <p class="editing"><a href="{{ url_for('eventNotGoing', idOfEvent=eventMeeting.id) }}">I'm not going</a></p>
         {% else %}
-        <a href="{{ url_for('eventGoing', idOfEvent=eventMeeting.id) }}">I'm going</a>
+        <p class="editing"><a href="{{ url_for('eventGoing', idOfEvent=eventMeeting.id) }}">I'm going</a></p>
         {% endif %}
         {% endif %}
         {% endif %}
         {% if current_user.leader %}
-        <p>{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingEdit1', meetingId=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">{% endif %}Edit {% if eventMeetingData['meeting'] %}Meeting{% else %}Event{% endif %} <i class="far fa-edit"></i></a></p>
+        <p class="editing">{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingEdit1', meetingId=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">{% endif %}Edit {% if eventMeetingData['meeting'] %}Meeting{% else %}Event{% endif %}<i class="far fa-edit"></i></a></p>
         {% if not eventMeetingData['future'] %}
-        <p>{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingAttendance1', idOfMeeting=eventMeeting.id) }}">Meeting{% else %}<a href="{{ url_for('eventAttendance', eventId=eventMeeting.id) }}">Event{% endif %} Attendance <i class="far fa-list-alt"></i></a></p>
+        <p class="editing">{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingAttendance1', idOfMeeting=eventMeeting.id) }}">Meeting{% else %}<a href="{{ url_for('eventAttendance', eventId=eventMeeting.id) }}">Event{% endif %} Attendance<i class="far fa-list-alt"></i></a></p>
         {% endif %}
         {% endif %}
     </div>
     <div class="column">
         <div class="lrg green"><h4>{{ hourcount }} hrs</h4></div>
-        {% if eventMeetingData['meeting'] %}
-        <h4 class="desc">Meeting Length</h4>
-        {% else %}
-        <h4 class="desc">Event Length</h4>
-        {% endif %}
     </div>
     <div class="column">
         <ul>
@@ -76,7 +71,7 @@
             <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
             <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
-            {% if current_user.id == eventMeetingData['userreview'][i].userid %}
+            {% if eventMeetingData['userreview'] and current_user.id == eventMeetingData['userreview'][i].userid %}
             <a href="#edit-review">
             {% else %}
             <a href="#make-review">
