@@ -43,7 +43,7 @@
 
 }
 
-@media (max-width:899px){
+@media (max-width:899px) {
     #submit {
         background-color: rgb(0, 255, 0);
     }
@@ -51,6 +51,7 @@
     form {
         display: inline-block;
     }
+
 }
 
 .form-group input {
