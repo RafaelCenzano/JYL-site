@@ -23,7 +23,7 @@ li:visited {
     transition-duration: 0.4s;
 }
 
-@media (min-width:1200px) {
+@media (min-width:900px) {
     li:hover,
     li:visited:hover {
         background: #7dd5f0;
@@ -31,7 +31,10 @@ li:visited {
         border-left: 5px solid #34d6eb;
     }
 
-    .non-hover, .non-hover:hover, .non-hover:visited, .non-hover:visited:hover {
+    .non-hover,
+    .non-hover:hover,
+    .non-hover:visited,
+    .non-hover:visited:hover {
         background: #7db6f0;
         border-bottom: 1px solid #ddd;
         border-right: 5px solid #348feb;
@@ -72,23 +75,27 @@ li p {
     font-size: 18px;
 }
 
-@media (max-width: 400px) {
+@media (max-width:400px) {
     li h2 {
         font-size: 30px;
     }
+
     li h4 {
         font-size: 19px;
     }
+
     li p {
         font-size: 15px;
     }
+
 }
 
 .buttons {
     margin-top: 6px;
 }
 
-.accept, .deny {
+.accept,
+.deny {
     padding: 3px 5px;
     margin: 4px 6px;
     border-radius: 5px;
@@ -101,4 +108,10 @@ li p {
 
 .deny {
     background-color: #fc0505;
+}
+
+li span {
+    margin: 3px 5px;
+    font-size: 25px;
+    color: #fff;
 }
