@@ -25,12 +25,14 @@
                     <p>View a list of all events</p>
                 </li>
             </a>
+            {% if current_user.leader %}
             <a href="{{ url_for('memberData') }}">
                 <li>
                     <h4>Users</h4>
                     <p>View a list of all users</p>
                 </li>
             </a>
+            {% endif %}
         </ul>
     </div>
     <div class="column">
