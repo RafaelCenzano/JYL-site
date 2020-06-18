@@ -72,134 +72,138 @@
     color: rgb(227, 14, 14);
 }
 
-/* Customize the label (the container) */
-.container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin: 0;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
+@media (min-width:900px) {
 
-/* Hide the browser's default checkbox */
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
+    /* Customize the label (the container) */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin: 0;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
-/* Create a custom checkbox */
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-}
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-    background-color: #ccc;
-}
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #dedede;
+    }
 
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-    background-color: #2196F3;
-}
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #bdbdbd;
+    }
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
 
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-    display: block;
-}
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
 
-/* Style the checkmark/indicator */
-.container .checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-}
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
 
-/* The container */
-.container0 {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
 
-/* Hide the browser's default radio button */
-.container0 input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
+    /* The container */
+    .container0 {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
-/* Create a custom radio button */
-.radio {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-    border-radius: 50%;
-}
+    /* Hide the browser's default radio button */
+    .container0 input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
 
-/* On mouse-over, add a grey background color */
-.container0:hover input ~ .radio {
-    background-color: #ccc;
-}
+    /* Create a custom radio button */
+    .radio {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #dedede;
+        border-radius: 50%;
+    }
 
-/* When the radio button is checked, add a blue background */
-.container0 input:checked ~ .radio {
-    background-color: #2196F3;
-}
+    /* On mouse-over, add a grey background color */
+    .container0:hover input ~ .radio {
+        background-color: #bdbdbd;
+    }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.radio:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
+    /* When the radio button is checked, add a blue background */
+    .container0 input:checked ~ .radio {
+        background-color: #2196F3;
+    }
 
-/* Show the indicator (dot/circle) when checked */
-.container0 input:checked ~ .radio:after {
-    display: block;
-}
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .radio:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
 
-/* Style the indicator (dot/circle) */
-.container0 .radio:after {
-    top: 9px;
-    left: 9px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: white;
+    /* Show the indicator (dot/circle) when checked */
+    .container0 input:checked ~ .radio:after {
+        display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .container0 .radio:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+
 }
 
 textarea {
@@ -216,4 +220,25 @@ form {
 
 .container {
     margin-top: 8px;
+}
+
+.fa-smile-beam {
+    color: #20990f;
+}
+
+.fa-meh {
+    color: #6e6e6e;
+}
+
+.fa-frown {
+    color: #a61414;
+}
+
+.required {
+    margin-left: -8px;
+    color: #a83232;
+}
+
+.reactions {
+    margin: 10px 0;
 }
