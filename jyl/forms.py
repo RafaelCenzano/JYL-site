@@ -1,10 +1,10 @@
 from jyl import db
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, TextAreaField, RadioField
 from datetime import datetime
 from flask_wtf import FlaskForm
 from jyl.models import User
 from wtforms.widgets import TextArea
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, Optional
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
 
 
 '''
@@ -34,9 +34,9 @@ class ResetPasswordForm(FlaskForm):
         validators=[
             DataRequired(),
             Length(
-                min=10,
+                min=6,
                 max=100,
-                message='Password must be within 10 and 100 characters')])
+                message='Password must be within 6 and 100 characters')])
     confirm_password = PasswordField(
         'Confirm Password', validators=[
             DataRequired(), EqualTo('password')])
@@ -158,3 +158,18 @@ class RequestNickname(FlaskForm):
     # that my nickname request is sent to the leaders to be approved and if I
     # submit a new nickame it will be have to be re-approved
     submit = SubmitField('Submit')
+
+
+class CreateReview(FlaskForm):
+    reaction = RadioField('Label', choices=[('happy','description'),('meh','whatever'),('down','other')], validators=[DataRequired()])
+    review = TextAreaField(
+        'Review',
+        widget=TextArea(),
+        validators=[
+            DataRequired(),
+            Length(
+                max=500,
+                message='Description must be 500 characters or less')])
+    submit = SubmitField('Submit')
+
+
