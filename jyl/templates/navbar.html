@@ -1,31 +1,29 @@
 <div class="sidebar">
     <div class="column">
-        <a href="{{ url_for('index') }}"><i class="fas fa-home home"></i></a>
-        <a href="{{ url_for('back') }}">Back <i class="fas fa-arrow-left"></i></a>
+        <a href="{{ url_for('index') }}"><i class="fas fa-home home"></i> Home</a>
+        <a href="{{ url_for('back') }}"><i class="fas fa-arrow-left"></i> Back</a>
         {% if current_user.is_authenticated %}
         {% if not current_user.leader %}
-        <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">{% if current_user.nicknameapprove %}{{ current_user.nickname }}{% else %}{{ current_user.firstname }} {{ current_user.lastname }}{% endif %} <i class="fas fa-user-cog nav-icon"></i></a>
+        <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-user-cog nav-icon"></i> {% if current_user.nicknameapprove %}{{ current_user.nickname }}{% else %}{{ current_user.firstname }} {{ current_user.lastname }}{% endif %}</a>
         {% endif %}
-        <a href="{{ url_for('userEdit1', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">Settings <i class="fas fa-cog"></i></a>
+        <a href="{{ url_for('userEdit1', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-cog"></i> Settings</a>
         {% if current_user.admin %}
-        <a href="{{ url_for('creation') }}">Leader Dashboard <i class="fas fa-table"></i></a>
+        <a href="{{ url_for('creation') }}"><i class="fas fa-table"></i> Leader Dashboard</a>
         {% endif %}
-        <a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt nav-icon"></i></a>
+        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a>
         {% else %}
-        <a href="{{ url_for('login') }}">Login <i class="fas fa-sign-in-alt nav-icon"></i></a>
+        <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt nav-icon"></i> Login</a>
         {% endif %}
     </div>
     <div class="column">
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('upcomingMeetings') }}">Upcoming Meetings <i class="fas fa-calendar-plus"></i></a>
-        <a href="{{ url_for('upcomingEvents') }}">Upcoming Events <i class="fas fa-calendar-plus"></i></a>
+        <a href="{{ url_for('upcomingMeetings') }}"><i class="fas fa-calendar-plus"></i>Upcoming Meetings</a>
+        <a href="{{ url_for('upcomingEvents') }}"><i class="fas fa-calendar-plus"></i> Upcoming Events</a>
         {% if not current_user.leader %}
-        <a href="{{ url_for('profileMeeting', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">My Meetings <i class="fas fa-calendar-check nav-icon"></i></a>
-        <a href="{{ url_for('profileEvent', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">My Events <i class="fas fa-calendar-check nav-icon"></i></a>
+        <a href="{{ url_for('profileMeeting', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-calendar-check nav-icon"></i> My Meetings</a>
+        <a href="{{ url_for('profileEvent', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-calendar-check nav-icon"></i> My Events</a>
         {% endif %}
-        <a href="{{ url_for('members') }}">JYL Members <i class="fas fa-user nav-icon"></i></a>
-        {% else %}
-        <a href="#">Schedule <i class="fas fa-calendar-check nav-icon"></i></a>
+        <a href="{{ url_for('members') }}"><i class="fas fa-user nav-icon"></i> JYL Members</a>
         {% endif %}
     </div>
 </div>
