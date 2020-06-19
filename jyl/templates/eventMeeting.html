@@ -71,25 +71,27 @@
             <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
             <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
-            {% if eventMeetingData['userreview'] and current_user.id == eventMeetingData['userreview'][i].userid %}
-            <a href="#edit-review">
-            {% else %}
-            <a href="#make-review">
+            {% if eventMeetingData['userreview']|length > 0 and eventMeetingData['userReview'] %}
+            {% if eventMeetingData['meeting'] %}<a href="#">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
+            {% elif eventMeetingData['userAttended'] %}
+            {% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingReview', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventReview', idOfEvent=eventMeeting.id) }}">{% endif %}
             {% endif %}
                 <li>
                     <span>{{ eventMeeting.upvote }} <i class="fas fa-smile-beam"></i></span>
                     <span>{{ eventMeeting.unsurevote }} <i class="fas fa-meh"></i></span>
                     <span>{{ eventMeeting.downvote }} <i class="fas fa-frown"></i></span>
                 </li>
+            {% if eventMeetingData['userreview']|length > 0 and eventMeetingData['userReview'] or eventMeetingData['userAttended'] %}
             </a>
+            {% endif %}
             {% for i in range(reviewlen) %}
             {% if current_user.id == eventMeetingData['userreview'][i].userid %}
-            <a href="#edit-review">
-            {% else %}
-            <a href="#make-review">
+            {% if eventMeetingData['meeting'] %}<a href="#">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
+            {% elif eventMeetingData['userAttended'] %}
+            {% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingReview', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventReview', idOfEvent=eventMeeting.id) }}">{% endif %}
             {% endif %}
                 <li>
-                    <h4>
+                    <p>
                     {% if eventMeetingData['userreview'][i].upvote %}
                     <i class="fas fa-smile-beam"></i>
                     {% elif eventMeetingData['userreview'][i].downvote %}
@@ -102,11 +104,13 @@
                     {% else %}
                     {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}: 
                     {% endif %}
-                    {{ eventMeetingData['userreview'][i].comment }} 
+                    {{ eventMeetingData['userreview'][i].comment }}
                     {% if current_user.id == eventMeetingData['userreview'][i].userid %}<i class="far fa-edit"></i>{% endif %}
-                    </h4>
+                    </p>
                 </li>
+            {% if current_user.id == eventMeetingData['userreview'][i].userid or eventMeetingData['userAttended'] %}
             </a>
+            {% endif %}
             {% endfor %}
             {% endif %}
         </ul>
