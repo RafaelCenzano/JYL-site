@@ -656,7 +656,7 @@ def meetingReview(idOfMeeting):
 @login_required
 def meetingReviewEdit(idOfMeeting):
 
-    checkMeeting = Event.query.get(idOfMeeting)
+    checkMeeting = Meeting.query.get(idOfMeeting)
 
     if checkMeeting is None:
 
@@ -733,6 +733,64 @@ def meetingReviewEdit(idOfMeeting):
         form.review.data = checkUserMeeting.comment
 
         page = make_response(render_template('eventMeetingReview.html', form=form, edit=True, meeting=True, eventMeeting=checkMeeting, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkMeeting.hourcount)))
+        page = cookieSwitch(page)
+        return page
+
+    flash('You didn\'t attend this meeting', 'warning')
+    return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+
+@app.route('/meeting/<int:idOfMeeting>/review/delete', methods=['GET', 'POST'])
+@login_required
+def meetingReviewDelete(idOfMeeting):
+
+    checkMeeting = Meeting.query.get(idOfMeeting)
+
+    if checkMeeting is None:
+
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
+    if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
+        
+        flash('Meeting hasn\'t occured yet', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    checkUserMeeting = UserMeeting.query.filter_by(userid=current_user.id, meetingid=idOfMeeting).first()
+
+    if checkUserMeeting and checkUserMeeting.comment == None:
+
+        flash('You haven\'t written a review yet', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if checkUserMeeting and checkUserMeeting.comment:
+
+        form = ConfirmPassword()
+
+        if form.validate_on_submit():
+
+            if bcrypt.check_password_hash(
+                current_user.password,
+                sha256(
+                    (form.password.data +
+                     current_user.email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                checkUserMeeting.comment = None
+                checkUserMeeting.upvote = False
+                checkUserMeeting.unsurevote = False
+                checkUserMeeting.downvote = False
+
+                db.session.commit()
+
+            flash('Incorrect password', 'error')
+            form.password.data = ''
+
+        page = make_response(render_template(
+            'passwordConfirm.html',
+            form=form,
+            title='Delete Review',
+            message=f'Enter your password to delete your review for the meeting {checkMeeting.start.strftime('%B %-d, %Y')}'))
         page = cookieSwitch(page)
         return page
 
