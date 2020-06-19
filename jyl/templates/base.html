@@ -79,12 +79,17 @@
 </head>
 <body>
     {% include "navbar.html" %}
-    <div class="content">
+    <div id="content">
         {% include "flash.html" %}
         {% block content %}
         {% endblock %}
         {% include "footer.html" %}
     </div>
+    <script>
+    function countWords(text) {
+      return text.length || 0;
+    }
+    </script>
     {% block trailing_js %}
     {% endblock %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/flash.js') }}"></script>
