@@ -4,6 +4,7 @@
     font-family: 'Ubuntu', sans-serif;
 }
 
+​
 #submit {
     background-color: rgb(176, 255, 176);
     border: none;
@@ -19,6 +20,7 @@
     border-radius: 10px;
 }
 
+​
 .extra-link,
 .extra-link:visited {
     text-decoration: none;
@@ -26,6 +28,7 @@
     transition-duration: 0.5s;
 }
 
+​
 @media (min-width:900px) {
     .extra-link:hover,
     .extra-link:visited:hover {
@@ -33,46 +36,58 @@
         color: #31c44a;
     }
 
+    ​
     #submit:hover {
         background-color: rgb(0, 255, 0);
     }
 
+    ​
     .date {
         margin-top: -20px;
     }
 
+    ​
 }
 
+​
 @media (max-width:899px) {
     #submit {
         background-color: rgb(0, 255, 0);
     }
 
+    ​
     form {
         display: inline-block;
     }
 
+    ​
 }
 
+​
 .form-group input {
     font-size: 16px;
 }
 
+​
 .form-group {
     margin-top: 5px;
 }
 
+​
 .form-title {
     font-size: 40px;
     text-decoration: underline;
     color: #041d42;
 }
 
+​
 .invalid-feedback {
     color: rgb(227, 14, 14);
 }
 
+​
 @media (min-width:900px) {
+    ​
 
     /* Customize the label (the container) */
     .container {
@@ -88,6 +103,8 @@
         user-select: none;
     }
 
+    ​
+
     /* Hide the browser's default checkbox */
     .container input {
         position: absolute;
@@ -96,6 +113,8 @@
         height: 0;
         width: 0;
     }
+
+    ​
 
     /* Create a custom checkbox */
     .checkmark {
@@ -107,15 +126,21 @@
         background-color: #dedede;
     }
 
+    ​
+
     /* On mouse-over, add a grey background color */
     .container:hover input ~ .checkmark {
         background-color: #bdbdbd;
     }
 
+    ​
+
     /* When the checkbox is checked, add a blue background */
     .container input:checked ~ .checkmark {
         background-color: #2196F3;
     }
+
+    ​
 
     /* Create the checkmark/indicator (hidden when not checked) */
     .checkmark:after {
@@ -124,10 +149,14 @@
         display: none;
     }
 
+    ​
+
     /* Show the checkmark when checked */
     .container input:checked ~ .checkmark:after {
         display: block;
     }
+
+    ​
 
     /* Style the checkmark/indicator */
     .container .checkmark:after {
@@ -139,6 +168,8 @@
         border-width: 0 3px 3px 0;
         transform: rotate(45deg);
     }
+
+    ​
 
     /* The container */
     .container0 {
@@ -154,6 +185,8 @@
         user-select: none;
     }
 
+    ​
+
     /* Hide the browser's default radio button */
     .container0 input {
         position: absolute;
@@ -161,8 +194,11 @@
         cursor: pointer;
     }
 
+    ​
+
     /* Create a custom radio button */
-    .radio {
+
+    /*.radio {
         position: absolute;
         top: 0;
         left: 0;
@@ -170,17 +206,22 @@
         width: 25px;
         background-color: #dedede;
         border-radius: 50%;
-    }
+    }*/
+    ​
 
     /* On mouse-over, add a grey background color */
     .container0:hover input ~ .radio {
         background-color: #bdbdbd;
     }
 
+    ​
+
     /* When the radio button is checked, add a blue background */
     .container0 input:checked ~ .radio {
         background-color: #2196F3;
     }
+
+    ​
 
     /* Create the indicator (the dot/circle - hidden when not checked) */
     .radio:after {
@@ -189,10 +230,14 @@
         display: none;
     }
 
+    ​
+
     /* Show the indicator (dot/circle) when checked */
     .container0 input:checked ~ .radio:after {
         display: block;
     }
+
+    ​
 
     /* Style the indicator (dot/circle) */
     .container0 .radio:after {
@@ -204,41 +249,92 @@
         background: white;
     }
 
+    ​
 }
 
+​
 textarea {
     outline: none;
     resize: none;
     overflow: auto;
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
+    width: 100%;
+    min-height: 200px;
 }
 
+​
 form {
-    top: 0;
+    padding: 10px;
 }
 
-.container {
-    margin-top: 8px;
-}
-
+​
 .fa-smile-beam {
     color: #20990f;
 }
 
+​
 .fa-meh {
     color: #6e6e6e;
 }
 
+​
 .fa-frown {
     color: #a61414;
 }
 
+​
 .required {
     margin-left: -8px;
     color: #a83232;
 }
 
+/*Reactions*/
 .reactions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+​
+.reactions label {
     margin: 10px 0;
+    -webkit-filter: grayscale(0.8);
+    filter: grayscale(0.8);
+    padding: 0;
+    font-size: 5rem;
+}
+
+​
+.reactions label i {
+    border: .25rem solid #347AB0;
+    padding: 2px;
+    border-radius: 50%;
+}
+
+​
+.reactions input[type='radio'] {
+    display: none;
+}
+
+​
+.reactions *:hover,
+input[type='radio']:checked + label {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+}
+
+
+/*Details*/
+#details {
+    padding: 20px;
+}
+
+​
+#piChart,
+#piChart * {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
 }

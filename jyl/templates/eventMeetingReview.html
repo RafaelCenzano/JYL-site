@@ -37,7 +37,6 @@
     {% for subfield in form.reaction %}
     <label class="container0" id="container0">{% if loop.index == 1 %}<i class="fas fa-smile-beam"></i>{% elif loop.index == 2 %}<i class="fas fa-meh"></i>{% else %}<i class="fas fa-frown"></i>{% endif %}
         {{ subfield }}
-        <span class="radio"></span>
     </label>
     {% endfor %}
     </div>
