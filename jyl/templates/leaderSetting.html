@@ -25,6 +25,7 @@
         {{ form.bio(cols='30', rows='10') }}
     {% endif %}
     </div>
+    <span id="wordCount"></span>
     <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}" class="extra-link">Request Nickname</a></p>
     <div class="form-group">
     {% if form.showemail.errors %}
@@ -61,3 +62,19 @@
     </div>
 </form>
 {% endblock content %}
+
+{% block trailing_js %}
+<script>
+let ta = document.getElementById('bio');
+let span = document.getElementById('wordCount');
+span.innerText = countWords(ta.value) + '/500';
+ta.addEventListener('input', () => {
+  span.innerText = countWords(ta.value) + '/500';
+  if (countWords(ta.value) > 500){
+    span.style.color = '#c21b1b';
+  }else {
+    span.style.color = '#000000';
+  }
+});
+</script>
+{% endblock %}
