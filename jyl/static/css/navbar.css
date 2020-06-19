@@ -13,6 +13,7 @@
     color: #001e40;
     padding: 16px;
     text-decoration: none;
+    text-align: left;
 }
 
 @media (min-width:900px) {
@@ -27,28 +28,31 @@
     margin-left: 200px;
     padding: 0;
 }
-
+​
 @media screen and (max-width:900px) {
-
     /*.sidebar {
-        padding-top: 40px;
         width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
+        height: auto;
+        position: relative;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (50%)[2];
+        grid-template-columns: repeat(2, 50%);
+        grid-column-gap: 5px;
     }
-
+​
     .sidebar a {
-        text-align: left;
+        text-align: center;
         float: none;
-        padding: 10px 20px;
+        padding-left: 0;
+        padding-right: 0;
     }*/
+​
     #content {
         margin: 0;
         padding: 0;
     }
-
+​
 }
 
 * {
