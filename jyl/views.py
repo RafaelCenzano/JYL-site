@@ -582,6 +582,76 @@ def profileEventOld(num, first, last):
     return page
 
 
+@app.route('/meeting/<int:idOfMeeting>/review', methods=['GET', 'POST'])
+@login_required
+def meetingReview(idOfMeeting):
+
+    checkMeeting = Meeting.query.get(idOfMeeting)
+
+    if checkMeeting is None:
+
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
+    if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
+        
+        flash('Meeting hasn\'t occured yet', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    checkUserMeeting = UserMeeting.query.filter_by(userid=current_user.id, meetingid=idOfMeeting).first()
+
+    form = CreateReview()
+
+    if form.validate_on_submit():
+        
+        happy = False
+        meh = False
+        sad = False
+
+        if form.reaction.data == 'happy':
+            happy = True
+        elif form.reaction.data == 'meh':
+            meh = True
+        else:
+            sad = True
+
+        checkUserMeeting.comment = form.review.data
+        checkUserMeeting.upvote = happy
+        checkUserMeeting.unsurevote = meh
+        checkUserMeeting.downvote = sad
+
+        if happy:
+            checkMeeting.upvote += 1
+        elif meh:
+            checkMeeting.unsurevote += 1
+        else:
+            checkMeeting.downvote += 1
+
+        db.session.commit()
+
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if checkUserMeeting and checkUserMeeting.comment:
+
+        flash('You already created a review for this meeting', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if checkUserMeeting is None or not checkUserMeeting.attended:
+
+        flash('You didn\'t attend this meeting', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    desc = []
+    for word in checkMeeting.description.split(' '):
+        desc.append(linkFormatting(word))
+
+    eventMeeting = eventMeetingProccessing(checkMeeting, True)
+
+    page = make_response(render_template('eventMeetingReview.html', form=form, edit=False, meeting=True, eventMeeting=checkMeeting, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkMeeting.hourcount)))
+    page = cookieSwitch(page)
+    return page
+
+
 @app.route('/meeting/<int:idOfMeeting>', methods=['GET'])
 @login_required
 def meetingInfo(idOfMeeting):
@@ -2347,6 +2417,164 @@ def eventInfo(idOfEvent):
     return page
 
 
+@app.route('/event/<int:idOfEvent>/review', methods=['GET', 'POST'])
+@login_required
+def eventReview(idOfEvent):
+
+    checkEvent = Event.query.get(idOfEvent)
+
+    if checkEvent is None:
+
+        flash('Event not found', 'error')
+        return sendoff('index')
+
+    if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
+        
+        flash('Event hasn\'t occured yet', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    checkUserEvent = UserEvent.query.filter_by(userid=current_user.id, eventid=idOfEvent).first()
+
+    form = CreateReview()
+
+    if form.validate_on_submit():
+        
+        happy = False
+        meh = False
+        sad = False
+
+        if form.reaction.data == 'happy':
+            happy = True
+        elif form.reaction.data == 'meh':
+            meh = True
+        else:
+            sad = True
+
+        checkUserEvent.comment = form.review.data
+        checkUserEvent.upvote = happy
+        checkUserEvent.unsurevote = meh
+        checkUserEvent.downvote = sad
+
+        if happy:
+            checkEvent.upvote += 1
+        elif meh:
+            checkEvent.unsurevote += 1
+        else:
+            checkEvent.downvote += 1
+
+        db.session.commit()
+
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if checkUserEvent and checkUserEvent.comment:
+
+        flash('You already created a review for this event', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if checkUserEvent is None or not checkUserEvent.attended:
+
+        flash('You didn\'t attend this event', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    desc = []
+    for word in checkEvent.description.split(' '):
+        desc.append(linkFormatting(word))
+
+    eventMeeting = eventMeetingProccessing(checkEvent, False)
+
+    page = make_response(render_template('eventMeetingReview.html', form=form, edit=False, meeting=True, eventMeeting=checkEvent, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkEvent.hourcount)))
+    page = cookieSwitch(page)
+    return page
+
+
+@app.route('/event/<int:idOfEvent>/review/edit', methods=['GET', 'POST'])
+@login_required
+def eventReviewEdit(idOfEvent):
+
+    checkEvent = Event.query.get(idOfEvent)
+
+    if checkEvent is None:
+
+        flash('Event not found', 'error')
+        return sendoff('index')
+
+    if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
+        
+        flash('Event hasn\'t occured yet', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    checkUserEvent = UserEvent.query.filter_by(userid=current_user.id, eventid=idOfEvent).first()
+
+    form = CreateReview()
+
+    if form.validate_on_submit():
+
+        currentHappy = checkUserEvent.upvote
+        currentMeh = checkUserEvent.unsurevote
+        
+        happy = False
+        meh = False
+        sad = False
+
+        if form.reaction.data == 'happy':
+            happy = True
+        elif form.reaction.data == 'meh':
+            meh = True
+        else:
+            sad = True
+
+        checkUserEvent.comment = form.review.data
+        checkUserEvent.upvote = happy
+        checkUserEvent.unsurevote = meh
+        checkUserEvent.downvote = sad
+
+        if currentHappy:
+            checkEvent.upvote -= 1
+        elif currentMeh:
+            checkEvent.unsurevote -= 1
+        else:
+            checkEvent.downvote -= 1
+
+        if happy:
+            checkEvent.upvote += 1
+        elif meh:
+            checkEvent.unsurevote += 1
+        else:
+            checkEvent.downvote += 1
+
+        db.session.commit()
+
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if checkUserEvent and checkUserEvent.comment == None:
+
+        flash('You haven\'t written a review yet', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if checkUserEvent and checkUserEvent.comment:
+
+        desc = []
+        for word in checkEvent.description.split(' '):
+            desc.append(linkFormatting(word))
+
+        eventMeeting = eventMeetingProccessing(checkEvent, False)
+
+        if checkUserEvent.upvote:
+            form.reaction.data = 'happy'
+        elif checkUserEvent.unsurevote:
+            form.reaction.data = 'meh'
+        else:
+            form.reaction.data = 'down'
+        form.review.data = checkUserEvent.comment
+
+        page = make_response(render_template('eventMeetingReview.html', form=form, edit=True, meeting=True, eventMeeting=checkEvent, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkEvent.hourcount)))
+        page = cookieSwitch(page)
+        return page
+
+    flash('You didn\'t attend this event', 'warning')
+    return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+
 @app.route('/event/<int:idOfEvent>/going', methods=['GET'])
 @login_required
 def eventGoing(idOfEvent):
@@ -2480,6 +2708,7 @@ def meetingGoing(idOfMeeting):
             meetingid=idOfMeeting,
             userid=current_user.id,
             attended=False,
+            comment=None,
             going=True,
             currentYear=True,
             upvote=False,
@@ -2935,7 +3164,6 @@ Your reset link is here: {reset_url}. It will expire in 30 minutes.
 
             '''
             msg = Message('Password Reset - JYL Toolbox',
-              sender='email@gmail.com',
               recipients=[user.email])
             msg.body = text
             msg.html = html
@@ -2974,6 +3202,15 @@ def reset_token(token):
 
     form = ResetPasswordForm()
     if form.validate_on_submit():
+
+        if not any(char.isdigit() for char in form.password.data):
+            flash('Password must contain a number', 'warning')
+            return render_template('password_change.html', form=form)
+
+        if not form.password.data.isalnum():
+            flash('Password must contain a special character', 'warning')
+            return render_template('password_change.html', form=form)
+
         hashed_password = bcrypt.generate_password_hash(
             sha256(
                 (form.password.data +
