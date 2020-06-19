@@ -786,11 +786,12 @@ def meetingReviewDelete(idOfMeeting):
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        date = checkMeeting.start.strftime('%B %-d, %Y')
         page = make_response(render_template(
             'passwordConfirm.html',
             form=form,
             title='Delete Review',
-            message=f'Enter your password to delete your review for the meeting {checkMeeting.start.strftime('%B %-d, %Y')}'))
+            message=f'Enter your password to delete your review for the meeting {date}'))
         page = cookieSwitch(page)
         return page
 
@@ -2767,11 +2768,12 @@ def eventReviewDelete(idOfEvent):
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        date = checkEvent.start.strftime('%B %-d, %Y')
         page = make_response(render_template(
             'passwordConfirm.html',
             form=form,
             title='Delete Review',
-            message=f'Enter your password to delete your review for the event {checkEvent.name}: {checkEvent.start.strftime('%B %-d, %Y')}'))
+            message=f'Enter your password to delete your review for the event {checkEvent.name}: {date}'))
         page = cookieSwitch(page)
         return page
 
