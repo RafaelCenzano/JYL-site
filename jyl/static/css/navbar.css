@@ -29,6 +29,7 @@
 }
 
 @media screen and (max-width:900px) {
+
     /*.sidebar {
         padding-top: 40px;
         width: 100%;
@@ -43,7 +44,6 @@
         float: none;
         padding: 10px 20px;
     }*/
-
     #content {
         margin: 0;
         padding: 0;
@@ -52,12 +52,14 @@
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 ​
 #mobileMenuBox {
     display: none;
 }
+
 ​
 #mobileMenu {
     display: block;
@@ -69,11 +71,16 @@
     background-color: #C9CED6;
     border-radius-top-right: 10px;
     border-radius-bottom-right: 10px;
+    -webkit-animation-name: unhideGlide2;
     animation-name: unhideGlide2;
+    -webkit-animation-duration: 1.5s;
     animation-duration: 1.5s;
+    -webkit-animation-direction: normal;
     animation-direction: normal;
+    -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
 ​
 #mobileMenu * {
     position: absolute;
@@ -82,100 +89,165 @@
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
 }
+
 ​
 .sidebar {
+    -webkit-animation-name: unhideGlide;
     animation-name: unhideGlide;
+    -webkit-animation-duration: 1.5s;
     animation-duration: 1.5s;
+    -webkit-animation-direction: normal;
     animation-direction: normal;
+    -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
 ​
 #content {
+    -webkit-animation-name: zoomFit;
     animation-name: zoomFit;
+    -webkit-animation-duration: 1.5s;
     animation-duration: 1.5s;
+    -webkit-animation-direction: normal;
     animation-direction: normal;
+    -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     padding: 10px;
 }
+
 ​
 #mobileMenuBox:checked + #mobileMenu + .sidebar {
+    -webkit-animation-name: hideGlide;
     animation-name: hideGlide;
 }
+
 ​
 #mobileMenuBox:checked + #mobileMenu {
+    -webkit-animation-name: hideGlide2;
     animation-name: hideGlide2;
 }
+
 ​
 @media screen and (max-width:900px) {
     #content {
+        -webkit-animation-name: none;
         animation-name: none;
     }
-​
+
+    ​
     .sidebar a {
         text-align: left;
         padding: 10px 20px;
     }
-​
+
+    ​
     .sidebar {
+        -webkit-animation-name: hideGlide;
         animation-name: hideGlide;
+        -webkit-animation-duration: 0s;
         animation-duration: 0s;
     }
-​
+
+    ​
     #mobileMenu {
+        -webkit-animation-name: hideGlide2;
         animation-name: hideGlide2;
+        -webkit-animation-duration: 0s;
         animation-duration: 0s;
     }
-​
+
+    ​
     #mobileMenuBox:checked + #mobileMenu + .sidebar {
+        -webkit-animation-name: unhideGlide;
         animation-name: unhideGlide;
+        -webkit-animation-duration: 1.5s;
         animation-duration: 1.5s;
     }
-​
+
+    ​
     #mobileMenuBox:checked + #mobileMenu {
+        -webkit-animation-name: unhideGlide2;
         animation-name: unhideGlide2;
+        -webkit-animation-duration: 1.5s;
         animation-duration: 1.5s;
     }
+
 }
-​
-::-webkit-scrollbar {
+
+​::-webkit-scrollbar {
     width: 5px;
 }
-​
-::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 5px #CDCDCD; 
-      border-radius: 2.5px;
+
+​::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #CDCDCD;
+    border-radius: 2.5px;
 }
-​
-::-webkit-scrollbar-thumb {
-      background: darkgrey; 
-      border-radius: 5px;
+
+​::-webkit-scrollbar-thumb {
+    background: darkgrey;
+    border-radius: 5px;
 }
-​
-::-webkit-scrollbar-thumb:hover {
-      background: grey;
+
+​::-webkit-scrollbar-thumb:hover {
+    background: grey;
 }
+
 ​
 @keyframes unhideGlide {
-    from { left: -200px; }
-    to { left: 0; }
+    from {
+        left: -200px;
+    }
+
+    to {
+        left: 0;
+    }
+
 }
+
 ​
 @keyframes unhideGlide2 {
-    from { left: 0; }
-    to { left: 200px; }
+    from {
+        left: 0;
+    }
+
+    to {
+        left: 200px;
+    }
+
 }
+
 ​
 @keyframes zoomFit {
-    from { margin-left: 0; }
-    to { margin-left: 200px; }
+    from {
+        margin-left: 0;
+    }
+
+    to {
+        margin-left: 200px;
+    }
+
 }
+
 ​
 @keyframes hideGlide {
-    from { left: 0; }
-    to { left: -200px; }
+    from {
+        left: 0;
+    }
+
+    to {
+        left: -200px;
+    }
+
 }
+
 ​
 @keyframes hideGlide2 {
-    from { left: 200px; }
-    to { left: 0; }
+    from {
+        left: 200px;
+    }
 
+    to {
+        left: 0;
+    }
+
+}
