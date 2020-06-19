@@ -652,6 +652,94 @@ def meetingReview(idOfMeeting):
     return page
 
 
+@app.route('/meeting/<int:idOfMeeting>/review/edit', methods=['GET', 'POST'])
+@login_required
+def meetingReviewEdit(idOfMeeting):
+
+    checkMeeting = Event.query.get(idOfMeeting)
+
+    if checkMeeting is None:
+
+        flash('Meeting not found', 'error')
+        return sendoff('index')
+
+    if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
+        
+        flash('Meeting hasn\'t occured yet', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    checkUserMeeting = UserMeeting.query.filter_by(userid=current_user.id, meetingid=idOfMeeting).first()
+
+    form = CreateReview()
+
+    if form.validate_on_submit():
+
+        currentHappy = checkUserMeeting.upvote
+        currentMeh = checkUserMeeting.unsurevote
+        
+        happy = False
+        meh = False
+        sad = False
+
+        if form.reaction.data == 'happy':
+            happy = True
+        elif form.reaction.data == 'meh':
+            meh = True
+        else:
+            sad = True
+
+        checkUserMeeting.comment = form.review.data
+        checkUserMeeting.upvote = happy
+        checkUserMeeting.unsurevote = meh
+        checkUserMeeting.downvote = sad
+
+        if currentHappy:
+            checkMeeting.upvote -= 1
+        elif currentMeh:
+            checkMeeting.unsurevote -= 1
+        else:
+            checkMeeting.downvote -= 1
+
+        if happy:
+            checkMeeting.upvote += 1
+        elif meh:
+            checkMeeting.unsurevote += 1
+        else:
+            checkMeeting.downvote += 1
+
+        db.session.commit()
+
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if checkUserMeeting and checkUserMeeting.comment == None:
+
+        flash('You haven\'t written a review yet', 'warning')
+        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+    if checkUserMeeting and checkUserMeeting.comment:
+
+        desc = []
+        for word in checkMeeting.description.split(' '):
+            desc.append(linkFormatting(word))
+
+        eventMeeting = eventMeetingProccessing(checkMeeting, False)
+
+        if checkUserMeeting.upvote:
+            form.reaction.data = 'happy'
+        elif checkUserMeeting.unsurevote:
+            form.reaction.data = 'meh'
+        else:
+            form.reaction.data = 'down'
+        form.review.data = checkUserMeeting.comment
+
+        page = make_response(render_template('eventMeetingReview.html', form=form, edit=True, meeting=True, eventMeeting=checkMeeting, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkMeeting.hourcount)))
+        page = cookieSwitch(page)
+        return page
+
+    flash('You didn\'t attend this meeting', 'warning')
+    return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+
+
 @app.route('/meeting/<int:idOfMeeting>', methods=['GET'])
 @login_required
 def meetingInfo(idOfMeeting):
