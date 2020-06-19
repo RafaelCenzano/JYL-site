@@ -2721,6 +2721,64 @@ def eventReviewEdit(idOfEvent):
     return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
 
+@app.route('/event/<int:idOfEvent>/review/delete', methods=['GET', 'POST'])
+@login_required
+def eventReviewDelete(idOfEvent):
+
+    checkEvent = Event.query.get(idOfMeeting)
+
+    if checkEvent is None:
+
+        flash('Ecvent not found', 'error')
+        return sendoff('index')
+
+    if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
+        
+        flash('Event hasn\'t occured yet', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    checkUserEvent = UserEvent.query.filter_by(userid=current_user.id, eventid=idOfEvent).first()
+
+    if checkUserEvent and checkUserEvent.comment == None:
+
+        flash('You haven\'t written a review yet', 'warning')
+        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+    if checkUserEvent and checkUserEvent.comment:
+
+        form = ConfirmPassword()
+
+        if form.validate_on_submit():
+
+            if bcrypt.check_password_hash(
+                current_user.password,
+                sha256(
+                    (form.password.data +
+                     current_user.email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                checkUserEvent.comment = None
+                checkUserEvent.upvote = False
+                checkUserEvent.unsurevote = False
+                checkUserEvent.downvote = False
+
+                db.session.commit()
+
+            flash('Incorrect password', 'error')
+            form.password.data = ''
+
+        page = make_response(render_template(
+            'passwordConfirm.html',
+            form=form,
+            title='Delete Review',
+            message=f'Enter your password to delete your review for the event {checkEvent.name}: {checkEvent.start.strftime('%B %-d, %Y')}'))
+        page = cookieSwitch(page)
+        return page
+
+    flash('You didn\'t attend this event', 'warning')
+    return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+
+
 @app.route('/event/<int:idOfEvent>/going', methods=['GET'])
 @login_required
 def eventGoing(idOfEvent):
