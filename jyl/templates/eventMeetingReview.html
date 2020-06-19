@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}{% if edit %}Edit{% else %}Create{% endif %} {% if meeting %}Meeting{% else %}Event{% endif %} Review{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="half-grid">
+    <div class="column">
+        {% if eventMeetingData['meeting'] %}
+        <h1>Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        {% else %}
+        <h1>{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        {% endif %}
+        <h4 class="description">Description: {% for word in desc %}{% if word.url %}<a href="{{ word.text }}" target="_blank">{% endif %}{% if word.email %}<a href="mailto:{{ word.text }}">{% endif %}{{ word.text }}{% if word.url or word.email %}</a>{% endif %} {% endfor %}</h4>
+        <h4 class="location">Location: <a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}<i class="fas fa-map-marker-alt"></i></a></h4>
+    </div>
+    <div class="column">
+        <div class="lrg green"><h4>{{ hourcount }} hrs</h4></div>
+    </div>
+</div>
+<form method="POST" action="">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+    <label class="form-label-css">Reaction</label>
+    <span id="required" class="required">*required</span>
+    <div class="reactions">
+    {% for subfield in form.reaction %}
+    <label class="container0" id="container0">{% if loop.index == 1 %}<i class="fas fa-smile-beam"></i>{% elif loop.index == 2 %}<i class="fas fa-meh"></i>{% else %}<i class="fas fa-frown"></i>{% endif %}
+        {{ subfield }}
+        <span class="radio"></span>
+    </label>
+    {% endfor %}
+    </div>
+    </div>
+    <div class="form-group">
+    {{ form.review.label(class="form-label-css") }}
+    <span id="required0" class="required">*required</span>
+    <br>
+    {% if form.review.errors %}
+        {{ form.review(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.review.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.review(cols='30', rows='5') }}
+    {% endif %}
+    </div>
+    <span id="wordCount"></span>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock content %}
+
+{% block trailing_js %}
+<script>
+let ta = document.getElementById('review');
+let span = document.getElementById('wordCount');
+let required = document.getElementById('required');
+let required0 = document.getElementById('required0');
+span.innerText = countWords(ta.value) + '/500';
+ta.addEventListener('input', () => {
+  span.innerText = countWords(ta.value) + '/500';
+  if (countWords(ta.value) > 500){
+    span.style.color = '#c21b1b';
+  }else {
+    span.style.color = '#000000';
+  }
+  if (countWords(ta.value) > 0){
+    required0.style.display = 'none';
+  }else {
+    required0.style.display = 'inline-block';
+  }
+});
+
+if (document.getElementById("reaction-0").checked || document.getElementById("reaction-1").checked || document.getElementById("reaction-2").checked){
+  required.style.display = "none";
+}
+
+let radio = document.querySelectorAll("input[type='radio']");
+for(input of radio)
+{
+  input.addEventListener("click", () => {
+    required.style.display = "none";
+  });
+}
+</script>
+{% endblock %}
