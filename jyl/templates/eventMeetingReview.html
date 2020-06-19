@@ -23,6 +23,11 @@
     </div>
 </div>
 <form method="POST" action="">
+    {% if meeting %}
+    <p><a href="{{ url_for('meetingReviewDelete', idOfMeeting=eventMeeting.id) }}" class="extra-link">Delete Review</a></p>
+    {% else %}
+    <p><a href="{{ url_for('eventReviewDelete', idOfEvent=eventMeeting.id) }}" class="extra-link">Delete Review</a></p>
+    {% endif %}
     <!-- Part of protecting the site from attacks -->
     {{ form.hidden_tag() }}
     <div class="form-group">
