@@ -3,6 +3,11 @@ function countWords(text) {
 }
 
 function jsRequired(ta, required){
+    if (countWords(ta.value) > 0){
+        required.style.display = 'none';
+    }else {
+        required.style.display = 'inline-block';
+    }
     ta.addEventListener('input', () => {
         if (countWords(ta.value) > 0){
             required.style.display = 'none';
