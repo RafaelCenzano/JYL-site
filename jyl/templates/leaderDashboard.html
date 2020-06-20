@@ -98,16 +98,16 @@
             </a>
         </ul>
     </div>
+    {% if current_user.leader %}
+    <ul>
+        <li class="non-hover"><h2 class="profiletitle">Manage</h2></li>
+        <a href="{{ url_for('nicknameList') }}">
+            <li>
+                <h4>Manage Nicknames</h4>
+                <p>Approve or Deny or remove Nicknames</p>
+            </li>
+        </a>
+    </ul>
+    {% endif %}
 </div>
-{% if current_user.leader %}
-<ul>
-    <li class="non-hover"><h2 class="profiletitle">Manage</h2></li>
-    <a href="{{ url_for('nicknameList') }}">
-        <li>
-            <h4>Manage Nicknames</h4>
-            <p>Approve or Deny or remove Nicknames</p>
-        </li>
-    </a>
-</ul>
-{% endif %}
 {% endblock %}
