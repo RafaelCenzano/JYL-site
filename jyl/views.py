@@ -1587,7 +1587,7 @@ def userEdit(userId):
         form.leader.data = user.leader
         form.admin.data = user.admin
 
-        page = make_response(render_template('userEdit.html', form=form))
+        page = make_response(render_template('userEdit.html', form=form, user=user))
         page = cookieSwitch(page)
         return page
 
