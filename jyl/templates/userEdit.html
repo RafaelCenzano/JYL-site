@@ -11,7 +11,7 @@
     <!-- Part of protecting the site from attacks -->
     {{ form.hidden_tag() }}
     <h2 class="form-title">Edit User</h2>
-    <p><a href="{{ url_for('userDelete', userId=user.id) }}" class="extra-link">Forgot Password?</a></p>
+    <p><a href="{{ url_for('userDelete', userId=user.id) }}" class="extra-link">Delete User</a></p>
     <div class="form-group">
     {{ form.first.label(class="form-label-css") }}
     <br>
