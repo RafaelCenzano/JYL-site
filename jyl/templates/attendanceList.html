@@ -9,6 +9,7 @@
 
 {% block content %}
 <h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h1>
+<div>
 <ul>
     <li class="non-hover"><h2 class="profiletitle">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h2></li>
     {% if eventMeetings %}
@@ -38,4 +39,5 @@
     </li>
     {% endif %}
 </ul>
+</div>
 {% endblock %}
