@@ -12,12 +12,10 @@
 {% if going > 0 %}
 <div class="half-grid">
     <div class="column">
+{% else %}
+<div>
 {% endif %}
-        {% if going > 0 %}
         <ul>
-        {% else %}
-        <ul class="centered">
-        {% endif %}
             <li class="non-hover"><h2 class="profiletitle">Upcoming {% if event %}Event{% else %}Meeting{% endif %}s</h2></li>
             {% if upcomingThings %}
             {% for eventmeeting in upcomingThings %}
@@ -57,6 +55,6 @@
             {% endfor %}
         </ul>
     </div>
-</div>
 {% endif %}
+</div>
 {% endblock %}
