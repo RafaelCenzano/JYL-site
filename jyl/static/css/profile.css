@@ -16,14 +16,6 @@
     margin-left: 4px;
 }
 
-@media screen and (max-width:1200px) {
-    .name {
-        margin: auto;
-        text-align: center;
-    }
-
-}
-
 .subname {
     margin-top: -15px;
     font-size: 25px;
