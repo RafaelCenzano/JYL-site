@@ -873,9 +873,10 @@ def userCreation():
         if form.validate_on_submit():
 
             try:
+                email = form.email.data.lower()
 
                 duplicationCheck = User.query.filter_by(
-                    email=form.email.data).first()
+                    email=email).first()
 
                 if duplicationCheck is not None:
 
@@ -892,7 +893,7 @@ def userCreation():
                 tempPass = bcrypt.generate_password_hash(
                     sha256(
                         (passNum +
-                         form.email.data +
+                         email +
                          app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
 
                 if form.address.data == '':
@@ -919,7 +920,7 @@ def userCreation():
                 newUser = User(
                     firstname=form.first.data,
                     lastname=form.last.data,
-                    email=form.email.data,
+                    email=email,
                     password=tempPass,
                     lifetimeHours=0.0,
                     lifetimeMeetingHours=0.0,
@@ -3372,7 +3373,8 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        email = form.email.data.lower()
+        user = User.query.filter_by(email=email).first()
         if user is None:
             flash(
                 f'Login Unsuccessful. User dosen\'t exsist',
@@ -3382,7 +3384,7 @@ def login():
                 user.password,
                 sha256(
                     (form.password.data +
-                     form.email.data +
+                     email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
                 login_user(user, remember=form.remember.data)
@@ -3398,9 +3400,7 @@ def login():
                     'error')
 
     page = make_response(render_template('login.html', form=form))
-
     page = cookieSwitch(page)
-
     return page
 
 
@@ -3446,9 +3446,7 @@ def confirm(token):
                 'danger')
 
     page = make_response(render_template('login.html', form=form))
-
     page = cookieSwitch(page)
-
     return page
 
 
