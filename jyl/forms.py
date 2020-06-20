@@ -109,6 +109,7 @@ class CreateEventMeeting(FlaskForm):
                 message='Location must be 150 characters or less')])
     starttime = DateTimeField('Start Time', validators=[DataRequired()])
     endtime = DateTimeField('End Time', validators=[DataRequired()])
+    email = BooleanField('Email update to members')
     submit = SubmitField('Submit')
 
 

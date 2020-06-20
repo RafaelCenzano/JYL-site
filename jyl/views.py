@@ -1028,6 +1028,35 @@ def eventCreation():
                 db.session.add(newEvent)
                 db.session.commit()
 
+                if form.email.data:
+                    date = form.start.data.strftime('%B %-d, %Y')
+
+                    text = f'''
+Hello,
+
+New event: {form.name.data} taking place on {date}
+
+Description: {form.description.data}
+
+- JYL Toolbox
+                    '''
+
+                    '''
+                    users = User.query.filter_by(currentmember=True, Leader=False).all()
+
+                    recipients = []
+                    for user in users:
+                        recipients.append(user.email)
+
+                    msg = Message('New Event - JYL Toolbox',
+                      recipients=recipients)
+                    msg.body = text
+                    #msg.html = html
+                    mail.send(msg)
+                    '''
+
+                    return html
+
                 flash(f'Event {form.name.data} created', 'success')
                 return redirect(url_for('creation'))
 
@@ -1413,6 +1442,35 @@ def meetingCreate():
 
             db.session.add(newMeeting)
             db.session.commit()
+
+            if form.email.data:
+                date = form.start.data.strftime('%B %-d, %Y')
+
+                text = f'''
+Hello,
+
+New meeting taking place on {date}
+
+Description: {form.description.data}
+
+- JYL Toolbox
+                '''
+
+                '''
+                users = User.query.filter_by(currentmember=True, Leader=False).all()
+
+                recipients = []
+                for user in users:
+                    recipients.append(user.email)
+
+                msg = Message('New Event - JYL Toolbox',
+                  recipients=recipients)
+                msg.body = text
+                #msg.html = html
+                mail.send(msg)
+                '''
+
+                return html
 
             meetingDate = form.starttime.data.strftime('%B %-d, %Y')
             flash(f'New meeting created for {meetingDate}', 'success')
@@ -1945,7 +2003,7 @@ def eventEdit(eventId):
 
         form = CreateEventMeeting()
 
-        if request.method == 'POST' and form.validate_on_submit():
+        if form.validate_on_submit():
 
             checkEvent.name = form.name.data
             checkEvent.description = form.description.data
@@ -1957,6 +2015,35 @@ def eventEdit(eventId):
 
             flash('Event edited successfully!', 'success')
             return redirect(url_for('eventEditList'))
+
+            if form.email.data:
+                date = form.start.data.strftime('%B %-d, %Y')
+
+                text = f'''
+Hello,
+
+New event: {form.name.data} taking place on {date}
+
+Description: {form.description.data}
+
+- JYL Toolbox
+                '''
+
+                '''
+                users = User.query.filter_by(currentmember=True, Leader=False).all()
+
+                recipients = []
+                for user in users:
+                    recipients.append(user.email)
+
+                msg = Message('New Event - JYL Toolbox',
+                  recipients=recipients)
+                msg.body = text
+                #msg.html = html
+                mail.send(msg)
+                '''
+
+                return html
 
         form.name.data = checkEvent.name
         form.description.data = checkEvent.description
@@ -2397,7 +2484,7 @@ def meetingEdit(meetingId):
         form = CreateEventMeeting()
         form.name.data = 'filler'
 
-        if request.method == 'POST' and form.validate_on_submit():
+        if form.validate_on_submit():
 
             checkMeeting.description = form.description.data
             checkMeeting.location = form.location.data
@@ -2405,6 +2492,35 @@ def meetingEdit(meetingId):
             checkMeeting.end = form.endtime.data
 
             db.session.commit()
+
+            if form.email.data:
+                date = form.start.data.strftime('%B %-d, %Y')
+
+                text = f'''
+Hello,
+
+Edit on this event: {form.name.data} taking place on {date}
+
+Description: {form.description.data}
+
+- JYL Toolbox
+                '''
+
+                '''
+                users = User.query.filter_by(currentmember=True, Leader=False).all()
+
+                recipients = []
+                for user in users:
+                    recipients.append(user.email)
+
+                msg = Message('New Event - JYL Toolbox',
+                  recipients=recipients)
+                msg.body = text
+                #msg.html = html
+                mail.send(msg)
+                '''
+
+                return html
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingEditList'))
