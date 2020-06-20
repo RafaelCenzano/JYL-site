@@ -33,6 +33,12 @@
     padding: 0;
 }
 
+@media screen and (min-width: 701px){
+    #content {
+        min-height: calc(100vh - 203);
+    }
+}
+
 #content > * {
     margin: 0 5px;
 }
@@ -44,7 +50,6 @@
 #mobileMenuBox {
     display: none;
 }
-
 
 #mobileMenu * {
     position: absolute;
