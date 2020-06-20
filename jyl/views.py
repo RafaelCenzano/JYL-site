@@ -1,3 +1,4 @@
+import re
 from jyl import app, db, bcrypt
 from pytz import timezone
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file
@@ -3409,11 +3410,13 @@ def reset_token(token):
     form = ResetPasswordForm()
     if form.validate_on_submit():
 
-        if not any(char.isdigit() for char in form.password.data):
+        pattern = re.compile('^[^0-9]*$')
+        if pattern.search(form.password.data) is not None:
             flash('Password must contain a number', 'warning')
             return render_template('password_change.html', form=form)
 
-        if not form.password.data.isalnum():
+        pattern = re.compile('^.*[^A-Za-z0-9]+.*')
+        if pattern.search(form.password.data) is None:
             flash('Password must contain a special character', 'warning')
             return render_template('password_change.html', form=form)
 
