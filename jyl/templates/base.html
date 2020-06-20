@@ -85,14 +85,10 @@
         {% endblock %}
         {% include "footer.html" %}
     </div>
-    <script>
-    function countWords(text) {
-      return text.length || 0;
-    }
-    </script>
-    {% block trailing_js %}
-    {% endblock %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/flash.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    {% block trailing_js %}
+    {% endblock %}
 </body>
 </html>
