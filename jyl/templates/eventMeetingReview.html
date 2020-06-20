@@ -65,24 +65,9 @@
 
 {% block trailing_js %}
 <script>
-let ta = document.getElementById('review');
-let span = document.getElementById('wordCount');
 let required = document.getElementById('required');
-let required0 = document.getElementById('required0');
-span.innerText = countWords(ta.value) + '/500';
-ta.addEventListener('input', () => {
-  span.innerText = countWords(ta.value) + '/500';
-  if (countWords(ta.value) > 500){
-    span.style.color = '#c21b1b';
-  }else {
-    span.style.color = '#000000';
-  }
-  if (countWords(ta.value) > 0){
-    required0.style.display = 'none';
-  }else {
-    required0.style.display = 'inline-block';
-  }
-});
+jsTextArea(document.getElementById('review'), document.getElementById('wordCount'), '500');
+jsRequired(document.getElementById('review'), document.getElementById('required0'));
 
 if (document.getElementById("reaction-0").checked || document.getElementById("reaction-1").checked || document.getElementById("reaction-2").checked){
   required.style.display = "none";
