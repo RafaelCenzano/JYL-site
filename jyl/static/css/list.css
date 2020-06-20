@@ -17,6 +17,11 @@ ul {
     }
 }
 
+.centered {
+    margin: 20px auto;
+    max-width: 550px;
+}
+
 li,
 li:visited {
     background: #7db6f0;
