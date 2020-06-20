@@ -12,6 +12,8 @@
 {% if oldthings > 0 %}
 <div class="half-grid">
     <div class="column">
+{% else %}
+<div>
 {% endif %}
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Current Members</h2></li>
@@ -42,6 +44,6 @@
             {% endfor %}
         </ul>
     </div>
-</div>
 {% endif %}
+</div>
 {% endblock %}
