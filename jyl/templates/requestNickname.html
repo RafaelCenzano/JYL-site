@@ -13,6 +13,7 @@
     <h2 class="form-title">Request Nickname</h2>
     <div class="form-group">
     {{ form.nickname.label(class="form-label-css") }}
+    <span id="required" class="required">*required</span>
     <br>
     {% if form.nickname.errors %}
         {{ form.nickname(class="form-control form-control-lg is-invalid") }}
@@ -34,7 +35,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <label class="container">{{ form.understand.label() }}
+        <label class="container">{{ form.understand.label() }}<span id="required0" class="required">*required</span>
             {{ form.understand() }}
             <span class="checkmark"></span>
         </label>
@@ -46,3 +47,16 @@
     </div>
 </form>
 {% endblock content %}
+
+{% block trailing_js %}
+<script>
+jsRequired(document.getElementById('nickname'), document.getElementById('required'));
+document.getElementById('understand').addEventListener( 'change', function() {
+    if (this.checked){
+        required.style.display = 'none';
+    }else {
+        required.style.display = 'inline-block';
+    }
+});
+</script>
+{% endblock %}
