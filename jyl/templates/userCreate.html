@@ -13,6 +13,7 @@
     <h2 class="form-title">Create User</h2>
     <div class="form-group">
     {{ form.first.label(class="form-label-css") }}
+    <span id="required" class="required">*required</span>
     <br>
     {% if form.first.errors %}
         {{ form.first(class="form-control form-control-lg is-invalid") }}
@@ -27,6 +28,7 @@
     </div>
     <div class="form-group">
     {{ form.last.label(class="form-label-css") }}
+    <span id="required0" class="required">*required</span>
     <br>
     {% if form.last.errors %}
         {{ form.last(class="form-control form-control-lg is-invalid") }}
@@ -41,6 +43,7 @@
     </div>
     <div class="form-group">
     {{ form.email.label(class="form-label-css") }}
+    <span id="required1" class="required">*required</span>
     <br>
     {% if form.email.errors %}
         {{ form.email(class="form-control form-control-lg is-invalid") }}
@@ -55,6 +58,7 @@
     </div>
     <div class="form-group">
     {{ form.school.label(class="form-label-css") }}
+    <span id="required2" class="required">*required</span>
     <br>
     {% if form.school.errors %}
         {{ form.school(class="form-control form-control-lg is-invalid") }}
@@ -69,6 +73,7 @@
     </div>
     <div class="form-group">
     {{ form.grade.label(class="form-label-css") }}
+    <span id="required3" class="required">*required</span>
     <br>
     {% if form.grade.errors %}
         {{ form.grade(class="form-control form-control-lg is-invalid") }}
@@ -83,6 +88,7 @@
     </div>
     <div class="form-group">
     {{ form.address.label(class="form-label-css") }}
+    <span id="required4" class="required">*required</span>
     <br>
     {% if form.address.errors %}
         {{ form.address(class="form-control form-control-lg is-invalid") }}
@@ -97,6 +103,7 @@
     </div>
     <div class="form-group">
     {{ form.phone.label(class="form-label-css") }}
+    <span id="required5" class="required">*required</span>
     <br>
     {% if form.phone.errors %}
         {{ form.phone(class="form-control form-control-lg is-invalid") }}
@@ -144,3 +151,15 @@
     </div>
 </form>
 {% endblock content %}
+
+{% block trailing_js %}
+<script>
+jsRequired(document.getElementById('first'), document.getElementById('required'));
+jsRequired(document.getElementById('last'), document.getElementById('required0'));
+jsRequired(document.getElementById('email'), document.getElementById('required1'));
+jsRequired(document.getElementById('school'), document.getElementById('required2'));
+jsRequired(document.getElementById('grade'), document.getElementById('required3'));
+jsRequired(document.getElementById('address'), document.getElementById('required4'));
+jsRequired(document.getElementById('phone'), document.getElementById('required5'));
+</script>
+{% endblock %}
