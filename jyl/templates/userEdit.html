@@ -40,20 +40,6 @@
     {% endif %}
     </div>
     <div class="form-group">
-    {{ form.email.label(class="form-label-css") }}
-    <br>
-    {% if form.email.errors %}
-        {{ form.email(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-            {% for error in form.email.errors %}
-                <span>{{ error }}</span>
-            {% endfor %}
-        </div>
-    {% else %}
-        {{ form.email() }}
-    {% endif %}
-    </div>
-    <div class="form-group">
     {{ form.school.label(class="form-label-css") }}
     <br>
     {% if form.school.errors %}

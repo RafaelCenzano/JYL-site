@@ -1553,7 +1553,6 @@ def userEdit(userId):
 
             user.firstname = form.first.data
             user.lastname = form.last.data
-            user.email = form.email.data
             user.school = form.school.data
             user.grade = form.grade.data
             user.address = address
