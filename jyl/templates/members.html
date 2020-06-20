@@ -16,7 +16,9 @@
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Current Members</h2></li>
             {% for people in currentMembers %}
+            {% if identifier|lower != 'leader' %}
             <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            {% endif %}
                 <li>
                     <h3>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}{% if people.leader %} - Leader{% endif %}{% if people.admin %} - Admin{% endif %}</h3>
                 </li>
@@ -28,12 +30,15 @@
     <div class="column">
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Past Members</h2></li>
+            {% if identifier|lower != 'leader' %}
+            <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            {% endif %}
             {% for people in oldMembers %}
-            <li>
-                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                <li>
                     <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}{% if people.leader %} - Leader{% endif %}{% if people.admin %} - Admin{% endif %}</h4>
-                </a>
-            </li>
+                }
+                </li>
+            </a>
             {% endfor %}
         </ul>
     </div>
