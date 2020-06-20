@@ -45,9 +45,9 @@
     <div class="column">
         <ul>
             {% if eventMeetingData['future'] %}
-            <li><h2 class="profiletitle">Members Going</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Members Going</h2></li>
             {% else %}
-            <li><h2 class="profiletitle">Members Attended</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Members Attended</h2></li>
             {% endif %}
             {% if eventMeetingData['users'] %}
             {% for people in eventMeetingData['users'] %}
@@ -65,12 +65,12 @@
     <div class="column">
         <ul>
             {% if eventMeetingData['future'] %}
-            <li><h2 class="profiletitle">JYL Resources</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">JYL Resources</h2></li>
             <a href="{{ url_for('helprequest') }}"><li><p>Help Request</p></li></a>
             <a href="{{ url_for('upcomingMeetings') }}"><li><p>Upcoming Meetings</p></li></a>
             <a href="{{ url_for('upcomingEvents') }}"><li><p>Upcoming Events</p></li></a>
             {% else %}
-            <li><h2 class="profiletitle" id="reviews">Reviews</h2></li>
+            <li class="non-hover"><h2 class="profiletitle" id="reviews">Reviews</h2></li>
             {% if eventMeetingData['userreview']|length > 0 and eventMeetingData['userReview'] %}
             {% if eventMeetingData['meeting'] %}<a href="#">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
             {% elif eventMeetingData['userAttended'] %}

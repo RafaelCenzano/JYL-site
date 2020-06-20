@@ -12,7 +12,7 @@
 <div class="half-grid">
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">View</h2></li>
+            <li><h2 class="profiletitle non-hover">View</h2></li>
             <a href="{{ url_for('meetingData') }}">
                 <li>
                     <h4>Meetings</h4>
@@ -37,7 +37,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Attendance</h2></li>
+            <li><h2 class="profiletitle non-hover">Attendance</h2></li>
             <a href="{{ url_for('attendanceMeetingList') }}">
                 <li>
                     <h4>Meeting Attendance</h4>
@@ -54,7 +54,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Create</h2></li>
+            <li><h2 class="profiletitle non-hover">Create</h2></li>
             <a href="{{ url_for('meetingCreate') }}">
                 <li>
                     <h4>New Meeting</h4>
@@ -77,7 +77,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Edit</h2></li>
+            <li><h2 class="profiletitle non-hover">Edit</h2></li>
             <a href="{{ url_for('meetingEditList') }}">
                 <li>
                     <h4>Change Meeting</h4>
@@ -101,7 +101,7 @@
 </div>
 {% if current_user.leader %}
 <ul>
-    <li><h2>Manage</h2></li>
+    <li><h2 class="profiletitle non-hover">Manage</h2></li>
     <a href="{{ url_for('nicknameList') }}">
         <li>
             <h4>Manage Nicknames</h4>

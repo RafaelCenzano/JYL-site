@@ -14,7 +14,7 @@
     <div class="column">
 {% endif %}
         <ul>
-            <li><h2 class="profiletitle">Upcoming {% if event %}Event{% else %}Meeting{% endif %}s</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Upcoming {% if event %}Event{% else %}Meeting{% endif %}s</h2></li>
             {% if upcomingThings %}
             {% for eventmeeting in upcomingThings %}
             {% if event %}
@@ -38,7 +38,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Interested {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Interested {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
             {% for eventmeeting in interestedThings %}
             {% if event %}
             <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">

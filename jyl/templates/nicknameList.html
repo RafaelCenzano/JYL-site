@@ -14,7 +14,7 @@
     <div class="column">
 {% endif %}
         <ul>
-            <li><h2 class="profiletitle">Unapproved Nicknames</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Unapproved Nicknames</h2></li>
             {% if unapproved %}
             {% for user in unapproved %}
             <li class="non-hover">
@@ -33,7 +33,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Approved Nicknames</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Approved Nicknames</h2></li>
             {% for user in approved %}
             <li class="non-hover">
                 <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>

@@ -10,7 +10,7 @@
 {% block content %}
 <h1 class="name">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h1>
 <ul>
-    <li><h2 class="profiletitle">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h2></li>
+    <li class="non-hover"><h2 class="profiletitle">{% if meeting %}Meeting{% else %}Event{% endif %} Attendance List</h2></li>
     {% if eventMeetings %}
     {% for eventMeeting in eventMeetings %}
     {% if not pacific.localize(eventMeeting.start) > now %}

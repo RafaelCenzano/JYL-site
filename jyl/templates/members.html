@@ -14,7 +14,7 @@
     <div class="column">
 {% endif %}
         <ul>
-            <li><h2 class="profiletitle">Current Members</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Current Members</h2></li>
             {% for people in currentMembers %}
             <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
                 <li>
@@ -27,7 +27,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Past Members</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Past Members</h2></li>
             {% for people in oldMembers %}
             <li>
                 <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">

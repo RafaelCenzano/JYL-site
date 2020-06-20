@@ -12,7 +12,7 @@
 <div class="half-grid">
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Future {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Future {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
             {% if futureEventMeetings %}
             {% for eventMeeting in futureEventMeetings %}
             {% if meeting %}
@@ -40,7 +40,7 @@
     </div>
     <div class="column">
         <ul>
-            <li><h2 class="profiletitle">Past {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Past {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
             {% if pastEventMeetings %}
             {% for eventMeeting in pastEventMeetings %}
             {% if meeting %}

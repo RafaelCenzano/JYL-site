@@ -38,9 +38,8 @@
 {% if goingLen > 0 %}
 <div class="half-grid">
     <div class="column">
-
         <ul>
-            <li><h2 class="profiletitle">Upcoming {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
+            <li class="non-hover"><h2 class="profiletitle">Upcoming {% if event %}Events{% else %}Meetings{% endif %}</h2></li>
             {% for eventmeeting in itemsGoing %}
             {% if event %}
             <a href="{{ url_for('eventInfo', idOfEvent=eventmeeting.id) }}">
@@ -58,7 +57,7 @@
     <div class="column">
 {% endif %}
         <ul>
-            <li><h2 class="profiletitle" id="events">{% if event %}Event{% else %}Meeting{% endif %}s attended</h2></li>
+            <li class="non-hover"><h2 class="profiletitle" id="events">{% if event %}Event{% else %}Meeting{% endif %}s attended</h2></li>
             {% if attendedLen > 0 %}
             {% for eventmeeting in itemsAttended %}
             {% if event %}
