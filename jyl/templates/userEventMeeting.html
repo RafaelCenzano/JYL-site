@@ -56,7 +56,11 @@
     </div>
     <div class="column">
 {% endif %}
+        {% if goingLen > 0 %}
         <ul>
+        {% else %}
+        <ul class="centered">
+        {% endif %}
             <li class="non-hover"><h2 class="profiletitle" id="events">{% if event %}Event{% else %}Meeting{% endif %}s attended</h2></li>
             {% if attendedLen > 0 %}
             {% for eventmeeting in itemsAttended %}
