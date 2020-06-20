@@ -13,7 +13,6 @@
     <h2 class="form-title">Settings</h2>
     <div class="form-group">
     {{ form.bio.label(class="form-label-css") }}
-    <span id="required" class="required">*required</span>
     <br>
     {% if form.bio.errors %}
         {{ form.bio(class="form-control form-control-lg is-invalid") }}
@@ -65,8 +64,5 @@
 {% endblock content %}
 
 {% block trailing_js %}
-<script>
-jsTextArea(document.getElementById('bio'), document.getElementById('wordCount'), '500');
-jsRequired(document.getElementById('bio'), document.getElementById('required'));
-</script>
+<script>jsTextArea(document.getElementById('bio'), document.getElementById('wordCount'), '500');</script>
 {% endblock %}
