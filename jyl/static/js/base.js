@@ -11,3 +11,15 @@ function jsRequired(ta, required){
         }
     });
 }
+
+function jsTextArea(ta, span, number){
+    span.innerText = countWords(ta.value) + '/' + number;
+    ta.addEventListener('input', () => {
+        span.innerText = countWords(ta.value) + '/' + number;
+        if (countWords(ta.value) > number){
+            span.style.color = '#c21b1b';
+        }else {
+            span.style.color = '#000000';
+        }
+    });
+}
