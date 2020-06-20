@@ -64,17 +64,5 @@
 {% endblock content %}
 
 {% block trailing_js %}
-<script>
-let ta = document.getElementById('bio');
-let span = document.getElementById('wordCount');
-span.innerText = countWords(ta.value) + '/500';
-ta.addEventListener('input', () => {
-  span.innerText = countWords(ta.value) + '/500';
-  if (countWords(ta.value) > 500){
-    span.style.color = '#c21b1b';
-  }else {
-    span.style.color = '#000000';
-  }
-});
-</script>
+<script>jsTextArea(document.getElementById('bio'), document.getElementById('wordCount'), '500');</script>
 {% endblock %}
