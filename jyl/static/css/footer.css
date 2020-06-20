@@ -58,9 +58,17 @@ footer a:visited {
     justify-content: space-around;
 }
 
+#quickLinks > .column {
+    min-width: 25%;
+}
+
+#quickLinks .column > ul {
+    padding: 0;
+}
+
 @media only screen and (max-width: 600px){
     #quickLinks {
-        align-items: center
+        align-items: center;
         flex-direction: column;
     }
 }
