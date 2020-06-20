@@ -43,7 +43,7 @@
     
 }
 
-@media (max-width:899px) {
+@media (max-width:900px) {
     #submit {
         background-color: rgb(0, 255, 0);
     }
@@ -66,6 +66,13 @@
     font-size: 40px;
     text-decoration: underline;
     color: #041d42;
+    margin: 7px 0 30px 0;
+}
+
+@media (max-width: 900px) {
+    .form-title {
+        margin: 7px auto 30px auto;
+    }
 }
 
 .invalid-feedback {
