@@ -982,6 +982,8 @@ For security reasons, you should reset your password since this was a temporary 
                 flash(
                     f'User created for {form.first.data} {form.last.data}',
                     'success')
+                
+                return html
 
             except BaseException as e:
                 flash(f'User couldn\'t be created. Error: {e}', 'error')
