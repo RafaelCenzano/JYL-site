@@ -118,22 +118,13 @@ flatpickr("#endtime", {
     enableTime: true,
     dateFormat: "Y-m-d H:i:ss",
 });
-
-let ta = document.getElementById('description');
-let span = document.getElementById('wordCount');
-let required = document.getElementById('required');
-let required0 = document.getElementById('required0');
-let required1 = document.getElementById('required1');
-let required2 = document.getElementById('required2');
-let required3 = document.getElementById('required3');
-span.innerText = countWords(ta.value) + '/500';
-ta.addEventListener('input', () => {
-  span.innerText = countWords(ta.value) + '/500';
-  if (countWords(ta.value) > 500){
-    span.style.color = '#c21b1b';
-  }else {
-    span.style.color = '#000000';
-  }
-});
+jsTextArea(document.getElementById('description'), document.getElementById('wordCount'), '500');
+jsRequired(document.getElementById('description'), document.getElementById('required0'));
+jsRequired(document.getElementById('location'), document.getElementById('required1'));
+jsRequired(document.getElementById('starttime'), document.getElementById('required2'));
+jsRequired(document.getElementById('endtime'), document.getElementById('required3'));
 </script>
+{% if not meeting %}
+<script></script>>jsRequired(document.getElementById('name'), document.getElementById('required'));</script>
+{% endif %}
 {% endblock %}
