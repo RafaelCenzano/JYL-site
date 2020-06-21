@@ -222,6 +222,7 @@ Email: {current_user.email}
     return page
 
 
+'''
 @app.route('/back', methods=['GET'])
 def back():
 
@@ -289,6 +290,7 @@ def back():
 
     else:
         return redirect(url_for('index'))
+'''
 
 
 @app.route('/profile/<int:num>/<first>/<last>', methods=['GET'])
