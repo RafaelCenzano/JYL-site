@@ -31,12 +31,7 @@
 #content {
     margin-left: 200px;
     padding: 0;
-}
-
-@media screen and (min-width: 701px){
-    #content {
-        min-height: calc(100vh - 203);
-    }
+    min-height: 100vh;
 }
 
 #content > * {
