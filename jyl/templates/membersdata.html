@@ -16,69 +16,69 @@
 <div class="wrapped">
 <table id="example" class="display" style="width:100%">
     <thead>
-          <tr>
-              <th class="th-sm">Last Name</th>
-              <th class="th-sm">First Name</th>
-              <th class="th-sm">Email</th>
-              <th class="th-sm">Phone Number</th>
-              <th class="th-sm">Address</th>
-              <th class="th-sm">School</th>
-              <th class="th-sm">Grade</th>
-              {% if oldCheck %}
-              <th class="th-sm">Current Hours</th>
-              <th class="th-sm">Current Meeting Hours</th>
-              <th class="th-sm">Current Meeting Count</th>
-              <th class="th-sm">Current Event Hours</th>
-              <th class="th-sm">Current Event Count</th>
-              {% endif %}
-              <th class="th-sm">Lifetime Hours</th>
-              <th class="th-sm">Lifetime Meeting Hours</th>
-              <th class="th-sm">Lifetime Event Hours</th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for user in users %}
-          <tr>
-              <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.lastname }}</a></td>
-              <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }}</a></td>
-              <td>{{ user.email }}</td>
-              <td>{% if user.numberphone %}({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}{% else %}Not Found{% endif %}</td>
-              <td>{% if user.address %}<a href="https://www.google.com/maps/place/{{ user.address.replace(' ', '+') }}" target="_blank">{{ user.address }}</a>{% else %}Not Found{% endif %}</td>
-              <td>{{ user.school }}</td>
-              <td>{{ user.grade }}</td>
-              {% if oldCheck %}
-              <td>{{ user.currentHours }}</td>
-              <td>{{ user.currentMeetingHours }}</td>
-              <td>{{ user.currentMeetingCount }}</td>
-              <td>{{ user.currentEventHours }}</td>
-              <td>{{ user.currentEventCount }}</td>
-              {% endif %}
-              <td>{{ user.lifetimeHours }}</td>
-              <td>{{ user.lifetimeMeetingCount }}</td>
-              <td>{{ user.lifetimeEventCount }}</td>
-          </tr>
-          {% endfor %}
-      </tbody>
-      <tfoot>
-          <tr>
-              <th class="th-sm">Last Name</th>
-              <th class="th-sm">First Name</th>
-              <th class="th-sm">Email</th>
-              <th class="th-sm">Phone Number</th>
-              <th class="th-sm">Address</th>
-              <th class="th-sm">School</th>
-              <th class="th-sm">Grade</th>
-              {% if oldCheck %}
-              <th class="th-sm">Current Hours</th>
-              <th class="th-sm">Current Meeting Hours</th>
-              <th class="th-sm">Current Meeting Count</th>
-              <th class="th-sm">Current Event Hours</th>
-              <th class="th-sm">Current Event Count</th>
-              {% endif %}
-              <th class="th-sm">Lifetime Hours</th>
-              <th class="th-sm">Lifetime Meeting Hours</th>
-              <th class="th-sm">Lifetime Event Hours</th>
-          </tr>
+        <tr>
+            <th class="th-sm">Last Name</th>
+            <th class="th-sm">First Name</th>
+            <th class="th-sm">Email</th>
+            <th class="th-sm">Phone Number</th>
+            <th class="th-sm">Address</th>
+            <th class="th-sm">School</th>
+            <th class="th-sm">Grade</th>
+            {% if oldCheck %}
+            <th class="th-sm">Current Hours</th>
+            <th class="th-sm">Current Meeting Hours</th>
+            <th class="th-sm">Current Meeting Count</th>
+            <th class="th-sm">Current Event Hours</th>
+            <th class="th-sm">Current Event Count</th>
+            {% endif %}
+            <th class="th-sm">Lifetime Hours</th>
+            <th class="th-sm">Lifetime Meeting Hours</th>
+            <th class="th-sm">Lifetime Event Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.lastname }}</a></td>
+            <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }}</a></td>
+            <td>{{ user.email }}</td>
+            <td>{% if user.numberphone %}({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}{% else %}Not Found{% endif %}</td>
+            <td>{% if user.address %}<a href="https://www.google.com/maps/place/{{ user.address.replace(' ', '+') }}" target="_blank">{{ user.address }}</a>{% else %}Not Found{% endif %}</td>
+            <td>{{ user.school }}</td>
+            <td>{{ user.grade }}</td>
+            {% if oldCheck %}
+            <td>{{ user.currentHours }}</td>
+            <td>{{ user.currentMeetingHours }}</td>
+            <td>{{ user.currentMeetingCount }}</td>
+            <td>{{ user.currentEventHours }}</td>
+            <td>{{ user.currentEventCount }}</td>
+            {% endif %}
+            <td>{{ user.lifetimeHours }}</td>
+            <td>{{ user.lifetimeMeetingCount }}</td>
+            <td>{{ user.lifetimeEventCount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th class="th-sm">Last Name</th>
+            <th class="th-sm">First Name</th>
+            <th class="th-sm">Email</th>
+            <th class="th-sm">Phone Number</th>
+            <th class="th-sm">Address</th>
+            <th class="th-sm">School</th>
+            <th class="th-sm">Grade</th>
+            {% if oldCheck %}
+            <th class="th-sm">Current Hours</th>
+            <th class="th-sm">Current Meeting Hours</th>
+            <th class="th-sm">Current Meeting Count</th>
+            <th class="th-sm">Current Event Hours</th>
+            <th class="th-sm">Current Event Count</th>
+            {% endif %}
+            <th class="th-sm">Lifetime Hours</th>
+            <th class="th-sm">Lifetime Meeting Hours</th>
+            <th class="th-sm">Lifetime Event Hours</th>
+        </tr>
     </tfoot>
 </table>
 </div>
