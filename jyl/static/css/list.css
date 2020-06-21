@@ -60,7 +60,7 @@ li a:visited {
     margin: 0;
     padding: 0;
     text-decoration: none;
-    color: #fff;
+    color: #001F51;
 }
 
 ul a,
@@ -72,7 +72,7 @@ li h2 {
     font-size: 40px;
     margin-bottom: -8px;
     margin: auto;
-    color: #fff;
+    color: #001F51;
     transition-duration: 0.4s;
 }
 
