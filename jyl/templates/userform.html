@@ -12,8 +12,8 @@
     {{ form.hidden_tag() }}
     <h2 class="form-title">{{ type }}</h2>
     <div class="form-group">
-    <div class="form-group">
     {{ form.text.label(class="form-label-css") }}
+    <span id="required" class="required">*required</span>
     <br>
     {% if form.text.errors %}
         {{ form.text(class="form-control form-control-lg is-invalid") }}
@@ -31,3 +31,7 @@
     </div>
 </form>
 {% endblock content %}
+
+{% block trailing_js %}
+<script type="text/javascript">jsRequired(document.getElementById('text'), document.getElementById('required'));</script>
+{% endblock %}
