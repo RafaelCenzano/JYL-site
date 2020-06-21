@@ -8,7 +8,8 @@ ul {
     margin: 20px 0;
     text-decoration: none;
     text-align: center;
-    color: #fff;
+    color: #001F51;
+    border-radius: 5px;
 }
 
 .column ul {
@@ -28,10 +29,8 @@ ul {
 
 li,
 li:visited {
-    background: #7db6f0;
-    border-bottom: 1px solid #ddd;
-    border-right: 5px solid #348feb;
-    border-left: 5px solid #348feb;
+    background: #C9CED6;
+    border: 1px solid #bbb;
     padding: 10px;
     overflow: auto;
     transition-duration: 0.4s;
@@ -40,19 +39,15 @@ li:visited {
 @media (min-width:900px) {
     li:hover,
     li:visited:hover {
-        background: #7dd5f0;
-        border-right: 5px solid #34d6eb;
-        border-left: 5px solid #34d6eb;
+        background: #E0E0F0;
     }
 
     .non-hover,
     .non-hover:hover,
     .non-hover:visited,
     .non-hover:visited:hover {
-        background: #7db6f0;
-        border-bottom: 1px solid #ddd;
-        border-right: 5px solid #348feb;
-        border-left: 5px solid #348feb;
+        background: #C9CED6;
+        border: 1px solid #bbb;
     }
 
 }
