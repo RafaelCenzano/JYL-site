@@ -40,7 +40,7 @@
     .date {
         margin-top: -20px;
     }
-    
+
 }
 
 @media (max-width:900px) {
@@ -69,10 +69,11 @@
     margin: 7px 0 30px 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width:900px) {
     .form-title {
         margin: 7px auto 30px auto;
     }
+
 }
 
 .invalid-feedback {
@@ -80,6 +81,7 @@
 }
 
 @media (min-width:900px) {
+
     /* Customize the label (the container) */
     .container {
         display: block;
@@ -122,7 +124,7 @@
     .container input:checked ~ .checkmark {
         background-color: #2196F3;
     }
-    
+
     /* Create the checkmark/indicator (hidden when not checked) */
     .checkmark:after {
         content: "";

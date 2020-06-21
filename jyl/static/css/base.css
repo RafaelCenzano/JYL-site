@@ -4,10 +4,11 @@ body {
     margin: 0;
 }
 
-@media (max-width: 900px){
-    body{
+@media (max-width:900px) {
+    body {
         text-align: center;
     }
+
 }
 
 .center-align {
@@ -19,7 +20,6 @@ body {
     background-color: #f44336;
     color: white;
     opacity: 1;
-    -webkit-transition: opacity 0.6s;
     transition: opacity 0.6s;
     margin-bottom: 15px;
 }
@@ -44,7 +44,6 @@ body {
     font-size: 22px;
     line-height: 20px;
     cursor: pointer;
-    -webkit-transition: 0.3s;
     transition: 0.3s;
 }
 
@@ -70,7 +69,6 @@ body {
     grid-template-columns: repeat(2, 50%);
 }
 
-
 @media only screen and (max-width:900px) {
     .grid {
         display: -ms-grid;
@@ -79,6 +77,7 @@ body {
         grid-template-columns: repeat(2, 50%);
         margin-left: -10px;
     }
+
     .half-grid {
         display: -ms-grid;
         display: grid;
@@ -96,4 +95,5 @@ body {
         grid-template-columns: repeat(1, 100%);
         margin-left: -35px;
     }
+
 }

@@ -171,6 +171,17 @@
     background: grey;
 }
 
+@-webkit-keyframes unhideGlide {
+    from {
+        left: -200px;
+    }
+
+    to {
+        left: 0;
+    }
+
+}
+
 @keyframes unhideGlide {
     from {
         left: -200px;
@@ -178,6 +189,17 @@
 
     to {
         left: 0;
+    }
+
+}
+
+@-webkit-keyframes unhideGlide2 {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: 200px;
     }
 
 }
@@ -193,6 +215,17 @@
 
 }
 
+@-webkit-keyframes zoomFit {
+    from {
+        margin-left: 0;
+    }
+
+    to {
+        margin-left: 200px;
+    }
+
+}
+
 @keyframes zoomFit {
     from {
         margin-left: 0;
@@ -204,6 +237,17 @@
 
 }
 
+@-webkit-keyframes hideGlide {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: -200px;
+    }
+
+}
+
 @keyframes hideGlide {
     from {
         left: 0;
@@ -211,6 +255,17 @@
 
     to {
         left: -200px;
+    }
+
+}
+
+@-webkit-keyframes hideGlide2 {
+    from {
+        left: 200px;
+    }
+
+    to {
+        left: 0;
     }
 
 }

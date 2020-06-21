@@ -16,10 +16,11 @@ ul {
     margin: 20px auto;
 }
 
-@media (max-width: 900px){
+@media (max-width:900px) {
     ul {
         margin: 20px auto;
     }
+
 }
 
 .centered {
