@@ -5,6 +5,10 @@ footer {
     background-color: #c9ced6;
 }
 
+footer > .spacing {
+    padding-right: 5px;
+}
+
 @media only screen and (max-width:900px) {
     footer {
         margin-top: 15px;
