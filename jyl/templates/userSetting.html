@@ -25,6 +25,7 @@
     {% else %}
         {{ form.bio(cols='30', rows='10') }}
     {% endif %}
+    <span id="wordCount"></span>
     <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}" class="extra-link">Request Nickname</a></p>
     </div>
     <h3>Privacy</h3>
@@ -157,5 +158,8 @@
 {% endblock content %}
 
 {% block trailing_js %}
-<script type="text/javascript">jsRequired(document.getElementById('bio'), document.getElementById('required'));</script>
+<script type="text/javascript">
+jsRequired(document.getElementById('bio'), document.getElementById('required'));
+jsTextArea(document.getElementById('bio'), document.getElementById('wordCount'), '500');
+</script>
 {% endblock %}
