@@ -11,6 +11,7 @@
     <!-- Part of protecting the site from attacks -->
     {{ form.hidden_tag() }}
     <h2 class="form-title">Settings</h2>
+    <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}" class="extra-link">Request Nickname</a></p>
     <div class="form-group">
     {{ form.bio.label(class="form-label-css") }}
     <span id="required" class="required">*required</span>
@@ -25,9 +26,8 @@
     {% else %}
         {{ form.bio(cols='30', rows='10') }}
     {% endif %}
-    <span id="wordCount"></span>
-    <p><a href="{{ url_for('userNicknameRequest', num=user.namecount, first=user.firstname, last=user.lastname) }}" class="extra-link">Request Nickname</a></p>
     </div>
+    <span id="wordCount"></span>
     <h3>Privacy</h3>
     <div class="form-group">
     {% if form.showemail.errors %}
