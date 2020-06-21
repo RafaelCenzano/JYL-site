@@ -39,3 +39,8 @@ close[i].onclick = function(){
         setTimeout(function(){ div.style.display = "none"; }, 600);
     }
 }
+
+document.querySelector("#mobileMenu").addEventListener("click", () => {
+    document.querySelector(".sidebar").style.animationDuration = "1.5s";
+    document.querySelector("#mobileMenu").style.animationDuration = "1.5s";
+});
