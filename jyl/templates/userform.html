@@ -25,6 +25,7 @@
     {% else %}
         {{ form.text(cols='30', rows='10') }}
     {% endif %}
+    <span id="wordCount"></span>
     </div>
     <div class="form-group">
         {{ form.submit() }}
@@ -33,5 +34,8 @@
 {% endblock content %}
 
 {% block trailing_js %}
-<script type="text/javascript">jsRequired(document.getElementById('text'), document.getElementById('required'));</script>
+<script type="text/javascript">
+jsRequired(document.getElementById('text'), document.getElementById('required'));
+jsTextArea(document.getElementById('description'), document.getElementById('wordCount'), '500');
+</script>
 {% endblock %}
