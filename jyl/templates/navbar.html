@@ -22,7 +22,6 @@
     <a href="{{ url_for('members') }}"><i class="fas fa-user nav-icon"></i> JYL Members</a>
     <a href="{{ url_for('userEdit1', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-cog"></i> Settings</a>
     {% endif %}
-    <a href="{{ url_for('back') }}"><i class="fas fa-arrow-left"></i> Back</a>
     {% if current_user.is_authenticated %}
     <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a>
     {% endif %}
