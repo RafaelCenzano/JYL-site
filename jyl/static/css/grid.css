@@ -3,7 +3,6 @@
     display: grid;
     -ms-grid-columns: (25%)[4];
     grid-template-columns: repeat(4, 25%);
-    grid-column-gap: 10px;
     margin-left: -20px;
 }
 
@@ -12,7 +11,6 @@
     display: grid;
     -ms-grid-columns: (50%)[2];
     grid-template-columns: repeat(2, 50%);
-    grid-column-gap: 10px;
 }
 
 
@@ -22,7 +20,6 @@
         display: grid;
         -ms-grid-columns: (50%)[2];
         grid-template-columns: repeat(2, 50%);
-        grid-column-gap: 5px;
         margin-left: -10px;
     }
     .half-grid {
@@ -30,7 +27,6 @@
         display: grid;
         -ms-grid-columns: (100%)[1];
         grid-template-columns: repeat(1, 100%);
-        grid-column-gap: 3px;
     }
 
 }
