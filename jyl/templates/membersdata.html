@@ -13,6 +13,7 @@
 {% else %}
 <h1 class="name">Past Member Data</h1>
 {% endif %}
+<div class="wrapped">
 <table id="example" class="display" style="width:100%">
     <thead>
           <tr>
@@ -80,6 +81,7 @@
           </tr>
     </tfoot>
 </table>
+</div>
 {% if oldCheck %}
 <a href="{{ url_for('memberDataOld') }}">View Past Member Data</a>
 {% endif %}
