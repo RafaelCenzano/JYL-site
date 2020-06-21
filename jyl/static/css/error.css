@@ -17,7 +17,7 @@
     font-size: 16px;
 }
 
-@media (min-width:850px) {
+@media (min-width:900px) {
     .button:hover,
     .button:visited:hover {
         background-color: #4CAF50;
