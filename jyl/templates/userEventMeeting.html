@@ -29,7 +29,7 @@
     </div>
     <div class="column">
         <h4 class="desc">{% if oldCheck == False %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
-        <div class="eventmeeting lrg"><h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}{{ currentHours }}{% endif %}</h4></div>
+        <div class="eventmeeting lrg"><h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}{{ currentHours }}{% endif %} hrs</h4></div>
         {% if oldCheck %}
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
         {% endif %}
@@ -59,6 +59,7 @@
         {% if goingLen > 0 %}
         <ul>
         {% else %}
+        <div>
         <ul class="centered">
         {% endif %}
             <li class="non-hover"><h2 class="profiletitle" id="events">{% if event %}Event{% else %}Meeting{% endif %}s attended</h2></li>
@@ -95,6 +96,6 @@
         {% endif %}
 {% if goingLen > 0 %}
     </div>
-</div>
 {% endif %}
+</div>
 {% endblock %}
