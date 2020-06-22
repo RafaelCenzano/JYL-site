@@ -6,7 +6,11 @@ function jsRequired(ta, required){
     if (countWords(ta.value) > 0){
         required.style.display = 'none';
     }else {
-        required.style.display = 'inline-block';
+        if (window.matchMedia("(max-width: 900px)").matches){
+            required.style.display = 'block';
+        }else {
+            required.style.display = 'inline-block';
+        }
     }
     ta.addEventListener('input', () => {
         if (countWords(ta.value) > 0){
