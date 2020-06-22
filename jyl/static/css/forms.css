@@ -283,6 +283,10 @@ form {
 
 .required {
     margin-left: -8px;
+    color: #bd1414;
+}
+
+.required.light {
     color: #a83232;
 }
 
