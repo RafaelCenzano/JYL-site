@@ -23,6 +23,7 @@ footer {
 footer h4 {
     margin-top: 4px;
     padding-bottom: 0;
+    max-width: 85%;
 }
 
 footer h5 {
