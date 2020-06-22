@@ -16,6 +16,10 @@ canvas {
 .title {
     font-size: 30px;
     padding-top: 60px;
+    color: #ddd;
+}
+
+.title.light {
     color: #191919;
 }
 
