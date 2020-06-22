@@ -49,6 +49,7 @@
 
 @media (min-width: 901px){
     #content {
+        min-height: 100%;
         padding-bottom: 175px;
     }
 }
