@@ -309,6 +309,7 @@ def profile(num, first, last):
 
     if checkUser.leader:
 
+        # add leader profile
         return redirect(url_for('memberType', identifier='leader'))
 
     page = make_response(render_template(

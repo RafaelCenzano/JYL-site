@@ -9,6 +9,14 @@
     color: #000;
 }
 
+.text {
+    color: #ddd;
+}
+
+.text.light {
+    color: #000;
+}
+
 #submit {
     background-color: rgb(176, 255, 176);
     border: none;
