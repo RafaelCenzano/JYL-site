@@ -8,6 +8,12 @@
     overflow: auto;
 }
 
+@media (min-width:901px){
+    .sidebar {
+        height: calc(100vh - 168px);
+    }
+}
+
 .sidebar.light {
     background-color: #c9ced6;
 }
