@@ -80,8 +80,8 @@
     color: rgb(227, 14, 14);
 }
 
-@media (min-width:900px) {
-
+/*@media (min-width:900px) {
+*/
     /* Customize the label (the container) */
     .container {
         display: block;
@@ -213,7 +213,7 @@
         background: white;
     }
 
-}
+/*}*/
 
 textarea {
     outline: none;
@@ -221,6 +221,7 @@ textarea {
     overflow: auto;
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
+    max-width: 90%;
 }
 
 form {
