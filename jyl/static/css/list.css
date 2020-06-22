@@ -30,24 +30,47 @@ ul {
 
 li,
 li:visited {
-    background: #C9CED6;
-    border: 1px solid #bbb;
+    background: #83868a;
+    border: 1px solid #b3b3b3;
     padding: 10px;
     overflow: auto;
     transition-duration: 0.4s;
 }
 
+li.light,
+li.light:visited {
+    background: #c9ced6;
+    border: 1px solid #bbb;
+}
+
+.non-hover {
+    border-radius: 7px 7px 0 0;
+}
+
 @media (min-width:900px) {
     li:hover,
     li:visited:hover {
-        background: #E0E0F0;
+        background: #a2a2a9;
+    }
+
+    li.light:hover,
+    li.light:visited:hover {
+        background: #e0e0f0;
     }
 
     .non-hover,
     .non-hover:hover,
     .non-hover:visited,
     .non-hover:visited:hover {
-        background: #C9CED6;
+        background: #83868a;
+        border: 1px solid #b3b3b3;
+    }
+
+    .non-hover.light,
+    .non-hover.light:hover,
+    .non-hover.light:visited,
+    .non-hover.light:visited:hover {
+        background: #c9ced6;
         border: 1px solid #bbb;
     }
 
@@ -61,6 +84,14 @@ li a:visited {
     margin: 0;
     padding: 0;
     text-decoration: none;
+    color: #0047b5;
+}
+
+li.light p,
+li.light h4,
+li.light h3,
+li.light a,
+li.light a:visited {
     color: #001F51;
 }
 
@@ -73,8 +104,12 @@ li h2 {
     font-size: 40px;
     margin-bottom: -8px;
     margin: auto;
-    color: #001F51;
+    color: #0178e0;
     transition-duration: 0.4s;
+}
+
+li.light h2 {
+    color: #001F51;
 }
 
 li h4 {
