@@ -157,9 +157,17 @@ form.light h3 {
     background-color: #dedede;
 }
 
+.checkmark.light {
+    background-color: #b5b5b5;
+}
+
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
     background-color: #bdbdbd;
+}
+
+.container.light:hover input ~ .checkmark {
+    background-color: #a9a9a9;
 }
 
 /* When the checkbox is checked, add a blue background */
