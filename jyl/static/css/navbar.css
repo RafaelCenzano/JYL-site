@@ -45,7 +45,12 @@
 
 #content {
     margin-left: 200px;
-    padding: 0;
+}
+
+@media (min-width: 901px){
+    #content {
+        padding-bottom: 175px;
+    }
 }
 
 #content > * {
