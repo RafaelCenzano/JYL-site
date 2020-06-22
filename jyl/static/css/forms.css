@@ -243,13 +243,6 @@ form {
 .required {
     margin-left: -8px;
     color: #a83232;
-    display: inline-block;
-}
-
-@media (max-width: 900px){
-    .required {
-        display: block;
-    }
 }
 
 /*Reactions*/
