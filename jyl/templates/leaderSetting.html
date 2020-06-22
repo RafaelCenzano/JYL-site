@@ -36,7 +36,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <label class="container">{{ form.showemail.label() }}
+        <label class="container">{{ form.showemail.label(class="form-label-css") }}
             {{ form.showemail() }}
             <span class="checkmark"></span>
         </label>
@@ -51,7 +51,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <label class="container">{{ form.showphone.label() }}
+        <label class="container">{{ form.showphone.label(class="form-label-css") }}
             {{ form.showphone() }}
             <span class="checkmark"></span>
         </label>

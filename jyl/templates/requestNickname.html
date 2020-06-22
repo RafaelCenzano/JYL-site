@@ -35,7 +35,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <label class="container">{{ form.understand.label() }}<span id="required0" class="required">*required</span>
+        <label class="container">{{ form.understand.label(class="form-label-css") }}<span id="required0" class="required">*required</span>
             {{ form.understand() }}
             <span class="checkmark"></span>
         </label>
