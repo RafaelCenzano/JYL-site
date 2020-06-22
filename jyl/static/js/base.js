@@ -32,7 +32,11 @@ function jsTextArea(ta, span, number){
         if (countWords(ta.value) > number){
             span.style.color = '#c21b1b';
         }else {
-            span.style.color = '#000000';
+            if (window.localStorage.getItem("site-theme") == "dark"){
+                span.style.color = '#ddd';
+            }else {
+                span.style.color = '#000';
+            }
         }
     });
 }
