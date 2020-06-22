@@ -2,6 +2,10 @@ footer {
     margin: 0 !important;
     padding: 10px 0;
     text-align: center;
+    background-color: #525252;
+}
+
+footer.light {
     background-color: #c9ced6;
 }
 
@@ -24,6 +28,18 @@ footer h4 {
     margin: 4px auto 5px auto;
     padding-bottom: 0;
     max-width: 85%;
+    color: #c1c1c1;
+}
+
+footer h6 {
+    margin-top: -6px;
+    margin-bottom: 3px;
+    color: #c1c1c1;
+}
+
+footer.light h4,
+footer.light h6 {
+    color: #000;
 }
 
 footer h5 {
@@ -32,11 +48,6 @@ footer h5 {
     margin-top: -5px;
     margin-bottom: -5px;
     text-decoration: underline;
-}
-
-footer h6 {
-    margin-top: -6px;
-    margin-bottom: 3px;
 }
 
 @media only screen and (max-width:750px) {
@@ -49,9 +60,14 @@ footer h6 {
 footer a,
 footer a:visited {
     text-decoration: none;
-    color: #001f51;
+    color: #b95555;
     margin: auto;
     transition-duration: 0.5s;
+}
+
+footer.light a,
+footer.light a:visited {
+    color: #001f51;
 }
 
 @media (min-width:850px) {
@@ -59,6 +75,11 @@ footer a:visited {
     footer a:visited:hover {
         text-decoration: none;
         color: #008ce3;
+    }
+
+    footer.light a:hover,
+    footer.light a:visited:hover {
+        color: #b99b55;
     }
 
 }
