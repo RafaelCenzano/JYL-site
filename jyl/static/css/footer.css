@@ -74,12 +74,12 @@ footer.light a:visited {
     footer a:hover,
     footer a:visited:hover {
         text-decoration: none;
-        color: #008ce3;
+        color: #b99b55;
     }
 
     footer.light a:hover,
     footer.light a:visited:hover {
-        color: #b99b55;
+        color: #008ce3;
     }
 
 }
