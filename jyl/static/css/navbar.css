@@ -2,22 +2,37 @@
     top: 0;
     left: 0;
     width: 200px;
-    background-color: #c9ced6;
+    background-color: #525252;
     position: fixed;
     height: 100%;
     overflow: auto;
 }
 
+.sidebar.light {
+    background-color: #c9ced6;
+}
+
 .sidebar a {
     display: block;
-    color: #001e40;
+    color: #0bc530;
     padding: 16px;
     text-decoration: none;
     text-align: left;
 }
 
+.sidebar.light a {
+    color: #001e40;
+}
+
 @media (min-width:900px) {
-    .sidebar a:hover:not(.active) {
+    .sidebar a:hover,
+    .sidebar a:visited:hover {
+        background-color: #365e42c7;
+        color: #10ff02;
+    }
+
+    .sidebar.light a:hover,
+    .sidebar.light a:visited:hover {
         background-color: #364a5e;
         color: #aef7fc;
     }
@@ -66,7 +81,8 @@
         position: fixed;
         top: 0;
         left: 200px;
-        background-color: #C9CED6;
+        color: #ddd;
+        background-color: #525252;
         border-radius-top-right: 10px;
         border-radius-bottom-right: 10px;
         -webkit-animation-name: unhideGlide2;
@@ -77,6 +93,11 @@
         animation-direction: normal;
         -webkit-animation-fill-mode: both;
         animation-fill-mode: both;
+    }
+
+    #mobileMenu.light {
+        background-color: #c9ced6;
+        color: #000;
     }
 
     .sidebar {
