@@ -1,6 +1,5 @@
 footer {
     margin: 0;
-    padding-bottom: 15px;
     text-align: center;
     background-color: #525252;
 }
@@ -11,7 +10,7 @@ footer.light {
 
 @media (min-width:901px) {
     footer {
-        margin-top: -170px;
+        margin-top: -178px;
         z-index: 100;
         position: relative;
     }
