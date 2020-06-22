@@ -31,6 +31,14 @@ footer h4 {
     color: #c1c1c1;
 }
 
+footer h5 {
+    color: #c1c1c1;
+    font-size: 25px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    text-decoration: underline;
+}
+
 footer h6 {
     margin-top: -6px;
     margin-bottom: 3px;
@@ -38,16 +46,9 @@ footer h6 {
 }
 
 footer.light h4,
+footer.light h5,
 footer.light h6 {
     color: #000;
-}
-
-footer h5 {
-    color: #000;
-    font-size: 25px;
-    margin-top: -5px;
-    margin-bottom: -5px;
-    text-decoration: underline;
 }
 
 @media only screen and (max-width:750px) {
