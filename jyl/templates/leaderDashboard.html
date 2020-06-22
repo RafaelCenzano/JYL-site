@@ -16,20 +16,17 @@
             <a href="{{ url_for('meetingData') }}">
                 <li>
                     <h4>Meetings</h4>
-                    <p>View a list of all meetings</p>
                 </li>
             </a>
             <a href="{{ url_for('eventData') }}">
                 <li>
                     <h4>Events</h4>
-                    <p>View a list of all events</p>
                 </li>
             </a>
             {% if current_user.leader %}
             <a href="{{ url_for('memberData') }}">
                 <li>
                     <h4>Users</h4>
-                    <p>View a list of all users</p>
                 </li>
             </a>
             {% endif %}
@@ -41,13 +38,11 @@
             <a href="{{ url_for('attendanceMeetingList') }}">
                 <li>
                     <h4>Meeting Attendance</h4>
-                    <p>Edit a meeting's attendance</p>
                 </li>
             </a>
             <a href="{{ url_for('attendanceEventList') }}">
                 <li>
                     <h4>Event Attenadance</h4>
-                    <p>Edit an event's attendance</p>
                 </li>
             </a>
         </ul>
@@ -58,19 +53,16 @@
             <a href="{{ url_for('meetingCreate') }}">
                 <li>
                     <h4>New Meeting</h4>
-                    <p>Create a new meeting</p>
                 </li>
             </a>
             <a href="{{ url_for('eventCreation') }}">
                 <li>
                     <h4>New Event</h4>
-                    <p>Create a new event</p>
                 </li>
             </a>
             <a href="{{ url_for('userCreation') }}">
                 <li>
                     <h4>New User</h4>
-                    <p>Create a new user</p>
                 </li>
             </a>
         </ul>
@@ -81,19 +73,16 @@
             <a href="{{ url_for('meetingEditList') }}">
                 <li>
                     <h4>Change Meeting</h4>
-                    <p>Edit a meeting</p>
                 </li>
             </a>
             <a href="{{ url_for('eventEditList') }}">
                 <li>
                     <h4>Change Event</h4>
-                    <p>Edit a meeting</p>
                 </li>
             </a>
             <a href="{{ url_for('userEditList') }}">
                 <li>
                     <h4>Change User</h4>
-                    <p>Edit a user</p>
                 </li>
             </a>
         </ul>
