@@ -81,8 +81,8 @@
         {% include "flash.html" %}
         {% block content %}
         {% endblock %}
-        {% include "footer.html" %}
     </div>
+    {% include "footer.html" %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
     {% block trailing_js %}
