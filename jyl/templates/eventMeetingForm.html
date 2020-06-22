@@ -5,7 +5,6 @@
 {% block head_css %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/flatpickr.min.css') }}">
-Usage
 {% endblock %}
 
 {% block head_js %}
@@ -109,7 +108,7 @@ Usage
 {% endblock content %}
 
 {% block trailing_js %}
-<script>
+<script type="text/javascript">
 flatpickr("#starttime", {
     enableTime: true,
     dateFormat: "Y-m-d H:i:ss",
@@ -123,8 +122,8 @@ jsRequired(document.getElementById('description'), document.getElementById('requ
 jsRequired(document.getElementById('location'), document.getElementById('required1'));
 jsRequired(document.getElementById('starttime'), document.getElementById('required2'));
 jsRequired(document.getElementById('endtime'), document.getElementById('required3'));
-</script type="text/javascript">
+</script>
 {% if not meeting %}
-<script></script>>jsRequired(document.getElementById('name'), document.getElementById('required'));</script>
+<script type="text/javascript">jsRequired(document.getElementById('name'), document.getElementById('required'));</script>
 {% endif %}
 {% endblock %}
