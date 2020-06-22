@@ -21,7 +21,7 @@ footer {
 }
 
 footer h4 {
-    margin-top: 4px;
+    margin: 4px auto 5px auto;
     padding-bottom: 0;
     max-width: 85%;
 }
