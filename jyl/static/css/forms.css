@@ -1,4 +1,5 @@
 .form-label-css,
+.form-label-css-checkbox,
 form h3 {
     font-size: 25px;
     padding-right: 10px;
@@ -7,8 +8,13 @@ form h3 {
 }
 
 .form-label-css.light,
+.form-label-css-checkbox,
 form.light h3 {
     color: #000;
+}
+
+.form-label-css-checkbox {
+    font-size: 20px;
 }
 
 #submit {
@@ -256,6 +262,7 @@ form.light h3 {
     overflow: auto;
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
+    width: 100%;
     max-width: 350px;
     background-color: #616161;
 }
