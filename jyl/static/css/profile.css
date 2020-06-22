@@ -2,6 +2,30 @@
     text-align: center;
 }
 
+p,
+.desc {
+    color: #ddd;
+}
+
+p.light,
+.desc.light {
+    color: #000;
+}
+
+.tag {
+    margin: 16px auto;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.admin {
+    background-color: #31e011;
+}
+
+.leader {
+    background-color: #1122e0;
+}
+
 .underline {
     text-decoration: underline;
 }
@@ -26,13 +50,23 @@
 
 .edit,
 .edit:visited {
-    color: rgb(30, 30, 30);
+    color: #b1b1b1;
     transition-duration: 0.4s;
+}
+
+.edit.light,
+.edit.light:visited {
+    color: rgb(30, 30, 30);
 }
 
 @media (min-width:850px) {
     .edit:hover,
     .edit:visited:hover {
+        color: #dcdcdc;
+    }
+
+    .edit.light:hover,
+    .edit.light:visited:hover {
         color: rgb(70, 70, 70);
     }
 
