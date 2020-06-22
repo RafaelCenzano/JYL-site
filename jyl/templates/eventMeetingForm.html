@@ -46,7 +46,7 @@
             {% endfor %}
         </div>
     {% else %}
-        {{ form.description(cols='30', rows='10') }}
+        {{ form.description(rows='10') }}
     {% endif %}
     </div>
     <span id="wordCount"></span>
@@ -96,7 +96,7 @@
     {% endif %}
     </div>
     <div class="form-group">
-        <label class="container">{{ form.email.label(class="form-label-css") }}
+        <label class="container">{{ form.email.label(class="form-label-css-checkbox") }}
             {{ form.email() }}
             <span class="checkmark"></span>
         </label>
