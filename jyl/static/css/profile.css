@@ -8,6 +8,10 @@
 
 .name {
     font-size: 50px;
+    color: #d0d0d0;
+}
+
+.name.light {
     color: rgb(30, 30, 30);
 }
 
