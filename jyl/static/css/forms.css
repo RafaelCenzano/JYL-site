@@ -1,19 +1,13 @@
-.form-label-css {
+.form-label-css,
+form h3 {
     font-size: 25px;
     padding-right: 10px;
     font-family: 'Ubuntu', sans-serif;
     color: #ddd;
 }
 
-.form-label-css.light {
-    color: #000;
-}
-
-.text {
-    color: #ddd;
-}
-
-.text.light {
+.form-label-css.light,
+form.light h3 {
     color: #000;
 }
 
@@ -32,11 +26,17 @@
     border-radius: 10px;
 }
 
-#wordCount {
+#wordCount,
+.text,
+.form-group input,
+.form-group textarea {
     color: #ddd;
 }
 
-#wordCount.light {
+#wordCount.light,
+.text.light,
+.form-group.light input,
+.form-group.light textarea {
     color: #000;
 }
 
@@ -83,12 +83,10 @@
 .form-group input {
     font-size: 16px;
     background-color: #616161;
-    color: #ddd;
 }
 
 .form-group.light input {
     background-color: #ddd;
-    color: #000;
 }
 
 .form-group {
@@ -123,12 +121,15 @@
     position: relative;
     padding-left: 35px;
     margin: 0;
-    cursor: pointer;
-    font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.container.form-label-css {
+    cursor: pointer;
+    font-size: 20px;
 }
 
 /* Hide the browser's default checkbox */
@@ -257,25 +258,15 @@
     font-size: 16px;
     max-width: 350px;
     background-color: #616161;
-    color: #ddd;
 }
 
 .form-group.light textarea {
     background-color: #ddd;
-    color: #000;
 }
 
 form {
     padding: 10px;
     max-width: 95%;
-}
-
-form h3 {
-    color: #ddd;
-}
-
-form.light h3 {
-    color: #000;
 }
 
 .fa-smile-beam {
