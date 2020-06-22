@@ -125,7 +125,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <label class="container">{{ form.leader.label() }}
+        <label class="container">{{ form.leader.label(class="form-label-css") }}
             {{ form.leader() }}
             <span class="checkmark"></span>
         </label>
@@ -140,7 +140,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <label class="container">{{ form.admin.label() }}
+        <label class="container">{{ form.admin.label(class="form-label-css") }}
             {{ form.admin() }}
             <span class="checkmark"></span>
         </label>
