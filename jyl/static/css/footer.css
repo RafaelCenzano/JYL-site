@@ -13,6 +13,7 @@ footer.light {
     footer {
         margin-top: -170px;
         z-index: 100;
+        position: relative;
     }
 
 }
