@@ -2,6 +2,11 @@
     font-size: 25px;
     padding-right: 10px;
     font-family: 'Ubuntu', sans-serif;
+    color: #ddd;
+}
+
+.form-label-css.light {
+    color: #000;
 }
 
 #submit {
@@ -19,11 +24,24 @@
     border-radius: 10px;
 }
 
+#wordCount {
+    color: #ddd;
+}
+
+#wordCount.light {
+    color: #000;
+}
+
 .extra-link,
 .extra-link:visited {
     text-decoration: none;
-    color: #51565e;
+    color: #afafaf;
     transition-duration: 0.5s;
+}
+
+.extra-link.light,
+.extra-link.light:visited {
+    color: #51565e;
 }
 
 @media (min-width:900px) {
@@ -56,6 +74,13 @@
 
 .form-group input {
     font-size: 16px;
+    background-color: #616161;
+    color: #ddd;
+}
+
+.form-group.light input {
+    background-color: #ddd;
+    color: #000;
 }
 
 .form-group {
@@ -65,8 +90,12 @@
 .form-title {
     font-size: 50px;
     text-decoration: underline;
-    color: #041d42;
+    color: #07adff;
     margin: 7px 0 30px 0;
+}
+
+.form-title.light {
+    color: #041d42;
 }
 
 @media (max-width:900px) {
@@ -215,13 +244,20 @@
 
 /*}*/
 
-textarea {
+.form-group textarea {
     outline: none;
     resize: none;
     overflow: auto;
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
     max-width: 90%;
+    background-color: #616161;
+    color: #ddd;
+}
+
+.form-group.light textarea {
+    background-color: #ddd;
+    color: #000;
 }
 
 form {
