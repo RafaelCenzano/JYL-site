@@ -79,9 +79,9 @@
             {% else %}
             <li>
                 {% if oldCheck %}
-                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any {% if event %}event{% else %}meeting{% endif %}s yet</h4>
+                <h4 class="non-hover">{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any {% if event %}event{% else %}meeting{% endif %}s yet</h4>
                 {% else %}
-                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} doesn't have old {% if event %}event{% else %}meeting{% endif %}s yet</h4>
+                <h4 class="non-hover">{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} doesn't have old {% if event %}event{% else %}meeting{% endif %}s yet</h4>
                 {% endif %}
             </li>
             {% endif %}
