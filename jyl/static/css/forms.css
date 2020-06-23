@@ -336,6 +336,30 @@ input[type='radio']:checked + label {
     filter: grayscale(0);
 }
 
+::-webkit-input-placeholder { /* Edge */
+  color: #ddd;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #ddd;
+}
+
+::placeholder {
+  color: #ddd;
+}
+
+.light ::-webkit-input-placeholder { /* Edge */
+  color: #000;
+}
+
+.light :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #000;
+}
+
+.light ::placeholder {
+  color: #000;
+}
+
 /*Details*/
 #details {
     padding: 20px;
