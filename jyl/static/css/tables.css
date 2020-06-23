@@ -237,6 +237,14 @@ label.light {
   color: #000;
 }
 
+tfoot input {
+    background: #636363;
+}
+
+tfoot.light input {
+    background: #636363;
+}
+
 div#example_info {
     color: #ddd;
 }
