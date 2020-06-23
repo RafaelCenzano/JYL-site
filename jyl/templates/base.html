@@ -84,8 +84,8 @@
     </div>
     {% include "footer.html" %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
     {% block trailing_js %}
     {% endblock %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
 </body>
 </html>
