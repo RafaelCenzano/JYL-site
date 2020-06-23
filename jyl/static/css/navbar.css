@@ -18,6 +18,7 @@
     padding: 16px;
     text-decoration: none;
     text-align: left;
+    border-radius: 15px;
 }
 
 .sidebar.light a {
@@ -27,8 +28,9 @@
 @media (min-width:900px) {
     .sidebar a:hover,
     .sidebar a:visited:hover {
-        background-color: #365e42c7;
+        background-color: #00ff4c52;
         color: #10ff02;
+        border-radius: 15px;
     }
 
     .sidebar.light a:hover,
