@@ -205,22 +205,6 @@ table.dataTable td{box-sizing:content-box}
     .dataTables_wrapper .dataTables_filter{margin-top:0.5em}
 }
 
-th.th-sm {
-    color: #ddd;
-}
-
-th.th-sm.light {
-    color: #000;
-}
-
-label {
-    color: #ddd;
-}
-
-label.light {
-    color: #333;
-}
-
 ::-webkit-input-placeholder { /* Edge */
   color: #000;
 }
@@ -239,10 +223,6 @@ input {
 
 select {
     background-color: #ddd;
-}
-
-div#example_info {
-    color: #ddd;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button,
@@ -267,6 +247,9 @@ div#example_info {
     background-color: #969696;
 }
 
+label,
+th.th-sm,
+div#example_info
 th.th-sm.light.sorting,
 th.th-sm.light.sorting_asc,
 th.th-sm.light.sorting_desc {
