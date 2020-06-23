@@ -222,26 +222,14 @@ label.light {
 }
 
 ::-webkit-input-placeholder { /* Edge */
-  color: #ddd;
+  color: #000;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #ddd;
+  color: #000;
 }
 
 ::placeholder {
-  color: #ddd;
-}
-
-.light ::-webkit-input-placeholder { /* Edge */
-  color: #000;
-}
-
-.light :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #000;
-}
-
-.light ::placeholder {
   color: #000;
 }
 
