@@ -73,7 +73,6 @@ li.light:visited {
     .non-hover.light:visited,
     .non-hover.light:visited:hover {
         background: #c9ced6;
-        border: 1px solid #bbb;
     }
 
 }
