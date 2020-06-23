@@ -1450,7 +1450,7 @@ def meetingCreate():
             db.session.commit()
 
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y')
+                date = form.starttime.data.strftime('%B %-d, %Y')
 
                 text = f'''
 Hello,
