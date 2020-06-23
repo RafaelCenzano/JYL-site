@@ -97,6 +97,15 @@ p.light,
 .location,
 .location a,
 .location a:visited {
+    color: #ddd;
+}
+
+.description.light,
+.description.light a,
+.description.light a:visited,
+.location.light,
+.location.light a,
+.location.light a:visited {
     color: rgb(0, 0, 0);
 }
 
