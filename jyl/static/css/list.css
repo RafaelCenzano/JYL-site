@@ -11,6 +11,7 @@ ul {
     border-radius: 15px;
     background-color: #83868a;
     padding: 5px 0 10px 0;
+    transition-duration: 0.4s;
 }
 
 ul.light {
