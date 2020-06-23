@@ -11,9 +11,9 @@
 <div class="half-grid">
     <div class="column">
         {% if eventMeetingData['meeting'] %}
-        <h1>Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        <h1 class="name">Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
         {% else %}
-        <h1>{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
+        <h1 class="name">{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}</h1>
         {% endif %}
         <h4 class="description">Description: {% for word in desc %}{% if word.url %}<a href="{{ word.text }}" target="_blank">{% endif %}{% if word.email %}<a href="mailto:{{ word.text }}">{% endif %}{{ word.text }}{% if word.url or word.email %}</a>{% endif %} {% endfor %}</h4>
         <h4 class="location">Location: <a href="https://www.google.com/maps/place/{{ eventMeeting.location.replace(' ', '+') }}" target="_blank">{{ eventMeeting.location }}<i class="fas fa-map-marker-alt"></i></a></h4>
@@ -58,7 +58,7 @@
             </a>
             {% endfor %}
             {% else %}
-            <li><p>There are currently no members on this list</p></li>
+            <li class="non-hover"><p>There are currently no members on this list</p></li>
             {% endif %}
         </ul>
     </div>
