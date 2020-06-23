@@ -9,6 +9,10 @@ footer.light {
     background-color: #c9ced6;
 }
 
+footer ul {
+    background-color: #525252;
+}
+
 @media (min-width:901px) {
     footer {
         margin-top: -178px;
