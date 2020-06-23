@@ -252,7 +252,8 @@ th.th-sm,
 div#example_info
 th.th-sm.light.sorting,
 th.th-sm.light.sorting_asc,
-th.th-sm.light.sorting_desc {
+th.th-sm.light.sorting_desc,
+.dataTables_wrapper .dataTables_info {
     color: #ddd;
 }
 
