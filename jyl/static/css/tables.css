@@ -7,6 +7,10 @@ table.dataTable{width:100%;margin:0 auto;clear:both;border-collapse:separate;bor
     border-radius: 15px;
 }
 
+.wrapped.light {
+    background-color: #8a8a8a;
+}
+
 tfoot input{width:100%;padding:3px;box-sizing:border-box;}
 table.dataTable{width:100%;margin:0 auto;clear:both;border-collapse:separate;border-spacing:0}
 table.dataTable thead th,
@@ -288,6 +292,11 @@ div#example_info.light {
 }
 
 th.th-sm.light.sorting {
+    color: #ddd;
+}
+
+th.th-sm.light.sorting_asc,
+th.th-sm.light.sorting_desc {
     color: #ddd;
 }
 
