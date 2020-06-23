@@ -1,5 +1,4 @@
 ul {
-    padding: 0;
     vertical-align: baseline;
     list-style: none;
     list-style-type: none;
@@ -9,7 +8,9 @@ ul {
     text-decoration: none;
     text-align: center;
     color: #001F51;
-    border-radius: 5px;
+    border-radius: 15px;
+    background-color: #83868a;
+    padding: 5px 0 10px 0;
 }
 
 .column ul {
@@ -31,10 +32,11 @@ ul {
 li,
 li:visited {
     background: #83868a;
-    border: 1px solid #b3b3b3;
-    padding: 10px;
-    overflow: auto;
+    padding: 10px 3px;
+    max-width: 90%;
+    margin: auto;
     transition-duration: 0.4s;
+    border-radius: 15px;
 }
 
 li.light,
@@ -63,7 +65,7 @@ li.light:visited {
     .non-hover:visited,
     .non-hover:visited:hover {
         background: #83868a;
-        border: 1px solid #b3b3b3;
+        max-width: 90%;
     }
 
     .non-hover.light,
@@ -81,10 +83,10 @@ li h4,
 li h3,
 li a,
 li a:visited {
-    margin: 0;
     padding: 0;
     text-decoration: none;
     color: #0047b5;
+    margin: 0;
 }
 
 li.light p,
