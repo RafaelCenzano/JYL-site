@@ -12,8 +12,11 @@ footer.light {
 @media (min-width:901px) {
     footer {
         margin-top: -178px;
-        z-index: 100;
-        position: relative;
+        margin-right: 200px;
+    }
+
+    .spacing {
+        padding-left: 10px;
     }
 
 }
