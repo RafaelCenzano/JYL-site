@@ -196,3 +196,43 @@ table.dataTable td{box-sizing:content-box}
     .dataTables_wrapper .dataTables_filter{float:none;text-align:center}
     .dataTables_wrapper .dataTables_filter{margin-top:0.5em}
 }
+
+th.th-sm {
+    color: #ddd;
+}
+
+th.th-sm.light {
+    color: #000;
+}
+
+label {
+    color: #ddd;
+}
+
+label.light {
+    color: #333;
+}
+
+::-webkit-input-placeholder { /* Edge */
+  color: #ddd;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #ddd;
+}
+
+::placeholder {
+  color: #ddd;
+}
+
+.light ::-webkit-input-placeholder { /* Edge */
+  color: #000;
+}
+
+.light :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #000;
+}
+
+.light ::placeholder {
+  color: #000;
+}
