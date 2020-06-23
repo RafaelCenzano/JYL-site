@@ -236,3 +236,27 @@ label.light {
 .light ::placeholder {
   color: #000;
 }
+
+div#example_info {
+    color: #ddd;
+}
+
+div#example_info.light {
+    color: #000;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #ddd !important;
+}
+
+.dataTables_wrapper.light .dataTables_paginate.light .paginate_button.light {
+    color: #333 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+    color: #dddddd7d !important;
+}
+
+.dataTables_wrapper.light .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+    color: #666 !important;
+}
