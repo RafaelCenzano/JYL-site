@@ -2,6 +2,9 @@ table.dataTable{width:100%;margin:0 auto;clear:both;border-collapse:separate;bor
 
 .wrapped {
     overflow: auto;
+    background: #5d5d5d;
+    padding: 20px;
+    border-radius: 15px;
 }
 
 tfoot input{width:100%;padding:3px;box-sizing:border-box;}
@@ -282,5 +285,9 @@ div#example_info.light {
 .dataTables_wrapper .dataTables_paginate .paginate_button:active {
     outline: none;
     background-color: #969696;
+}
+
+th.th-sm.light.sorting {
+    color: #ddd;
 }
 
