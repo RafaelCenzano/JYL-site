@@ -5,7 +5,8 @@ footer {
     background-color: #525252;
 }
 
-footer.light {
+footer.light,
+footer.light ul {
     background-color: #c9ced6;
 }
 
