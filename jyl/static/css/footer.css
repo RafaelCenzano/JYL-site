@@ -17,7 +17,7 @@ footer ul {
 @media (min-width:901px) {
     footer {
         margin-top: -178px;
-        margin-right: 200px;
+        margin-left: 200px;
     }
 
     .spacing {
