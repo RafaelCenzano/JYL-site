@@ -118,6 +118,13 @@ p.light,
     .location a:visited:hover,
     .description a:hover,
     .description a:visited:hover {
+        color: #5687ef;
+    }
+
+    .location.light a:hover,
+    .location.light a:visited:hover,
+    .description.light a:hover,
+    .description.light a:visited:hover {
         color: rgb(53, 95, 184);
     }
 
