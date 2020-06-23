@@ -280,3 +280,11 @@ a#example_previous:hover {
     border: none;
 }
 
+tr td a {
+    color: #000;
+}
+
+tr td a:hover {
+    color: #908e8e;
+}
+
