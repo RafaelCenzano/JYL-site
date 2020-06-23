@@ -276,7 +276,7 @@ form.light h3 {
 }
 
 .form-group.light textarea {
-    background-color: #ddd;
+    background-color: #fff;
 }
 
 form {
@@ -334,30 +334,6 @@ form {
 input[type='radio']:checked + label {
     -webkit-filter: grayscale(0);
     filter: grayscale(0);
-}
-
-::-webkit-input-placeholder { /* Edge */
-  color: #ddd;
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #ddd;
-}
-
-::placeholder {
-  color: #ddd;
-}
-
-.light ::-webkit-input-placeholder { /* Edge */
-  color: #000;
-}
-
-.light :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #000;
-}
-
-.light ::placeholder {
-  color: #000;
 }
 
 /*Details*/
