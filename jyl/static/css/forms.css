@@ -8,7 +8,7 @@ form h3 {
 }
 
 .form-label-css.light,
-.form-label-css-checkbox,
+.form-label-css-checkbox.light,
 form.light h3 {
     color: #000;
 }
