@@ -15,7 +15,7 @@ ul {
 }
 
 ul.light {
-    background-color: #c9ced6;
+    background-color: #b4b8bd;
 }
 
 .column ul {
@@ -46,7 +46,7 @@ li:visited {
 
 li.light,
 li.light:visited {
-    background-color: #c9ced6;
+    background-color: #b4b8bd;
 }
 
 @media (min-width:900px) {
@@ -57,7 +57,7 @@ li.light:visited {
 
     li.light:hover,
     li.light:visited:hover {
-        background: #e0e0f0;
+        background: #dadada;
     }
 
     .non-hover,
@@ -105,7 +105,7 @@ li h2 {
     font-size: 40px;
     margin-bottom: -8px;
     margin: auto;
-    color: #0178e0;
+    color: #0047b5;
     transition-duration: 0.4s;
 }
 
