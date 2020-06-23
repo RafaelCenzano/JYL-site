@@ -258,7 +258,7 @@ div#example_info.light {
 }
 
 .dataTables_wrapper.light .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper.light .dataTables_paginate .paginate_button.disabled:active {
-    color: #666 !important;
+    color: #ddd !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
@@ -288,9 +288,19 @@ th.th-sm.light.sorting_desc {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
     cursor: default;
-    color: #666!important;
+    color: #ddd!important;
     border: 1px solid transparent;
     background: transparent;
     box-shadow: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border-radius: 15px;
+    background-color: #ababab;
+    border: none;
+    background: #ababab;
+    border-radius: 5px;
+    margin-left: 3px;
+    margin-right: 1px;
 }
 
