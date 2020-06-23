@@ -91,6 +91,10 @@ p.light,
     background: rgb(0, 255, 0);
 }
 
+.location i {
+    margin-left: 4px;
+}
+
 .description,
 .description a,
 .description a:visited,
