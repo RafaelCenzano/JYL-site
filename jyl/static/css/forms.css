@@ -334,6 +334,10 @@ input[type='radio']:checked + label {
     filter: grayscale(0);
 }
 
+form * {
+    transition-duration: 0.4s;
+}
+
 /*Details*/
 #details {
     padding: 20px;
