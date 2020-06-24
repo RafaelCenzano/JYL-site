@@ -100,14 +100,13 @@ form.light h3 {
 }
 
 .form-title {
+    margin-bottom: 30px;
     font-size: 50px;
-    text-decoration: underline;
-    color: #07adff;
-    margin: 7px 0 30px 0;
+    color: #d0d0d0;
 }
 
 .form-title.light {
-    color: #041d42;
+    color: rgb(30, 30, 30);
 }
 
 @media (max-width:900px) {
@@ -280,7 +279,6 @@ form.light h3 {
 }
 
 form {
-    padding: 10px;
     max-width: 95%;
 }
 
