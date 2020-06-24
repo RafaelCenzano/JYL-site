@@ -51,6 +51,7 @@
 {% block trailing_js %}
 <script type="text/javascript">
 jsRequired(document.getElementById('nickname'), document.getElementById('required'));
+let required = document.getElementById('required0');
 document.getElementById('understand').addEventListener( 'change', function() {
     if (this.checked){
         required.style.display = 'none';
