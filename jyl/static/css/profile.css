@@ -154,3 +154,19 @@ p.light,
     }
 
 }
+
+.button {
+    text-decoration: none;
+    color: #0047b5;
+    background-color: #ddd;
+    padding: 10px;
+    width: 50%;
+    margin: 10px auto;
+}
+
+@media (max-width: 600px){
+    .button {
+        width: 70%;
+    }
+}
+
