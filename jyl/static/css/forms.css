@@ -28,7 +28,7 @@ form.light h3 {
     font-size: 16px;
     margin: 8px 0 0 0;
     cursor: pointer;
-    transition-duration: 0.3s;
+    transition-duration: 0.4s;
     border-radius: 10px;
 }
 
@@ -50,7 +50,7 @@ form.light h3 {
 .extra-link:visited {
     text-decoration: none;
     color: #afafaf;
-    transition-duration: 0.5s;
+    transition-duration: 0.4s;
 }
 
 .extra-link.light,
@@ -100,7 +100,7 @@ form.light h3 {
 }
 
 .form-title {
-    margin-bottom: 30px;
+    margin: 0 30px 0 0;
     font-size: 50px;
     color: #d0d0d0;
 }

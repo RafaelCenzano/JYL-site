@@ -3,7 +3,7 @@ footer {
     padding-bottom: 15px;
     text-align: center;
     background-color: #525252;
-    transition-duration: 0.5s;
+    transition-duration: 0.4s;
 }
 
 footer.light,
@@ -74,7 +74,7 @@ footer a:visited {
     text-decoration: none;
     color: #0bc530;
     margin: auto;
-    transition-duration: 0.5s;
+    transition-duration: 0.4s;
 }
 
 footer.light a,
@@ -108,6 +108,7 @@ footer.light a:visited {
 
 #quickLinks .column > ul {
     padding: 0;
+    transition-duration: 0.4s;
 }
 
 @media only screen and (max-width:600px) {
