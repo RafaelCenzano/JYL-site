@@ -15,7 +15,7 @@ footer ul {
     background-color: #525252;
 }
 
-@media (min-width:901px) {
+@media (min-width:601px) {
     footer {
         margin-top: -170px;
         margin-left: 200px;
@@ -27,7 +27,7 @@ footer ul {
 
 }
 
-@media only screen and (max-width:601px) {
+@media only screen and (max-width:900px) {
     footer {
         margin-top: 15px;
         width: 100%;
