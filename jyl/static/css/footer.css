@@ -27,7 +27,7 @@ footer ul {
 
 }
 
-@media only screen and (max-width:900px) {
+@media only screen and (max-width:601px) {
     footer {
         margin-top: 15px;
         width: 100%;

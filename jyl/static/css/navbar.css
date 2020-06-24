@@ -50,7 +50,7 @@
     margin-left: 200px;
 }
 
-@media (min-width: 901px){
+@media (min-width: 601px){
     #content {
         min-height: 100%;
         padding-bottom: 178px;
