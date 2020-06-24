@@ -79,7 +79,7 @@ footer a:visited {
 
 footer.light a,
 footer.light a:visited {
-    color: #001f51;
+    color: #0c5dc5;
 }
 
 @media (min-width:850px) {
@@ -91,7 +91,7 @@ footer.light a:visited {
 
     footer.light a:hover,
     footer.light a:visited:hover {
-        color: #008ce3;
+        color: #0070ff;
     }
 
 }
