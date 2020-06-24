@@ -22,7 +22,7 @@
 }
 
 .sidebar.light a {
-    color: #001e40;
+    color: #0c5dc5;
 }
 
 @media (min-width:900px) {
@@ -30,13 +30,12 @@
     .sidebar a:visited:hover {
         background-color: #00ff4c52;
         color: #10ff02;
-        border-radius: 15px;
     }
 
     .sidebar.light a:hover,
     .sidebar.light a:visited:hover {
-        background-color: #364a5e;
-        color: #aef7fc;
+        background-color: #0064ff38;
+        color: #0070ff;
     }
 
     #mobileMenu {
@@ -145,11 +144,6 @@
     #content {
         -webkit-animation-name: none;
         animation-name: none;
-    }
-
-    .sidebar a {
-        text-align: left;
-        padding: 10px 20px;
     }
 
     .sidebar {
