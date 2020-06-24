@@ -62,7 +62,13 @@ form.light h3 {
     .extra-link:hover,
     .extra-link:visited:hover {
         text-decoration: none;
-        color: #31c44a;
+        color: #10ff02;
+    }
+
+    .extra-link.light:hover,
+    .extra-link.light:visited:hover {
+        text-decoration: none;
+        color: #0070ff;
     }
 
     #submit:hover {
@@ -157,7 +163,7 @@ form.light h3 {
 }
 
 .checkmark.light {
-    background-color: #b5b5b5;
+    background-color: #cecece;
 }
 
 /* On mouse-over, add a grey background color */
@@ -165,12 +171,13 @@ form.light h3 {
     background-color: #bdbdbd;
 }
 
-.container.light:hover input ~ .checkmark {
-    background-color: #a9a9a9;
+.container.light:hover input ~ .checkmark.light {
+    background-color: #9c9c9c;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.container input:checked ~ .checkmark,
+.container.light input:checked ~ .checkmark.light {
     background-color: #2196F3;
 }
 
