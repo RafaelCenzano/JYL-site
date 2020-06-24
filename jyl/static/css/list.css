@@ -86,6 +86,7 @@ li a:visited {
     text-decoration: none;
     color: #0047b5;
     margin: 0;
+    transition-duration: 0.4s;
 }
 
 li.light p,
