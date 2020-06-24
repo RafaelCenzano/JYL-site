@@ -3,6 +3,7 @@ footer {
     padding-bottom: 15px;
     text-align: center;
     background-color: #525252;
+    transition-duration: 0.5s;
 }
 
 footer.light,
@@ -71,7 +72,7 @@ footer.light h6 {
 footer a,
 footer a:visited {
     text-decoration: none;
-    color: #b95555;
+    color: #0bc530;
     margin: auto;
     transition-duration: 0.5s;
 }
@@ -85,7 +86,7 @@ footer.light a:visited {
     footer a:hover,
     footer a:visited:hover {
         text-decoration: none;
-        color: #b99b55;
+        color: #10ff02;
     }
 
     footer.light a:hover,
