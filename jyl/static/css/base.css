@@ -53,6 +53,7 @@ body.light {
     line-height: 20px;
     cursor: pointer;
     transition: 0.3s;
+    margin-top: -2px;
 }
 
 @media (min-width:850px) {
