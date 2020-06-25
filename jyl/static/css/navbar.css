@@ -83,11 +83,6 @@
 }
 
 @media screen and (max-width:900px) {
-    #content {
-        margin: 0;
-        padding: 0;
-    }
-
     #mobileMenu {
         display: block;
         width: 30px;
@@ -135,6 +130,7 @@
         animation-direction: normal;
         -webkit-animation-fill-mode: both;
         animation-fill-mode: both;
+        margin: 0;
     }
 
     #mobileMenuBox:checked + #mobileMenu + .sidebar {
