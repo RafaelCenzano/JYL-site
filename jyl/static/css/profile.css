@@ -173,7 +173,7 @@ p.light,
     color: #0c5dc5;
 }
 
-@media (max-width: 600px){
+@media (min-width: 600px){
     .button:hover,
     .button:visited:hover {
         color: #10ff02;
