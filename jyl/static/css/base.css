@@ -106,3 +106,41 @@ body.light {
     }
 
 }
+
+.button,
+.button:visited {
+    text-decoration: none;
+    color: #0bc530;
+    background-color: #525252;
+    padding: 10px 30px;
+    margin: 10px auto;
+    border-radius: 15px;
+    transition-duration: 0.4s;
+    font-size: 25px;
+}
+
+.button.light,
+.button.light:visited {
+    background-color: #c9ced6;
+    color: #0c5dc5;
+}
+
+@media (min-width: 600px){
+    .button:hover,
+    .button:visited:hover {
+        color: #10ff02;
+        background-color: #3a8952;
+    }
+
+    .button.light:hover,
+    .button.light:visited:hover {
+        color: #0070ff;
+        background-color: #9fb7e0;
+    }
+}
+
+.buttonwrapper {
+    text-align: center;
+    margin: 20px auto;
+}
+
