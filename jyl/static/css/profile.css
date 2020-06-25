@@ -167,7 +167,7 @@ p.light,
     font-size: 25px;
 }
 
-.button.light
+.button.light,
 .button.light:visited {
     background-color: #c9ced6;
     color: #0c5dc5;
