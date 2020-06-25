@@ -37,13 +37,13 @@ def eventMeetingProccessing(check, meeting):
             users = UserMeeting.query.filter_by(meetingid=check.id, going=True).all()
 
             for user in users:
-                eventMeeting['users'].append(user)
+                eventMeeting['users'].append(User.query.get(user.userid))
 
         else:
             users = UserEvent.query.filter_by(eventid=check.id, going=True).all()
 
             for user in users:
-                eventMeeting['users'].append(user)
+                eventMeeting['users'].append(User.query.get(user.userid))
 
     else:
         for user in users:
