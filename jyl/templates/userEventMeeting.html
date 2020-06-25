@@ -88,9 +88,9 @@
         </ul>
         {% if oldCheck %}
         {% if event %}
-        <a href="{{ url_for('profileEventOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
+        <a class="button" href="{{ url_for('profileEventOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
         {% else %}
-        <a href="{{ url_for('profileMeetingOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
+        <a class="button" href="{{ url_for('profileMeetingOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
         {% endif %}
         View Lifetime {% if event %}Event{% else %}Meeting{% endif %}s </a>
         {% endif %}
