@@ -312,18 +312,19 @@ form {
 }
 
 /*Reactions*/
-.reactions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+@media (max-width:900px){
+    .reactions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
 }
-
 .reactions label {
     margin: 10px 0;
     -webkit-filter: grayscale(0.8);
     filter: grayscale(0.8);
     padding: 0;
-    font-size: 5rem;
+    font-size: 3rem;
 }
 
 .reactions label i {
