@@ -21,7 +21,7 @@ function switchTheme(theme) {
             }
         }
         setTimeout(function(){
-            for(let elem of document.querySelectorAll("*")){
+            for(let elem of document.body.querySelectorAll("*")){
                 elem.style.transitionDuration = "";
             }
         }, 1500);
@@ -35,7 +35,7 @@ function switchTheme(theme) {
             all[i].className += " light";
         }
         setTimeout(function(){
-            for(let elem of document.querySelectorAll("*")){
+            for(let elem of document.body.querySelectorAll("*")){
                 elem.style.transitionDuration = "";
             }
         }, 1500);
