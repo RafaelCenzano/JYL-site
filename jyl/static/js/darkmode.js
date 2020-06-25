@@ -15,30 +15,18 @@ function switchTheme(theme) {
             if (all[i] != null) {
                 var str = String(all[i].className)
                 if (str.substring(str.length - 5, str.length) == 'light'){
-                    all[i].style = "transition-duration: 0.6s";
                     all[i].className = str.substring(0, str.length - 6);
                 }
             }
         }
-        setTimeout(function(){
-            for(let elem of document.querySelectorAll("*")){
-                elem.style.transitionDuration = "";
-            }
-        }, 1500);
     } else {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
 
         var all = document.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
-            all[i].style = "transition-duration: 0.6s";
             all[i].className += " light";
         }
-        setTimeout(function(){
-            for(let elem of document.querySelectorAll("*")){
-                elem.style.transitionDuration = "";
-            }
-        }, 1500);
     }
 }
 
