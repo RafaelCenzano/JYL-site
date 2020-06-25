@@ -10,6 +10,13 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "dark");
         window.localStorage.setItem("site-theme", "dark");
 
+        var theBody = document.getElementsByTagName("body");
+        var str = String(theBody.className)
+        if (str.substring(str.length - 5, str.length) == 'light'){
+            theBody.style = "transition-duration: 1s";
+            theBody.className = str.substring(0, str.length - 6);
+        }
+
         var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             if (all[i] != null) {
@@ -29,6 +36,11 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
 
+        var theBody = document.getElementsByTagName("body");
+        var str = String(theBody.className)
+        theBody.style = "transition-duration: 1s";
+        theBody.className += " light";
+
         var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             all[i].style = "transition-duration: 1s";
@@ -47,6 +59,13 @@ function switchThemeNormal(theme) {
         document.documentElement.setAttribute("site-theme", "dark");
         window.localStorage.setItem("site-theme", "dark");
 
+        var theBody = document.getElementsByTagName("body");
+        var str = String(theBody.className)
+        if (str.substring(str.length - 5, str.length) == 'light'){
+            theBody.style = "transition-duration: 1s";
+            theBody.className = str.substring(0, str.length - 6);
+        }
+
         var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             if (all[i] != null) {
@@ -59,6 +78,11 @@ function switchThemeNormal(theme) {
     } else {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
+
+        var theBody = document.getElementsByTagName("body");
+        var str = String(theBody.className)
+        theBody.style = "transition-duration: 1s";
+        theBody.className += " light";
 
         var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
