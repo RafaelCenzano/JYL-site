@@ -9,6 +9,7 @@ ul {
     text-align: center;
     border-radius: 15px;
     background-color: #83868a;
+    transition-duration: 0.4s;
     padding: 5px 0 10px 0;
 }
 

@@ -3,6 +3,11 @@ footer {
     padding-bottom: 15px;
     text-align: center;
     background-color: #525252;
+    transition-duration: 0.4s;
+}
+
+footer * {
+    transition-duration: 0.4s;
 }
 
 footer.light,
@@ -45,6 +50,7 @@ footer h4 {
     padding-bottom: 0;
     max-width: 85%;
     color: #c1c1c1;
+    transition-duration: 0.4s;
 }
 
 footer h5 {
@@ -53,12 +59,18 @@ footer h5 {
     margin-top: -5px;
     margin-bottom: -5px;
     text-decoration: underline;
+    transition-duration: 0.4s;
 }
 
 footer h6 {
     margin-top: -6px;
     margin-bottom: 3px;
     color: #c1c1c1;
+    transition-duration: 0.4s;
+}
+
+footer p {
+    transition-duration: 0.4s;
 }
 
 footer.light h4,
