@@ -164,6 +164,7 @@ p.light,
     margin: 10px auto;
     border-radius: 15px;
     transition-duration: 0.4s;
+    font-size: 25px;
 }
 
 .button.light
