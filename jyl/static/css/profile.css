@@ -163,6 +163,7 @@ p.light,
     padding: 10px 30px;
     margin: 10px auto;
     border-radius: 15px;
+    transition-duration: 0.4s;
 }
 
 .button.light
@@ -175,11 +176,13 @@ p.light,
     .button:hover,
     .button:visited:hover {
         color: #10ff02;
+        background-color: #3a8952;
     }
 
     .button.light:hover,
     .button.light:visited:hover {
         color: #0070ff;
+        background-color: #9fb7e0;
     }
 }
 
