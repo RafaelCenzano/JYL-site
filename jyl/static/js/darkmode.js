@@ -10,35 +10,33 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "dark");
         window.localStorage.setItem("site-theme", "dark");
 
-        var all = document.getElementsByTagName("*");
+        var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             if (all[i] != null) {
                 var str = String(all[i].className)
                 if (str.substring(str.length - 5, str.length) == 'light'){
-                    all[i].style = "transition-duration: 0.6s";
+                    all[i].style = "transition-duration: 1s";
                     all[i].className = str.substring(0, str.length - 6);
                 }
             }
         }
         setTimeout(function(){
-            var all = document.getElementsByTagName("*");
-            for (var i=0, max=all.length; i < max; i++) {
-                all[i].style = String(all[i].style).substring(0, str.length - 25);
+            for(let elem of document.querySelectorAll("*")){
+                elem.style.transitionDuration = "";
             }
         }, 1500);
     } else {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
 
-        var all = document.getElementsByTagName("*");
+        var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
-            all[i].style = "transition-duration: 0.6s";
+            all[i].style = "transition-duration: 1s";
             all[i].className += " light";
         }
         setTimeout(function(){
-            var all = document.getElementsByTagName("*");
-            for (var i=0, max=all.length; i < max; i++) {
-                all[i].style = String(all[i].style).substring(0, str.length - 25);
+            for(let elem of document.querySelectorAll("*")){
+                elem.style.transitionDuration = "";
             }
         }, 1500);
     }
@@ -49,7 +47,7 @@ function switchThemeNormal(theme) {
         document.documentElement.setAttribute("site-theme", "dark");
         window.localStorage.setItem("site-theme", "dark");
 
-        var all = document.getElementsByTagName("*");
+        var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             if (all[i] != null) {
                 var str = String(all[i].className)
@@ -62,7 +60,7 @@ function switchThemeNormal(theme) {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
 
-        var all = document.getElementsByTagName("*");
+        var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             all[i].className += " light";
         }
