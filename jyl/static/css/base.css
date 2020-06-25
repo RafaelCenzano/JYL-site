@@ -4,7 +4,6 @@ body {
     font-family: 'Ubuntu', sans-serif;
     margin: 0;
     background-color: #212121;
-    transition-duration: 0.4s;
 }
 
 html.light,
@@ -52,7 +51,7 @@ body.light {
     font-size: 22px;
     line-height: 20px;
     cursor: pointer;
-    transition: 0.3s;
+    transition-duration: 0.4s;
     margin-top: -2px;
 }
 

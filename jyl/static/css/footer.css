@@ -3,7 +3,6 @@ footer {
     padding-bottom: 15px;
     text-align: center;
     background-color: #525252;
-    transition-duration: 0.4s;
 }
 
 footer.light,

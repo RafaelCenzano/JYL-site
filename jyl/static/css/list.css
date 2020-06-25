@@ -10,7 +10,6 @@ ul {
     border-radius: 15px;
     background-color: #83868a;
     padding: 5px 0 10px 0;
-    transition-duration: 0.4s;
 }
 
 ul.light {
@@ -85,7 +84,6 @@ li a:visited {
     text-decoration: none;
     color: #0047b5;
     margin: 0;
-    transition-duration: 0.4s;
 }
 
 li.light p,
@@ -106,7 +104,6 @@ li h2 {
     margin-bottom: -8px;
     margin: auto;
     color: #0047b5;
-    transition-duration: 0.4s;
 }
 
 li.light h2 {

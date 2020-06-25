@@ -1,7 +1,6 @@
 .form-label-css,
 .form-label-css-checkbox,
 form h3 {
-    transition-duration: 0.4s;
     font-size: 25px;
     padding-right: 10px;
     font-family: 'Ubuntu', sans-serif;
@@ -110,7 +109,6 @@ form.light h3 {
     margin: 0 30px 0 0;
     font-size: 50px;
     color: #d0d0d0;
-    transition-duration: 0.4s;
 }
 
 .form-title.light {
@@ -342,10 +340,6 @@ form {
 input[type='radio']:checked + label {
     -webkit-filter: grayscale(0);
     filter: grayscale(0);
-}
-
-form * {
-    transition-duration: 0.4s;
 }
 
 /*Details*/

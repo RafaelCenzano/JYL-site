@@ -6,7 +6,6 @@
     position: fixed;
     height: 100%;
     overflow: auto;
-    transition-duration: 0.4s;
 }
 
 .sidebar.light {
