@@ -84,17 +84,16 @@
     {% if goingLen > 0 %}
     </div>
     {% endif %}
-    {% if oldCheck %}
-    <div class="buttonwrapper">
-        {% if event %}
-        <a class="button" href="{{ url_for('profileEventOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
-        {% else %}
-        <a class="button" href="{{ url_for('profileMeetingOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
-        {% endif %}
-            View Lifetime {% if event %}Event{% else %}Meeting{% endif %}s
-        </a>
-    </div>
-    {% endif %}
-
 </div>
+{% if oldCheck %}
+<div class="buttonwrapper">
+    {% if event %}
+    <a class="button" href="{{ url_for('profileEventOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
+    {% else %}
+    <a class="button" href="{{ url_for('profileMeetingOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
+    {% endif %}
+        View Lifetime {% if event %}Event{% else %}Meeting{% endif %}s
+    </a>
+</div>
+{% endif %}
 {% endblock %}
