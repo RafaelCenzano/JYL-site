@@ -18,7 +18,9 @@
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Current Members</h2></li>
             {% for people in currentMembers %}
-            {% if not people.leader %}
+            {% if people.leader %}
+            <a href="{{ url_for('profileLeader', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            {% else %}
             <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
             {% endif %}
                 <li>
@@ -32,7 +34,9 @@
     <div class="column">
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Past Members</h2></li>
-            {% if not people.leader %}
+            {% if people.leader %}
+            <a href="{{ url_for('profileLeader', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+            {% else %}
             <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
             {% endif %}
             {% for people in oldMembers %}
