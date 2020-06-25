@@ -309,8 +309,7 @@ def profile(num, first, last):
 
     if checkUser.leader:
 
-        # add leader profile
-        return redirect(url_for('memberType', identifier='leader'))
+        return redirect(url_for('profileLeader', num=num, first=first, last=last))
 
     page = make_response(render_template(
         'profile.html',
@@ -333,6 +332,42 @@ def profile(num, first, last):
         'normal',
         max_age=SECONDS_IN_YEAR)
     return page
+
+
+@app.route('/profile/<int:num>/<first>/<last>/leader', methods=['GET'])
+@login_required
+def profileLeader(num, first, last):
+
+    checkUser = User.query.filter_by(
+        firstname=first,
+        lastname=last,
+        namecount=num).first()
+
+    if checkUser is None:
+
+        flash('User not found', 'error')
+        return sendoff('index')
+
+    if checkUser.leader:
+
+        page = make_response(render_template(
+            'profileLeader.html',
+            user=checkUser))
+
+        page = cookieSwitch(page)
+        num = repr(num)
+        page.set_cookie('current', 'profileLeader', max_age=SECONDS_IN_YEAR)
+        page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+        page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+        page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
+        page.set_cookie(
+            'profile-type-current',
+            'normal',
+            max_age=SECONDS_IN_YEAR)
+        return page
+
+    flash('User is not a leader', 'warning')
+    return sendoff('index')
 
 
 @app.route('/profile/<int:num>/<first>/<last>/meetings', methods=['GET'])
