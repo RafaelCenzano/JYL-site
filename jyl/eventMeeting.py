@@ -31,20 +31,29 @@ def eventMeetingProccessing(check, meeting):
     eventMeeting['userReview'] = False
     eventMeeting['userAttended'] = False
 
-    for user in users:
+    if eventMeeting['future']:
 
-        if current_user.id == user.userid:
-            eventMeeting['userAttended'] = True
+        if meeting:
+            eventMeeting['users'] = UserMeeting.query.filter_by(meetingid=check.id, going=True).all()
 
-        if user.comment is not None:
-            if user.userid == current_user.id:
-                eventMeeting['userReview'] = True
-            eventMeeting['userreview'].append(user)
-            theUser = User.query.get(user.userid)
-            eventMeeting['userreviewwho'].append(theUser)
-            eventMeeting['users'].append(theUser)
         else:
-            eventMeeting['users'].append(User.query.get(user.userid))
+            eventMeeting['users'] = UserEvent.query.filter_by(eventid=check.id, going=True).all()
+
+    else:
+        for user in users:
+
+            if current_user.id == user.userid:
+                eventMeeting['userAttended'] = True
+
+            if user.comment is not None:
+                if user.userid == current_user.id:
+                    eventMeeting['userReview'] = True
+                eventMeeting['userreview'].append(user)
+                theUser = User.query.get(user.userid)
+                eventMeeting['userreviewwho'].append(theUser)
+                eventMeeting['users'].append(theUser)
+            else:
+                eventMeeting['users'].append(User.query.get(user.userid))
 
     eventMeeting['users'].sort(key=lambda user: user.lastname.lower())
 
