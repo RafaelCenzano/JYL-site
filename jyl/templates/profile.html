@@ -3,7 +3,6 @@
 {% block title %}{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %}{% endblock %}
 
 {% block head_css %}
-<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
 {% endblock %}
 
