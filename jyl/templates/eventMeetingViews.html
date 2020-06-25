@@ -64,11 +64,13 @@
 </table>
 </div>
 {% if oldCheck %}
+<div class="buttonwrapper">
 {% if meeting %}
-<a href="{{ url_for('meetingDataOld') }}">View Past Meeting Data</a>
+<a class="button" href="{{ url_for('meetingDataOld') }}">View Past Meeting Data</a>
 {% else %}
-<a href="{{ url_for('eventDataOld') }}">View Past Event Data</a>
+<a class="button" href="{{ url_for('eventDataOld') }}">View Past Event Data</a>
 {% endif %}
+</div>
 {% endif %}
 {% endblock %}
 
