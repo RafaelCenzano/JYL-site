@@ -28,10 +28,10 @@
         <h4 class="desc">Lifetime Hours: {{ lifetimeHours }}</h4>
     </div>
     <div class="column">
-        <h2 class="eventMeeting"><a class="button" href="{{ url_for('profileMeeting', num=user.namecount, first=user.firstname, last=user.lastname) }}">Meetings {{ currentMeetingHours }}</a></h2>
+        <a class="button" href="{{ url_for('profileMeeting', num=user.namecount, first=user.firstname, last=user.lastname) }}">Meetings {{ currentMeetingHours }}</a>
     </div>
     <div class="column">
-        <h2 class="eventMeeting"><a class="button" href="{{ url_for('profileEvent', num=user.namecount, first=user.firstname, last=user.lastname) }}">Events {{ currentEventHours }}</a></h2>
+        <a class="button" href="{{ url_for('profileEvent', num=user.namecount, first=user.firstname, last=user.lastname) }}">Events {{ currentEventHours }}</a>
     </div>
 </div>
 {% endblock %}
