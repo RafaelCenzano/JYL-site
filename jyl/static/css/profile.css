@@ -155,18 +155,31 @@ p.light,
 
 }
 
-.button {
+.button,
+.button:visited {
     text-decoration: none;
-    color: #0047b5;
-    background-color: #ddd;
-    padding: 10px;
-    width: 50%;
+    color: #0bc530;
+    background-color: #525252;
+    padding: 10px 30px;
     margin: 10px auto;
+    border-radius: 15px;
+}
+
+.button.light
+.button.light:visited {
+    background-color: #c9ced6;
+    color: #0c5dc5;
 }
 
 @media (max-width: 600px){
-    .button {
-        width: 70%;
+    .button:hover,
+    .button:visited:hover {
+        color: #10ff02;
+    }
+
+    .button.light:hover,
+    .button.light:visited:hover {
+        color: #0070ff;
     }
 }
 
