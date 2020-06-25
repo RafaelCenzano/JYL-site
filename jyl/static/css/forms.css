@@ -337,10 +337,12 @@ form {
     display: none;
 }
 
-.reactions *:hover,
-input[type='radio']:checked + label {
-    -webkit-filter: grayscale(0);
-    filter: grayscale(0);
+@media (max-width:900px){
+    .reactions *:hover,
+    input[type='radio']:checked + label {
+        -webkit-filter: grayscale(0);
+        filter: grayscale(0);
+    }
 }
 
 /*Details*/
