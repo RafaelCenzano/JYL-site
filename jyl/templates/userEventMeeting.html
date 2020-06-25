@@ -16,16 +16,11 @@
         {% else %}
         <h1 class="name"><a class="edit" href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}"><span class="underline">{{ user.firstname }} {{ user.lastname }}</span></a></h1>
         {% endif %}
-        {% if user.admin %}
-        <p class="tag admin">Admin</p>
-        {% endif %}
-        {% if user.leader %}
-        <p class="tag leader">Leader</p>
-        {% endif %}
-        <p>{{ user.school }}, {{ user.grade }}</p>
-        {% if user.bio %}
-        <p>{{ user.bio }}</p>
-        {% endif %}
+        {% if user.admin %}<p class="tag admin">Admin</p>{% endif %}{% if user.leader %}<p class="tag leader">Leader</p>{% endif %}
+        <p>{% if user.grade > 12%}Graduated from {% else %}{{ user.grade }}th grader @ {% endif %}{{ user.school }}</p>
+        {% if user.showemail %}<p>{{ user.email }}</p>{% endif %}
+        {% if user.showphone and user.numberphone %}<p>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</p>{% endif %}
+        {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
     </div>
     <div class="column">
         <h4 class="desc">{% if oldCheck == False %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
@@ -86,17 +81,20 @@
             </li>
             {% endif %}
         </ul>
-        {% if oldCheck %}
-        <div class="buttonwrapper">
+    {% if goingLen > 0 %}
+    </div>
+    {% endif %}
+    {% if oldCheck %}
+    <div class="buttonwrapper">
         {% if event %}
         <a class="button" href="{{ url_for('profileEventOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
         {% else %}
         <a class="button" href="{{ url_for('profileMeetingOld', num=user.namecount, first=user.firstname, last=user.lastname) }}">
         {% endif %}
-        View Lifetime {% if event %}Event{% else %}Meeting{% endif %}s</a></div>
-        {% endif %}
-{% if goingLen > 0 %}
+            View Lifetime {% if event %}Event{% else %}Meeting{% endif %}s
+        </a>
     </div>
-{% endif %}
+    {% endif %}
+
 </div>
 {% endblock %}
