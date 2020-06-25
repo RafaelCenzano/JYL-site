@@ -108,8 +108,15 @@ footer.light a:visited {
     justify-content: space-around;
 }
 
-#quickLinks > .column {
-    min-width: 25%;
+@media (min-width:601px){
+    #quickLinks > .column {
+        min-width: 25%;
+    }
+}
+@media (max-width:600px){
+    #quickLinks > .column {
+        width: 90%;
+    }
 }
 
 #quickLinks .column > ul {
