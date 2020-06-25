@@ -337,7 +337,7 @@ form {
     display: none;
 }
 
-@media (max-width:900px){
+@media (min-width:900px){
     .reactions *:hover,
     input[type='radio']:checked + label {
         -webkit-filter: grayscale(0);
