@@ -135,7 +135,7 @@ li p {
 }
 
 .buttons {
-    margin-top: 6px;
+    margin-top: 8px;
 }
 
 .accept,
@@ -143,15 +143,27 @@ li p {
     padding: 3px 5px;
     margin: 4px 6px;
     border-radius: 5px;
-    color: #fff;
+    color: #ddd;
 }
 
 .accept {
-    background-color: #00f22d;
+    background-color: #03a020;
+    color: #ddd;
 }
 
 .deny {
-    background-color: #fc0505;
+    background-color: #dc0000;
+    color: #ddd;
+}
+
+.accept.light {
+    background-color: #00bf24;
+    color: #000;
+}
+
+.deny.light {
+    background-color: #ff0000;
+    color: #000;
 }
 
 li span {
