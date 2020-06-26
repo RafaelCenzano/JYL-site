@@ -206,4 +206,5 @@ class YearAudit(db.Model):
         db.Integer,
         db.ForeignKey('user.id'), unique=False)
     time = db.Column(db.DateTime, nullable=False, unique=False)
+    confirmed = db.Column(db.DateTime, nullable=False, unique=False)
 
