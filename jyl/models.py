@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
     eventAlertoneday = db.Column(db.Boolean, unique=False)
     eventAlertthreeday = db.Column(db.Boolean, unique=False)
     eventAlertoneweek = db.Column(db.Boolean, unique=False)
+    ingroup = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
         return f'User({self.firstname} {self.lastname}, {self.email})'
@@ -86,6 +87,9 @@ class Meeting(db.Model):
     currentYear = db.Column(db.Boolean, unique=False)
     attendancecount = db.Column(db.Integer, unique=False)
     attendancecheck = db.Column(db.Boolean, unique=False)
+    alertoneday = db.Column(db.Boolean, unique=False, default=False)
+    alertthreeday = db.Column(db.Boolean, unique=False, default=False)
+    alertoneweek = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
         return f'Meeting id:{self.id}, from {self.start} to {self.end})'
@@ -132,6 +136,9 @@ class Event(db.Model):
     currentYear = db.Column(db.Boolean, unique=False)
     attendancecount = db.Column(db.Integer, unique=False)
     attendancecheck = db.Column(db.Boolean, unique=False)
+    alertoneday = db.Column(db.Boolean, unique=False, default=False)
+    alertthreeday = db.Column(db.Boolean, unique=False, default=False)
+    alertoneweek = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
         return f'Event id:{self.id}, from {self.start} to {self.end})'
@@ -168,9 +175,7 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     leaderid = db.Column(
         db.Integer,
-        db.ForeignKey('user.id'),
-        primary_key=True,
-        unique=False)
+        db.ForeignKey('user.id'), unique=False)
     currentYear = db.Column(db.Boolean, unique=False)
     goal = db.Column(db.String(500), unique=False)
 
@@ -189,6 +194,16 @@ class UserGroup(db.Model):
         db.ForeignKey('user.id'),
         primary_key=True,
         unique=False)
+    currentYear = db.Column(db.Boolean, unique=False)
 
     def __repr__(self):
         return f'User {userid} is in {groupid} group'
+
+
+class YearAudit(db.Model):
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    leaderid = db.Column(
+        db.Integer,
+        db.ForeignKey('user.id'), unique=False)
+    time = db.Column(db.DateTime, nullable=False, unique=False)
+
