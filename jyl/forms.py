@@ -118,6 +118,12 @@ class ConfirmPassword(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class ConfirmPasswordConfirm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm = BooleanField('I confirm', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
 class UserSettings(FlaskForm):
     bio = TextAreaField(
         'Bio',
