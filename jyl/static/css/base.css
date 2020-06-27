@@ -125,7 +125,7 @@ body.light {
     color: #0c5dc5;
 }
 
-@media (min-width: 600px){
+@media (min-width: 801px){
     .button:hover,
     .button:visited:hover {
         color: #10ff02;
@@ -136,6 +136,13 @@ body.light {
     .button.light:visited:hover {
         color: #0070ff;
         background-color: #9fb7e0;
+    }
+}
+
+@media (max-width: 400px){
+    .button,
+    .button.light {
+        font-size: 15px;
     }
 }
 
