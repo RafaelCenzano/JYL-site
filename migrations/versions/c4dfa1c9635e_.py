@@ -22,9 +22,6 @@ def upgrade():
     op.add_column('event', sa.Column('alertoneweek', sa.Boolean(), nullable=True))
     op.add_column('event', sa.Column('alertthreeday', sa.Boolean(), nullable=True))
     op.create_unique_constraint(None, 'event', ['id'])
-    op.alter_column('group', 'leaderid',
-               existing_type=sa.INTEGER(),
-               nullable=True)
     op.add_column('meeting', sa.Column('alertoneday', sa.Boolean(), nullable=True))
     op.add_column('meeting', sa.Column('alertoneweek', sa.Boolean(), nullable=True))
     op.add_column('meeting', sa.Column('alertthreeday', sa.Boolean(), nullable=True))
@@ -46,9 +43,6 @@ def downgrade():
     op.drop_column('meeting', 'alertthreeday')
     op.drop_column('meeting', 'alertoneweek')
     op.drop_column('meeting', 'alertoneday')
-    op.alter_column('group', 'leaderid',
-               existing_type=sa.INTEGER(),
-               nullable=False)
     op.drop_constraint(None, 'event', type_='unique')
     op.drop_column('event', 'alertthreeday')
     op.drop_column('event', 'alertoneweek')
