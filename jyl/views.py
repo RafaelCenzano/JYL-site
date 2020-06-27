@@ -2078,6 +2078,9 @@ def changeYearDeny(changeyearId):
                     checkChangeYear.confirmed = False
                     db.session.commit()
 
+                    flash('Proccess initiated', 'success')
+                    return sendoff('index')
+
                 flash('Password is Incorrect', 'error')
                 form.password.data = ''
 
