@@ -175,7 +175,9 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     leaderid = db.Column(
         db.Integer,
-        db.ForeignKey('user.id'), unique=False)
+        db.ForeignKey('user.id'),
+        primary_key=True,
+        unique=False)
     currentYear = db.Column(db.Boolean, unique=False)
     goal = db.Column(db.String(500), unique=False)
 
@@ -206,5 +208,6 @@ class YearAudit(db.Model):
         db.Integer,
         db.ForeignKey('user.id'), unique=False)
     time = db.Column(db.DateTime, nullable=False, unique=False)
-    confirmed = db.Column(db.DateTime, nullable=False, unique=False)
+    confirmed = db.Column(db.Boolean, nullable=False, unique=False)
+    completed = db.Column(db.Boolean, nullable=False, unique=False)
 
