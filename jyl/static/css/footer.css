@@ -12,6 +12,7 @@ footer * {
 
 footer ul {
     background-color: #525252;
+    margin: 20px auto;
 }
 
 footer.light,
