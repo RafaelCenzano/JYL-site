@@ -9,14 +9,16 @@
 
 {% block content %}
 <h1 class="name">Member Edit List</h1>
-<ul>
-    <li class="non-hover"><h2 class="profiletitle">Members</h2></li>
-    {% for people in currentMembers %}
-    <a href="{{ url_for('userEdit', userId=people.id) }}">
-        <li>
-            <h3>{{ people.firstname }} {{ people.lastname }}</h3>
-        </li>
-    </a>
-    {% endfor %}
-</ul>
+<div>
+    <ul>
+        <li class="non-hover"><h2 class="profiletitle">Members</h2></li>
+        {% for people in currentMembers %}
+        <a href="{{ url_for('userEdit', userId=people.id) }}">
+            <li>
+                <h3>{{ people.firstname }} {{ people.lastname }}</h3>
+            </li>
+        </a>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
