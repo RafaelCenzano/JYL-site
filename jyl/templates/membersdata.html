@@ -83,7 +83,11 @@
 </table>
 </div>
 {% if oldCheck %}
-<div class="buttonwrapper"><a class="button" href="{{ url_for('memberDataOld') }}">View Past Member Data</a></div>
+<div>
+    <div class="buttonwrapper">
+        <a class="button" href="{{ url_for('memberDataOld') }}">View Past Member Data</a>
+    </div>
+</div>
 {% endif %}
 {% endblock %}
 
