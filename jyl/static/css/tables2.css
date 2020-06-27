@@ -1,0 +1,19 @@
+.table-wrapper {
+    background-color: #83868a;
+    transition-duration: 0.4s;
+    padding: 20px;
+    overflow: auto;
+    border-radius: 15px;
+    width: 85%;
+    text-align: center;
+    margin: 25px auto;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    text-align: center;
+    color: #ddd;
+}
