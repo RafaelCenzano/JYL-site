@@ -247,12 +247,27 @@ elif sys.argv[1] == 'migrate':
 
     users = User.query.filter_by(currentmember=True).all()
     for user in users:
-        users.meetingAlertoneday = False
-        users.meetingAlertthreeday = False
-        users.meetingAlertoneweek = False
-        users.eventAlertoneday = False
-        users.eventAlertthreeday = False
-        users.eventAlertoneweek = False
+        user.meetingAlertoneday = False
+        user.meetingAlertthreeday = False
+        user.meetingAlertoneweek = False
+        user.eventAlertoneday = False
+        user.eventAlertthreeday = False
+        user.eventAlertoneweek = False
+        db.session.commit()
+
+    meetings = Meeting.query.filter_by(currentYear=True).all()
+    events = Event.query.filter_by(currentYear=True).all()
+
+    for meeting in meetings:
+        meeting.alertoneweek = True
+        meeting.alertthreeday = True
+        meeting.alertoneday = True
+        db.session.commit()
+
+    for event in events:
+        event.alertoneweek = True
+        event.alertthreeday = True
+        event.alertoneday = True
         db.session.commit()
 
 elif sys.argv[1] == 'clear':
