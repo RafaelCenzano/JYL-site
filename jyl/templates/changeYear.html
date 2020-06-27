@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Update the Year{% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/tables2.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="" autocomplete="off">
+    <!-- Part of protecting the site from attacks -->
+    {{ form.hidden_tag() }}
+    <h2 class="form-title">Update the Year</h2>
+    <p class="text">Push all memebers grades up by one and graduate out members who are out of highschool. Make all meetings and events past meetings and events.</p>
+    <div class="form-group">
+    {{ form.password.label(class="form-label-css") }}
+    <span id="required" class="required">*required</span>
+    <br>
+    {% if form.password.errors %}
+        {{ form.password(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ form.password() }}
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.confirm.errors %}
+        {{ form.confirm(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.confirm.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.confirm.label(class="form-label-css-checkbox") }}
+            {{ form.confirm() }}
+            <span class="checkmark"></span>
+        </label>
+        {% if deny %}
+        <p class="text">that I will be canceling the proccess that alters all the sites data. I am aware that this process won't be executed and I will need to prompt a new proccess and wait another week. This will change the proccess on the log below to denied and an email will be sent to all the leaders. Please execute with caution</p>
+        {% else %}
+        <p class="text">that I will be altering all the websites data. This proccess will commence in 7 days so if you or any leaders want to deny this proccess it can be done within 7 days. I am also aware this will be recorded weather or not it goes through and can be viewed on this page by any other leaders. Please execute with caution.</p>
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.submit() }}
+    </div>
+</form>
+{% if audits %}
+<div>
+    <div class="table-wrapper">
+        <table id="audits" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Leader</th>
+                    <th>Date</th>
+                    <th>Confirmed</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in audits %}
+                <tr>
+                    <th>{{ item['leader'].firstname }} {{ item['leader'].lastname }}</th>
+                    <th>{{ item['audit'].time.strftime('%b %m %Y %I:%M %p') }}</th>
+                    <th>{% if item['audit'].confirmed %}<i class="fas fa-check-square"></i>{% else %}<i class="fas fa-window-close"></i>{% endif %}</th>
+                    <th>{% if item['audit'].completed %}<i class="fas fa-check-square"></i>{% else %}<i class="fas fa-window-close"></i>{% endif %}</th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block trailing_js %}
+<script type="text/javascript">jsRequired(document.getElementById('password'), document.getElementById('required'));</script>
+{% endblock %}
