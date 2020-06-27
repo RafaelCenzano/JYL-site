@@ -2,8 +2,19 @@
 
 {% block title %}License{% endblock %}
 
+{% block head_css %}
+<style>
+    .license {
+        color: #ddd;
+    }
+    .license.light {
+        color: #000;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div>
+<div class="license">
 <h3 style="text-align: center;">GNU GENERAL PUBLIC LICENSE</h3>
 <p style="text-align: center;">Version 3, 29 June 2007</p>
 
