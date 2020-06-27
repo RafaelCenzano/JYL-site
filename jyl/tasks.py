@@ -23,7 +23,7 @@ def backgroundCheck():
 
     if audits:
         for audit in audits:
-            if (now - pacific.localize(audit.time)).days >= 7:
+            if (now - pacific.localize(audit.time)).days >= 7 and not audit.completed and audit.confirmed:
 
                 for meeting in meetings:
                     meeting.currentYear = False
@@ -43,6 +43,9 @@ def backgroundCheck():
                         user.currentmember = False
                     user.ingroup = False
                     db.session.commit()
+
+                audit.completed = True
+                db.session.commit()
 
     if meetings:
         for meeting in meetings:
