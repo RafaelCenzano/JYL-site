@@ -1,7 +1,7 @@
 import re
 from jyl import app, db, bcrypt
 from pytz import timezone
-from flask import render_template, redirect, url_for, request, flash, make_response, send_file
+from flask import render_template, redirect, url_for, request, flash, make_response, send_file, abort
 from random import randint
 from hashlib import sha256
 from datetime import datetime
@@ -1987,6 +1987,122 @@ def removeNickname(userId):
 
         flash('User not found', 'warning')
         return sendoff('index')
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/changeyear', methods=['GET','POST'])
+@login_required
+def changeYear():
+
+    if current_user.leader:
+        
+        form = ConfirmPasswordConfirm()
+
+        if form.validate_on_submit():
+
+            if bcrypt.check_password_hash(
+                current_user.password,
+                sha256(
+                    (form.password.data +
+                     current_user.email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                newYearPush = YearAudit(leaderid=current_user.id, time=datetime.now(), confirmed=True, completed=False)
+                db.session.add(newYearPush)
+                db.session.commit()
+
+                flash('Proccess initiated', 'success')
+                return sendoff('index')
+
+            flash('Password is Incorrect', 'error')
+            form.password.data = ''
+
+        audits = []
+        yearAudits = YearAudit.query.all()
+
+        if yearAudits:
+            yearAudits.sort(key=lambda yearaudit: yearaudit.time)
+
+            for thing in yearAudits:
+                dictionary = {}
+                dictionary['leader'] = User.query.get(thing.leaderid)
+                dictionary['audit'] = thing
+                audits.append(dictionary)
+
+        page = make_response(
+            render_template(
+                'changeYear.html',
+                form=form,
+                audits=audits,
+                deny=False))
+        page = cookieSwitch(page)
+        return page
+
+    flash('Must be a Leader', 'warning')
+    return sendoff('index')
+
+
+@app.route('/changeyear/<int:changeyearId>/deny', methods=['GET','POST'])
+@login_required
+def changeYearDeny(changeyearId):
+
+    if current_user.leader:
+
+        checkChangeYear = yearAudits.query.get(changeyearId)
+
+        if checkChangeYear:
+            
+            if checkChangeYear.completed:
+
+                flash('This has been executed already', 'error')
+                return sendoff('index')
+
+            if not checkChangeYear.confirmed:
+
+                flash('This has been denied already', 'warning')
+                return sendoff('index')
+
+            form = ConfirmPasswordConfirm()
+
+            if form.validate_on_submit:
+
+                if bcrypt.check_password_hash(
+                    current_user.password,
+                    sha256(
+                        (form.password.data +
+                         current_user.email +
+                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                    checkChangeYear.confirmed = False
+                    db.session.commit()
+
+                flash('Password is Incorrect', 'error')
+                form.password.data = ''
+
+            audits = []
+            yearAudits = YearAudit.query.all()
+
+            if yearAudits:
+                yearAudits.sort(key=lambda yearaudit: yearaudit.time)
+
+                for thing in yearAudits:
+                    dictionary = {}
+                    dictionary['leader'] = User.query.get(thing.leaderid)
+                    dictionary['audit'] = thing
+                    audits.append(dictionary)
+
+            page = make_response(
+                render_template(
+                    'changeYear.html',
+                    form=form,
+                    audits=audits,
+                    deny=True))
+            page = cookieSwitch(page)
+            return page
+
+        abort(404)
 
     flash('Must be a Leader', 'warning')
     return sendoff('index')
