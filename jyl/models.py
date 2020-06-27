@@ -177,7 +177,7 @@ class Group(db.Model):
         db.Integer,
         db.ForeignKey('user.id'),
         primary_key=True,
-        unique=False)
+        unique=False)# set to obscure number if leader is deleted
     currentYear = db.Column(db.Boolean, unique=False)
     goal = db.Column(db.String(500), unique=False)
 
