@@ -23,6 +23,10 @@ p.light,
 }
 
 .leader {
+    color: #1176e0;
+}
+
+.leader.light {
     color: #1122e0;
 }
 
