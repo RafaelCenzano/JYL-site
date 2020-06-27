@@ -20,11 +20,11 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
-    '''
+    # Mail config
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USERNAME = 'email@gmail.com'
     MAIL_PASSWORD = os.environ.get('jylEmailPass')
-    MAIL_DEFAULT_SENDER = 'JYL Toolbox <email@gmail.com>'
-    '''
+    email = os.environ.get('jylEmail')
+    MAIL_DEFAULT_SENDER = f'JYL Toolbox <{email}>'
