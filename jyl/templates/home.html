@@ -7,8 +7,73 @@
 {% endblock %}
 
 {% block content %}
-    <div class="title">
-        <h1 class="fade-in float-up">JYL</h1>
-        <h1 class="fade-in float-up">Toolbox</h1>
+<div class="title">
+    <h1 class="fade-in float-up">JYL</h1>
+    <h1 class="fade-in float-up">Toolbox</h1>
+</div>
+{% if current_user.is_authenticated %}
+<div class="half-grid">
+    <div class="column">
+        <ul>
+            <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">
+                <li>
+                    <h4><i class="fas fa-user-cog nav-icon"></i> Profile</h4>
+                </li>
+            </a>
+            <a href="{{ url_for('userEdit1', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">
+                <li>
+                    <h4><i class="fas fa-cog"></i> Settings</h4>
+                </li>
+            </a>
+        {% if current_user.admin %}
+            <a href="{{ url_for('creation') }}">
+                <li>
+                    <h4><i class="fas fa-table"></i> Leader Dashboard</h4>
+                </li>
+            </a>
+        {% endif %}
+            <a href="{{ url_for('members') }}">
+                <li>
+                    <h4><i class="fas fa-user nav-icon"></i> JYL Members</h4>
+                </li>
+            </a>
+        </ul>
     </div>
+    <div class="column">
+        <ul>
+            <a href="{{ url_for('upcomingMeetings') }}">
+                <li>
+                    <h4><i class="fas fa-calendar-plus"></i> Upcoming Meetings</h4>
+                </li>
+            </a>
+            <a href="{{ url_for('upcomingEvents') }}">
+                <li>
+                    <h4><i class="fas fa-calendar-plus"></i> Upcoming Events</h4>
+                </li>
+            </a>
+        {% if not current_user.leader %}
+            <a href="{{ url_for('profileMeeting', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">
+                <li>
+                    <h4><i class="fas fa-calendar-plus"></i> My Meetings</h4>
+                </li>
+            </a>
+            <a href="{{ url_for('profileEvent', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}">
+                <li>
+                    <h4><i class="fas fa-calendar-plus"></i> My Events</h4>
+                </li>
+            </a>
+        {% endif %}
+        </ul>
+    </div>
+</div>
+{% else %}
+<div>
+    <div class="homewrapper">
+        <img src="{{ url_for('static', filename='img/jyl.svg') }}" alt="JYL Logo">
+        <p>JYL is a youth leadership program for high school students in Japantown San Francisco.</p>
+        <p>Youth go to weekly meetings to develop leadership skills and work on volunteer projects.</p>
+        <p>JYL youth also attend and volunteer at many events around Japantown and the city.</p>
+    </div>
+{% endif %}
+</div>
 {% endblock %}
