@@ -118,9 +118,12 @@ canvas {
 }
 
 .homewrapper {
+    margin: auto;
+    padding: 10px;
     background-color: #83868a;
     color: #ddd;
-    width: 60%;
+    width: 70%;
+    border-radius: 15px;
 }
 
 .homewrapper.light {
@@ -132,6 +135,7 @@ canvas {
     text-align: center;
     max-width: 85%;
     color: #ddd;
+    margin: 15px auto;
 }
 
 .homewrapper.light p {
@@ -139,10 +143,11 @@ canvas {
 }
 
 .homewrapper img {
+    display: block;
+    margin: 10px auto;
     width: 90%;
     max-width: 500px;
     fill: #fff;
-    margin-bottom: 15px;
 }
 
 .homewrapper.light img {
@@ -151,6 +156,6 @@ canvas {
 
 @media (max-width: 900px){
     .homewrapper {
-        width: 80%;
+        width: 90%;
     }
 }
