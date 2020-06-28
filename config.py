@@ -12,8 +12,8 @@ class Config(object):
     SECRET_KEY = os.environ.get('jylKey')
     SECURITY_PASSWORD_SALT = os.environ.get('jylSalt')
 
-    TESTING = True
-    DEBUG = True
+    TESTING = False
+    DEBUG = False
 
     # Using Postgresql
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
@@ -24,7 +24,7 @@ class Config(object):
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
-    MAIL_USERNAME = 'email@gmail.com'
+    email = os.environ.get('jylSenderEmail')
+    MAIL_USERNAME = email
     MAIL_PASSWORD = os.environ.get('jylEmailPass')
-    email = os.environ.get('jylEmail')
     MAIL_DEFAULT_SENDER = f'JYL Toolbox <{email}>'
