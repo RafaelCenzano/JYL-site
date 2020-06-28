@@ -71,23 +71,18 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        '''
         users = User.query.filter_by(admin=True, currentmember=True, leader=False).all()
 
-        recipients = []
-        for user in users:
-            recipients.append(user.email)
+        with mail.connect() as conn:
+            for user in users:
+                msg = Message('Bug Report - JYL Toolbox',
+                  recipients=[user.email])
+                msg.body = text
+                msg.html = html
 
-        msg = Message('Bug Report - JYL Toolbox',
-          recipients=recipients)
-        msg.body = text
-        msg.html = html
-        mail.send(msg)
-        '''
-        return html
+                conn.send(msg)
 
         flash('Your bug report has been submitted', 'info')
-
         return sendoff('index')
 
     page = make_response(
@@ -130,24 +125,18 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        '''
         users = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
 
-        recipients = []
-        for user in users:
-            recipients.append(user.email)
+        with mail.connect() as conn:
+            for user in users:
+                msg = Message('Feature Request - JYL Toolbox',
+                  recipients=[user.email])
+                msg.body = text
+                msg.html = html
 
-        msg = Message('Feature Request - JYL Toolbox',
-          recipients=recipients)
-        msg.body = text
-        msg.html = html
-        mail.send(msg)
-        '''
-
-        return html
+                conn.send(msg)
 
         flash('Your feature request has been submitted', 'info')
-
         return sendoff('index')
 
     page = make_response(
@@ -192,24 +181,18 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        '''
         users = User.query.filter_by(currentmember=True, Leader=True).all()
 
-        recipients = []
-        for user in users:
-            recipients.append(user.email)
+        with mail.connect() as conn:
+            for user in users:
+                msg = Message('Help Request - JYL Toolbox',
+                  recipients=[user.email])
+                msg.body = text
+                msg.html = html
 
-        msg = Message('Help Request - JYL Toolbox',
-          recipients=recipients)
-        msg.body = text
-        msg.html = html
-        mail.send(msg)
-        '''
-
-        return html
+                conn.send(msg)
 
         flash('Your help request has been submitted', 'info')
-
         return sendoff('index')
 
     page = make_response(
@@ -1008,15 +991,11 @@ For security reasons, you should reset your password since this was a temporary 
 - JYL Toolbox
                 '''
 
-                '''
-                recipient = []
-                recipient.append(form.email.data)
                 msg = Message('New User - JYL Toolbox',
-                  recipients=recipient)
+                  recipients=[form.email.data])
                 msg.body = text
                 msg.html = html
                 mail.send(msg)
-                '''
 
                 flash(
                     f'User created for {form.first.data} {form.last.data}',
@@ -1070,7 +1049,20 @@ def eventCreation():
                 db.session.commit()
 
                 if form.email.data:
-                    date = form.start.data.strftime('%B %-d, %Y')
+                    date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                    eventLocation = form.location.data.replace(' ', '+')
+
+                    html = f'''
+<p>Hello,</p>
+
+<p>New event: {form.name.data} taking place on {date}.</p>
+
+<p>Description: {form.description.data}</p>
+
+<p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p></p>
+
+<p>- JYL Toolbox</p>
+                    '''
 
                     text = f'''
 Hello,
@@ -1079,24 +1071,21 @@ New event: {form.name.data} taking place on {date}
 
 Description: {form.description.data}
 
+Location: {form.location.data}
+
 - JYL Toolbox
                     '''
 
-                    '''
                     users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                    recipients = []
-                    for user in users:
-                        recipients.append(user.email)
+                    with mail.connect() as conn:
+                        for user in users:
+                            msg = Message('New Event - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
 
-                    msg = Message('New Event - JYL Toolbox',
-                      recipients=recipients)
-                    msg.body = text
-                    #msg.html = html
-                    mail.send(msg)
-                    '''
-
-                    return html
+                            conn.send(msg)
 
                 flash(f'Event {form.name.data} created', 'success')
                 return redirect(url_for('creation'))
@@ -1487,6 +1476,16 @@ def meetingCreate():
             if form.email.data:
                 date = form.starttime.data.strftime('%B %-d, %Y')
 
+                html = f'''
+<p>Hello,</p>
+
+<p>New meeting taking place on {date}.</p>
+
+<p>Description: {form.description.data}</p>
+
+<p>- JYL Toolbox</p>
+                    '''
+
                 text = f'''
 Hello,
 
@@ -1497,21 +1496,16 @@ Description: {form.description.data}
 - JYL Toolbox
                 '''
 
-                '''
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                recipients = []
-                for user in users:
-                    recipients.append(user.email)
+                with mail.connect() as conn:
+                    for user in users:
+                        msg = Message('New Event - JYL Toolbox',
+                          recipients=[user.email])
+                        msg.body = text
+                        msg.html = html
 
-                msg = Message('New Event - JYL Toolbox',
-                  recipients=recipients)
-                msg.body = text
-                #msg.html = html
-                mail.send(msg)
-                '''
-
-                return html
+                        conn.send(msg)
 
             meetingDate = form.starttime.data.strftime('%B %-d, %Y')
             flash(f'New meeting created for {meetingDate}', 'success')
@@ -2013,6 +2007,41 @@ def changeYear():
                 db.session.add(newYearPush)
                 db.session.commit()
 
+                html = f'''
+<p>Hello,</p>
+
+<p>{current_user.firstname} {current_user.lastname} started the Change Year proccess.</p>
+
+<p>This means that in 7 days the website will automatically make all meetings and events past meetings and events. It will increase all members grades and make graduated students non active members.</p>
+
+<p>If you or any leaders want to cancel this process go <a href="#">here</a>.</p>
+
+<p>- JYL Toolbox</p>
+                '''
+
+                text = f'''
+Hello,
+
+{current_user.firstname} {current_user.lastname} started the Change Year proccess.
+
+This means that in 7 days the website will automatically make all meetings and events past meetings and events. It will increase all members grades and make graduated students non active members.
+
+If you or any leaders want to cancel this process go here: LINK.
+
+- JYL Toolbox
+                '''
+
+                user = User.query.filter_by(currentmember=True, leader=True).all()
+
+                with mail.connect() as conn:
+                    for user in users:
+                        msg = Message('New Proccess Started - JYL Toolbox',
+                          recipients=[user.email])
+                        msg.body = text
+                        msg.html = html
+
+                        conn.send(msg)
+
                 flash('Proccess initiated', 'success')
                 return sendoff('index')
 
@@ -2077,6 +2106,41 @@ def changeYearDeny(changeyearId):
 
                     checkChangeYear.confirmed = False
                     db.session.commit()
+
+                    html = f'''
+<p>Hello,</p>
+
+<p>{current_user.firstname} {current_user.lastname} canceled the Change Year proccess.</p>
+
+<p>This means that the proccess will not execute and will stay on record as denied.</p>
+
+<p>If you or any leaders want to create a new Change Year process go <a href="#">here</a>.</p>
+
+<p>- JYL Toolbox</p>
+                    '''
+
+                    text = f'''
+Hello,
+
+{current_user.firstname} {current_user.lastname} canceled the Change Year proccess.
+
+This means that the proccess will not execute and will stay on record as denied.
+
+If you or any leaders want to create a new Change Year process go here: LINK.
+
+- JYL Toolbox
+                    '''
+
+                    user = User.query.filter_by(currentmember=True, leader=True).all()
+
+                    with mail.connect() as conn:
+                        for user in users:
+                            msg = Message('Change Year Proccess Canceled - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
+
+                            conn.send(msg)
 
                     flash('Proccess initiated', 'success')
                     return sendoff('index')
@@ -2172,37 +2236,60 @@ def eventEdit(eventId):
 
             db.session.commit()
 
-            flash('Event edited successfully!', 'success')
-            return redirect(url_for('eventEditList'))
-
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y')
+                date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                eventLocation = form.location.data.replace(' ', '+')
+
+                html = f'''
+<p>Hello,</p>
+
+<p>The event {form.name.data} recieved an edit. Here are the new details</p>
+
+<p>Date: {date}</p>
+
+<p>Description: {form.description.data}</p>
+
+<p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
+
+<p>Check out the event <a href="#">here</a>.</p>
+
+<p>- JYL Toolbox</p>
+                '''
 
                 text = f'''
 Hello,
 
-New event: {form.name.data} taking place on {date}
+The event {form.name.data} recieved an edit. Here are the new details
+
+Date: {date}
 
 Description: {form.description.data}
+
+Location: {form.location.data}
+
+Check out the event here: LINK
 
 - JYL Toolbox
                 '''
 
-                '''
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
                 recipients = []
                 for user in users:
                     recipients.append(user.email)
 
-                msg = Message('New Event - JYL Toolbox',
-                  recipients=recipients)
-                msg.body = text
-                #msg.html = html
-                mail.send(msg)
-                '''
+                with mail.connect() as conn:
+                        for user in users:
+                            msg = Message(f'Event {form.name.data} Changed - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
 
-                return html
+                            conn.send(msg)
+
+            flash('Event edited successfully!', 'success')
+            return redirect(url_for('eventEditList'))
+
 
         form.name.data = checkEvent.name
         form.description.data = checkEvent.description
@@ -2285,7 +2372,7 @@ def eventEdit2(eventId):
 
         form = CreateEventMeeting()
 
-        if request.method == 'POST' and form.validate_on_submit():
+        if form.validate_on_submit():
 
             checkEvent.name = form.name.data
             checkEvent.description = form.description.data
@@ -2294,6 +2381,57 @@ def eventEdit2(eventId):
             checkEvent.end = form.endtime.data
 
             db.session.commit()
+
+            if form.email.data:
+                date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                eventLocation = form.location.data.replace(' ', '+')
+
+                html = f'''
+<p>Hello,</p>
+
+<p>The event {form.name.data} recieved an edit. Here are the new details</p>
+
+<p>Date: {date}</p>
+
+<p>Description: {form.description.data}</p>
+
+<p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
+
+<p>Check out the event <a href="#">here</a>.</p>
+
+<p>- JYL Toolbox</p>
+                '''
+
+                text = f'''
+Hello,
+
+The event {form.name.data} recieved an edit. Here are the new details
+
+Date: {date}
+
+Description: {form.description.data}
+
+Location: {form.location.data}
+
+Check out the event here: LINK
+
+- JYL Toolbox
+                '''
+
+                users = User.query.filter_by(currentmember=True, Leader=False).all()
+
+                recipients = []
+                for user in users:
+                    recipients.append(user.email)
+
+                with mail.connect() as conn:
+                        for user in users:
+                            msg = Message(f'Event {form.name.data} Changed - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
+
+                            conn.send(msg)
 
             flash('Event edited successfully!', 'success')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
@@ -2654,32 +2792,55 @@ def meetingEdit(meetingId):
 
             if form.email.data:
                 date = form.start.data.strftime('%B %-d, %Y')
+                dateFull = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                eventLocation = form.location.data.replace(' ', '+')
+
+                html = f'''
+<p>Hello,</p>
+
+<p>The meeting on {date} recieved an edit. Here are the new details:</p>
+
+<p>Date: {dateFull}</p>
+
+<p>Description: {form.description.data}</p>
+
+<p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
+
+<p>Check out the meeting <a href="#">here</a>.</p>
+
+<p>- JYL Toolbox</p>
+                '''
 
                 text = f'''
 Hello,
 
-Edit on this event: {form.name.data} taking place on {date}
+The meeting on {date} recieved an edit. Here are the new details:
+
+Date: {dateFull}
 
 Description: {form.description.data}
+
+Location: {form.location.data}
+
+Check out the meeting here: LINK
 
 - JYL Toolbox
                 '''
 
-                '''
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
                 recipients = []
                 for user in users:
                     recipients.append(user.email)
 
-                msg = Message('New Event - JYL Toolbox',
-                  recipients=recipients)
-                msg.body = text
-                #msg.html = html
-                mail.send(msg)
-                '''
+                with mail.connect() as conn:
+                        for user in users:
+                            msg = Message(f'Meeting on {date} Changed - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
 
-                return html
+                            conn.send(msg)
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingEditList'))
@@ -2765,7 +2926,7 @@ def meetingEdit1(meetingId):
         form = CreateEventMeeting()
         form.name.data = 'filler'
 
-        if request.method == 'POST' and form.validate_on_submit():
+        if form.validate_on_submit():
 
             checkMeeting.description = form.description.data
             checkMeeting.location = form.location.data
@@ -2773,6 +2934,58 @@ def meetingEdit1(meetingId):
             checkMeeting.end = form.endtime.data
 
             db.session.commit()
+
+            if form.email.data:
+                date = form.start.data.strftime('%B %-d, %Y')
+                dateFull = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                eventLocation = form.location.data.replace(' ', '+')
+
+                html = f'''
+<p>Hello,</p>
+
+<p>The meeting on {date} recieved an edit. Here are the new details:</p>
+
+<p>Date: {dateFull}</p>
+
+<p>Description: {form.description.data}</p>
+
+<p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
+
+<p>Check out the meeting <a href="#">here</a>.</p>
+
+<p>- JYL Toolbox</p>
+                '''
+
+                text = f'''
+Hello,
+
+The meeting on {date} recieved an edit. Here are the new details:
+
+Date: {dateFull}
+
+Description: {form.description.data}
+
+Location: {form.location.data}
+
+Check out the meeting here: LINK
+
+- JYL Toolbox
+                '''
+
+                users = User.query.filter_by(currentmember=True, Leader=False).all()
+
+                recipients = []
+                for user in users:
+                    recipients.append(user.email)
+
+                with mail.connect() as conn:
+                        for user in users:
+                            msg = Message(f'Meeting on {date} Changed - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
+
+                            conn.send(msg)
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
@@ -3641,20 +3854,15 @@ Your reset link is here: {reset_url}. It will expire in 30 minutes.
 - JYL Toolbox
             '''
 
-            '''
             msg = Message('Password Reset - JYL Toolbox',
               recipients=[user.email])
             msg.body = text
             msg.html = html
             mail.send(msg)
-            '''
-
-            return html
 
             flash(
                 f'An email has been sent to {form.email.data} with instructions to reset your password',
                 'info')
-
             return sendoff('login')
 
     page = make_response(
