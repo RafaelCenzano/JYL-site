@@ -11,7 +11,7 @@
 <div class="half-grid">
     <div class="column">
         {% if eventMeetingData['meeting'] %}
-        <h1 class="name">{% if current_user.leader or current_user.admin %}{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingEdit1', meetingId=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">{% endif %}{% endif %}Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}{% if current_user.leader or current_user.admin %}<i class="far fa-edit"></i>{% endif %}</h1>
+        <h1 class="name">{% if current_user.leader or current_user.admin %}{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingEdit1', meetingId=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">{% endif %}{% endif %}Meeting: {{ eventMeeting.start.strftime('%B %-d, %Y') }}{% if current_user.leader or current_user.admin %}<i class="far fa-edit"></i></a>{% endif %}</h1>
         {% else %}
         <h1 class="name">{% if current_user.leader or current_user.admin %}{% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingEdit1', meetingId=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventEdit2', eventId=eventMeeting.id) }}">{% endif %}{% endif %}{{ eventMeeting.name }}: {{ eventMeeting.start.strftime('%B %-d, %Y') }}{% if current_user.leader or current_user.admin %}<i class="far fa-edit"></i>{% endif %}</h1>
         {% endif %}
