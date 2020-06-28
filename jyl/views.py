@@ -132,7 +132,7 @@ Email: {current_user.email}
         users = User.query.filter_by(
             admin=True,
             currentmember=True,
-            Leader=False).all()
+            leader=False).all()
 
         with app.app_context():
             with mail.connect() as conn:
@@ -189,7 +189,7 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        users = User.query.filter_by(currentmember=True, Leader=True).all()
+        users = User.query.filter_by(currentmember=True, leader=True).all()
 
         with app.app_context():
             with mail.connect() as conn:
@@ -1115,7 +1115,7 @@ Location: {form.location.data}
                 '''
 
                 users = User.query.filter_by(
-                    currentmember=True, Leader=False).all()
+                    currentmember=True, leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
@@ -1532,7 +1532,7 @@ Description: {form.description.data}
                 '''
 
                 users = User.query.filter_by(
-                    currentmember=True, Leader=False).all()
+                    currentmember=True, leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
@@ -2324,7 +2324,7 @@ Check out the event here: LINK
                 '''
 
                 users = User.query.filter_by(
-                    currentmember=True, Leader=False).all()
+                    currentmember=True, leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
@@ -2469,7 +2469,7 @@ Check out the event here: LINK
                 '''
 
                 users = User.query.filter_by(
-                    currentmember=True, Leader=False).all()
+                    currentmember=True, leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
@@ -2878,7 +2878,7 @@ Check out the meeting here: LINK
                 '''
 
                 users = User.query.filter_by(
-                    currentmember=True, Leader=False).all()
+                    currentmember=True, leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
@@ -3024,7 +3024,7 @@ Check out the meeting here: LINK
                 '''
 
                 users = User.query.filter_by(
-                    currentmember=True, Leader=False).all()
+                    currentmember=True, leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
