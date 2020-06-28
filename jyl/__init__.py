@@ -13,6 +13,7 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
+
 # Create Database object from brcrypt object
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
