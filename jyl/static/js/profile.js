@@ -1,5 +1,5 @@
 window.onload = function profileCircle() {
-    var values = document.getElementsById('hours');
+    var values = document.getElementById('hours');
     var number = parseInt(values.value);
     var redNum = 0;
     var greenNum = 0;
