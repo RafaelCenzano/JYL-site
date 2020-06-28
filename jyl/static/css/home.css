@@ -116,3 +116,41 @@ canvas {
     }
 
 }
+
+.homewrapper {
+    background-color: #83868a;
+    color: #ddd;
+    width: 60%;
+}
+
+.homewrapper.light {
+    color: #000;
+    background-color: #b4b8bd;
+}
+
+.homewrapper p {
+    text-align: center;
+    max-width: 85%;
+    color: #ddd;
+}
+
+.homewrapper.light p {
+    color: #000;
+}
+
+.homewrapper img {
+    width: 90%;
+    max-width: 500px;
+    fill: #fff;
+    margin-bottom: 15px;
+}
+
+.homewrapper.light img {
+    fill: #000;
+}
+
+@media (max-width: 900px){
+    .homewrapper {
+        width: 80%;
+    }
+}
