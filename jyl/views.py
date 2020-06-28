@@ -1087,7 +1087,7 @@ def eventCreation():
             db.session.commit()
 
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                date = form.starttime.data.strftime('%B %-d, %Y at %-I:%-M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
                 html = f'''
@@ -2288,7 +2288,7 @@ def eventEdit(eventId):
             db.session.commit()
 
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                date = form.starttime.data.strftime('%B %-d, %Y at %-I:%-M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
                 html = f'''
@@ -2433,7 +2433,7 @@ def eventEdit2(eventId):
             db.session.commit()
 
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                date = form.starttime.data.strftime('%B %-d, %Y at %-I:%-M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
                 html = f'''
@@ -2841,8 +2841,8 @@ def meetingEdit(meetingId):
             db.session.commit()
 
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y')
-                dateFull = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                date = form.starttime.data.strftime('%B %-d, %Y')
+                dateFull = form.starttime.data.strftime('%B %-d, %Y at %-I:%-M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
                 html = f'''
@@ -2987,8 +2987,8 @@ def meetingEdit1(meetingId):
             db.session.commit()
 
             if form.email.data:
-                date = form.start.data.strftime('%B %-d, %Y')
-                dateFull = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                date = form.starttime.data.strftime('%B %-d, %Y')
+                dateFull = form.starttime.data.strftime('%B %-d, %Y at %-I:%-M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
                 html = f'''
