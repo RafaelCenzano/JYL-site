@@ -24,9 +24,9 @@
             <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
             {% endif %}
                 <li>
-                    <h3>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h3>
-                    {% if people.leader %}<h4>Leader</h4>{% endif %}
-                    {% if people.admin %}<h4>Admin</h4>{% endif %}
+                    <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
+                    {% if people.leader %}<h3>Leader</h3>{% endif %}
+                    {% if people.admin %}<h3>Admin</h3>{% endif %}
                 </li>
             </a>
             {% endfor %}
