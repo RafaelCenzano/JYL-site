@@ -154,6 +154,7 @@ canvas {
 }
 
 .homewrapper svg g path {
+    transition-duration: 0.4s;
     fill: #ddd;
 }
 
