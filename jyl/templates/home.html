@@ -4,6 +4,9 @@
 
 {% block head_css %}
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/home.css') }}">
+{% if current_user.is_authenticated %}
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/list.css') }}">
+{% endif %}
 {% endblock %}
 
 {% block content %}
