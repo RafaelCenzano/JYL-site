@@ -103,7 +103,6 @@
     </div>
     <div class="form-group">
     {{ form.phone.label(class="form-label-css") }}
-    <span id="required5" class="required">*required</span>
     <br>
     {% if form.phone.errors %}
         {{ form.phone(class="form-control form-control-lg is-invalid") }}
@@ -160,6 +159,5 @@ jsRequired(document.getElementById('email'), document.getElementById('required1'
 jsRequired(document.getElementById('school'), document.getElementById('required2'));
 jsRequired(document.getElementById('grade'), document.getElementById('required3'));
 jsRequired(document.getElementById('address'), document.getElementById('required4'));
-jsRequired(document.getElementById('phone'), document.getElementById('required5'));
 </script>
 {% endblock %}
