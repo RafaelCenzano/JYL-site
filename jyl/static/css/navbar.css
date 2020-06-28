@@ -13,7 +13,8 @@
     background-color: #c9ced6;
 }
 
-.sidebar a {
+.sidebar a,
+.sidebar a:visited {
     display: block;
     color: #0bc530;
     padding: 16px;
@@ -23,7 +24,8 @@
     transition-duration: 0.4s;
 }
 
-.sidebar.light a {
+.sidebar.light a,
+.sidebar.light a:visited {
     color: #0c5dc5;
 }
 
