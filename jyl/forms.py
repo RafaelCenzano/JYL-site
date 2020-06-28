@@ -50,8 +50,8 @@ class UserRequestForm(FlaskForm):
         validators=[
             DataRequired(),
             Length(
-                max=1000,
-                message='Message must be 1000 characters or less')])
+                max=500,
+                message='Message must be 500 characters or less')])
     submit = SubmitField('Submit')
 
 
