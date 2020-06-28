@@ -6,7 +6,7 @@ from datetime import datetime
 from jyl.models import *
 from flask import url_for
 from pytz import timezone
-from jyl import db
+from jyl import db, mail
 
 
 pacific = timezone('US/Pacific')

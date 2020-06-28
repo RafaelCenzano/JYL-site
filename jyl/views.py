@@ -1,5 +1,5 @@
 import re
-from jyl import app, db, bcrypt
+from jyl import app, db, bcrypt, mail
 from pytz import timezone
 from flask import render_template, redirect, url_for, request, flash, make_response, send_file, abort
 from random import randint
