@@ -34,12 +34,20 @@ p.light,
     text-decoration: underline;
 }
 
-.name {
+.name,
+.name a,
+.name a:visited,
+.name a:hover,
+.name a:visited:hover {
     font-size: 50px;
     color: #d0d0d0;
 }
 
-.name.light {
+.name.light,
+.name.light a,
+.name.light a:visited,
+.name.light a:hover,
+.name.light a:visited:hover {
     color: rgb(30, 30, 30);
 }
 
