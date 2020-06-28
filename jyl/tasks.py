@@ -85,15 +85,16 @@ Checkout the meeting here!
 Update email notifications (#settings)
                     '''
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            if user.meetingAlertthreeday:
-                                msg = Message('Meeting in 1 week! - JYL Toolbox',
-                                  recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                if user.meetingAlertthreeday:
+                                    msg = Message('Meeting in 1 week! - JYL Toolbox',
+                                      recipients=[user.email])
+                                    msg.body = text
+                                    msg.html = html
 
-                                conn.send(msg)
+                                    conn.send(msg)
 
                     meeting.alertoneweek = True
                     db.session.commit()
@@ -131,15 +132,16 @@ Checkout the meeting here!
 Update email notifications (#settings)
                     '''
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            if user.meetingAlertoneweek:
-                                msg = Message('Meeting in 3 days! - JYL Toolbox',
-                                  recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                if user.meetingAlertoneweek:
+                                    msg = Message('Meeting in 3 days! - JYL Toolbox',
+                                      recipients=[user.email])
+                                    msg.body = text
+                                    msg.html = html
 
-                                conn.send(msg)
+                                    conn.send(msg)
 
                     meeting.alertthreeday = True
                     db.session.commit()
@@ -177,15 +179,16 @@ Checkout the meeting here!
 Update email notifications (#settings)
                     '''
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            if user.meetingAlertoneday:
-                                msg = Message('Meeting in 1 day! - JYL Toolbox',
-                                  recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                if user.meetingAlertoneday:
+                                    msg = Message('Meeting in 1 day! - JYL Toolbox',
+                                      recipients=[user.email])
+                                    msg.body = text
+                                    msg.html = html
 
-                                conn.send(msg)
+                                    conn.send(msg)
 
                     meeting.alertoneday = True
                     db.session.commit()
@@ -228,15 +231,16 @@ Checkout the event here!
 Update email notifications (#settings)
                     '''
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            if user.eventAlertoneweek:
-                                msg = Message(f'{event.name} in 1 week! - JYL Toolbox',
-                                  recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                if user.eventAlertoneweek:
+                                    msg = Message(f'{event.name} in 1 week! - JYL Toolbox',
+                                      recipients=[user.email])
+                                    msg.body = text
+                                    msg.html = html
 
-                                conn.send(msg)
+                                    conn.send(msg)
 
                     event.alertoneweek = True
                     db.session.commit()
@@ -274,15 +278,16 @@ Checkout the event here!
 Update email notifications (#settings)
                     '''
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            if user.eventAlertoneweek:
-                                msg = Message(f'{event.name} in 3 days! - JYL Toolbox',
-                                  recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                if user.eventAlertoneweek:
+                                    msg = Message(f'{event.name} in 3 days! - JYL Toolbox',
+                                      recipients=[user.email])
+                                    msg.body = text
+                                    msg.html = html
 
-                                conn.send(msg)
+                                    conn.send(msg)
 
                     event.alertthreeday = True
                     db.session.commit()
@@ -320,15 +325,16 @@ Checkout the event here!
 Update email notifications (#settings)
                     '''
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            if user.eventAlertoneweek:
-                                msg = Message(f'{event.name} in 1 day! - JYL Toolbox',
-                                  recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                if user.eventAlertoneweek:
+                                    msg = Message(f'{event.name} in 1 day! - JYL Toolbox',
+                                      recipients=[user.email])
+                                    msg.body = text
+                                    msg.html = html
 
-                                conn.send(msg)
+                                    conn.send(msg)
 
                     event.alertoneday = True
                     db.session.commit()
