@@ -148,22 +148,18 @@ li p {
 
 .accept {
     background-color: #03a020;
-    color: #ddd;
 }
 
 .deny {
     background-color: #dc0000;
-    color: #ddd;
 }
 
 .accept.light {
     background-color: #00bf24;
-    color: #000;
 }
 
 .deny.light {
     background-color: #ff0000;
-    color: #000;
 }
 
 li span {
