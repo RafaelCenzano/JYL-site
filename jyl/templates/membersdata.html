@@ -41,7 +41,7 @@
         <tr>
             <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.lastname }}</a></td>
             <td><a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }}</a></td>
-            <td><a href="mailto:{{ user.emails }}">{{ user.email }}</a></td>
+            <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
             <td>{% if user.numberphone %}({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}{% else %}Not Found{% endif %}</td>
             <td>{% if user.address %}<a href="https://www.google.com/maps/place/{{ user.address.replace(' ', '+') }}" target="_blank">{{ user.address }}</a>{% else %}Not Found{% endif %}</td>
             <td>{{ user.school }}</td>
