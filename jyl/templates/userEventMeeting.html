@@ -24,7 +24,7 @@
     </div>
     <div class="column">
         <h4 class="desc">{% if oldCheck == False %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
-        <div class="eventmeeting lrg"><h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}{{ currentHours }}{% endif %} hrs</h4></div>
+        {% if oldCheck %}<div class="eventmeeting lrg">{% else %}<div class="hours lrg">{% endif %}<h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}<span id="hours">{{ currentHours }}</span>{% endif %} hrs</h4></div>
         {% if oldCheck %}
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
         {% endif %}
@@ -72,11 +72,11 @@
             </a>
             {% endfor %}
             {% else %}
-            <li>
+            <li class="non-hover">
                 {% if oldCheck %}
-                <h4 class="non-hover">{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any {% if event %}event{% else %}meeting{% endif %}s yet</h4>
+                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} hasn't attended any {% if event %}event{% else %}meeting{% endif %}s yet</h4>
                 {% else %}
-                <h4 class="non-hover">{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} doesn't have old {% if event %}event{% else %}meeting{% endif %}s yet</h4>
+                <h4>{% if user.nicknameapprove %}{{ user.nickname}}{% else %}{{ user.firstname }} {{ user.lastname }}{% endif %} doesn't have old {% if event %}event{% else %}meeting{% endif %}s yet</h4>
                 {% endif %}
             </li>
             {% endif %}
@@ -97,5 +97,11 @@
         </a>
     </div>
 </div>
+{% endif %}
+{% endblock %}
+
+{% block trailing_js %}
+{% if not oldCheck %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endif %}
 {% endblock %}

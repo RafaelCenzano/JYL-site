@@ -1,6 +1,6 @@
 window.onload = function profileCircle() {
-    var values = document.getElementsByClassName('hours');
-    var number = parseInt(values[0].textContent);
+    var values = document.getElementsById('hours');
+    var number = parseInt(values.value);
     var redNum = 0;
     var greenNum = 0;
     var blueNum = 0;
