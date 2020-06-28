@@ -1603,6 +1603,8 @@ def userEdit(userId):
 
         form = CreateUser()
 
+        form.email.data = user.email
+
         if form.validate_on_submit():
 
             if form.address.data == '':
@@ -1624,7 +1626,7 @@ def userEdit(userId):
                         'Phone number must 10 digits long and only contain numbers',
                         'warning')
                     form.phone.data = ''
-                    return render_template('userCreate.html', form=form, user=user)
+                    return render_template('userEdit.html', form=form, user=user)
 
             user.firstname = form.first.data
             user.lastname = form.last.data
