@@ -24,7 +24,7 @@
     </div>
     <div class="column">
         <h4 class="desc">{% if not oldCheck %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
-        {% if oldCheck %}<div class="houts lrg">{% else %}<div class="eventmeeting lrg">{% endif %}<h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}{{ currentHours }}{% endif %} hrs</h4></div>
+        {% if oldCheck %}<div class="hours lrg">{% else %}<div class="eventmeeting lrg">{% endif %}<h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}{{ currentHours }}{% endif %} hrs</h4></div>
         {% if oldCheck %}
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
         {% endif %}
