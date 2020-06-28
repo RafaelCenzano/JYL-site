@@ -71,13 +71,16 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        users = User.query.filter_by(admin=True, currentmember=True, leader=False).all()
+        users = User.query.filter_by(
+            admin=True,
+            currentmember=True,
+            leader=False).all()
 
         with app.app_context():
             with mail.connect() as conn:
                 for user in users:
                     msg = Message('Bug Report - JYL Toolbox',
-                      recipients=[user.email])
+                                  recipients=[user.email])
                     msg.body = text
                     msg.html = html
 
@@ -126,13 +129,16 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        users = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
+        users = User.query.filter_by(
+            admin=True,
+            currentmember=True,
+            Leader=False).all()
 
         with app.app_context():
             with mail.connect() as conn:
                 for user in users:
                     msg = Message('Feature Request - JYL Toolbox',
-                      recipients=[user.email])
+                                  recipients=[user.email])
                     msg.body = text
                     msg.html = html
 
@@ -185,11 +191,11 @@ Email: {current_user.email}
 
         users = User.query.filter_by(currentmember=True, Leader=True).all()
 
-        with app.app_context():    
+        with app.app_context():
             with mail.connect() as conn:
                 for user in users:
                     msg = Message('Help Request - JYL Toolbox',
-                      recipients=[user.email])
+                                  recipients=[user.email])
                     msg.body = text
                     msg.html = html
 
@@ -295,7 +301,12 @@ def profile(num, first, last):
 
     if checkUser.leader:
 
-        return redirect(url_for('profileLeader', num=num, first=first, last=last))
+        return redirect(
+            url_for(
+                'profileLeader',
+                num=num,
+                first=first,
+                last=last))
 
     page = make_response(render_template(
         'profile.html',
@@ -344,7 +355,10 @@ def profileLeader(num, first, last):
         num = repr(num)
         page.set_cookie('current', 'profileLeader', max_age=SECONDS_IN_YEAR)
         page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
-        page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
+        page.set_cookie(
+            'profile-first-current',
+            first,
+            max_age=SECONDS_IN_YEAR)
         page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
         page.set_cookie(
             'profile-type-current',
@@ -619,16 +633,17 @@ def meetingReview(idOfMeeting):
         return sendoff('index')
 
     if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
-        
+
         flash('Meeting hasn\'t occured yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    checkUserMeeting = UserMeeting.query.filter_by(userid=current_user.id, meetingid=idOfMeeting).first()
+    checkUserMeeting = UserMeeting.query.filter_by(
+        userid=current_user.id, meetingid=idOfMeeting).first()
 
     form = CreateReview()
 
     if form.validate_on_submit():
-        
+
         happy = False
         meh = False
         sad = False
@@ -672,7 +687,17 @@ def meetingReview(idOfMeeting):
 
     eventMeeting = eventMeetingProccessing(checkMeeting, True)
 
-    page = make_response(render_template('eventMeetingReview.html', form=form, edit=False, meeting=True, eventMeeting=checkMeeting, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkMeeting.hourcount)))
+    page = make_response(
+        render_template(
+            'eventMeetingReview.html',
+            form=form,
+            edit=False,
+            meeting=True,
+            eventMeeting=checkMeeting,
+            eventMeetingData=eventMeeting,
+            desc=desc,
+            hourcount=cleanValue(
+                checkMeeting.hourcount)))
     page = cookieSwitch(page)
     return page
 
@@ -689,11 +714,12 @@ def meetingReviewEdit(idOfMeeting):
         return sendoff('index')
 
     if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
-        
+
         flash('Meeting hasn\'t occured yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    checkUserMeeting = UserMeeting.query.filter_by(userid=current_user.id, meetingid=idOfMeeting).first()
+    checkUserMeeting = UserMeeting.query.filter_by(
+        userid=current_user.id, meetingid=idOfMeeting).first()
 
     form = CreateReview()
 
@@ -701,7 +727,7 @@ def meetingReviewEdit(idOfMeeting):
 
         currentHappy = checkUserMeeting.upvote
         currentMeh = checkUserMeeting.unsurevote
-        
+
         happy = False
         meh = False
         sad = False
@@ -736,7 +762,7 @@ def meetingReviewEdit(idOfMeeting):
 
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    if checkUserMeeting and checkUserMeeting.comment == None:
+    if checkUserMeeting and checkUserMeeting.comment is None:
 
         flash('You haven\'t written a review yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -757,7 +783,17 @@ def meetingReviewEdit(idOfMeeting):
             form.reaction.data = 'down'
         form.review.data = checkUserMeeting.comment
 
-        page = make_response(render_template('eventMeetingReview.html', form=form, edit=True, meeting=True, eventMeeting=checkMeeting, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkMeeting.hourcount)))
+        page = make_response(
+            render_template(
+                'eventMeetingReview.html',
+                form=form,
+                edit=True,
+                meeting=True,
+                eventMeeting=checkMeeting,
+                eventMeetingData=eventMeeting,
+                desc=desc,
+                hourcount=cleanValue(
+                    checkMeeting.hourcount)))
         page = cookieSwitch(page)
         return page
 
@@ -777,13 +813,14 @@ def meetingReviewDelete(idOfMeeting):
         return sendoff('index')
 
     if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
-        
+
         flash('Meeting hasn\'t occured yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    checkUserMeeting = UserMeeting.query.filter_by(userid=current_user.id, meetingid=idOfMeeting).first()
+    checkUserMeeting = UserMeeting.query.filter_by(
+        userid=current_user.id, meetingid=idOfMeeting).first()
 
-    if checkUserMeeting and checkUserMeeting.comment == None:
+    if checkUserMeeting and checkUserMeeting.comment is None:
 
         flash('You haven\'t written a review yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -812,11 +849,12 @@ def meetingReviewDelete(idOfMeeting):
             form.password.data = ''
 
         date = checkMeeting.start.strftime('%B %-d, %Y')
-        page = make_response(render_template(
-            'passwordConfirm.html',
-            form=form,
-            title='Delete Review',
-            message=f'Enter your password to delete your review for the meeting {date}'))
+        page = make_response(
+            render_template(
+                'passwordConfirm.html',
+                form=form,
+                title='Delete Review',
+                message=f'Enter your password to delete your review for the meeting {date}'))
         page = cookieSwitch(page)
         return page
 
@@ -996,7 +1034,7 @@ For security reasons, you should reset your password since this was a temporary 
 
                 with app.app_context():
                     msg = Message('New User - JYL Toolbox',
-                      recipients=[form.email.data])
+                                  recipients=[form.email.data])
                     msg.body = text
                     msg.html = html
                     mail.send(msg)
@@ -1078,13 +1116,14 @@ Location: {form.location.data}
 - JYL Toolbox
                     '''
 
-                    users = User.query.filter_by(currentmember=True, Leader=False).all()
+                    users = User.query.filter_by(
+                        currentmember=True, Leader=False).all()
 
                     with app.app_context():
                         with mail.connect() as conn:
                             for user in users:
                                 msg = Message('New Event - JYL Toolbox',
-                                  recipients=[user.email])
+                                              recipients=[user.email])
                                 msg.body = text
                                 msg.html = html
 
@@ -1452,10 +1491,10 @@ def meetingCreate():
             if form.endtime.data <= form.starttime.data:
                 flash('Endtime must be after starttime', 'error')
                 return render_template(
-                            'eventMeetingForm.html',
-                            form=form,
-                            meeting=True,
-                            edit=False)
+                    'eventMeetingForm.html',
+                    form=form,
+                    meeting=True,
+                    edit=False)
 
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
@@ -1499,13 +1538,14 @@ Description: {form.description.data}
 - JYL Toolbox
                 '''
 
-                users = User.query.filter_by(currentmember=True, Leader=False).all()
+                users = User.query.filter_by(
+                    currentmember=True, Leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
                             msg = Message('New Event - JYL Toolbox',
-                              recipients=[user.email])
+                                          recipients=[user.email])
                             msg.body = text
                             msg.html = html
 
@@ -1623,7 +1663,11 @@ def userEdit(userId):
         form.leader.data = user.leader
         form.admin.data = user.admin
 
-        page = make_response(render_template('userEdit.html', form=form, user=user))
+        page = make_response(
+            render_template(
+                'userEdit.html',
+                form=form,
+                user=user))
         page = cookieSwitch(page)
         return page
 
@@ -1990,12 +2034,12 @@ def removeNickname(userId):
     return sendoff('index')
 
 
-@app.route('/changeyear', methods=['GET','POST'])
+@app.route('/changeyear', methods=['GET', 'POST'])
 @login_required
 def changeYear():
 
     if current_user.leader:
-        
+
         form = ConfirmPasswordConfirm()
 
         if form.validate_on_submit():
@@ -2007,7 +2051,11 @@ def changeYear():
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
-                newYearPush = YearAudit(leaderid=current_user.id, time=datetime.now(), confirmed=True, completed=False)
+                newYearPush = YearAudit(
+                    leaderid=current_user.id,
+                    time=datetime.now(),
+                    confirmed=True,
+                    completed=False)
                 db.session.add(newYearPush)
                 db.session.commit()
 
@@ -2035,13 +2083,14 @@ If you or any leaders want to cancel this process go here: LINK.
 - JYL Toolbox
                 '''
 
-                user = User.query.filter_by(currentmember=True, leader=True).all()
+                user = User.query.filter_by(
+                    currentmember=True, leader=True).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
                             msg = Message('New Proccess Started - JYL Toolbox',
-                              recipients=[user.email])
+                                          recipients=[user.email])
                             msg.body = text
                             msg.html = html
 
@@ -2078,7 +2127,7 @@ If you or any leaders want to cancel this process go here: LINK.
     return sendoff('index')
 
 
-@app.route('/changeyear/<int:changeyearId>/deny', methods=['GET','POST'])
+@app.route('/changeyear/<int:changeyearId>/deny', methods=['GET', 'POST'])
 @login_required
 def changeYearDeny(changeyearId):
 
@@ -2087,7 +2136,7 @@ def changeYearDeny(changeyearId):
         checkChangeYear = yearAudits.query.get(changeyearId)
 
         if checkChangeYear:
-            
+
             if checkChangeYear.completed:
 
                 flash('This has been executed already', 'error')
@@ -2136,13 +2185,16 @@ If you or any leaders want to create a new Change Year process go here: LINK.
 - JYL Toolbox
                     '''
 
-                    user = User.query.filter_by(currentmember=True, leader=True).all()
+                    user = User.query.filter_by(
+                        currentmember=True, leader=True).all()
 
                     with app.app_context():
                         with mail.connect() as conn:
                             for user in users:
-                                msg = Message('Change Year Proccess Canceled - JYL Toolbox',
-                                  recipients=[user.email])
+                                msg = Message(
+                                    'Change Year Proccess Canceled - JYL Toolbox',
+                                    recipients=[
+                                        user.email])
                                 msg.body = text
                                 msg.html = html
 
@@ -2278,13 +2330,16 @@ Check out the event here: LINK
 - JYL Toolbox
                 '''
 
-                users = User.query.filter_by(currentmember=True, Leader=False).all()
+                users = User.query.filter_by(
+                    currentmember=True, Leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
-                            msg = Message(f'Event {form.name.data} Changed - JYL Toolbox',
-                              recipients=[user.email])
+                            msg = Message(
+                                f'Event {form.name.data} Changed - JYL Toolbox',
+                                recipients=[
+                                    user.email])
                             msg.body = text
                             msg.html = html
 
@@ -2292,7 +2347,6 @@ Check out the event here: LINK
 
             flash('Event edited successfully!', 'success')
             return redirect(url_for('eventEditList'))
-
 
         form.name.data = checkEvent.name
         form.description.data = checkEvent.description
@@ -2421,13 +2475,16 @@ Check out the event here: LINK
 - JYL Toolbox
                 '''
 
-                users = User.query.filter_by(currentmember=True, Leader=False).all()
+                users = User.query.filter_by(
+                    currentmember=True, Leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
-                            msg = Message(f'Event {form.name.data} Changed - JYL Toolbox',
-                              recipients=[user.email])
+                            msg = Message(
+                                f'Event {form.name.data} Changed - JYL Toolbox',
+                                recipients=[
+                                    user.email])
                             msg.body = text
                             msg.html = html
 
@@ -2827,13 +2884,16 @@ Check out the meeting here: LINK
 - JYL Toolbox
                 '''
 
-                users = User.query.filter_by(currentmember=True, Leader=False).all()
+                users = User.query.filter_by(
+                    currentmember=True, Leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
-                            msg = Message(f'Meeting on {date} Changed - JYL Toolbox',
-                              recipients=[user.email])
+                            msg = Message(
+                                f'Meeting on {date} Changed - JYL Toolbox',
+                                recipients=[
+                                    user.email])
                             msg.body = text
                             msg.html = html
 
@@ -2880,7 +2940,8 @@ def meetingDelete(meetingId):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
-                meetings = UserMeeting.query.filter_by(meetingid=meetingId).all()
+                meetings = UserMeeting.query.filter_by(
+                    meetingid=meetingId).all()
 
                 for meeting in meetings:
                     db.session.delete(meeting)
@@ -2969,13 +3030,16 @@ Check out the meeting here: LINK
 - JYL Toolbox
                 '''
 
-                users = User.query.filter_by(currentmember=True, Leader=False).all()
+                users = User.query.filter_by(
+                    currentmember=True, Leader=False).all()
 
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
-                            msg = Message(f'Meeting on {date} Changed - JYL Toolbox',
-                              recipients=[user.email])
+                            msg = Message(
+                                f'Meeting on {date} Changed - JYL Toolbox',
+                                recipients=[
+                                    user.email])
                             msg.body = text
                             msg.html = html
 
@@ -3059,16 +3123,17 @@ def eventReview(idOfEvent):
         return sendoff('index')
 
     if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
-        
+
         flash('Event hasn\'t occured yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    checkUserEvent = UserEvent.query.filter_by(userid=current_user.id, eventid=idOfEvent).first()
+    checkUserEvent = UserEvent.query.filter_by(
+        userid=current_user.id, eventid=idOfEvent).first()
 
     form = CreateReview()
 
     if form.validate_on_submit():
-        
+
         happy = False
         meh = False
         sad = False
@@ -3112,7 +3177,17 @@ def eventReview(idOfEvent):
 
     eventMeeting = eventMeetingProccessing(checkEvent, False)
 
-    page = make_response(render_template('eventMeetingReview.html', form=form, edit=False, meeting=True, eventMeeting=checkEvent, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkEvent.hourcount)))
+    page = make_response(
+        render_template(
+            'eventMeetingReview.html',
+            form=form,
+            edit=False,
+            meeting=True,
+            eventMeeting=checkEvent,
+            eventMeetingData=eventMeeting,
+            desc=desc,
+            hourcount=cleanValue(
+                checkEvent.hourcount)))
     page = cookieSwitch(page)
     return page
 
@@ -3129,11 +3204,12 @@ def eventReviewEdit(idOfEvent):
         return sendoff('index')
 
     if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
-        
+
         flash('Event hasn\'t occured yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    checkUserEvent = UserEvent.query.filter_by(userid=current_user.id, eventid=idOfEvent).first()
+    checkUserEvent = UserEvent.query.filter_by(
+        userid=current_user.id, eventid=idOfEvent).first()
 
     form = CreateReview()
 
@@ -3141,7 +3217,7 @@ def eventReviewEdit(idOfEvent):
 
         currentHappy = checkUserEvent.upvote
         currentMeh = checkUserEvent.unsurevote
-        
+
         happy = False
         meh = False
         sad = False
@@ -3176,7 +3252,7 @@ def eventReviewEdit(idOfEvent):
 
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    if checkUserEvent and checkUserEvent.comment == None:
+    if checkUserEvent and checkUserEvent.comment is None:
 
         flash('You haven\'t written a review yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -3197,7 +3273,17 @@ def eventReviewEdit(idOfEvent):
             form.reaction.data = 'down'
         form.review.data = checkUserEvent.comment
 
-        page = make_response(render_template('eventMeetingReview.html', form=form, edit=True, meeting=True, eventMeeting=checkEvent, eventMeetingData=eventMeeting, desc=desc, hourcount=cleanValue(checkEvent.hourcount)))
+        page = make_response(
+            render_template(
+                'eventMeetingReview.html',
+                form=form,
+                edit=True,
+                meeting=True,
+                eventMeeting=checkEvent,
+                eventMeetingData=eventMeeting,
+                desc=desc,
+                hourcount=cleanValue(
+                    checkEvent.hourcount)))
         page = cookieSwitch(page)
         return page
 
@@ -3217,13 +3303,14 @@ def eventReviewDelete(idOfEvent):
         return sendoff('index')
 
     if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
-        
+
         flash('Event hasn\'t occured yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    checkUserEvent = UserEvent.query.filter_by(userid=current_user.id, eventid=idOfEvent).first()
+    checkUserEvent = UserEvent.query.filter_by(
+        userid=current_user.id, eventid=idOfEvent).first()
 
-    if checkUserEvent and checkUserEvent.comment == None:
+    if checkUserEvent and checkUserEvent.comment is None:
 
         flash('You haven\'t written a review yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -3252,11 +3339,12 @@ def eventReviewDelete(idOfEvent):
             form.password.data = ''
 
         date = checkEvent.start.strftime('%B %-d, %Y')
-        page = make_response(render_template(
-            'passwordConfirm.html',
-            form=form,
-            title='Delete Review',
-            message=f'Enter your password to delete your review for the event {checkEvent.name}: {date}'))
+        page = make_response(
+            render_template(
+                'passwordConfirm.html',
+                form=form,
+                title='Delete Review',
+                message=f'Enter your password to delete your review for the event {checkEvent.name}: {date}'))
         page = cookieSwitch(page)
         return page
 
@@ -3850,7 +3938,7 @@ Your reset link is here: {reset_url}. It will expire in 30 minutes.
 
             with app.app_context():
                 msg = Message('Password Reset - JYL Toolbox',
-                  recipients=[user.email])
+                              recipients=[user.email])
                 msg.body = text
                 msg.html = html
                 mail.send(msg)

@@ -168,7 +168,10 @@ class RequestNickname(FlaskForm):
 
 
 class CreateReview(FlaskForm):
-    reaction = RadioField('Label', choices=[('happy','description'),('meh','whatever'),('down','other')], validators=[DataRequired()])
+    reaction = RadioField(
+        'Label', choices=[
+            ('happy', 'description'), ('meh', 'whatever'), ('down', 'other')], validators=[
+            DataRequired()])
     review = TextAreaField(
         'Review',
         widget=TextArea(),
@@ -178,5 +181,3 @@ class CreateReview(FlaskForm):
                 max=500,
                 message='Description must be 500 characters or less')])
     submit = SubmitField('Submit')
-
-

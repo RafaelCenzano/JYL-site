@@ -23,7 +23,8 @@ def backgroundCheck():
 
     if audits:
         for audit in audits:
-            if (now - pacific.localize(audit.time)).days >= 7 and not audit.completed and audit.confirmed:
+            if (now - pacific.localize(audit.time)
+                ).days >= 7 and not audit.completed and audit.confirmed:
 
                 for meeting in meetings:
                     meeting.currentYear = False
@@ -53,8 +54,9 @@ def backgroundCheck():
             if meetingDate > now:
                 meetingDelta = (now - meetingDate).days
                 if meetingDelta == 7 and meeting.alertoneweek == False:
-                    
-                    meetingTime = meeting.start.strftime('%A %B %-d %Y at %-I:%-M %p')
+
+                    meetingTime = meeting.start.strftime(
+                        '%A %B %-d %Y at %-I:%-M %p')
                     meetingLocation = meeting.location.replace(' ', '+')
 
                     html = f'''
@@ -89,8 +91,10 @@ Update email notifications (#settings)
                         with mail.connect() as conn:
                             for user in users:
                                 if user.meetingAlertthreeday:
-                                    msg = Message('Meeting in 1 week! - JYL Toolbox',
-                                      recipients=[user.email])
+                                    msg = Message(
+                                        'Meeting in 1 week! - JYL Toolbox',
+                                        recipients=[
+                                            user.email])
                                     msg.body = text
                                     msg.html = html
 
@@ -100,8 +104,9 @@ Update email notifications (#settings)
                     db.session.commit()
 
                 elif meetingDelta == 3 and meeting.alertthreeday == False:
-                    
-                    meetingTime = meeting.start.strftime('%A %B %-d %Y at %-I:%-M %p')
+
+                    meetingTime = meeting.start.strftime(
+                        '%A %B %-d %Y at %-I:%-M %p')
                     meetingLocation = meeting.location.replace(' ', '+')
 
                     html = f'''
@@ -136,8 +141,10 @@ Update email notifications (#settings)
                         with mail.connect() as conn:
                             for user in users:
                                 if user.meetingAlertoneweek:
-                                    msg = Message('Meeting in 3 days! - JYL Toolbox',
-                                      recipients=[user.email])
+                                    msg = Message(
+                                        'Meeting in 3 days! - JYL Toolbox',
+                                        recipients=[
+                                            user.email])
                                     msg.body = text
                                     msg.html = html
 
@@ -147,8 +154,9 @@ Update email notifications (#settings)
                     db.session.commit()
 
                 elif meetingDelta == 1 and meeting.alertoneday == False:
-                    
-                    meetingTime = meeting.start.strftime('%A %B %-d %Y at %-I:%-M %p')
+
+                    meetingTime = meeting.start.strftime(
+                        '%A %B %-d %Y at %-I:%-M %p')
                     meetingLocation = meeting.location.replace(' ', '+')
 
                     html = f'''
@@ -183,8 +191,10 @@ Update email notifications (#settings)
                         with mail.connect() as conn:
                             for user in users:
                                 if user.meetingAlertoneday:
-                                    msg = Message('Meeting in 1 day! - JYL Toolbox',
-                                      recipients=[user.email])
+                                    msg = Message(
+                                        'Meeting in 1 day! - JYL Toolbox',
+                                        recipients=[
+                                            user.email])
                                     msg.body = text
                                     msg.html = html
 
@@ -199,8 +209,9 @@ Update email notifications (#settings)
             if eventDate > now:
                 eventDelta = (now - eventDate).days
                 if eventDelta == 7 and event.alertoneweek == False:
-                    
-                    eventTime = event.start.strftime('%A %B %-d %Y at %-I:%-M %p')
+
+                    eventTime = event.start.strftime(
+                        '%A %B %-d %Y at %-I:%-M %p')
                     eventLocation = event.location.replace(' ', '+')
 
                     html = f'''
@@ -235,8 +246,10 @@ Update email notifications (#settings)
                         with mail.connect() as conn:
                             for user in users:
                                 if user.eventAlertoneweek:
-                                    msg = Message(f'{event.name} in 1 week! - JYL Toolbox',
-                                      recipients=[user.email])
+                                    msg = Message(
+                                        f'{event.name} in 1 week! - JYL Toolbox',
+                                        recipients=[
+                                            user.email])
                                     msg.body = text
                                     msg.html = html
 
@@ -246,8 +259,9 @@ Update email notifications (#settings)
                     db.session.commit()
 
                 elif eventDelta == 3 and event.alertthreeday == False:
-                    
-                    eventTime = event.start.strftime('%A %B %-d %Y at %-I:%-M %p')
+
+                    eventTime = event.start.strftime(
+                        '%A %B %-d %Y at %-I:%-M %p')
                     eventLocation = event.location.replace(' ', '+')
 
                     html = f'''
@@ -282,8 +296,10 @@ Update email notifications (#settings)
                         with mail.connect() as conn:
                             for user in users:
                                 if user.eventAlertoneweek:
-                                    msg = Message(f'{event.name} in 3 days! - JYL Toolbox',
-                                      recipients=[user.email])
+                                    msg = Message(
+                                        f'{event.name} in 3 days! - JYL Toolbox',
+                                        recipients=[
+                                            user.email])
                                     msg.body = text
                                     msg.html = html
 
@@ -293,8 +309,9 @@ Update email notifications (#settings)
                     db.session.commit()
 
                 elif eventDelta == 1 and event.alertoneday == False:
-                    
-                    eventTime = event.start.strftime('%A %B %-d %Y at %-I:%-M %p')
+
+                    eventTime = event.start.strftime(
+                        '%A %B %-d %Y at %-I:%-M %p')
                     eventLocation = event.location.replace(' ', '+')
 
                     html = f'''
@@ -329,8 +346,10 @@ Update email notifications (#settings)
                         with mail.connect() as conn:
                             for user in users:
                                 if user.eventAlertoneweek:
-                                    msg = Message(f'{event.name} in 1 day! - JYL Toolbox',
-                                      recipients=[user.email])
+                                    msg = Message(
+                                        f'{event.name} in 1 day! - JYL Toolbox',
+                                        recipients=[
+                                            user.email])
                                     msg.body = text
                                     msg.html = html
 
