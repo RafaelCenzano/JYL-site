@@ -1594,8 +1594,14 @@ def userEdit(userId):
 
     if current_user.leader:
 
-        form = CreateUser()
         user = User.query.get(userId)
+
+        if user is None:
+
+            flash('User doesn\'t exsist', 'error')
+            return sendoff('creation')
+
+        form = CreateUser()
 
         if form.validate_on_submit():
 
@@ -1618,7 +1624,7 @@ def userEdit(userId):
                         'Phone number must 10 digits long and only contain numbers',
                         'warning')
                     form.phone.data = ''
-                    return render_template('userCreate.html', form=form)
+                    return render_template('userCreate.html', form=form, user=user)
 
             user.firstname = form.first.data
             user.lastname = form.last.data
@@ -1634,7 +1640,7 @@ def userEdit(userId):
                 f'User edited successfully',
                 'success')
 
-            return(redirect(url_for('creation')))
+            return sendoff('creation')
 
         if user.address is None:
             address = ''
