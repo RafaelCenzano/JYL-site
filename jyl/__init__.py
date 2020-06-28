@@ -25,7 +25,7 @@ login_manager.login_message_category = 'warning'
 
 
 # Create mail object from flask app object
-#mail = Mail(app)
+mail = Mail(app)
 
 
 # importing all the models and initializing them
