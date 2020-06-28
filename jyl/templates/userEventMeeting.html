@@ -23,8 +23,8 @@
         {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
     </div>
     <div class="column">
-        <h4 class="desc">{% if oldCheck == False %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
-        {% if oldCheck %}<div class="eventmeeting lrg">{% else %}<div class="hours lrg">{% endif %}<h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}<span id="hours">{{ currentHours }}</span>{% endif %} hrs</h4></div>
+        <h4 class="desc">{% if not oldCheck %}Lifetime{% else %}Current{% endif %} {% if event %}Event{% else %}Meeting{% endif %} Hours:</h4>
+        {% if oldCheck %}<div class="houts lrg">{% else %}<div class="eventmeeting lrg">{% endif %}<h4>{% if oldCheck %}{{ lifetimeHours }}{% else %}<span id="hours">{{ currentHours }}</span>{% endif %} hrs</h4></div>
         {% if oldCheck %}
         <h4 class="desc">Lifetime {% if event %}Event{% else %}Meeting{% endif %} Hours: {{ lifetimeHours }}</h4>
         {% endif %}
@@ -101,7 +101,7 @@
 {% endblock %}
 
 {% block trailing_js %}
-{% if not oldCheck %}
+{% if oldCheck %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endif %}
 {% endblock %}
