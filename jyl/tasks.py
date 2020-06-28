@@ -67,6 +67,8 @@ def backgroundCheck():
 <p>Checkout the meeting <a href="#">here</a>!</p>
 
 <p>- <a href="#">JYL Toolbox</a></p>
+
+<a href="#">Update email notifications</a>
                     '''
 
                     text = f'''
@@ -79,22 +81,19 @@ It will be at {meeting.location} for {meeting.hourcount} hours.
 Checkout the meeting here!
 
 - JYL Toolbox
-                    '''
-                    recipients = []
-                    for user in users:
-                        if user.meetingAlertoneweek:
-                            recipients.append(user.email)
 
+Update email notifications (#settings)
                     '''
+
                     with mail.connect() as conn:
-                        for recipient in recipients:
-                            msg = Message('Meeting in 1 week! - JYL Toolbox',
-                              recipients=recipient)
-                            msg.body = text
-                            msg.html = html
+                        for user in users:
+                            if user.meetingAlertthreeday:
+                                msg = Message('Meeting in 1 week! - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
-                    '''
+                                conn.send(msg)
 
                     meeting.alertoneweek = True
                     db.session.commit()
@@ -114,6 +113,8 @@ Checkout the meeting here!
 <p>Checkout the meeting <a href="#">here</a>!</p>
 
 <p>- <a href="#">JYL Toolbox</a></p>
+
+<a href="#">Update email notifications</a>
                     '''
 
                     text = f'''
@@ -126,22 +127,19 @@ It will be at {meeting.location} for {meeting.hourcount} hours.
 Checkout the meeting here!
 
 - JYL Toolbox
-                    '''
-                    recipients = []
-                    for user in users:
-                        if user.meetingAlertthreeday:
-                            recipients.append(user.email)
 
+Update email notifications (#settings)
                     '''
+
                     with mail.connect() as conn:
-                        for recipient in recipients:
-                            msg = Message('Meeting in 3 days! - JYL Toolbox',
-                              recipients=recipient)
-                            msg.body = text
-                            msg.html = html
+                        for user in users:
+                            if user.meetingAlertoneweek:
+                                msg = Message('Meeting in 3 days! - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
-                    '''
+                                conn.send(msg)
 
                     meeting.alertthreeday = True
                     db.session.commit()
@@ -161,6 +159,8 @@ Checkout the meeting here!
 <p>Checkout the meeting <a href="#">here</a>!</p>
 
 <p>- <a href="#">JYL Toolbox</a></p>
+
+<a href="#">Update email notifications</a>
                     '''
 
                     text = f'''
@@ -173,22 +173,19 @@ It will be at {meeting.location} for {meeting.hourcount} hours.
 Checkout the meeting here!
 
 - JYL Toolbox
-                    '''
-                    recipients = []
-                    for user in users:
-                        if user.meetingAlertoneday:
-                            recipients.append(user.email)
 
+Update email notifications (#settings)
                     '''
+
                     with mail.connect() as conn:
-                        for recipient in recipients:
-                            msg = Message('Meeting in 3 days! - JYL Toolbox',
-                              recipients=recipient)
-                            msg.body = text
-                            msg.html = html
+                        for user in users:
+                            if user.meetingAlertoneday:
+                                msg = Message('Meeting in 1 day! - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
-                    '''
+                                conn.send(msg)
 
                     meeting.alertoneday = True
                     db.session.commit()
@@ -213,6 +210,8 @@ Checkout the meeting here!
 <p>Checkout the event <a href="#">here</a>!</p>
 
 <p>- <a href="#">JYL Toolbox</a></p>
+
+<a href="#">Update email notifications</a>
                     '''
 
                     text = f'''
@@ -225,22 +224,19 @@ It will be at {event.location} for {event.hourcount} hours.
 Checkout the event here!
 
 - JYL Toolbox
-                    '''
-                    recipients = []
-                    for user in users:
-                        if user.eventAlertoneweek:
-                            recipients.append(user.email)
 
+Update email notifications (#settings)
                     '''
+
                     with mail.connect() as conn:
-                        for recipient in recipients:
-                            msg = Message(f'{event.name} in 1 week! - JYL Toolbox',
-                              recipients=recipient)
-                            msg.body = text
-                            msg.html = html
+                        for user in users:
+                            if user.eventAlertoneweek:
+                                msg = Message(f'{event.name} in 1 week! - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
-                    '''
+                                conn.send(msg)
 
                     event.alertoneweek = True
                     db.session.commit()
@@ -260,6 +256,8 @@ Checkout the event here!
 <p>Checkout the event <a href="#">here</a>!</p>
 
 <p>- <a href="#">JYL Toolbox</a></p>
+
+<a href="#">Update email notifications</a>
                     '''
 
                     text = f'''
@@ -272,22 +270,19 @@ It will be at {event.location} for {event.hourcount} hours.
 Checkout the event here!
 
 - JYL Toolbox
-                    '''
-                    recipients = []
-                    for user in users:
-                        if user.eventAlertthreeday:
-                            recipients.append(user.email)
 
+Update email notifications (#settings)
                     '''
+
                     with mail.connect() as conn:
-                        for recipient in recipients:
-                            msg = Message(f'{event.name} in 3 days! - JYL Toolbox',
-                              recipients=recipient)
-                            msg.body = text
-                            msg.html = html
+                        for user in users:
+                            if user.eventAlertoneweek:
+                                msg = Message(f'{event.name} in 3 days! - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
-                    '''
+                                conn.send(msg)
 
                     event.alertthreeday = True
                     db.session.commit()
@@ -307,6 +302,8 @@ Checkout the event here!
 <p>Checkout the event <a href="#">here</a>!</p>
 
 <p>- <a href="#">JYL Toolbox</a></p>
+
+<a href="#">Update email notifications</a>
                     '''
 
                     text = f'''
@@ -319,22 +316,19 @@ It will be at {event.location} for {event.hourcount} hours.
 Checkout the event here!
 
 - JYL Toolbox
-                    '''
-                    recipients = []
-                    for user in users:
-                        if user.eventAlertoneday:
-                            recipients.append(user.email)
 
+Update email notifications (#settings)
                     '''
+
                     with mail.connect() as conn:
-                        for recipient in recipients:
-                            msg = Message(f'{event.name} in 3 days! - JYL Toolbox',
-                              recipients=recipient)
-                            msg.body = text
-                            msg.html = html
+                        for user in users:
+                            if user.eventAlertoneweek:
+                                msg = Message(f'{event.name} in 1 day! - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
-                    '''
+                                conn.send(msg)
 
                     event.alertoneday = True
                     db.session.commit()
@@ -345,7 +339,7 @@ scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
     func=backgroundCheck,
-    trigger=IntervalTrigger(minutes=5),
+    trigger=IntervalTrigger(minutes=60),
     id='background_check',
     name='Server Check',
     replace_existing=True)
