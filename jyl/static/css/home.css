@@ -124,6 +124,7 @@ canvas {
     color: #ddd;
     width: 70%;
     border-radius: 15px;
+    transition-duration: 0.4s;
 }
 
 .homewrapper.light {
@@ -136,6 +137,7 @@ canvas {
     max-width: 85%;
     color: #ddd;
     margin: 15px auto;
+    transition-duration: 0.4s;
 }
 
 .homewrapper.light p {
@@ -146,12 +148,36 @@ canvas {
     display: block;
     margin: 10px auto;
     width: 90%;
-    max-width: 500px;
+    max-width: 350px;
     fill: #fff;
+    transition-duration: 0.4s;
 }
 
 .homewrapper.light img {
     fill: #000;
+}
+
+.homewrapper a,
+.homewrapper a:visited {
+    color: #0bc530;
+    transition-duration: 0.4s;
+}
+
+.homewrapper.light a,
+.homewrapper.light a:visited {
+    color: #0c5dc5;
+}
+
+@media (min-width:900px) {
+    .homewrapper a:hover,
+    .homewrapper a:visited:hover {
+        color: #10ff02;
+    }
+
+    .homewrapper.light a:hover,
+    .homewrapper.light a:visited:hover {
+        color: #0070ff;
+    }
 }
 
 @media (max-width: 900px){
