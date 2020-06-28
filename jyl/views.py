@@ -3393,6 +3393,7 @@ def eventGoing(idOfEvent):
             downvote=False)
         db.session.add(userevent)
         db.session.commit()
+        flash('You have shown your interest in this event', 'success')
 
     return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
@@ -3486,6 +3487,7 @@ def meetingGoing(idOfMeeting):
             downvote=False)
         db.session.add(usermeeting)
         db.session.commit()
+        flash('You have shown your interest in this meeting', 'success')
 
     return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
