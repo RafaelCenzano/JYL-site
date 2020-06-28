@@ -144,13 +144,16 @@ canvas {
     color: #000;
 }
 
-path {
+svg {
     display: block;
     margin: 10px auto;
     width: 90%;
     max-width: 350px;
-    fill: #fff;
     transition-duration: 0.4s;
+}
+
+path {
+    fill: #ddd;
 }
 
 path.light {
