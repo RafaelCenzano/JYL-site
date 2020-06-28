@@ -48,8 +48,13 @@ p.light,
 }
 
 .subname {
+    color: #d0d0d0;
     margin-top: -15px;
     font-size: 25px;
+}
+
+.subname.light {
+    color: rgb(30, 30, 30);
 }
 
 .edit,
