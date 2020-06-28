@@ -1067,32 +1067,30 @@ def eventCreation():
 
         if form.validate_on_submit():
 
-            try:
+            length = round((form.endtime.data -
+                            form.starttime.data).total_seconds() / (60 * 60), 2)
+            newEvent = Event(
+                name=form.name.data,
+                start=form.starttime.data,
+                end=form.endtime.data,
+                hourcount=length,
+                description=form.description.data,
+                upvote=0,
+                unsurevote=0,
+                downvote=0,
+                location=form.location.data,
+                currentYear=True,
+                attendancecount=0,
+                attendancecheck=False)
 
-                length = round((form.endtime.data -
-                                form.starttime.data).total_seconds() / (60 * 60), 2)
-                newEvent = Event(
-                    name=form.name.data,
-                    start=form.starttime.data,
-                    end=form.endtime.data,
-                    hourcount=length,
-                    description=form.description.data,
-                    upvote=0,
-                    unsurevote=0,
-                    downvote=0,
-                    location=form.location.data,
-                    currentYear=True,
-                    attendancecount=0,
-                    attendancecheck=False)
+            db.session.add(newEvent)
+            db.session.commit()
 
-                db.session.add(newEvent)
-                db.session.commit()
+            if form.email.data:
+                date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
+                eventLocation = form.location.data.replace(' ', '+')
 
-                if form.email.data:
-                    date = form.start.data.strftime('%B %-d, %Y at %-I:%-M %p')
-                    eventLocation = form.location.data.replace(' ', '+')
-
-                    html = f'''
+                html = f'''
 <p>Hello,</p>
 
 <p>New event: {form.name.data} taking place on {date}.</p>
@@ -1102,9 +1100,9 @@ def eventCreation():
 <p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p></p>
 
 <p>- JYL Toolbox</p>
-                    '''
+                '''
 
-                    text = f'''
+                text = f'''
 Hello,
 
 New event: {form.name.data} taking place on {date}
@@ -1114,28 +1112,23 @@ Description: {form.description.data}
 Location: {form.location.data}
 
 - JYL Toolbox
-                    '''
+                '''
 
-                    users = User.query.filter_by(
-                        currentmember=True, Leader=False).all()
+                users = User.query.filter_by(
+                    currentmember=True, Leader=False).all()
 
-                    with app.app_context():
-                        with mail.connect() as conn:
-                            for user in users:
-                                msg = Message('New Event - JYL Toolbox',
-                                              recipients=[user.email])
-                                msg.body = text
-                                msg.html = html
+                with app.app_context():
+                    with mail.connect() as conn:
+                        for user in users:
+                            msg = Message('New Event - JYL Toolbox',
+                                          recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
 
-                                conn.send(msg)
+                            conn.send(msg)
 
-                flash(f'Event {form.name.data} created', 'success')
-                return redirect(url_for('creation'))
-
-            except BaseException as e:
-                flash(f'Event couldn\'t be created. Error: {e}', 'error')
-
-            return(url_for('creation'))
+            flash(f'Event {form.name.data} created', 'success')
+            return redirect(url_for('creation'))
 
         page = make_response(
             render_template(
