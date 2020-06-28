@@ -1,5 +1,10 @@
 .desc {
     font-size: 14px;
+    color: #ddd;
+}
+
+.desc.light {
+    color: #000;
 }
 
 .button,
