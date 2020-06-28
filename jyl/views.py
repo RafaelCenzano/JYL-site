@@ -73,14 +73,15 @@ Email: {current_user.email}
 
         users = User.query.filter_by(admin=True, currentmember=True, leader=False).all()
 
-        with mail.connect() as conn:
-            for user in users:
-                msg = Message('Bug Report - JYL Toolbox',
-                  recipients=[user.email])
-                msg.body = text
-                msg.html = html
+        with app.app_context():
+            with mail.connect() as conn:
+                for user in users:
+                    msg = Message('Bug Report - JYL Toolbox',
+                      recipients=[user.email])
+                    msg.body = text
+                    msg.html = html
 
-                conn.send(msg)
+                    conn.send(msg)
 
         flash('Your bug report has been submitted', 'info')
         return sendoff('index')
@@ -127,14 +128,15 @@ Email: {current_user.email}
 
         users = User.query.filter_by(admin=True, currentmember=True, Leader=False).all()
 
-        with mail.connect() as conn:
-            for user in users:
-                msg = Message('Feature Request - JYL Toolbox',
-                  recipients=[user.email])
-                msg.body = text
-                msg.html = html
+        with app.app_context():
+            with mail.connect() as conn:
+                for user in users:
+                    msg = Message('Feature Request - JYL Toolbox',
+                      recipients=[user.email])
+                    msg.body = text
+                    msg.html = html
 
-                conn.send(msg)
+                    conn.send(msg)
 
         flash('Your feature request has been submitted', 'info')
         return sendoff('index')
@@ -183,14 +185,15 @@ Email: {current_user.email}
 
         users = User.query.filter_by(currentmember=True, Leader=True).all()
 
-        with mail.connect() as conn:
-            for user in users:
-                msg = Message('Help Request - JYL Toolbox',
-                  recipients=[user.email])
-                msg.body = text
-                msg.html = html
+        with app.app_context():    
+            with mail.connect() as conn:
+                for user in users:
+                    msg = Message('Help Request - JYL Toolbox',
+                      recipients=[user.email])
+                    msg.body = text
+                    msg.html = html
 
-                conn.send(msg)
+                    conn.send(msg)
 
         flash('Your help request has been submitted', 'info')
         return sendoff('index')
@@ -991,17 +994,16 @@ For security reasons, you should reset your password since this was a temporary 
 - JYL Toolbox
                 '''
 
-                msg = Message('New User - JYL Toolbox',
-                  recipients=[form.email.data])
-                msg.body = text
-                msg.html = html
-                mail.send(msg)
+                with app.app_context():
+                    msg = Message('New User - JYL Toolbox',
+                      recipients=[form.email.data])
+                    msg.body = text
+                    msg.html = html
+                    mail.send(msg)
 
                 flash(
                     f'User created for {form.first.data} {form.last.data}',
                     'success')
-                
-                return html
 
             except BaseException as e:
                 flash(f'User couldn\'t be created. Error: {e}', 'error')
@@ -1078,14 +1080,15 @@ Location: {form.location.data}
 
                     users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message('New Event - JYL Toolbox',
-                              recipients=[user.email])
-                            msg.body = text
-                            msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                msg = Message('New Event - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
+                                conn.send(msg)
 
                 flash(f'Event {form.name.data} created', 'success')
                 return redirect(url_for('creation'))
@@ -1498,14 +1501,15 @@ Description: {form.description.data}
 
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                with mail.connect() as conn:
-                    for user in users:
-                        msg = Message('New Event - JYL Toolbox',
-                          recipients=[user.email])
-                        msg.body = text
-                        msg.html = html
+                with app.app_context():
+                    with mail.connect() as conn:
+                        for user in users:
+                            msg = Message('New Event - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
 
-                        conn.send(msg)
+                            conn.send(msg)
 
             meetingDate = form.starttime.data.strftime('%B %-d, %Y')
             flash(f'New meeting created for {meetingDate}', 'success')
@@ -2033,14 +2037,15 @@ If you or any leaders want to cancel this process go here: LINK.
 
                 user = User.query.filter_by(currentmember=True, leader=True).all()
 
-                with mail.connect() as conn:
-                    for user in users:
-                        msg = Message('New Proccess Started - JYL Toolbox',
-                          recipients=[user.email])
-                        msg.body = text
-                        msg.html = html
+                with app.app_context():
+                    with mail.connect() as conn:
+                        for user in users:
+                            msg = Message('New Proccess Started - JYL Toolbox',
+                              recipients=[user.email])
+                            msg.body = text
+                            msg.html = html
 
-                        conn.send(msg)
+                            conn.send(msg)
 
                 flash('Proccess initiated', 'success')
                 return sendoff('index')
@@ -2133,14 +2138,15 @@ If you or any leaders want to create a new Change Year process go here: LINK.
 
                     user = User.query.filter_by(currentmember=True, leader=True).all()
 
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message('Change Year Proccess Canceled - JYL Toolbox',
-                              recipients=[user.email])
-                            msg.body = text
-                            msg.html = html
+                    with app.app_context():
+                        with mail.connect() as conn:
+                            for user in users:
+                                msg = Message('Change Year Proccess Canceled - JYL Toolbox',
+                                  recipients=[user.email])
+                                msg.body = text
+                                msg.html = html
 
-                            conn.send(msg)
+                                conn.send(msg)
 
                     flash('Proccess initiated', 'success')
                     return sendoff('index')
@@ -2274,11 +2280,8 @@ Check out the event here: LINK
 
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                recipients = []
-                for user in users:
-                    recipients.append(user.email)
-
-                with mail.connect() as conn:
+                with app.app_context():
+                    with mail.connect() as conn:
                         for user in users:
                             msg = Message(f'Event {form.name.data} Changed - JYL Toolbox',
                               recipients=[user.email])
@@ -2420,11 +2423,8 @@ Check out the event here: LINK
 
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                recipients = []
-                for user in users:
-                    recipients.append(user.email)
-
-                with mail.connect() as conn:
+                with app.app_context():
+                    with mail.connect() as conn:
                         for user in users:
                             msg = Message(f'Event {form.name.data} Changed - JYL Toolbox',
                               recipients=[user.email])
@@ -2829,11 +2829,8 @@ Check out the meeting here: LINK
 
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                recipients = []
-                for user in users:
-                    recipients.append(user.email)
-
-                with mail.connect() as conn:
+                with app.app_context():
+                    with mail.connect() as conn:
                         for user in users:
                             msg = Message(f'Meeting on {date} Changed - JYL Toolbox',
                               recipients=[user.email])
@@ -2974,11 +2971,8 @@ Check out the meeting here: LINK
 
                 users = User.query.filter_by(currentmember=True, Leader=False).all()
 
-                recipients = []
-                for user in users:
-                    recipients.append(user.email)
-
-                with mail.connect() as conn:
+                with app.app_context():
+                    with mail.connect() as conn:
                         for user in users:
                             msg = Message(f'Meeting on {date} Changed - JYL Toolbox',
                               recipients=[user.email])
@@ -3854,11 +3848,12 @@ Your reset link is here: {reset_url}. It will expire in 30 minutes.
 - JYL Toolbox
             '''
 
-            msg = Message('Password Reset - JYL Toolbox',
-              recipients=[user.email])
-            msg.body = text
-            msg.html = html
-            mail.send(msg)
+            with app.app_context():
+                msg = Message('Password Reset - JYL Toolbox',
+                  recipients=[user.email])
+                msg.body = text
+                msg.html = html
+                mail.send(msg)
 
             flash(
                 f'An email has been sent to {form.email.data} with instructions to reset your password',
