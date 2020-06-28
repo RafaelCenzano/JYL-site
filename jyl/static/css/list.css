@@ -146,6 +146,13 @@ li p {
     color: #ddd;
 }
 
+.buttons a,
+.buttons a:visited,
+.buttons.light a,
+.buttons.light a:visited {
+    color: #ddd;
+}
+
 .accept {
     background-color: #03a020;
 }
