@@ -144,19 +144,20 @@ canvas {
     color: #000;
 }
 
-svg {
+.homewrapper svg {
     display: block;
     margin: 10px auto;
     width: 90%;
+    height: 90%;
     max-width: 350px;
     transition-duration: 0.4s;
 }
 
-path {
+.homewrapper svg g path {
     fill: #ddd;
 }
 
-path.light {
+.homewrapper.light svg g path {
     fill: #000;
 }
 
