@@ -113,6 +113,7 @@ p.light,
     margin-left: 4px;
 }
 
+.time,
 .description,
 .description a,
 .description a:visited,
@@ -123,6 +124,7 @@ p.light,
     transition-duration: 0.4s;
 }
 
+.time.light,
 .description.light,
 .description.light a,
 .description.light a:visited,
