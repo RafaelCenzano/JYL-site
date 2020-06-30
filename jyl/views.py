@@ -410,8 +410,8 @@ def profileMeeting(num, first, last):
         if pacific.localize(theMeeting.start) > now:
             meetingsGoing.append(theMeeting)
 
-    meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
-    meetingsGoing.sort(key=lambda meeting: meeting.start, reverse=True)
+    meetingsAttended.sort(key=lambda meeting: meeting.start)
+    meetingsGoing.sort(key=lambda meeting: meeting.start)
 
     page = make_response(render_template(
         'userEventMeeting.html',
@@ -466,7 +466,7 @@ def profileMeetingOld(num, first, last):
     for meetings in attended:
         meetingsAttended.append(Meeting.query.get(meetings.meetingid))
 
-    meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
+    meetingsAttended.sort(key=lambda meeting: meeting.start)
 
     page = make_response(render_template(
         'userEventMeeting.html',
@@ -536,8 +536,8 @@ def profileEvent(num, first, last):
         if pacific.localize(theEvent.start) > now:
             eventsGoing.append(theEvent)
 
-    eventsAttended.sort(key=lambda event: event.start, reverse=True)
-    eventsGoing.sort(key=lambda event: event.start, reverse=True)
+    eventsAttended.sort(key=lambda event: event.start)
+    eventsGoing.sort(key=lambda event: event.start)
 
     page = make_response(render_template(
         'userEventMeeting.html',
@@ -592,7 +592,7 @@ def profileEventOld(num, first, last):
     for events in attended:
         eventsAttended.append(Event.query.get(events.eventid))
 
-    eventsAttended.sort(key=lambda event: event.start, reverse=True)
+    eventsAttended.sort(key=lambda event: event.start)
 
     page = make_response(render_template(
         'userEventMeeting.html',
