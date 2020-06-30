@@ -327,7 +327,7 @@ form {
     font-size: 3rem;
 }
 
-.reactions label i {
+.reactions label svg {
     border: .25rem solid #347AB0;
     padding: 2px;
     border-radius: 50%;

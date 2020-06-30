@@ -51,7 +51,7 @@ p.light,
     color: rgb(30, 30, 30);
 }
 
-.name i {
+.name svg {
     margin-left: 4px;
 }
 
@@ -109,7 +109,7 @@ p.light,
     background: rgb(0, 255, 0);
 }
 
-.location i {
+.location svg {
     margin-left: 4px;
 }
 
@@ -161,8 +161,8 @@ p.light,
     transition-duration: 0.4s;
 }
 
-.editing a i,
-.editing a:visited i {
+.editing a svg,
+.editing a:visited svg {
     margin-left: 4px;
 }
 
