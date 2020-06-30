@@ -3,7 +3,9 @@
 <div class="sidebar">
     <a href="{{ url_for('index') }}"><i class="fas fa-home home"></i> Home</a>
     {% if current_user.is_authenticated %}
-    {% if not current_user.leader %}
+    {% if current_user.leader %}
+    <a href="{{ url_for('profileLeader', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-user-cog nav-icon"></i> {% if current_user.nicknameapprove %}{{ current_user.nickname }}{% else %}{{ current_user.firstname }} {{ current_user.lastname }}{% endif %}</a>
+    {% else %}
     <a href="{{ url_for('profile', num=current_user.namecount, first=current_user.firstname, last=current_user.lastname) }}"><i class="fas fa-user-cog nav-icon"></i> {% if current_user.nicknameapprove %}{{ current_user.nickname }}{% else %}{{ current_user.firstname }} {{ current_user.lastname }}{% endif %}</a>
     {% endif %}
     {% if current_user.admin %}
