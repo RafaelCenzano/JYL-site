@@ -1,3 +1,5 @@
+document.getElementById("ban").style.display = "none";
+
 function isDarkModeEnabled() {
     const siteThemeFromStorage = window.localStorage.getItem("site-theme");
     return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && (siteThemeFromStorage !== "light")) || siteThemeFromStorage === "dark";
@@ -62,12 +64,14 @@ function overrideTheme(button) {
     if (!isDarkModePreferred) {
         isDarkModePreferred = true;
         item.innerHTML = "Light Theme";
-        icon.className = "far fa-moon";
+        document.getElementById("fullmoon").style.display = "none";
+        document.getElementById("partmoon").style.display = "inline-block";
         switchTheme("dark");
     } else {
         isDarkModePreferred = false;
         item.innerHTML = "Dark Theme";
-        icon.className = "fas fa-moon";
+        document.getElementById("partmoon").style.display = "none";
+        document.getElementById("fullmoon").style.display = "inline-block";
         switchTheme("light");
     }
 }
@@ -79,10 +83,12 @@ let item = document.getElementById("switchtext");
 let icon = document.getElementById("icon");
 if (isDarkModePreferred) {
     item.innerHTML = "Light Theme";
-    icon.className = "far fa-moon";
+    document.getElementById("fullmoon").style.display = "none";
+    document.getElementById("partmoon").style.display = "inline-block";
 } else {
     item.innerHTML = "Dark Theme";
-    icon.className = "fas fa-moon";
+    document.getElementById("partmoon").style.display = "none";
+    document.getElementById("fullmoon").style.display = "inline-block";
 }
 themeButton.onclick = overrideTheme;
 overrideTheme.bind(themeButton);
