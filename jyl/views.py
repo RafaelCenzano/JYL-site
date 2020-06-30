@@ -1642,7 +1642,7 @@ def userEdit(userId):
                 f'User edited successfully',
                 'success')
 
-            return sendoff('creation')
+            return redirect(url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname))
 
         if user.address is None:
             address = ''
