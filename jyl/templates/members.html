@@ -17,37 +17,40 @@
 {% endif %}
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Current Members</h2></li>
-            {% for people in currentMembers %}
-            {% if people.leader %}
-            <a href="{{ url_for('profileLeader', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-            {% else %}
-            <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-            {% endif %}
-                <li>
-                    <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
-                    {% if people.leader %}<h3>Leader</h3>{% endif %}
-                    {% if people.admin %}<h3>Admin</h3>{% endif %}
-                </li>
-            </a>
-            {% endfor %}
+            <div>
+                {% for people in currentMembers %}
+                {% if people.leader %}
+                <a href="{{ url_for('profileLeader', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                {% else %}
+                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                {% endif %}
+                    <li>
+                        <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</h4>
+                        {% if people.leader %}<h3>Leader</h3>{% endif %}
+                        {% if people.admin %}<h3>Admin</h3>{% endif %}
+                    </li>
+                </a>
+                {% endfor %}
+            </div>
         </ul>
 {% if oldthings > 0 %}
     </div>
     <div class="column">
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Past Members</h2></li>
-            {% if people.leader %}
-            <a href="{{ url_for('profileLeader', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-            {% else %}
-            <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-            {% endif %}
-            {% for people in oldMembers %}
-                <li>
-                    <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}{% if people.leader %} - Leader{% endif %}{% if people.admin %} - Admin{% endif %}</h4>
-                }
-                </li>
-            </a>
-            {% endfor %}
+            <div>
+                {% if people.leader %}
+                <a href="{{ url_for('profileLeader', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                {% else %}
+                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                {% endif %}
+                {% for people in oldMembers %}
+                    <li>
+                        <h4>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}{% if people.leader %} - Leader{% endif %}{% if people.admin %} - Admin{% endif %}</h4>
+                    </li>
+                </a>
+                {% endfor %}
+            </div>
         </ul>
     </div>
 {% endif %}

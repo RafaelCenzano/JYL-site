@@ -51,13 +51,15 @@
             <li class="non-hover"><h2 class="profiletitle">Members Attended</h2></li>
             {% endif %}
             {% if eventMeetingData['users'] %}
-            {% for people in eventMeetingData['users'] %}
-            <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
-                <li>
-                    <p>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</p>
-                </li>
-            </a>
-            {% endfor %}
+            <div>
+                {% for people in eventMeetingData['users'] %}
+                <a href="{{ url_for('profile', num=people.namecount, first=people.firstname, last=people.lastname) }}">
+                    <li>
+                        <p>{% if people.nicknameapprove %}{{ people.nickname}}{% else %}{{ people.firstname }} {{ people.lastname }}{% endif %}</p>
+                    </li>
+                </a>
+                {% endfor %}
+            </div>
             {% else %}
             <li class="non-hover"><p>There are currently no members on this list</p></li>
             {% endif %}
@@ -89,34 +91,36 @@
             {% if eventMeetingData['userreview']|length > 0 and eventMeetingData['userReview'] or eventMeetingData['userAttended'] %}
             </a>
             {% endif %}
-            {% for i in range(reviewlen) %}
-            {% if current_user.id == eventMeetingData['userreview'][i].userid %}
-            {% if eventMeetingData['meeting'] %}<a href="#">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
-            {% elif eventMeetingData['userAttended'] %}
-            {% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingReview', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventReview', idOfEvent=eventMeeting.id) }}">{% endif %}
-            {% endif %}
-                <li class="non-hover">
-                    <p>
-                    {% if eventMeetingData['userreview'][i].upvote %}
-                    <i class="fas fa-smile-beam"></i>
-                    {% elif eventMeetingData['userreview'][i].downvote %}
-                    <i class="fas fa-frown"></i>
-                    {% else %}
-                    <i class="fas fa-meh"></i>
-                    {% endif %}
-                    {% if eventMeetingData['userreviewwho'][i].nicknameapprove %}
-                    {{ eventMeetingData['userreviewwho'][i].nickname}}: 
-                    {% else %}
-                    {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}: 
-                    {% endif %}
-                    {{ eventMeetingData['userreview'][i].comment }}
-                    {% if current_user.id == eventMeetingData['userreview'][i].userid %}<i class="far fa-edit"></i>{% endif %}
-                    </p>
-                </li>
-            {% if current_user.id == eventMeetingData['userreview'][i].userid or eventMeetingData['userAttended'] %}
-            </a>
-            {% endif %}
-            {% endfor %}
+            <div>
+                {% for i in range(reviewlen) %}
+                {% if current_user.id == eventMeetingData['userreview'][i].userid %}
+                {% if eventMeetingData['meeting'] %}<a href="#">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
+                {% elif eventMeetingData['userAttended'] %}
+                {% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingReview', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventReview', idOfEvent=eventMeeting.id) }}">{% endif %}
+                {% endif %}
+                    <li class="non-hover">
+                        <p>
+                        {% if eventMeetingData['userreview'][i].upvote %}
+                        <i class="fas fa-smile-beam"></i>
+                        {% elif eventMeetingData['userreview'][i].downvote %}
+                        <i class="fas fa-frown"></i>
+                        {% else %}
+                        <i class="fas fa-meh"></i>
+                        {% endif %}
+                        {% if eventMeetingData['userreviewwho'][i].nicknameapprove %}
+                        {{ eventMeetingData['userreviewwho'][i].nickname}}: 
+                        {% else %}
+                        {{ eventMeetingData['userreviewwho'][i].firstname }} {{ eventMeetingData['userreviewwho'][i].lastname }}: 
+                        {% endif %}
+                        {{ eventMeetingData['userreview'][i].comment }}
+                        {% if current_user.id == eventMeetingData['userreview'][i].userid %}<i class="far fa-edit"></i>{% endif %}
+                        </p>
+                    </li>
+                {% if current_user.id == eventMeetingData['userreview'][i].userid or eventMeetingData['userAttended'] %}
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
             {% endif %}
         </ul>
     </div>

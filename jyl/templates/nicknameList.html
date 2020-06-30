@@ -16,15 +16,17 @@
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Unapproved Nicknames</h2></li>
             {% if unapproved %}
+            <div>
             {% for user in unapproved %}
-            <li class="non-hover">
-                <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
-                <h3>Requested Nickname: {{ user.nickname }}</h3>
-                <p class="buttons"><a href="{{ url_for('approveNickname', userId=user.id) }}" class="accept">Accept <i class="fas fa-thumbs-up"></i></a><a href="{{ url_for('disapproveNickname', userId=user.id) }}" class="deny">Deny <i class="fas fa-thumbs-down"></i></a></p>
-            </li>
-            {% endfor %}
+                <li class="non-hover">
+                    <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
+                    <h3>Requested Nickname: {{ user.nickname }}</h3>
+                    <p class="buttons"><a href="{{ url_for('approveNickname', userId=user.id) }}" class="accept">Accept <i class="fas fa-thumbs-up"></i></a><a href="{{ url_for('disapproveNickname', userId=user.id) }}" class="deny">Deny <i class="fas fa-thumbs-down"></i></a></p>
+                </li>
+                {% endfor %}
+            </div>
             {% else %}
-            <li>
+            <li class="non-hover">
                 <h3>No nicknames were found</h3>
             </li>
             {% endif %}
@@ -34,13 +36,21 @@
     <div class="column">
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Approved Nicknames</h2></li>
-            {% for user in approved %}
+            {% if approved %}
+            <div>
+                {% for user in approved %}
+                <li class="non-hover">
+                    <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
+                    <h3>Current Nickname: {{ user.nickname }}</h3>
+                    <p class="buttons"><a href="{{ url_for('removeNickname', userId=user.id) }}" class="deny">Remove this nickname <i class="fas fa-ban"></i></a></p>
+                </li>
+                {% endfor %}
+            </div>
+            {% else %}
             <li class="non-hover">
-                <h3>Name: <a href="{{ url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname) }}">{{ user.firstname }} {{ user.lastname }}</a></h3>
-                <h3>Current Nickname: {{ user.nickname }}</h3>
-                <p class="buttons"><a href="{{ url_for('removeNickname', userId=user.id) }}" class="deny">Remove this nickname <i class="fas fa-ban"></i></a></p>
+                <h3>No nicknames were found</h3>
             </li>
-            {% endfor %}
+            {% endif %}
         </ul>
     </div>
 </div>

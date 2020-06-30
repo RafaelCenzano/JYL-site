@@ -17,6 +17,11 @@ ul.light {
     background-color: #b4b8bd;
 }
 
+ul div {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
 .column ul {
     margin: 20px auto;
 }

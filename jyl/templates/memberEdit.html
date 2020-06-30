@@ -12,13 +12,15 @@
 <div>
     <ul>
         <li class="non-hover"><h2 class="profiletitle">Members</h2></li>
-        {% for people in currentMembers %}
-        <a href="{{ url_for('userEdit', userId=people.id) }}">
-            <li>
-                <h3>{{ people.firstname }} {{ people.lastname }}</h3>
-            </li>
-        </a>
-        {% endfor %}
+        <div>
+            {% for people in currentMembers %}
+            <a href="{{ url_for('userEdit', userId=people.id) }}">
+                <li>
+                    <h3>{{ people.firstname }} {{ people.lastname }}</h3>
+                </li>
+            </a>
+            {% endfor %}
+        </div>
     </ul>
 </div>
 {% endblock %}

@@ -14,23 +14,25 @@
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Future {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
             {% if futureEventMeetings %}
-            {% for eventMeeting in futureEventMeetings %}
-            {% if meeting %}
-            <a href="{{ url_for('meetingEdit', meetingId=eventMeeting.id) }}">
-            {% else %}
-            <a href="{{ url_for('eventEdit', eventId=eventMeeting.id) }}">
-            {% endif %}
-                <li>
-                    {% if meeting %}
-                    <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
-                    {% else %}
-                    <h4>{{ eventMeeting.name }}</h4>
-                    <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
-                    {% endif %}
-                    <p>{{ eventMeeting.description }}</p>
-                </li>
-            </a>
-            {% endfor %}
+            <div>
+                {% for eventMeeting in futureEventMeetings %}
+                {% if meeting %}
+                <a href="{{ url_for('meetingEdit', meetingId=eventMeeting.id) }}">
+                {% else %}
+                <a href="{{ url_for('eventEdit', eventId=eventMeeting.id) }}">
+                {% endif %}
+                    <li>
+                        {% if meeting %}
+                        <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
+                        {% else %}
+                        <h4>{{ eventMeeting.name }}</h4>
+                        <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
+                        {% endif %}
+                        <p>{{ eventMeeting.description }}</p>
+                    </li>
+                </a>
+                {% endfor %}
+            </div>
             {% else %}
             <li>
                 <h4>No future {% if meeting %}meeting{% else %}event{% endif %}s</h4>
@@ -42,23 +44,25 @@
         <ul>
             <li class="non-hover"><h2 class="profiletitle">Past {% if meeting %}Meeting{% else %}Event{% endif %}s</h2></li>
             {% if pastEventMeetings %}
-            {% for eventMeeting in pastEventMeetings %}
-            {% if meeting %}
-            <a href="{{ url_for('meetingEdit', meetingId=eventMeeting.id) }}">
-            {% else %}
-            <a href="{{ url_for('eventEdit', eventId=eventMeeting.id) }}">
-            {% endif %}
-                <li>
-                    {% if meeting %}
-                    <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
-                    {% else %}
-                    <h4>{{ eventMeeting.name }}</h4>
-                    <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
-                    {% endif %}
-                    <p>{{ eventMeeting.description }}</p>
-                </li>
-            </a>
-            {% endfor %}
+            <div>
+                {% for eventMeeting in pastEventMeetings %}
+                {% if meeting %}
+                <a href="{{ url_for('meetingEdit', meetingId=eventMeeting.id) }}">
+                {% else %}
+                <a href="{{ url_for('eventEdit', eventId=eventMeeting.id) }}">
+                {% endif %}
+                    <li>
+                        {% if meeting %}
+                        <h4>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</h4>
+                        {% else %}
+                        <h4>{{ eventMeeting.name }}</h4>
+                        <p>{{ eventMeeting.start.strftime('%B %-d, %Y') }}</p>
+                        {% endif %}
+                        <p>{{ eventMeeting.description }}</p>
+                    </li>
+                </a>
+                {% endfor %}
+            </div>
             {% else %}
             <li>
                 <h4>No {% if meeting %}meeting{% else %}event{% endif %}s</h4>
