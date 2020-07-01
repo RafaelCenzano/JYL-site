@@ -222,6 +222,8 @@ Update email notifications (#settings)
             eventDate = pacific.localize(event.start)
             if eventDate > now:
                 eventDelta = (now - eventDate).days
+                print(eventDate)
+                print(eventDelta)
                 if eventDelta == 7 and event.alertoneweek == False:
 
                     eventTime = event.start.strftime(
@@ -357,9 +359,12 @@ Checkout the event here!
 
 Update email notifications (#settings)
                     '''
+                    print(text)
 
                     with app.app_context():
+                        print('app context')
                         with mail.connect() as conn:
+                            print('mail connect')
                             for user in users:
                                 if user.eventAlertoneweek:
                                     msg = Message(
@@ -368,6 +373,7 @@ Update email notifications (#settings)
                                             user.email])
                                     msg.body = text
                                     msg.html = html
+                                    print(f'sent to {user.email}')
 
                                     conn.send(msg)
 
