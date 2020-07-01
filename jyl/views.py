@@ -773,7 +773,7 @@ def meetingReviewEdit(idOfMeeting):
         for word in checkMeeting.description.split(' '):
             desc.append(linkFormatting(word))
 
-        eventMeeting = eventMeetingProccessing(checkMeeting, False)
+        eventMeeting = eventMeetingProccessing(checkMeeting, True)
 
         if checkUserMeeting.upvote:
             form.reaction.data = 'happy'
