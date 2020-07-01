@@ -12,7 +12,7 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "dark");
         window.localStorage.setItem("site-theme", "dark");
 
-        var all = document.body.getElementsByTagName("*");
+        var all = document.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             if (all[i] != null) {
                 var str = String(all[i].className)
@@ -25,7 +25,7 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
 
-        var all = document.body.getElementsByTagName("*");
+        var all = document.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             all[i].className += " light";
         }
