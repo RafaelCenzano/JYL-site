@@ -498,9 +498,8 @@ footer * {
     transition-duration: 0.4s;
 }
 
-footer ul {
-    background-color: #525252;
-    margin: 20px auto;
+footer .column {
+    margin: 20px 0;
 }
 
 footer.light,
