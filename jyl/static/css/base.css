@@ -238,6 +238,7 @@ svg g path {
 }
 
 * {
+    font-weight: 100;
     box-sizing: border-box;
 }
 

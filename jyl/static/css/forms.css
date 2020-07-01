@@ -37,6 +37,7 @@ form.light h3 {
 .form-group input,
 .form-group textarea {
     color: #ddd;
+    border: none;
 }
 
 #wordCount.light,
