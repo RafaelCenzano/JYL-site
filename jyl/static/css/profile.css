@@ -41,6 +41,7 @@ p.light,
 .name a:visited:hover {
     font-size: 50px;
     color: #d0d0d0;
+    margin: 0;
 }
 
 .name.light,
@@ -111,6 +112,10 @@ p.light,
 
 .location svg {
     margin-left: 4px;
+}
+
+.bio {
+    max-width: 80%;
 }
 
 .time,
