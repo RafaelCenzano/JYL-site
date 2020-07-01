@@ -4,6 +4,13 @@
 
 {% block head_css %}
 <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/profile.css') }}">
+<style>
+@media (min-width: 601px){
+    footer {
+        margin-top: -192px;
+    }
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -19,7 +26,7 @@
         <p>{% if user.grade > 12%}Graduated from {% else %}{{ user.grade }}th grader @ {% endif %}{{ user.school }}</p>
         {% if user.showemail %}<p>{{ user.email }}</p>{% endif %}
         {% if user.showphone and user.numberphone %}<p>({{ user.numberphone[:3] }}){{ user.numberphone[3:6] }}-{{ user.numberphone[6:] }}</p>{% endif %}
-        {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
+        {% if user.bio %}<p class="bio">{{ user.bio }}</p>{% endif %}
     </div>
     <div class="column">
         <h4 class="desc">Current Hours:</h4>
