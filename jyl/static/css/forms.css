@@ -226,9 +226,7 @@ form.light h3 {
     cursor: pointer;
 }
 
-
-/* Create a custom radio button */
-/*.radio {
+.radio {
     position: absolute;
     top: 0;
     left: 0;
@@ -236,32 +234,32 @@ form.light h3 {
     width: 25px;
     background-color: #dedede;
     border-radius: 50%;
-}*/
+}
 
 /* On mouse-over, add a grey background color */
-/*.container0:hover input ~ .radio {
+.container0:hover input ~ .radio {
     background-color: #bdbdbd;
-}*/
+}
 
 /* When the radio button is checked, add a blue background */
-/*.container0 input:checked ~ .radio {
+.container0 input:checked ~ .radio {
     background-color: #2196F3;
-}*/
+}
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
-/*.radio:after {
+.radio:after {
     content: "";
     position: absolute;
     display: none;
-}*/
+}
 
 /* Show the indicator (dot/circle) when checked */
-/*.container0 input:checked ~ .radio:after {
+.container0 input:checked ~ .radio:after {
     display: block;
-}*/
+}
 
 /* Style the indicator (dot/circle) */
-/*.container0 .radio:after {
+.container0 .radio:after {
     top: 9px;
     left: 9px;
     width: 8px;
@@ -269,7 +267,6 @@ form.light h3 {
     border-radius: 50%;
     background: white;
 }
-*/
 
 .form-group textarea {
     outline: none;
@@ -322,16 +319,6 @@ form {
 .reactions label {
     padding: 0;
     font-size: 5rem;
-}
-
-@media (min-width: 900px){
-    .reactions *:hover, input[type='radio']:checked + label{
-        background-color: #ddd;
-    }
-}
-
-.reactions input[type='radio'] {
-    display: none;
 }
 
 /*Details*/
