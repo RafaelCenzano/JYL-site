@@ -94,7 +94,7 @@
             <div>
                 {% for i in range(reviewlen) %}
                 {% if current_user.id == eventMeetingData['userreview'][i].userid %}
-                {% if eventMeetingData['meeting'] %}<a href="#">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
+                {% if eventMeetingData['meeting'] %}<a href="{{ url_for('meetingReviewEdit', idOfMeeting=eventMeeting.id) }}">{% else %}<a href="{{ url_for('eventReviewEdit', idOfEvent=eventMeeting.id) }}">{% endif %}
                 {% endif %}
                     {% if current_user.id == eventMeetingData['userreview'][i].userid %}
                     <li>
