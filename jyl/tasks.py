@@ -13,6 +13,7 @@ pacific = timezone('US/Pacific')
 
 
 def backgroundCheck():
+    print('Start background Checks')
     meetings = Meeting.query.filter_by(currentYear=True).all()
     events = Event.query.filter_by(currentYear=True).all()
     users = User.query.filter_by(currentmember=True, leader=False).all()
@@ -43,6 +44,17 @@ def backgroundCheck():
                     if user.grade > 12:
                         user.currentmember = False
                     user.ingroup = False
+                    db.session.commit()
+
+                usermeeting = UserMeeting.query.filter_by(currentYear=True).all()
+                userevent = UserEvent.query.filter_by(currentYear=True).all()
+
+                for item in usermeeting:
+                    item.currentYear = False
+                    db.session.commit()
+
+                for item in userevent:
+                    item.currentYear = False
                     db.session.commit()
 
                 audit.completed = True
@@ -203,6 +215,8 @@ Update email notifications (#settings)
                     meeting.alertoneday = True
                     db.session.commit()
 
+    print('here')
+
     if events:
         for event in events:
             eventDate = pacific.localize(event.start)
@@ -310,6 +324,8 @@ Update email notifications (#settings)
 
                 elif eventDelta == 1 and event.alertoneday == False:
 
+                    print('day1')
+
                     eventTime = event.start.strftime(
                         '%A %B %-d %Y at %-I:%-M %p')
                     eventLocation = event.location.replace(' ', '+')
@@ -354,6 +370,8 @@ Update email notifications (#settings)
                                     msg.html = html
 
                                     conn.send(msg)
+
+                    print('emailed')
 
                     event.alertoneday = True
                     db.session.commit()
