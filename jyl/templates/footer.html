@@ -2,34 +2,26 @@
     <div class="spacing">
         <div id="quickLinks">
             <div class="column">
-                <ul>
-                    <h5>Quick Links</h5>
-                    {% if current_user.is_authenticated %}
-                    <p><a href="{{ url_for('logout') }}">Logout</a></p>
-                    {% else %}
-                    <p><a href="{{ url_for('login') }}">Login</a></p>
-                    <p><a href="{{ url_for('reset_request') }}">Reset Password</a></p>
-                    {% endif %}
-                </ul>
+                <h5>Quick Links</h5>
+                {% if current_user.is_authenticated %}
+                <p><a href="{{ url_for('logout') }}">Logout</a></p>
+                {% else %}
+                <p><a href="{{ url_for('login') }}">Login</a></p>
+                <p><a href="{{ url_for('reset_request') }}">Reset Password</a></p>
+                {% endif %}
             </div>
             <div class="column">
-                <ul>
-                    <h5>Forms</h5>
-                    <p><a href="{{ url_for('bugreport') }}">Report Bugs</a></p>
-                    <p><a href="{{ url_for('featurerequest') }}">Feature Request</a></p>
-                </ul>
+                <h5>Forms</h5>
+                <p><a href="{{ url_for('bugreport') }}">Report Bugs</a></p>
+                <p><a href="{{ url_for('featurerequest') }}">Feature Request</a></p>
             </div>
             <div class="column">
-                <ul>
-                    <h5>Info</h5>
-                    <p><a rel="noopener" target="_blank" href="https://jcyc.org/jyl.htm">JYL Home page</a></p>
-                </ul>
+                <h5>Info</h5>
+                <p><a rel="noopener" target="_blank" href="https://jcyc.org/jyl.htm">JYL Home page</a></p>
             </div>
             <div class="column">
-                <ul>
-                    <h5>Policies</h5>
-                    <p><a href="{{ url_for('license') }}">Project License</a></p>
-                </ul>
+                <h5>Policies</h5>
+                <p><a href="{{ url_for('license') }}">Project License</a></p>
             </div>
         </div>
         <h4>© 2020 <a rel="noopener" target="_blank" href="https://jcyc.org">JCYC (JYL)</a> and <a rel="noopener" target="_blank" href="https://rafaelcenzano.com">Rafael Cenzano</a>. All Rights Reserved.</h4>
