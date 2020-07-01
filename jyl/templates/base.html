@@ -70,6 +70,25 @@
     <!-- JS -->
     {% block head_js %}
     {% endblock %}
+    <script type="text/javascript">
+function isDarkModeEnabled() {
+    const siteThemeFromStorage = window.localStorage.getItem("site-theme");
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && (siteThemeFromStorage !== "light")) || siteThemeFromStorage === "dark";
+}
+function switchTheme(theme) {
+    if (theme === "dark") {
+        var bodyElem = document.getElementsByTagName("body");
+        var str = String(bodyElem.className)
+        if (str.substring(str.length - 5, str.length) == 'light'){
+            bodyElem.className = str.substring(0, str.length - 6);
+        }
+    } else {
+        var bodyElem = document.getElementsByTagName("body");
+        bodyElem.className += " light";
+    }
+}
+switchTheme(isDarkModeEnabled() ? "dark" : "light");
+    </script>
     
 </head>
 <body>

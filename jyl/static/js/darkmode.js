@@ -12,7 +12,7 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "dark");
         window.localStorage.setItem("site-theme", "dark");
 
-        var all = document.getElementsByTagName("*");
+        var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             if (all[i] != null) {
                 var str = String(all[i].className)
@@ -29,27 +29,6 @@ function switchTheme(theme) {
         for (var i=0, max=all.length; i < max; i++) {
             all[i].className += " light";
         }
-    }
-}
-
-function switchThemeNormal(theme) {
-    if (theme === "dark") {    
-        var all = document.getElementsByTagName("*");
-        for (var i=0, max=all.length; i < max; i++) {
-            var str = String(all[i].className)
-            if (str.substring(str.length - 5, str.length) == 'light'){
-                all[i].className = str.substring(0, str.length - 6);
-            }
-        }
-        window.localStorage.setItem("site-theme", "dark");
-        document.documentElement.setAttribute("site-theme", "dark");
-    } else {
-        var all = document.getElementsByTagName("*");
-        for (var i=0, max=all.length; i < max; i++) {
-            all[i].className += " light";
-        }
-        window.localStorage.setItem("site-theme", "light");
-        document.documentElement.setAttribute("site-theme", "light");
     }
 }
 
@@ -71,7 +50,7 @@ function overrideTheme(button) {
     }
 }
 
-switchThemeNormal(isDarkModePreferred ? "dark" : "light");
+switchTheme(isDarkModePreferred ? "dark" : "light");
 
 const themeButton = document.getElementById('theme-btn');
 let item = document.getElementById("switchtext");
