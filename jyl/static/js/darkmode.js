@@ -25,7 +25,7 @@ function switchTheme(theme) {
         document.documentElement.setAttribute("site-theme", "light");
         window.localStorage.setItem("site-theme", "light");
 
-        var all = document.getElementsByTagName("*");
+        var all = document.body.getElementsByTagName("*");
         for (var i=0, max=all.length; i < max; i++) {
             all[i].className += " light";
         }
