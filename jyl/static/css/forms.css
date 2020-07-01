@@ -228,8 +228,8 @@ form.light h3 {
 
 .radio {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 20px;
+    left: 5px;
     height: 25px;
     width: 25px;
     background-color: #dedede;
@@ -317,8 +317,7 @@ form {
     }
 }
 .reactions label {
-    padding: 0;
-    font-size: 5rem;
+    font-size: 3rem;
 }
 
 /*Details*/
