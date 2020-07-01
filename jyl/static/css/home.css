@@ -153,6 +153,39 @@ canvas {
     transition-duration: 0.4s;
 }
 
+.homewrapper2 {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #83868a;
+    color: #ddd;
+    width: 70%;
+    border-radius: 15px;
+    transition-duration: 0.4s;
+    max-height: 50%;
+    max-width: 50%;
+}
+
+.homewrapper2 svg {
+    width: 100%;
+    height: 100%;
+}
+
+.homewrapper2 svg g .top {
+    fill: #fff;
+}
+
+.homewrapper2 svg g .bottom {
+    fill: #fff;
+}
+
+.homewrapper2 svg g .flower {
+    fill: #eb9534;
+}
+
+.homewrapper2 svg g .middle {
+    fill: #fff;
+}
+
 .homewrapper svg g path {
     transition-duration: 0.4s;
     fill: #ddd;
