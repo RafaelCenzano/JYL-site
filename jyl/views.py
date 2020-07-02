@@ -838,6 +838,13 @@ def meetingReviewDelete(idOfMeeting):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
+                if checkUserMeeting.upvote:
+                    checkMeeting.upvote -= 1
+                elif checkUserMeeting.unsurevote:
+                    checkMeeting.unsurevote -= 1
+                else:
+                    checkMeeting.downvote -= 1
+
                 checkUserMeeting.comment = None
                 checkUserMeeting.upvote = False
                 checkUserMeeting.unsurevote = False
@@ -3328,6 +3335,13 @@ def eventReviewDelete(idOfEvent):
                     (form.password.data +
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                if checkUserEvent.upvote:
+                    checkEvent.upvote -= 1
+                elif checkUserEvent.unsurevote:
+                    checkEvent.unsurevote -= 1
+                else:
+                    checkEvent.downvote -= 1
 
                 checkUserEvent.comment = None
                 checkUserEvent.upvote = False
