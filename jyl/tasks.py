@@ -27,38 +27,39 @@ def backgroundCheck():
             if (now - pacific.localize(audit.time)
                 ).days >= 7 and not audit.completed and audit.confirmed:
 
-                for meeting in meetings:
-                    meeting.currentYear = False
+                with app.app_context():
+                    for meeting in meetings:
+                        meeting.currentYear = False
+                        db.session.commit()
+
+                    for event in events:
+                        event.currentYear = False
+                        db.session.commit()
+
+                    for group in groups:
+                        group.currentYear = False
+                        db.session.commit()
+
+                    for user in users:
+                        user.grade += 1
+                        if user.grade > 12:
+                            user.currentmember = False
+                        user.ingroup = False
+                        db.session.commit()
+
+                    usermeeting = UserMeeting.query.filter_by(currentYear=True).all()
+                    userevent = UserEvent.query.filter_by(currentYear=True).all()
+
+                    for item in usermeeting:
+                        item.currentYear = False
+                        db.session.commit()
+
+                    for item in userevent:
+                        item.currentYear = False
+                        db.session.commit()
+
+                    audit.completed = True
                     db.session.commit()
-
-                for event in events:
-                    event.currentYear = False
-                    db.session.commit()
-
-                for group in groups:
-                    group.currentYear = False
-                    db.session.commit()
-
-                for user in users:
-                    user.grade += 1
-                    if user.grade > 12:
-                        user.currentmember = False
-                    user.ingroup = False
-                    db.session.commit()
-
-                usermeeting = UserMeeting.query.filter_by(currentYear=True).all()
-                userevent = UserEvent.query.filter_by(currentYear=True).all()
-
-                for item in usermeeting:
-                    item.currentYear = False
-                    db.session.commit()
-
-                for item in userevent:
-                    item.currentYear = False
-                    db.session.commit()
-
-                audit.completed = True
-                db.session.commit()
 
     if meetings:
         for meeting in meetings:
@@ -112,8 +113,8 @@ Update email notifications (#settings)
 
                                     conn.send(msg)
 
-                    meeting.alertoneweek = True
-                    db.session.commit()
+                        meeting.alertoneweek = True
+                        db.session.commit()
 
                 elif meetingDelta == 3 and meeting.alertthreeday == False:
 
@@ -162,8 +163,8 @@ Update email notifications (#settings)
 
                                     conn.send(msg)
 
-                    meeting.alertthreeday = True
-                    db.session.commit()
+                        meeting.alertthreeday = True
+                        db.session.commit()
 
                 elif meetingDelta == 1 and meeting.alertoneday == False:
                     print(meeting.alertoneday)
@@ -213,19 +214,17 @@ Update email notifications (#settings)
 
                                     conn.send(msg)
 
-                    meeting.alertoneday = True
-                    db.session.commit()
-                    print('did i make it here?')
-
-    print('here')
+                        meeting.alertoneday = True
+                        db.session.commit()
+                        print('did i make it here?')
+                        print(meeting.alertoneday)
+                        print(Meeting.query.get(meeting.id).alertoneday)
 
     if events:
         for event in events:
             eventDate = pacific.localize(event.start)
             if eventDate > now:
                 eventDelta = (eventDate - now).days
-                print(eventDate)
-                print(eventDelta)
                 if eventDelta == 7 and event.alertoneweek == False:
 
                     eventTime = event.start.strftime(
@@ -273,8 +272,8 @@ Update email notifications (#settings)
 
                                     conn.send(msg)
 
-                    event.alertoneweek = True
-                    db.session.commit()
+                        event.alertoneweek = True
+                        db.session.commit()
 
                 elif eventDelta == 3 and event.alertthreeday == False:
 
@@ -323,12 +322,10 @@ Update email notifications (#settings)
 
                                     conn.send(msg)
 
-                    event.alertthreeday = True
-                    db.session.commit()
+                        event.alertthreeday = True
+                        db.session.commit()
 
                 elif eventDelta == 1 and event.alertoneday == False:
-
-                    print('day1')
 
                     eventTime = event.start.strftime(
                         '%A %B %-d %Y at %-I:%M %p')
@@ -361,12 +358,9 @@ Checkout the event here!
 
 Update email notifications (#settings)
                     '''
-                    print(text)
 
                     with app.app_context():
-                        print('app context')
                         with mail.connect() as conn:
-                            print('mail connect')
                             for user in users:
                                 if user.eventAlertoneweek:
                                     msg = Message(
@@ -375,17 +369,13 @@ Update email notifications (#settings)
                                             user.email])
                                     msg.body = text
                                     msg.html = html
-                                    print(f'sent to {user.email}')
 
                                     conn.send(msg)
 
-                    print('emailed')
-
-                    event.alertoneday = True
-                    db.session.commit()
+                        event.alertoneday = True
+                        db.session.commit()
 
 
-# create schedule for printing time
 scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
