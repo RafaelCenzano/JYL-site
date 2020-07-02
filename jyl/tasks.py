@@ -68,7 +68,7 @@ def backgroundCheck():
                 if meetingDelta == 7 and meeting.alertoneweek == False:
 
                     meetingTime = meeting.start.strftime(
-                        '%A %B %-d %Y at %-I:%-M %p')
+                        '%A %B %-d %Y at %-I:%M %p')
                     meetingLocation = meeting.location.replace(' ', '+')
 
                     html = f'''
@@ -118,7 +118,7 @@ Update email notifications (#settings)
                 elif meetingDelta == 3 and meeting.alertthreeday == False:
 
                     meetingTime = meeting.start.strftime(
-                        '%A %B %-d %Y at %-I:%-M %p')
+                        '%A %B %-d %Y at %-I:%M %p')
                     meetingLocation = meeting.location.replace(' ', '+')
 
                     html = f'''
@@ -169,7 +169,7 @@ Update email notifications (#settings)
                     print(meeting.alertoneday)
 
                     meetingTime = meeting.start.strftime(
-                        '%A %B %-d %Y at %-I:%-M %p')
+                        '%A %B %-d %Y at %-I:%M %p')
                     meetingLocation = meeting.location.replace(' ', '+')
 
                     html = f'''
@@ -229,7 +229,7 @@ Update email notifications (#settings)
                 if eventDelta == 7 and event.alertoneweek == False:
 
                     eventTime = event.start.strftime(
-                        '%A %B %-d %Y at %-I:%-M %p')
+                        '%A %B %-d %Y at %-I:%M %p')
                     eventLocation = event.location.replace(' ', '+')
 
                     html = f'''
@@ -279,7 +279,7 @@ Update email notifications (#settings)
                 elif eventDelta == 3 and event.alertthreeday == False:
 
                     eventTime = event.start.strftime(
-                        '%A %B %-d %Y at %-I:%-M %p')
+                        '%A %B %-d %Y at %-I:%M %p')
                     eventLocation = event.location.replace(' ', '+')
 
                     html = f'''
@@ -331,7 +331,7 @@ Update email notifications (#settings)
                     print('day1')
 
                     eventTime = event.start.strftime(
-                        '%A %B %-d %Y at %-I:%-M %p')
+                        '%A %B %-d %Y at %-I:%M %p')
                     eventLocation = event.location.replace(' ', '+')
 
                     html = f'''
