@@ -15,7 +15,7 @@ app.config.from_object(Config)
 
 
 # Create Database object from brcrypt object
-db = SQLAlchemy(app, session_options{'expire_on_commit': False})
+db = SQLAlchemy(app, session_options={'expire_on_commit': False})
 bcrypt = Bcrypt(app)
 
 
