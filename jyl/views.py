@@ -50,19 +50,26 @@ def bugreport():
 
         name = current_user.firstname + ' ' + current_user.lastname
 
-        html = render_template(
-            'userform_email.html',
-            type='Bug Report',
-            name=name,
-            email=current_user.email,
-            text=form.text.data)
+        html = f'''
+Hi,
+
+A Bug Report for <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> has been submitted
+
+Name: {name}
+
+Email: {current_user.email}
+
+{form.text.data}
+
+- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a>
+        '''
 
         text = f'''
 Hi,
 
 A Bug Report for JYL Toolbox has been submitted
 
-Name: {form.name.data}
+Name: {name}
 
 Email: {current_user.email}
 
@@ -108,12 +115,19 @@ def featurerequest():
 
         name = current_user.firstname + ' ' + current_user.lastname
 
-        html = render_template(
-            'userform_email.html',
-            type='Feature request',
-            name=name,
-            email=current_user.email,
-            text=form.text.data)
+        html = f'''
+Hi,
+
+A Feature Request for <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> has been submitted
+
+Name: {name}
+
+Email: {current_user.email}
+
+{form.text.data}
+
+- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a>
+        '''
 
         text = f'''
 Hi,
@@ -166,12 +180,19 @@ def helprequest():
 
         name = current_user.firstname + ' ' + current_user.lastname
 
-        html = render_template(
-            'userform_email.html',
-            type='Help Request',
-            name=name,
-            email=current_user.email,
-            text=form.text.data)
+        html = f'''
+Hi,
+
+A Help Request for <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> has been submitted
+
+Name: {name}
+
+Email: {current_user.email}
+
+{form.text.data}
+
+- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a>
+        '''
 
         if current_user.nicknameapprove:
 
@@ -3875,52 +3896,6 @@ def login():
     return page
 
 
-@app.route('/confirm/<token>', methods=['GET', 'POST'])
-def confirm(token):
-
-    if current_user.is_authenticated:
-        flash(
-            'You do not need to confirm your account as you are logged in already',
-            'warning')
-        return sendoff('index'), 403
-
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        email = confirm_token(token) == form.email.data
-
-        if user.confirmed:
-            flash('Account already confirmed. Please login.', 'info')
-            return redirect(url_for('login'))
-
-        if user and email and bcrypt.check_password_hash(
-            user.password,
-            sha256(
-                (form.password.data +
-                 form.email.data +
-                 app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
-
-            user.confirmed = True
-
-            db.session.add(user)
-            db.session.commit()
-
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-
-            return redirect(next_page) if next_page else redirect(
-                url_for('index'))
-
-        else:
-            flash(
-                'Activation Unsuccessful. Please check email and password',
-                'danger')
-
-    page = make_response(render_template('login.html', form=form))
-    page = cookieSwitch(page)
-    return page
-
-
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
 
@@ -3944,7 +3919,15 @@ def reset_request():
 
             subject = 'Password Reset Request'
 
-            html = render_template('password_reset_email.html', url=reset_url)
+            html = f'''
+<p>Hi,</p>
+
+<p>Somebody (hopefully you!) requested a password reset for a <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> account.</p>
+
+<p><a href="{reset_url}">Your reset link is here</a>. It will expire in 30 minutes.</p>
+
+<p>- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a></p>
+            '''
 
             text = f'''
 Hi,
