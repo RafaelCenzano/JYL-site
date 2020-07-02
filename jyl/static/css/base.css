@@ -106,6 +106,7 @@ body.light {
     }
 
 }
+
 .desc {
     font-size: 14px;
     color: #ddd;
@@ -133,7 +134,7 @@ body.light {
     color: #0c5dc5;
 }
 
-@media (min-width: 801px){
+@media (min-width:801px) {
     .button:hover,
     .button:visited:hover {
         color: #10ff02;
@@ -145,13 +146,15 @@ body.light {
         color: #0070ff;
         background-color: #9fb7e0;
     }
+
 }
 
-@media (max-width: 400px){
+@media (max-width:400px) {
     .button,
     .button.light {
         font-size: 15px;
     }
+
 }
 
 .buttonwrapper {
@@ -226,11 +229,12 @@ svg g path {
     margin-left: 200px;
 }
 
-@media (min-width: 601px){
+@media (min-width:601px) {
     #content {
         min-height: 100%;
         padding-bottom: 194px;
     }
+
 }
 
 #content > * {
@@ -254,10 +258,11 @@ svg g path {
     -webkit-transform: translate(-50%, -50%);
 }
 
-@media (max-width:600px){
+@media (max-width:600px) {
     #content {
         padding: 0;
     }
+
 }
 
 @media screen and (max-width:900px) {
@@ -560,7 +565,7 @@ footer.light a:visited {
     transition-duration: 0.4s;
 }
 
-@media (min-width:601px){
+@media (min-width:601px) {
     footer {
         margin-top: -194px;
     }
@@ -568,8 +573,10 @@ footer.light a:visited {
     #quickLinks > .column {
         min-width: 25%;
     }
+
 }
-@media (max-width:600px){
+
+@media (max-width:600px) {
     footer {
         margin-top: 15px;
         width: 100%;
@@ -583,6 +590,7 @@ footer.light a:visited {
         align-items: center;
         flex-direction: column;
     }
+
 }
 
 @media (min-width:850px) {

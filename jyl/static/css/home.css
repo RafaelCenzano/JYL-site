@@ -216,10 +216,12 @@ canvas {
     .homewrapper.light a:visited:hover {
         color: #0070ff;
     }
+
 }
 
-@media (max-width: 900px){
+@media (max-width:900px) {
     .homewrapper {
         width: 90%;
     }
+
 }

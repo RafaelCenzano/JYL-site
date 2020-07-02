@@ -310,13 +310,15 @@ form {
 }
 
 /*Reactions*/
-@media (max-width:900px){
+@media (max-width:900px) {
     .reactions {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
     }
+
 }
+
 .reactions label {
     font-size: 3rem;
 }
