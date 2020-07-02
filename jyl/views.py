@@ -1517,13 +1517,14 @@ def meetingCreate():
 
             if form.email.data:
                 date = form.starttime.data.strftime('%B %-d, %Y')
+                eventLocation = form.location.data.replace(' ', '+')
 
                 html = f'''
 <p>Hello,</p>
 
 <p>New meeting taking place on {date}.</p>
 
-<p>Description: {form.description.data}</p>
+<p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
 
 <p>- JYL Toolbox</p>
                     '''
@@ -1534,6 +1535,8 @@ Hello,
 New meeting taking place on {date}
 
 Description: {form.description.data}
+
+Location: {form.location.data}
 
 - JYL Toolbox
                 '''
