@@ -64,7 +64,7 @@ def backgroundCheck():
         for meeting in meetings:
             meetingDate = pacific.localize(meeting.start)
             if meetingDate > now:
-                meetingDelta = (now - meetingDate).days
+                meetingDelta = (meetingDate - now).days
                 if meetingDelta == 7 and meeting.alertoneweek == False:
 
                     meetingTime = meeting.start.strftime(
@@ -221,7 +221,7 @@ Update email notifications (#settings)
         for event in events:
             eventDate = pacific.localize(event.start)
             if eventDate > now:
-                eventDelta = (now - eventDate).days
+                eventDelta = (eventDate - now).days
                 print(eventDate)
                 print(eventDelta)
                 if eventDelta == 7 and event.alertoneweek == False:
