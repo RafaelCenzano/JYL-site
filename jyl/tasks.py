@@ -166,6 +166,7 @@ Update email notifications (#settings)
                     db.session.commit()
 
                 elif meetingDelta == 1 and meeting.alertoneday == False:
+                    print(meeting.alertoneday)
 
                     meetingTime = meeting.start.strftime(
                         '%A %B %-d %Y at %-I:%-M %p')
@@ -214,6 +215,7 @@ Update email notifications (#settings)
 
                     meeting.alertoneday = True
                     db.session.commit()
+                    print('did i make it here?')
 
     print('here')
 
