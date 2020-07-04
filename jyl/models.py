@@ -92,7 +92,7 @@ class Meeting(db.Model):
     alertoneweek = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
-        return f'Meeting id:{self.id}, from {self.start} to {self.end})'
+        return f'Meeting id:{self.id}, from {self.start} to {self.end}). day {self.alertoneday}, 3 {self.alertthreeday}, week {self.alertoneweek}'
 
 
 class UserMeeting(db.Model):
@@ -141,7 +141,7 @@ class Event(db.Model):
     alertoneweek = db.Column(db.Boolean, unique=False, default=False)
 
     def __repr__(self):
-        return f'Event id:{self.id}, from {self.start} to {self.end})'
+        return f'Event id:{self.id}, from {self.start} to {self.end}). day {self.alertoneday}, 3 {self.alertthreeday}, week {self.alertoneweek}'
 
 
 class UserEvent(db.Model):

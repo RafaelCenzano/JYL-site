@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-import atexit
-from flask_mail import Mail, Message
+from atexit import register
+from flask_mail import Message
 from datetime import datetime
 from jyl.models import *
 from flask import url_for
@@ -19,6 +19,10 @@ def backgroundCheck():
     users = User.query.filter_by(currentmember=True, leader=False).all()
     groups = Group.query.filter_by(currentYear=True).all()
     audits = YearAudit.query.filter_by(confirmed=True, completed=False).all()
+    for event in events:
+        print(event)
+    for meeting in meetings:
+        print(meeting)
 
     now = pacific.localize(datetime.now())
 
@@ -386,4 +390,4 @@ scheduler.add_job(
     replace_existing=True)
 
 # Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
+register(lambda: scheduler.shutdown())
