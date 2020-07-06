@@ -96,6 +96,8 @@ form.light h3 {
 .form-group input {
     font-size: 16px;
     background-color: #616161;
+    padding: 5px;
+    font-weight: 400;
 }
 
 .form-group.light input {
@@ -278,6 +280,8 @@ form.light h3 {
     width: 100%;
     max-width: 350px;
     background-color: #616161;
+    font-weight: 400;
+    padding: 5px;
 }
 
 .form-group.light textarea {
