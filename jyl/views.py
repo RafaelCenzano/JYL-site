@@ -1074,7 +1074,7 @@ For security reasons, you should reset your password since this was a temporary 
             except BaseException as e:
                 flash(f'User couldn\'t be created. Error: {e}', 'error')
 
-            return(redirect(url_for('creation')))
+            return redirect(url_for('creation'))
 
         page = make_response(render_template('userCreate.html', form=form))
         page = cookieSwitch(page)
@@ -4005,7 +4005,6 @@ def reset_token(token):
 
 
 @app.route('/logout', methods=['GET'])
-@login_required
 def logout():
 
     if current_user.is_authenticated:
