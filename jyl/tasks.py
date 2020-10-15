@@ -379,7 +379,7 @@ Update email notifications (#settings)
                         event.alertoneday = True
                         db.session.commit()
 
-
+'''
 scheduler = BackgroundScheduler()
 scheduler.start()
 scheduler.add_job(
@@ -391,3 +391,4 @@ scheduler.add_job(
 
 # Shut down the scheduler when exiting the app
 register(lambda: scheduler.shutdown())
+'''

@@ -1820,12 +1820,12 @@ def userEdit1(num, first, last):
             checkUser.bio = bio
             checkUser.showemail = form.showemail.data
             checkUser.showphone = form.showphone.data
-            checkUser.meetingAlertoneday = form.meetingAlertoneday.data
-            checkUser.meetingAlertthreeday = form.meetingAlertthreeday.data
-            checkUser.meetingAlertoneweek = form.meetingAlertoneweek.data
-            checkUser.eventAlertoneday = form.eventAlertoneday.data
-            checkUser.eventAlertthreeday = form.eventAlertthreeday.data
-            checkUser.eventAlertoneweek = form.eventAlertoneweek.data
+            checkUser.meetingAlertoneday = False#form.meetingAlertoneday.data
+            checkUser.meetingAlertthreeday = False#form.meetingAlertthreeday.data
+            checkUser.meetingAlertoneweek = False#form.meetingAlertoneweek.data
+            checkUser.eventAlertoneday = False#form.eventAlertoneday.data
+            checkUser.eventAlertthreeday = False#form.eventAlertthreeday.data
+            checkUser.eventAlertoneweek = False#form.eventAlertoneweek.data
 
             db.session.commit()
 
@@ -1839,12 +1839,106 @@ def userEdit1(num, first, last):
         form.bio.data = bio
         form.showemail.data = checkUser.showemail
         form.showphone.data = checkUser.showphone
-        form.meetingAlertoneday.data = checkUser.meetingAlertoneday
-        form.meetingAlertthreeday.data = checkUser.meetingAlertthreeday
-        form.meetingAlertoneweek.data = checkUser.meetingAlertoneweek
-        form.eventAlertoneday.data = checkUser.eventAlertoneday
-        form.eventAlertthreeday.data = checkUser.eventAlertthreeday
-        form.eventAlertoneweek.data = checkUser.eventAlertoneweek
+        form.meetingAlertoneday.data = False#checkUser.meetingAlertoneday
+        form.meetingAlertthreeday.data = False#checkUser.meetingAlertthreeday
+        form.meetingAlertoneweek.data = False#checkUser.meetingAlertoneweek
+        form.eventAlertoneday.data = False#checkUser.eventAlertoneday
+        form.eventAlertthreeday.data = False#checkUser.eventAlertthreeday
+        form.eventAlertoneweek.data = False#checkUser.eventAlertoneweek
+        '''
+        <h3>Meeting alerts</h3>
+    <div class="form-group">
+    {% if form.meetingAlertoneday.errors %}
+        {{ form.meetingAlertoneday(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.meetingAlertoneday.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.meetingAlertoneday.label(class="form-label-css-checkbox") }}
+            {{ form.meetingAlertoneday() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.meetingAlertthreeday.errors %}
+        {{ form.meetingAlertthreeday(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.meetingAlertthreeday.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.meetingAlertthreeday.label(class="form-label-css-checkbox") }}
+            {{ form.meetingAlertthreeday() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.meetingAlertoneweek.errors %}
+        {{ form.meetingAlertoneweek(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.meetingAlertoneweek.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.meetingAlertoneweek.label(class="form-label-css-checkbox") }}
+            {{ form.meetingAlertoneweek() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <h3>Event alerts</h3>
+    <div class="form-group">
+    {% if form.eventAlertoneday.errors %}
+        {{ form.eventAlertoneday(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.eventAlertoneday.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.eventAlertoneday.label(class="form-label-css-checkbox") }}
+            {{ form.eventAlertoneday() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.eventAlertthreeday.errors %}
+        {{ form.eventAlertthreeday(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.eventAlertthreeday.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.eventAlertthreeday.label(class="form-label-css-checkbox") }}
+            {{ form.eventAlertthreeday() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+    <div class="form-group">
+    {% if form.eventAlertoneweek.errors %}
+        {{ form.eventAlertoneweek(class="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in form.eventAlertoneweek.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        <label class="container">{{ form.eventAlertoneweek.label(class="form-label-css-checkbox") }}
+            {{ form.eventAlertoneweek() }}
+            <span class="checkmark"></span>
+        </label>
+    {% endif %}
+    </div>
+        '''
 
         return render_template('userSetting.html', form=form, user=checkUser)
 

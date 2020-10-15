@@ -206,6 +206,33 @@ canvas {
     color: #0c5dc5;
 }
 
+.homewrapper svg .odd,
+.homewrapper2 svg .odd{
+    fill: #ed980e;
+}
+
+.homewrapper.light svg .odd,
+.homewrapper2.light svg .odd {
+    fill: #ff9100;
+}
+
+.homewrapper svg .even,
+.homewrapper2 svg .even{
+    fill: #edbc40;
+}
+
+.homewrapper.light svg .even,
+.homewrapper2.light svg .even{
+    fill: #f2bf3f;
+}
+
+.homewrapper svg .flower,
+.homewrapper2 svg .flower,
+.homewrapper.light svg .flower,
+.homewrapper2.light svg .flower{
+    fill:#ff6600;
+}
+
 @media (min-width:900px) {
     .homewrapper a:hover,
     .homewrapper a:visited:hover {
