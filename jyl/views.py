@@ -1045,7 +1045,19 @@ def userCreation():
                 db.session.add(newUser)
                 db.session.commit()
 
-                html = render_template('newuser.html', password=passNum)
+                html = f'''
+<p>Hi,</p>
+
+<p>A JYL Toolbox has been created for you</p>
+
+<p>Login here: <a href="#">JYL Toolbox</a></p>
+
+<p>Use this email and this password: {{ passNum }}</p>
+
+<p>For security reasons, you should reset your password since this was a temporary password.</p>
+
+    <p>- <a href="#" class="jyl">JYL Toolbox</a></p>
+                '''
                 text = f'''
 Hi,
 
@@ -1568,7 +1580,7 @@ Location: {form.location.data}
                 with app.app_context():
                     with mail.connect() as conn:
                         for user in users:
-                            msg = Message('New Event - JYL Toolbox',
+                            msg = Message('New Meeting - JYL Toolbox',
                                           recipients=[user.email])
                             msg.body = text
                             msg.html = html
