@@ -2488,6 +2488,10 @@ def eventEdit(eventId):
 
         if form.validate_on_submit():
 
+            length = round((form.endtime.data -
+                            form.starttime.data).total_seconds() / (60 * 60), 2)
+
+            checkEvent.hourcount = length
             checkEvent.name = form.name.data
             checkEvent.description = form.description.data
             checkEvent.location = form.location.data
@@ -3042,6 +3046,10 @@ def meetingEdit(meetingId):
 
         if form.validate_on_submit():
 
+            length = round((form.endtime.data -
+                            form.starttime.data).total_seconds() / (60 * 60), 2)
+
+            checkMeeting.hourcount = length
             checkMeeting.description = form.description.data
             checkMeeting.location = form.location.data
             checkMeeting.start = form.starttime.data
