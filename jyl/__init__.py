@@ -7,6 +7,8 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
+import sentry_sdk
+import os
 
 
 # Create flask app object
@@ -27,6 +29,13 @@ login_manager.login_message_category = 'warning'
 
 # Create mail object from flask app object
 mail = Mail(app)
+
+
+# Setup Sentry
+sentry_sdk.init(
+    Config.SENTRY_URL,
+    traces_sample_rate=1.0
+)
 
 
 # importing all the models and initializing them
