@@ -9,12 +9,18 @@ from urllib.parse import urlparse
 SECONDS_IN_YEAR = 60 * 60 * 24 * 365
 
 
+# Load user or return None if not found
 @login_manager.user_loader
 def load_user(id):
     try:
-        return User.query.get(int(id))
-    except BaseException:
+        user = User.query.get(int(id))
+    except:
+        db.session.rollback()
+        user = User.query.get(int(id))
+
+    if user is None:
         return None
+    return user
 
 
 def sendoff(where):
