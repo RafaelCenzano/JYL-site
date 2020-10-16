@@ -28,3 +28,6 @@ class Config(object):
     MAIL_USERNAME = email
     MAIL_PASSWORD = os.environ.get('jylEmailPass')
     MAIL_DEFAULT_SENDER = f'JYL Toolbox <{email}>'
+
+    # Sentry config
+    SENTRY_URL = os.environ.get('jylSentry')
