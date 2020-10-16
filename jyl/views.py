@@ -82,9 +82,15 @@ Email: {current_user.email}
         '''
 
         # Get all users that are admins
-        users = User.query.filter_by(
-            admin=True,
-            currentmember=True).all()
+        try:
+            users = User.query.filter_by(
+                admin=True,
+                currentmember=True).all()
+        except:
+            db.session.rollback()
+            users = User.query.filter_by(
+                admin=True,
+                currentmember=True).all()
 
         # Create thread to send async email to all admins
         emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Bug Report - JYL Toolbox'])
@@ -143,9 +149,15 @@ Email: {current_user.email}
         '''
 
         # Get all users that are admins
-        users = User.query.filter_by(
-            admin=True,
-            currentmember=True).all()
+        try:
+            users = User.query.filter_by(
+                admin=True,
+                currentmember=True).all()
+        except:
+            db.session.rollback()
+            users = User.query.filter_by(
+                admin=True,
+                currentmember=True).all()
 
         # Create thread to send async email to all admins
         emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Feature Request - JYL Toolbox'])
@@ -206,9 +218,15 @@ Email: {current_user.email}
         '''
 
         # Get all users that are leaders
-        users = User.query.filter_by(
-            leader=True,
-            currentmember=True).all()
+        try:
+            users = User.query.filter_by(
+                leader=True,
+                currentmember=True).all()
+        except:
+            db.session.rollback()
+            users = User.query.filter_by(
+                leader=True,
+                currentmember=True).all()
 
         # Create thread to send async email to all admins
         emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Help Request - JYL Toolbox'])
@@ -233,10 +251,17 @@ Email: {current_user.email}
 def profile(num, first, last):
 
     # Query for user based on first name, last name, and their number count
-    checkUser = User.query.filter_by(
-        firstname=first,
-        lastname=last,
-        namecount=num).first()
+    try:
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
 
     # User doesn't exsist
     if checkUser is None:
@@ -285,10 +310,17 @@ def profile(num, first, last):
 def profileLeader(num, first, last):
 
     # Query for user based on first name, last name, and their number count
-    checkUser = User.query.filter_by(
-        firstname=first,
-        lastname=last,
-        namecount=num).first()
+    try:
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
 
     # User not found
     if checkUser is None:
@@ -328,10 +360,17 @@ def profileLeader(num, first, last):
 def profileMeeting(num, first, last):
 
     # Query for user based on first name, last name, and their number count
-    checkUser = User.query.filter_by(
-        firstname=first,
-        lastname=last,
-        namecount=num).first()
+    try:
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
 
     # User not found
     if checkUser is None:
@@ -412,10 +451,17 @@ def profileMeeting(num, first, last):
 def profileMeetingOld(num, first, last):
 
     # Query for user based on first name, last name, and their number count
-    checkUser = User.query.filter_by(
-        firstname=first,
-        lastname=last,
-        namecount=num).first()
+    try:
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
 
     # User not found
     if checkUser is None:
@@ -469,10 +515,17 @@ def profileMeetingOld(num, first, last):
 def profileEvent(num, first, last):
 
     # Query for user based on first name, last name, and their number count
-    checkUser = User.query.filter_by(
-        firstname=first,
-        lastname=last,
-        namecount=num).first()
+    try:
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
 
     # User doesn't exsist
     if checkUser is None:
@@ -553,10 +606,17 @@ def profileEvent(num, first, last):
 def profileEventOld(num, first, last):
 
     # Query for user based on first name, last name, and their number count
-    checkUser = User.query.filter_by(
-        firstname=first,
-        lastname=last,
-        namecount=num).first()
+    try:
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            firstname=first,
+            lastname=last,
+            namecount=num).first()
 
     # User doesn't exsist
     if checkUser is None:
@@ -609,18 +669,26 @@ def profileEventOld(num, first, last):
 @login_required
 def meetingReview(idOfMeeting):
 
-    checkMeeting = Meeting.query.get(idOfMeeting)
+    # Query for Meeting
+    try:
+        checkMeeting = Meeting.query.get(idOfMeeting)
+    except:
+        db.session.rollback()
+        checkMeeting = Meeting.query.get(idOfMeeting)
 
+    # Meeting not found
     if checkMeeting is None:
 
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    # Check if meeting has occured yet
     if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
 
         flash('Meeting hasn\'t occured yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Query for User Meeting
     checkUserMeeting = UserMeeting.query.filter_by(
         userid=current_user.id, meetingid=idOfMeeting).first()
 
@@ -632,6 +700,7 @@ def meetingReview(idOfMeeting):
         meh = False
         sad = False
 
+        # Find users feeling on review
         if form.reaction.data == 'happy':
             happy = True
         elif form.reaction.data == 'meh':
@@ -639,11 +708,13 @@ def meetingReview(idOfMeeting):
         else:
             sad = True
 
+        # Save user's review
         checkUserMeeting.comment = form.review.data
         checkUserMeeting.upvote = happy
         checkUserMeeting.unsurevote = meh
         checkUserMeeting.downvote = sad
 
+        # Update counts for types of votes
         if happy:
             checkMeeting.upvote += 1
         elif meh:
@@ -651,26 +722,31 @@ def meetingReview(idOfMeeting):
         else:
             checkMeeting.downvote += 1
 
+        # Update Database
         db.session.commit()
 
+        # Redirect back to meeting page
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Check to make sure user hasn't commented before
     if checkUserMeeting and checkUserMeeting.comment:
 
         flash('You already created a review for this meeting', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Check to make sure user attended meetings
     if checkUserMeeting is None or not checkUserMeeting.attended:
 
         flash('You didn\'t attend this meeting', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
-    desc = []
-    for word in checkMeeting.description.split(' '):
-        desc.append(linkFormatting(word))
+    # Format the description
+    desc = [linkFormatting(word) for word in checkMeeting.description.split(' ')]
 
+    # Process meeting data
     eventMeeting = eventMeetingProccessing(checkMeeting, True)
 
+    # Return page with meeting data and form for review
     page = make_response(
         render_template(
             'eventMeetingReview.html',
@@ -690,18 +766,26 @@ def meetingReview(idOfMeeting):
 @login_required
 def meetingReviewEdit(idOfMeeting):
 
-    checkMeeting = Meeting.query.get(idOfMeeting)
+    # Query for Meeting
+    try:
+        checkMeeting = Meeting.query.get(idOfMeeting)
+    except:
+        db.session.rollback()
+        checkMeeting = Meeting.query.get(idOfMeeting)
 
+    # Meeting doesn't exsist
     if checkMeeting is None:
 
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    # Check that meeting has occured
     if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
 
         flash('Meeting hasn\'t occured yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Query User Meeting
     checkUserMeeting = UserMeeting.query.filter_by(
         userid=current_user.id, meetingid=idOfMeeting).first()
 
@@ -716,6 +800,7 @@ def meetingReviewEdit(idOfMeeting):
         meh = False
         sad = False
 
+        # Get user reaction
         if form.reaction.data == 'happy':
             happy = True
         elif form.reaction.data == 'meh':
@@ -723,11 +808,13 @@ def meetingReviewEdit(idOfMeeting):
         else:
             sad = True
 
+        # Update boolean comment and reaction boolean values
         checkUserMeeting.comment = form.review.data
         checkUserMeeting.upvote = happy
         checkUserMeeting.unsurevote = meh
         checkUserMeeting.downvote = sad
 
+        # Remove 1 from count based off user's previous response
         if currentHappy:
             checkMeeting.upvote -= 1
         elif currentMeh:
@@ -735,6 +822,7 @@ def meetingReviewEdit(idOfMeeting):
         else:
             checkMeeting.downvote -= 1
 
+        # Add 1 to new or same count based off user response
         if happy:
             checkMeeting.upvote += 1
         elif meh:
@@ -742,23 +830,27 @@ def meetingReviewEdit(idOfMeeting):
         else:
             checkMeeting.downvote += 1
 
+        # Commit to Database
         db.session.commit()
 
+        # Redirect to meeting page
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # If user hasn't written a review redirect to write a review
     if checkUserMeeting and checkUserMeeting.comment is None:
 
-        flash('You haven\'t written a review yet', 'warning')
-        return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
+        return redirect(url_for('meetingReview', idOfMeeting=idOfMeeting))
 
+    # Check that user attended the meeting
     if checkUserMeeting and checkUserMeeting.comment:
 
-        desc = []
-        for word in checkMeeting.description.split(' '):
-            desc.append(linkFormatting(word))
+        # Format meeting description
+        desc = [linkFormatting(word) for word in checkMeeting.description.split(' ')]
 
+        # Proccess meeting data
         eventMeeting = eventMeetingProccessing(checkMeeting, True)
 
+        # update form to user's past reaction response
         if checkUserMeeting.upvote:
             form.reaction.data = 'happy'
         elif checkUserMeeting.unsurevote:
@@ -767,6 +859,7 @@ def meetingReviewEdit(idOfMeeting):
             form.reaction.data = 'down'
         form.review.data = checkUserMeeting.comment
 
+        # Return page with meeting data, review form, and user's past review data
         page = make_response(
             render_template(
                 'eventMeetingReview.html',
@@ -789,7 +882,12 @@ def meetingReviewEdit(idOfMeeting):
 @login_required
 def meetingReviewDelete(idOfMeeting):
 
-    checkMeeting = Meeting.query.get(idOfMeeting)
+    # Query for Meeting
+    try:
+        checkMeeting = Meeting.query.get(idOfMeeting)
+    except:
+        db.session.rollback()
+        checkMeeting = Meeting.query.get(idOfMeeting)
 
     if checkMeeting is None:
 
