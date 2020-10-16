@@ -1,10 +1,11 @@
 from re import search
-from jyl import login_manager, mail
-from flask import redirect, url_for, request
-from jyl.models import User
-from flask_mail import Mail, Message
 from urllib.parse import urlparse
 
+from flask import redirect, request, url_for
+from flask_mail import Mail, Message
+
+from jyl import login_manager, mail
+from jyl.models import User
 
 SECONDS_IN_YEAR = 60 * 60 * 24 * 365
 
