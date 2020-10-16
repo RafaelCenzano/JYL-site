@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 from flask import redirect, request, url_for
 from flask_mail import Mail, Message
 
-from jyl import login_manager, mail
+from jyl import db, login_manager, mail
 from jyl.models import User
 
 SECONDS_IN_YEAR = 60 * 60 * 24 * 365
