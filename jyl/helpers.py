@@ -16,7 +16,7 @@ def load_user(id):
     # Query for User
     try:
         user = User.query.get(int(id))
-    except:
+    except BaseException:
         db.session.rollback()
         user = User.query.get(int(id))
 
@@ -37,7 +37,8 @@ def sendoff(where):
     if 'current' in siteCookies:
         currentCookie = siteCookies['current']
 
-        # Logic for redircting to proper profile page if profile page was the last page to be used by user
+        # Logic for redircting to proper profile page if profile page was the
+        # last page to be used by user
         if 'profile' in currentCookie:
 
             # Get the namecount, first and last name for the redirect
@@ -206,12 +207,11 @@ def cleanValue(num):
 def asyncEmail(app, html, text, users, subject):
 
     with app.app_context():
-            with mail.connect() as conn:
-                for user in users:
-                    msg = Message(subject,
-                                  recipients=[user.email])
-                    msg.body = text
-                    msg.html = html
+        with mail.connect() as conn:
+            for user in users:
+                msg = Message(subject,
+                              recipients=[user.email])
+                msg.body = text
+                msg.html = html
 
-                    conn.send(msg)
-
+                conn.send(msg)
