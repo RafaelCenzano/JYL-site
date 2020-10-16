@@ -1,7 +1,9 @@
-from jyl import db
 from datetime import datetime
-from jyl.models import Meeting, UserMeeting, Event, UserEvent, User
-from flask_login import login_user, current_user
+
+from flask_login import current_user, login_user
+
+from jyl import db
+from jyl.models import Event, Meeting, User, UserEvent, UserMeeting
 
 
 def eventMeetingProccessing(check, meeting):

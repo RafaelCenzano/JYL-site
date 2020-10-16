@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
 from os import getcwd, path
+
+from setuptools import find_packages, setup
 
 currentDir = getcwd()
 

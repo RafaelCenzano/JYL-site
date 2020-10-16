@@ -1,9 +1,11 @@
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateTimeField, TextAreaField, RadioField
 from datetime import datetime
-from flask_wtf import FlaskForm
-from wtforms.widgets import TextArea
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
 
+from flask_wtf import FlaskForm
+from wtforms import (BooleanField, DateTimeField, IntegerField, PasswordField,
+                     RadioField, StringField, SubmitField, TextAreaField)
+from wtforms.validators import (DataRequired, Email, EqualTo, Length,
+                                ValidationError)
+from wtforms.widgets import TextArea
 
 '''
 Forms for jyl toolbox

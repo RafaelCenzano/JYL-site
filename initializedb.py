@@ -1,10 +1,10 @@
-from jyl import db, app, bcrypt
-from jyl.models import *
-from hashlib import sha256
-from datetime import datetime
 import random
 import sys
+from datetime import datetime
+from hashlib import sha256
 
+from jyl import app, bcrypt, db
+from jyl.models import *
 
 if sys.argv[1] == 'migrate':
 
