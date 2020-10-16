@@ -6,6 +6,7 @@ from random import randint
 from hashlib import sha256
 from datetime import datetime
 from jyl.forms import *
+from threading import Thread
 from jyl.models import *
 from flask_mail import Mail, Message
 from jyl.helpers import *
@@ -16,12 +17,11 @@ from jyl.eventMeeting import eventMeetingProccessing
 # Timezone
 pacific = timezone('US/Pacific')
 
-
 '''
 Views
 '''
 
-
+# Home page
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def index():
@@ -32,6 +32,7 @@ def index():
     return page
 
 
+# Project License
 @app.route('/license', methods=['GET'])
 def license():
 
@@ -41,11 +42,13 @@ def license():
     return page
 
 
+# Bug Report form
 @app.route('/bugreport', methods=['GET', 'POST'])
 @login_required
 def bugreport():
 
     form = UserRequestForm()
+
     if form.validate_on_submit():
 
         name = current_user.firstname + ' ' + current_user.lastname
@@ -53,7 +56,7 @@ def bugreport():
         html = f'''
 Hi,
 
-A Bug Report for <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> has been submitted
+A Bug Report for <a href="#">JYL Toolbox</a> has been submitted
 
 Name: {name}
 
@@ -61,7 +64,7 @@ Email: {current_user.email}
 
 {form.text.data}
 
-- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a>
+- <a href="#">JYL Toolbox</a>
         '''
 
         text = f'''
@@ -78,24 +81,19 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
+        # Get all users that are admins
         users = User.query.filter_by(
             admin=True,
-            currentmember=True,
-            leader=False).all()
+            currentmember=True).all()
 
-        with app.app_context():
-            with mail.connect() as conn:
-                for user in users:
-                    msg = Message('Bug Report - JYL Toolbox',
-                                  recipients=[user.email])
-                    msg.body = text
-                    msg.html = html
-
-                    conn.send(msg)
+        # Create thread to send async email to all admins
+        emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Bug Report - JYL Toolbox'])
+        emailThread.start()
 
         flash('Your bug report has been submitted', 'info')
-        return sendoff('index')
+        return redirect(url_for('index'))
 
+    # Return Bug Report Form
     page = make_response(
         render_template(
             'userform.html',
@@ -111,14 +109,15 @@ Email: {current_user.email}
 def featurerequest():
 
     form = UserRequestForm()
+
     if form.validate_on_submit():
 
         name = current_user.firstname + ' ' + current_user.lastname
 
         html = f'''
-Hi,
+Hello,
 
-A Feature Request for <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> has been submitted
+A Feature Request for <a href="#">JYL Toolbox</a> has been submitted
 
 Name: {name}
 
@@ -126,11 +125,11 @@ Email: {current_user.email}
 
 {form.text.data}
 
-- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a>
+- <a href="#">JYL Toolbox</a>
         '''
 
         text = f'''
-Hi,
+Hello,
 
 A Feature Request for JYL Toolbox has been submitted
 
@@ -143,24 +142,19 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
+        # Get all users that are admins
         users = User.query.filter_by(
             admin=True,
-            currentmember=True,
-            leader=False).all()
+            currentmember=True).all()
 
-        with app.app_context():
-            with mail.connect() as conn:
-                for user in users:
-                    msg = Message('Feature Request - JYL Toolbox',
-                                  recipients=[user.email])
-                    msg.body = text
-                    msg.html = html
-
-                    conn.send(msg)
+        # Create thread to send async email to all admins
+        emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Feature Request - JYL Toolbox'])
+        emailThread.start()
 
         flash('Your feature request has been submitted', 'info')
-        return sendoff('index')
+        return redirect(url_for('index'))
 
+    # Return Feature Request Form
     page = make_response(
         render_template(
             'userform.html',
@@ -176,6 +170,7 @@ Email: {current_user.email}
 def helprequest():
 
     form = UserRequestForm()
+
     if form.validate_on_submit():
 
         name = current_user.firstname + ' ' + current_user.lastname
@@ -183,7 +178,7 @@ def helprequest():
         html = f'''
 Hi,
 
-A Help Request for <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> has been submitted
+A Help Request for <a href="#">JYL Toolbox</a> has been submitted
 
 Name: {name}
 
@@ -191,7 +186,7 @@ Email: {current_user.email}
 
 {form.text.data}
 
-- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a>
+- <a href="#">JYL Toolbox</a>
         '''
 
         if current_user.nicknameapprove:
@@ -210,21 +205,19 @@ Email: {current_user.email}
 - JYL Toolbox
         '''
 
-        users = User.query.filter_by(currentmember=True, leader=True).all()
+        # Get all users that are leaders
+        users = User.query.filter_by(
+            leader=True,
+            currentmember=True).all()
 
-        with app.app_context():
-            with mail.connect() as conn:
-                for user in users:
-                    msg = Message('Help Request - JYL Toolbox',
-                                  recipients=[user.email])
-                    msg.body = text
-                    msg.html = html
-
-                    conn.send(msg)
+        # Create thread to send async email to all admins
+        emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Help Request - JYL Toolbox'])
+        emailThread.start()
 
         flash('Your help request has been submitted', 'info')
-        return sendoff('index')
+        return redirect(url_for('index'))
 
+    # Return Help Request Form
     page = make_response(
         render_template(
             'userform.html',
@@ -235,91 +228,24 @@ Email: {current_user.email}
     return page
 
 
-'''
-@app.route('/back', methods=['GET'])
-def back():
-
-    siteCookies = request.cookies
-
-    if 'page' in siteCookies:
-
-        page = siteCookies['page']
-
-        if 'profile' in page:
-            num = int(siteCookies['profile-num'])
-            first = siteCookies['profile-first']
-            last = siteCookies['profile-last']
-            if siteCookies['profile-type'] == 'normal':
-                return redirect(
-                    url_for(
-                        'profile',
-                        num=num,
-                        first=first,
-                        last=last))
-            elif siteCookies['profile-type'] == 'meeting':
-                return redirect(
-                    url_for(
-                        'profileMeeting',
-                        num=num,
-                        first=first,
-                        last=last))
-            elif siteCookies['profile-type'] == 'event':
-                return redirect(
-                    url_for(
-                        'profileEvent',
-                        num=num,
-                        first=first,
-                        last=last))
-            elif siteCookies['profile-type'] == 'eventold':
-                return redirect(
-                    url_for(
-                        'profileEventOld',
-                        num=num,
-                        first=first,
-                        last=last))
-            elif siteCookies['profile-type'] == 'meetingold':
-                return redirect(
-                    url_for(
-                        'profileMeetingOld',
-                        num=num,
-                        first=first,
-                        last=last))
-            else:
-                flash('An error occured with profile cookies', 'warning')
-
-        elif 'meeting' == page:
-            meetingId = int(siteCookies['meeting-id'])
-            return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
-
-        elif 'event' == page:
-            eventId = int(siteCookies['event-id'])
-            return redirect(url_for('eventInfo', idOfEvent=eventId))
-
-        elif 'memberType' in page:
-            memberType = siteCookies['memberType']
-            return redirect(url_for('memberType', identifier=memberType))
-
-        return redirect(url_for(page))
-
-    else:
-        return redirect(url_for('index'))
-'''
-
-
 @app.route('/profile/<int:num>/<first>/<last>', methods=['GET'])
 @login_required
 def profile(num, first, last):
 
+    # Query for user based on first name, last name, and their number count
     checkUser = User.query.filter_by(
         firstname=first,
         lastname=last,
         namecount=num).first()
 
+    # User doesn't exsist
     if checkUser is None:
 
         flash('User not found', 'error')
         return sendoff('index')
 
+    # User is a leader
+    # Use leader profile
     if checkUser.leader:
 
         return redirect(
@@ -329,6 +255,7 @@ def profile(num, first, last):
                 first=first,
                 last=last))
 
+    # Return user profile with user data
     page = make_response(render_template(
         'profile.html',
         user=checkUser,
@@ -341,6 +268,7 @@ def profile(num, first, last):
 
     num = repr(num)
 
+    # Set cookies to store current location in website
     page.set_cookie('current', 'profile', max_age=SECONDS_IN_YEAR)
     page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
     page.set_cookie('profile-first-current', first, max_age=SECONDS_IN_YEAR)
@@ -356,84 +284,102 @@ def profile(num, first, last):
 @login_required
 def profileLeader(num, first, last):
 
+    # Query for user based on first name, last name, and their number count
     checkUser = User.query.filter_by(
         firstname=first,
         lastname=last,
         namecount=num).first()
 
+    # User not found
     if checkUser is None:
 
         flash('User not found', 'error')
         return sendoff('index')
 
-    if checkUser.leader:
+    # User is not a leader, redirect to normal profile
+    if not checkUser.leader:
 
-        page = make_response(render_template(
-            'profileLeader.html',
-            user=checkUser))
+        flash('User is not a leader', 'warning')
+        return redirect(url_for('profile', num=num, first=first, last=last))
 
-        page = cookieSwitch(page)
-        num = repr(num)
-        page.set_cookie('current', 'profileLeader', max_age=SECONDS_IN_YEAR)
-        page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
-        page.set_cookie(
-            'profile-first-current',
-            first,
-            max_age=SECONDS_IN_YEAR)
-        page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
-        page.set_cookie(
-            'profile-type-current',
-            'normal',
-            max_age=SECONDS_IN_YEAR)
-        return page
+    # Return leader profile
+    page = make_response(render_template(
+        'profileLeader.html',
+        user=checkUser))
 
-    flash('User is not a leader', 'warning')
-    return sendoff('index')
+    page = cookieSwitch(page)
+    num = repr(num)
+    page.set_cookie('current', 'profileLeader', max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-num-current', num, max_age=SECONDS_IN_YEAR)
+    page.set_cookie(
+        'profile-first-current',
+        first,
+        max_age=SECONDS_IN_YEAR)
+    page.set_cookie('profile-last-current', last, max_age=SECONDS_IN_YEAR)
+    page.set_cookie(
+        'profile-type-current',
+        'normal',
+        max_age=SECONDS_IN_YEAR)
+    return page
 
 
 @app.route('/profile/<int:num>/<first>/<last>/meetings', methods=['GET'])
 @login_required
 def profileMeeting(num, first, last):
 
+    # Query for user based on first name, last name, and their number count
     checkUser = User.query.filter_by(
         firstname=first,
         lastname=last,
         namecount=num).first()
 
+    # User not found
     if checkUser is None:
 
         flash('User not found', 'error')
         return sendoff('index')
 
+    # Leaders don't attend meetings
     if checkUser.leader:
 
         return redirect(url_for('memberType', identifier='leader'))
 
+    # Query for meeintgs user attended
     attended = UserMeeting.query.filter_by(
         userid=checkUser.id, attended=True, currentYear=True).all()
 
+    # Query for meeting user plans to attend
     going = UserMeeting.query.filter_by(
         userid=checkUser.id,
         going=True,
         attended=False,
         currentYear=True).all()
 
-    meetingsAttended = []
-
-    for meetings in attended:
-        meetingsAttended.append(Meeting.query.get(meetings.meetingid))
+    # Get every meeting object for meetings user attended
+    meetingsAttended = [Meeting.query.get(meeting.meetingid) for meeting in attended]
 
     meetingsGoing = []
+
+    # Get current time in pacific time zone
     now = pacific.localize(datetime.now())
 
-    for meetings in going:
-        theMeeting = Meeting.query.get(meetings.meetingid)
+    for meeting in going:
+        theMeeting = Meeting.query.get(meeting.meetingid)
+
+        # Save every meeting that is in the future
         if pacific.localize(theMeeting.start) > now:
             meetingsGoing.append(theMeeting)
 
-    meetingsAttended.sort(key=lambda meeting: meeting.start)
-    meetingsGoing.sort(key=lambda meeting: meeting.start)
+        # Remove meetings user never attended
+        else:
+            db.session.delete(meeting)
+            db.session.commit()
 
+    # Sort meetings by datetime
+    meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
+    meetingsGoing.sort(key=lambda meeting: meeting.start, reverse=True)
+
+    # Return page with user current meeting data
     page = make_response(render_template(
         'userEventMeeting.html',
         user=checkUser,
@@ -465,30 +411,32 @@ def profileMeeting(num, first, last):
 @login_required
 def profileMeetingOld(num, first, last):
 
+    # Query for user based on first name, last name, and their number count
     checkUser = User.query.filter_by(
         firstname=first,
         lastname=last,
         namecount=num).first()
 
+    # User not found
     if checkUser is None:
 
         flash('User not found', 'error')
         return sendoff('index')
 
+    # Leaders do not attend meetings
     if checkUser.leader:
 
         return redirect(url_for('memberType', identifier='leader'))
 
+    # Query every meeting attended
     attended = UserMeeting.query.filter_by(
         userid=checkUser.id, attended=True).all()
 
-    meetingsAttended = []
+    # Get every meeting object and sort by date
+    meetingsAttended = [Meeting.query.get(meeting.meetingid) for meeting in attended]
+    meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
 
-    for meetings in attended:
-        meetingsAttended.append(Meeting.query.get(meetings.meetingid))
-
-    meetingsAttended.sort(key=lambda meeting: meeting.start)
-
+    # Return page with every meeting user has ever attended
     page = make_response(render_template(
         'userEventMeeting.html',
         user=checkUser,
@@ -520,20 +468,24 @@ def profileMeetingOld(num, first, last):
 @login_required
 def profileEvent(num, first, last):
 
+    # Query for user based on first name, last name, and their number count
     checkUser = User.query.filter_by(
         firstname=first,
         lastname=last,
         namecount=num).first()
 
+    # User doesn't exsist
     if checkUser is None:
 
         flash('User not found', 'error')
         return sendoff('index')
 
+    # Leaders do not attend events
     if checkUser.leader:
 
         return redirect(url_for('memberType', identifier='leader'))
 
+    # Query events attended and planning to attend
     attended = UserEvent.query.filter_by(
         userid=checkUser.id,
         attended=True,
@@ -544,22 +496,31 @@ def profileEvent(num, first, last):
         attended=False,
         currentYear=True).all()
 
-    eventsAttended = []
-
-    for events in attended:
-        eventsAttended.append(Event.query.get(events.eventid))
+    # Get event ovject for every event user attended
+    eventsAttended = [Event.query.get(event.eventid) for event in attended]
 
     eventsGoing = []
+
+    # Get current time in pacific timezone
     now = pacific.localize(datetime.now())
 
-    for events in going:
-        theEvent = Event.query.get(events.eventid)
+    for event in going:
+        theEvent = Event.query.get(event.eventid)
+
+        # Save every event in the future user plans to attend
         if pacific.localize(theEvent.start) > now:
             eventsGoing.append(theEvent)
 
-    eventsAttended.sort(key=lambda event: event.start)
-    eventsGoing.sort(key=lambda event: event.start)
+        # Remove userEvent because user never attended
+        else:
+            db.session.delete(event)
+            db.session.commit()
 
+    # Sort lists by start datetime
+    eventsAttended.sort(key=lambda event: event.start, reverse=True)
+    eventsGoing.sort(key=lambda event: event.start, reverse=True)
+
+    # Return page with user current event data
     page = make_response(render_template(
         'userEventMeeting.html',
         user=checkUser,
@@ -591,30 +552,32 @@ def profileEvent(num, first, last):
 @login_required
 def profileEventOld(num, first, last):
 
+    # Query for user based on first name, last name, and their number count
     checkUser = User.query.filter_by(
         firstname=first,
         lastname=last,
         namecount=num).first()
 
+    # User doesn't exsist
     if checkUser is None:
 
         flash('User not found', 'error')
         return sendoff('index')
 
+    # Leaders don't attend events
     if checkUser.leader:
 
         return redirect(url_for('memberType', identifier='leader'))
 
+    # Query every event user attended
     attended = UserEvent.query.filter_by(
         userid=checkUser.id, attended=True).all()
 
-    eventsAttended = []
+    # Get every event object and sort by start datetime for all events user attended
+    eventsAttended = [Event.query.get(event.eventid) for event in attended]
+    eventsAttended.sort(key=lambda event: event.start, reverse=True)
 
-    for events in attended:
-        eventsAttended.append(Event.query.get(events.eventid))
-
-    eventsAttended.sort(key=lambda event: event.start)
-
+    # Return page with data about every event user ever attended
     page = make_response(render_template(
         'userEventMeeting.html',
         user=checkUser,
@@ -1046,34 +1009,35 @@ def userCreation():
                 db.session.commit()
 
                 html = f'''
-<p>Hi,</p>
+<p>Hello,</p>
 
-<p>A JYL Toolbox has been created for you</p>
+<p>A JYL Toolbox account has been created for you</p>
 
 <p>Login here: <a href="#">JYL Toolbox</a></p>
 
-<p>Use this email and this password: {{ passNum }}</p>
+<p>Use this email ({email}) and this password: {passNum}</p>
 
-<p>For security reasons, you should reset your password since this was a temporary password.</p>
+<p>For security reasons, you should reset your password since this is a temporary password.</p>
 
-    <p>- <a href="#" class="jyl">JYL Toolbox</a></p>
+<p>- <a href="#" class="jyl">JYL Toolbox</a></p>
                 '''
-                text = f'''
-Hi,
 
-A JYL Toolbox has been created for you
+                text = f'''
+Hello,
+
+A JYL Toolbox account has been created for you
 
 Login here: https://url.com
 
-Use this email and this password: {passNum}
+Use this email ({email}) and this password: {passNum}
 
-For security reasons, you should reset your password since this was a temporary password.
+For security reasons, you should reset your password since this is a temporary password.
 
 - JYL Toolbox
                 '''
 
                 with app.app_context():
-                    msg = Message('New User - JYL Toolbox',
+                    msg = Message('New JYL Toolbox account',
                                   recipients=[form.email.data])
                     msg.body = text
                     msg.html = html
@@ -4113,6 +4077,7 @@ def reset_token(token):
 @app.route('/logout', methods=['GET'])
 def logout():
 
+    # If user is logged in, log them out
     if current_user.is_authenticated:
         logout_user()
         flash('Logout successful', 'success')
@@ -4127,11 +4092,13 @@ SEO
 
 @app.route('/robots.txt', methods=['GET'])
 def robots():
+    # Return static robots.txt file for any web crawlers that use it
     return send_file('templates/seo/robots.txt')
 
 
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
+    # Return static sitemap XML file for SEO
     sitemap_xml = render_template('seo/sitemap.xml')
     response = make_response(sitemap_xml)
     response.headers["Content-Type"] = "application/xml"
@@ -4145,9 +4112,11 @@ Error Handlers
 
 @app.errorhandler(404)
 def page_not_found(e):
+    # 404 error page
     return render_template('404.html'), 404
 
 
 @app.errorhandler(500)
 def error_for_server(e):
+    # 500 error page
     return render_template('500.html')
