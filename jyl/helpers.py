@@ -1,7 +1,8 @@
 from re import search
-from jyl import login_manager
+from jyl import login_manager, mail
 from flask import redirect, url_for, request
 from jyl.models import User
+from flask_mail import Mail, Message
 from urllib.parse import urlparse
 
 
@@ -151,3 +152,17 @@ def cleanValue(num):
     if num.is_integer():
         return int(num)
     return num
+
+
+def asyncEmail(app, html, text, users, subject):
+
+    with app.app_context():
+            with mail.connect() as conn:
+                for user in users:
+                    msg = Message(subject,
+                                  recipients=[user.email])
+                    msg.body = text
+                    msg.html = html
+
+                    conn.send(msg)
+
