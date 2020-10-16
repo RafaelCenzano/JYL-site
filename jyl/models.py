@@ -210,3 +210,11 @@ class YearAudit(db.Model):
     time = db.Column(db.DateTime, nullable=False, unique=False)
     confirmed = db.Column(db.Boolean, nullable=False, unique=False)
     completed = db.Column(db.Boolean, nullable=False, unique=False)
+
+
+class Announcments(db.Model):
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    time = db.Column(db.DateTime, nullable=False, unique=False)
+    message = db.Column(db.String(5000), unique=False)
+    creater = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=False)
+    uniqueViews = db.Column(db.Integer, nullable=False, unique=False)
