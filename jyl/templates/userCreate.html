@@ -114,36 +114,38 @@
         {{ form.phone() }}
     {% endif %}
     </div>
-    <div class="form-group">
-    {% if form.leader.errors %}
-        {{ form.leader(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-            {% for error in form.leader.errors %}
-                <span>{{ error }}</span>
-            {% endfor %}
+    {% if current_user.leader %}
+        <div class="form-group">
+        {% if form.leader.errors %}
+            {{ form.leader(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.leader.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <label class="container">{{ form.leader.label(class="form-label-css-checkbox") }}
+                {{ form.leader() }}
+                <span class="checkmark"></span>
+            </label>
+        {% endif %}
         </div>
-    {% else %}
-        <label class="container">{{ form.leader.label(class="form-label-css-checkbox") }}
-            {{ form.leader() }}
-            <span class="checkmark"></span>
-        </label>
-    {% endif %}
-    </div>
-    <div class="form-group">
-    {% if form.admin.errors %}
-        {{ form.admin(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-            {% for error in form.admin.errors %}
-                <span>{{ error }}</span>
-            {% endfor %}
+        <div class="form-group">
+        {% if form.admin.errors %}
+            {{ form.admin(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.admin.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <label class="container">{{ form.admin.label(class="form-label-css-checkbox") }}
+                {{ form.admin() }}
+                <span class="checkmark"></span>
+            </label>
+        {% endif %}
         </div>
-    {% else %}
-        <label class="container">{{ form.admin.label(class="form-label-css-checkbox") }}
-            {{ form.admin() }}
-            <span class="checkmark"></span>
-        </label>
     {% endif %}
-    </div>
     <div class="form-group">
         {{ form.submit() }}
     </div>
