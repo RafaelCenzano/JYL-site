@@ -1624,6 +1624,8 @@ def meetingCreate():
 
 <p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
 
+<p>Description: {form.description.data}</p>
+
 <p>- JYL Toolbox</p>
                     '''
 
