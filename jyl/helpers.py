@@ -5,7 +5,7 @@ from flask import redirect, request, url_for
 from flask_mail import Mail, Message
 
 from jyl import db, login_manager, mail
-from jyl.models import User
+from jyl.models import *
 
 SECONDS_IN_YEAR = 60 * 60 * 24 * 365
 
@@ -216,3 +216,94 @@ def asyncEmail(app, html, text, users, subject):
                 msg.html = html
 
                 conn.send(msg)
+
+def asyncDeleteUser(user):
+
+    # Query all UserMeeting and UserEvent rows
+    meetings = UserMeeting.query.filter_by(userid=userId).all()
+    events = UserEvent.query.filter_by(userid=userId).all()
+
+    # Update attendance count for meetings
+    for meeting in meetings:
+        if meeting.attended:
+            thisMeeting = Meeting.query.get(meeting.meetingid)
+            thisMeeting.attendancecount -= 1
+
+            db.session.commit()
+
+    # Update attendance count for events
+    for event in events:
+        if event.attended:
+            thisEvent = Event.query.get(event.eventid)
+            thisEvent.attendancecount -= 1
+
+            db.session.commit()
+
+    # Delete all user meeting with this user
+    for meeting in meetings:
+        db.session.delete(meeting)
+        db.session.commit()
+
+    # Delete all user events with this user
+    for event in events:
+        db.session.delete(event)
+        db.session.commit()
+
+    # Delete the user
+    db.session.delete(checkUser)
+    db.session.commit()
+
+
+def eventDelete(event):
+
+    events = UserEvent.query.filter_by(eventid=event.id).all()
+
+    eventHours = event.hourcount
+
+    for userEvent in events:
+        if userEvent.attended:
+            thisUser = User.query.get(userEvent.userid)
+            thisUser.lifetimeEventHours -= eventHours
+            thisUser.lifetimeEventCount -= 1
+
+            if event.currentYear:
+                thisUser.currentHours -= eventHours
+                thisUser.currentEventHours -= eventHours
+                thisUser.currentEventCount -= 1
+
+            db.session.commit()
+
+    for userEvent in events:
+        db.session.delete(userEvent)
+        db.session.commit()
+
+    db.session.delete(event)
+    db.session.commit()
+
+
+def meetingDelete(meeting):
+
+    meetings = UserMeeting.query.filter_by(meetingid=meeting.id).all()
+
+    meetingHours = meeting.hourcount
+
+    for userMeeting in meetings:
+        if userMeeting.attended:
+            thisUser = User.query.get(userMeeting.userid)
+            thisUser.lifetimeMeetingHours -= meetingHours
+            thisUser.lifetimeMeetingCount -= 1
+
+            if meeting.currentYear:
+                thisUser.currentHours -= meetingHours
+                thisUser.currentMeetingHours -= meetingHours
+                thisUser.currentMeetingCount -= 1
+
+            db.session.commit()
+
+    for userMeeting in meetings:
+        db.session.delete(userMeeting)
+        db.session.commit()
+
+    db.session.delete(meeting)
+    db.session.commit()
+

@@ -16,6 +16,7 @@ from jyl.forms import *
 from jyl.helpers import *
 from jyl.models import *
 
+
 # Timezone
 pacific = timezone('US/Pacific')
 
@@ -1805,19 +1806,9 @@ def userDelete(userId):
                 if checkUser.id == current_user.id:
                     logout_user()
 
-                meetings = UserMeeting.query.filter_by(userid=userId).all()
-                events = UserEvent.query.filter_by(userid=userId).all()
-
-                for meeting in meetings:
-                    db.session.delete(meeting)
-                    db.session.commit()
-
-                for event in events:
-                    db.session.delete(event)
-                    db.session.commit()
-
-                db.session.delete(checkUser)
-                db.session.commit()
+                # Delete User threaded
+                deleteThread = Thread(target=asyncDeleteUser, args=[checkUser])
+                deleteThread.start()
 
                 flash('User data deleted', 'success')
                 return redirect(url_for('creation'))
@@ -2593,14 +2584,8 @@ def eventDelete(eventId):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
-                events = UserEvent.query.filter_by(eventid=eventId).all()
-
-                for event in events:
-                    db.session.delete(event)
-                    db.session.commit()
-
-                db.session.delete(checkEvent)
-                db.session.commit()
+                deleteThread = Thread(target=eventDelete, args=[checkEvent])
+                deleteThread.start()
 
                 flash('Event data deleted', 'success')
                 return redirect(url_for('creation'))
@@ -2744,6 +2729,7 @@ def eventAttendance(eventId):
             users = User.query.filter_by(
                 currentmember=True, leader=False).all()
             users.sort(key=lambda user: user.lastname.lower())
+
             count = 0
 
             for user in users:
