@@ -892,30 +892,36 @@ def meetingReviewDelete(idOfMeeting):
         db.session.rollback()
         checkMeeting = Meeting.query.get(idOfMeeting)
 
+    # Meeting doesn't exsist
     if checkMeeting is None:
 
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    # Check that meeting has occured
     if pacific.localize(checkMeeting.start) > pacific.localize(datetime.now()):
 
         flash('Meeting hasn\'t occured yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Query for UserMeeting for the current_user
     checkUserMeeting = UserMeeting.query.filter_by(
         userid=current_user.id, meetingid=idOfMeeting).first()
 
+    # Check that user wrote a review
     if checkUserMeeting and checkUserMeeting.comment is None:
 
         flash('You haven\'t written a review yet', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Check that user wrote a review and attended the meeting
     if checkUserMeeting and checkUserMeeting.comment:
 
         form = ConfirmPassword()
 
         if form.validate_on_submit():
 
+            # Confirm user identity with password
             if bcrypt.check_password_hash(
                 current_user.password,
                 sha256(
@@ -923,6 +929,7 @@ def meetingReviewDelete(idOfMeeting):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
+                # Remove from reaction counts
                 if checkUserMeeting.upvote:
                     checkMeeting.upvote -= 1
                 elif checkUserMeeting.unsurevote:
@@ -930,6 +937,7 @@ def meetingReviewDelete(idOfMeeting):
                 else:
                     checkMeeting.downvote -= 1
 
+                # Remove user's comment
                 checkUserMeeting.comment = None
                 checkUserMeeting.upvote = False
                 checkUserMeeting.unsurevote = False
@@ -3501,7 +3509,7 @@ def eventReviewEdit(idOfEvent):
 @login_required
 def eventReviewDelete(idOfEvent):
 
-    checkEvent = Event.query.get(idOfMeeting)
+    checkEvent = Event.query.get(idOfEvent)
 
     if checkEvent is None:
 
