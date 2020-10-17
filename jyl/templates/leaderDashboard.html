@@ -80,11 +80,13 @@
                     <h4>Change Event</h4>
                 </li>
             </a>
+            {% if current_user.leader %}
             <a href="{{ url_for('userEditList') }}">
                 <li>
                     <h4>Change User</h4>
                 </li>
             </a>
+            {% endif %}
         </ul>
     </div>
     {% if current_user.leader %}
