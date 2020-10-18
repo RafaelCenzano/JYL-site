@@ -42,10 +42,10 @@ li,
 li:visited {
     background-color: #83868a;
     padding: 10px 3px;
-    max-width: 90%;
+    /*max-width: 90%;*/
     margin: auto;
     transition-duration: 0.4s;
-    border-radius: 15px;
+    /*border-radius: 15px;*/
 }
 
 li.light,
