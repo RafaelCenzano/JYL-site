@@ -3023,29 +3023,35 @@ def eventAttendance(eventId):
 
                 if checkUserEvent is not None and thisUser is None:
 
-                    checkUserEvent.attended = False
+                    # If user had previously been marked as having attended
+                    if checkUserMeeting.attended:
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours -= checkEvent.hourcount
-                    thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
-                    thisUserQuery.lifetimeEventCount -= 1
-                    thisUserQuery.currentHours -= checkEvent.hourcount
-                    thisUserQuery.currentEventHours -= checkEvent.hourcount
-                    thisUserQuery.currentEventCount -= 1
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours -= checkEvent.hourcount
+                        thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
+                        thisUserQuery.lifetimeEventCount -= 1
+                        thisUserQuery.currentHours -= checkEvent.hourcount
+                        thisUserQuery.currentEventHours -= checkEvent.hourcount
+                        thisUserQuery.currentEventCount -= 1
+
+                    checkUserEvent.attended = False
 
                     db.session.commit()
 
                 elif checkUserEvent is not None and thisUser is not None:
 
-                    checkUserEvent.attended = True
+                    # If user had previously been marked as having not attended
+                    if not checkUserMeeting.attended:
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours += checkEvent.hourcount
-                    thisUserQuery.lifetimeEventHours += checkEvent.hourcount
-                    thisUserQuery.lifetimeEventCount += 1
-                    thisUserQuery.currentHours += checkEvent.hourcount
-                    thisUserQuery.currentEventHours += checkEvent.hourcount
-                    thisUserQuery.currentEventCount += 1
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours += checkEvent.hourcount
+                        thisUserQuery.lifetimeEventHours += checkEvent.hourcount
+                        thisUserQuery.lifetimeEventCount += 1
+                        thisUserQuery.currentHours += checkEvent.hourcount
+                        thisUserQuery.currentEventHours += checkEvent.hourcount
+                        thisUserQuery.currentEventCount += 1
+
+                    checkUserEvent.attended = True
 
                     db.session.commit()
                     count += 1
