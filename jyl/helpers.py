@@ -220,7 +220,12 @@ def asyncEmail(app, html, text, users, subject):
 def asyncDeleteUser(user):
 
     # Query all UserMeeting and UserEvent rows
-    meetings = UserMeeting.query.filter_by(userid=userId).all()
+    try:
+        meetings = UserMeeting.query.filter_by(userid=userId).all()
+    except:
+        db.session.rollback()
+        meetings = UserMeeting.query.filter_by(userid=userId).all()
+
     events = UserEvent.query.filter_by(userid=userId).all()
 
     # Update attendance count for meetings
@@ -256,10 +261,17 @@ def asyncDeleteUser(user):
 
 def eventDelete(event):
 
-    events = UserEvent.query.filter_by(eventid=event.id).all()
+    # Query for UserEvent rows with this event
+    try:
+        events = UserEvent.query.filter_by(eventid=event.id).all()
+    except:
+        db.session.rollback()
+        events = UserEvent.query.filter_by(eventid=event.id).all()
 
+    # Store the event length
     eventHours = event.hourcount
 
+    # Subtract counts and hours from users since event is being deleted
     for userEvent in events:
         if userEvent.attended:
             thisUser = User.query.get(userEvent.userid)
@@ -273,20 +285,29 @@ def eventDelete(event):
 
             db.session.commit()
 
+    # Delete all UserEvent rows with this event
     for userEvent in events:
         db.session.delete(userEvent)
         db.session.commit()
 
+    # Delete the event
     db.session.delete(event)
     db.session.commit()
 
 
 def meetingDelete(meeting):
 
-    meetings = UserMeeting.query.filter_by(meetingid=meeting.id).all()
+    # Query for UserMeetings with this meeting
+    try:
+        meetings = UserMeeting.query.filter_by(meetingid=meeting.id).all()
+    except:
+        db.session.rollback()
+        meetings = UserMeeting.query.filter_by(meetingid=meeting.id).all()
 
+    # Get meeting length
     meetingHours = meeting.hourcount
 
+    # Subtract counts and hours from users since meetnig is being deleted
     for userMeeting in meetings:
         if userMeeting.attended:
             thisUser = User.query.get(userMeeting.userid)
@@ -300,10 +321,12 @@ def meetingDelete(meeting):
 
             db.session.commit()
 
+    # Delete all UserMeeting rows with this meeting
     for userMeeting in meetings:
         db.session.delete(userMeeting)
         db.session.commit()
 
+    # Delete meeting
     db.session.delete(meeting)
     db.session.commit()
 
