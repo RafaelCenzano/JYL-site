@@ -948,6 +948,7 @@ def meetingReviewDelete(idOfMeeting):
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        # Return page to confirm password
         date = checkMeeting.start.strftime('%B %-d, %Y')
         page = make_response(
             render_template(
@@ -966,27 +967,39 @@ def meetingReviewDelete(idOfMeeting):
 @login_required
 def meetingInfo(idOfMeeting):
 
-    checkMeeting = Meeting.query.get(idOfMeeting)
+    # Query for Meeting
+    try:
+        checkMeeting = Meeting.query.get(idOfMeeting)
+    except:
+        db.session.rollback()
+        checkMeeting = Meeting.query.get(idOfMeeting)
 
+    # Meeting not found
     if checkMeeting is None:
 
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    # Proccess meeting data into a dictionary
     eventMeeting = eventMeetingProccessing(checkMeeting, True)
 
     areyougoing = False
 
+    # Meeting has not occured yet
     if eventMeeting['future']:
+
+        # Query for UserMeeting
         checkUserMeeting = UserMeeting.query.filter_by(
             meetingid=idOfMeeting, userid=current_user.id).first()
+
+        # User has stated they plan to attend
         if checkUserMeeting is not None and checkUserMeeting.going:
             areyougoing = True
 
-    desc = []
-    for word in checkMeeting.description.split(' '):
-        desc.append(linkFormatting(word))
+    # Format meeting description
+    desc = [linkFormatting(word) for word in checkMeeting.description.split(' ')]
 
+    # Return page with meeting data
     page = make_response(
         render_template(
             'eventMeeting.html',
@@ -1013,8 +1026,10 @@ def meetingInfo(idOfMeeting):
 @login_required
 def creation():
 
+    # Allow only admins and leaders
     if current_user.leader or current_user.admin:
 
+        # Return the dashboard
         page = make_response(render_template('leaderDashboard.html'))
         page = cookieSwitch(page)
         page.set_cookie('current', 'creation', max_age=SECONDS_IN_YEAR)
@@ -1028,96 +1043,112 @@ def creation():
 @login_required
 def userCreation():
 
+    # Allow only leaders and admins
     if current_user.leader or current_user.admin:
 
         form = CreateUser()
 
         if form.validate_on_submit():
 
-            try:
-                email = form.email.data.lower()
+            # Make email lowercase only
+            email = form.email.data.lower()
 
+            # Query for user based on email
+            try:
+                duplicationCheck = User.query.filter_by(
+                    email=email).first()
+            except:
+                db.session.rollback()
                 duplicationCheck = User.query.filter_by(
                     email=email).first()
 
-                if duplicationCheck is not None:
+            # Email already exsist can't create account
+            if duplicationCheck is not None:
 
-                    flash(f'Duplicate email found', 'error')
+                flash(f'Duplicate email found', 'error')
+                return render_template('userCreate.html', form=form)
 
+            # Query to find if other users with the same name exsist
+            samename = User.query.filter_by(
+                firstname=form.first.data,
+                lastname=form.last.data).all()
+
+            # Generate random 6 digit password for new users
+            passNum = repr(randint(100000, 999999))
+
+            # Hash password with email, password, and security salt
+            tempPass = bcrypt.generate_password_hash(
+                sha256(
+                    (passNum +
+                     email +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+
+            # If no address make value None
+            if form.address.data == '':
+                address = None
+            else:
+                address = form.address.data
+
+            # If no phone number make value None
+            if form.phone.data == '':
+                phone = None
+
+            else:
+
+                # Check if value is proper length and all numbers
+                try:
+                    phone = repr(int(form.phone.data))
+                    if len(phone) != 10:
+                        raise BaseException
+                except BaseException:
+                    flash(
+                        'Phone number must be 10 digits long and only contain numbers',
+                        'warning')
+                    form.phone.data = ''
                     return render_template('userCreate.html', form=form)
 
-                samename = User.query.filter_by(
-                    firstname=form.first.data,
-                    lastname=form.last.data).all()
+            # Create new user
+            newUser = User(
+                firstname=form.first.data,
+                lastname=form.last.data,
+                email=email,
+                password=tempPass,
+                lifetimeHours=0.0,
+                lifetimeMeetingHours=0.0,
+                lifetimeEventHours=0.0,
+                lifetimeMeetingCount=0,
+                lifetimeEventCount=0,
+                currentHours=0.0,
+                currentMeetingHours=0.0,
+                currentEventHours=0.0,
+                currentMeetingCount=0,
+                currentEventCount=0,
+                nickname=None,
+                nicknameapprove=False,
+                admin=form.admin.data,
+                leader=form.leader.data,
+                namecount=len(samename),
+                school=form.school.data,
+                grade=form.grade.data,
+                currentmember=True,
+                numberphone=phone,
+                showemail=False,
+                showphone=False,
+                meetingAlertoneday=False,
+                meetingAlertthreeday=False,
+                meetingAlertoneweek=False,
+                eventAlertoneday=False,
+                eventAlertthreeday=False,
+                eventAlertoneweek=False,
+                address=address,
+                bio=None)
 
-                passNum = repr(randint(100000, 999999))
+            # Add to database
+            db.session.add(newUser)
+            db.session.commit()
 
-                tempPass = bcrypt.generate_password_hash(
-                    sha256(
-                        (passNum +
-                         email +
-                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
-
-                if form.address.data == '':
-                    address = None
-
-                else:
-                    address = form.address.data
-
-                if form.phone.data == '':
-                    phone = None
-
-                else:
-                    try:
-                        phone = repr(int(form.phone.data))
-                        if len(phone) != 10:
-                            raise BaseException
-                    except BaseException:
-                        flash(
-                            'Phone number must 10 digits long and only contain numbers',
-                            'warning')
-                        form.phone.data = ''
-                        return render_template('userCreate.html', form=form)
-
-                newUser = User(
-                    firstname=form.first.data,
-                    lastname=form.last.data,
-                    email=email,
-                    password=tempPass,
-                    lifetimeHours=0.0,
-                    lifetimeMeetingHours=0.0,
-                    lifetimeEventHours=0.0,
-                    lifetimeMeetingCount=0,
-                    lifetimeEventCount=0,
-                    currentHours=0.0,
-                    currentMeetingHours=0.0,
-                    currentEventHours=0.0,
-                    currentMeetingCount=0,
-                    currentEventCount=0,
-                    nickname=None,
-                    nicknameapprove=False,
-                    admin=form.admin.data,
-                    leader=form.leader.data,
-                    namecount=len(samename),
-                    school=form.school.data,
-                    grade=form.grade.data,
-                    currentmember=True,
-                    numberphone=phone,
-                    showemail=False,
-                    showphone=False,
-                    meetingAlertoneday=False,
-                    meetingAlertthreeday=False,
-                    meetingAlertoneweek=False,
-                    eventAlertoneday=False,
-                    eventAlertthreeday=False,
-                    eventAlertoneweek=False,
-                    address=address,
-                    bio=None)
-
-                db.session.add(newUser)
-                db.session.commit()
-
-                html = f'''
+            # Create html for email to new user
+            html = f'''
 <p>Hello,</p>
 
 <p>A JYL Toolbox account has been created for you</p>
@@ -1129,9 +1160,10 @@ def userCreation():
 <p>For security reasons, you should reset your password since this is a temporary password.</p>
 
 <p>- <a href="#" class="jyl">JYL Toolbox</a></p>
-                '''
+            '''
 
-                text = f'''
+            # Create backup text version for email to new user
+            text = f'''
 Hello,
 
 A JYL Toolbox account has been created for you
@@ -1143,24 +1175,19 @@ Use this email ({email}) and this password: {passNum}
 For security reasons, you should reset your password since this is a temporary password.
 
 - JYL Toolbox
-                '''
+            '''
 
-                with app.app_context():
-                    msg = Message('New JYL Toolbox account',
-                                  recipients=[form.email.data])
-                    msg.body = text
-                    msg.html = html
-                    mail.send(msg)
+            # Send async email
+            emailThread = Thread(target=asyncEmail, args=[app, html, text, [form.email.data], 'New JYL Toolbox account'])
+            emailThread.start()
 
-                flash(
-                    f'User created for {form.first.data} {form.last.data}',
-                    'success')
-
-            except BaseException as e:
-                flash(f'User couldn\'t be created. Error: {e}', 'error')
+            flash(
+                f'User created for {form.first.data} {form.last.data}',
+                'success')
 
             return redirect(url_for('creation'))
 
+        # Return page with create user form
         page = make_response(render_template('userCreate.html', form=form))
         page = cookieSwitch(page)
         page.set_cookie('current', 'userCreation', max_age=SECONDS_IN_YEAR)
@@ -1174,14 +1201,18 @@ For security reasons, you should reset your password since this is a temporary p
 @login_required
 def eventCreation():
 
+    # Only allow leaders and admins
     if current_user.leader or current_user.admin:
 
         form = CreateEventMeeting()
 
         if form.validate_on_submit():
 
+            # Calculate length of new event
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
+
+            # Create new Event object
             newEvent = Event(
                 name=form.name.data,
                 start=form.starttime.data,
@@ -1196,17 +1227,25 @@ def eventCreation():
                 attendancecount=0,
                 attendancecheck=False)
 
+            # Add to database
             db.session.add(newEvent)
             db.session.commit()
 
+            # If email notification is requested
             if form.email.data:
+
+                # Formate date
                 date = form.starttime.data.strftime('%B %-d, %Y at %-I:%M %p')
+                endtime = form.endtime.data.strftime('%-I:%M %p')
+
+                # Replace spaces with '+'
                 eventLocation = form.location.data.replace(' ', '+')
 
+                # Create html email
                 html = f'''
 <p>Hello,</p>
 
-<p>New event: {form.name.data} taking place on {date}.</p>
+<p>New event: {form.name.data} taking place on {date} to {endtime}.</p>
 
 <p>Description: {form.description.data}</p>
 
@@ -1215,10 +1254,11 @@ def eventCreation():
 <p>- JYL Toolbox</p>
                 '''
 
+                # Create text backup
                 text = f'''
 Hello,
 
-New event: {form.name.data} taking place on {date}
+New event: {form.name.data} taking place on {date} to {endtime}.
 
 Description: {form.description.data}
 
@@ -1227,22 +1267,17 @@ Location: {form.location.data}
 - JYL Toolbox
                 '''
 
+                # Query for all users that aren't leaders
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                with app.app_context():
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message('New Event - JYL Toolbox',
-                                          recipients=[user.email])
-                            msg.body = text
-                            msg.html = html
-
-                            conn.send(msg)
+                emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'New Event - JYL Toolbox'])
+                emailThread.start()
 
             flash(f'Event {form.name.data} created', 'success')
             return redirect(url_for('creation'))
 
+        # Return page with create event form
         page = make_response(
             render_template(
                 'eventMeetingForm.html',
@@ -1261,12 +1296,23 @@ Location: {form.location.data}
 @login_required
 def attendanceEventList():
 
+    # User must be a leader or admin
     if current_user.leader or current_user.admin:
 
-        currentEvents = Event.query.filter_by(currentYear=True).all()
-        currentEvents.sort(key=lambda event: event.start)
+        # Query for current events
+        try:
+            currentEvents = Event.query.filter_by(currentYear=True).all()
+        except:
+            db.session.rollback()
+            currentEvents = Event.query.filter_by(currentYear=True).all()
+
+        # Sort events by start time
+        currentEvents.sort(key=lambda event: event.start, reverse=True)
+
+        # Get current datetime
         now = pacific.localize(datetime.now())
 
+        # Return page with all the meetings
         page = make_response(
             render_template(
                 'attendanceList.html',
@@ -1289,12 +1335,23 @@ def attendanceEventList():
 @login_required
 def attendanceMeetingList():
 
+    # Only allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        currentMeetings = Meeting.query.filter_by(currentYear=True).all()
-        currentMeetings.sort(key=lambda meeting: meeting.start)
+        # Query for all current meetings
+        try:
+            currentMeetings = Meeting.query.filter_by(currentYear=True).all()
+        except:
+            db.session.rollback()
+            currentMeetings = Meeting.query.filter_by(currentYear=True).all()
+
+        # Sort meetings
+        currentMeetings.sort(key=lambda meeting: meeting.start, reverse=True)
+        
+        # Get current datetime
         now = pacific.localize(datetime.now())
 
+        # Return page with list of meetings
         page = make_response(
             render_template(
                 'attendanceList.html',
@@ -1317,15 +1374,23 @@ def attendanceMeetingList():
 @login_required
 def meetingAttendance(idOfMeeting):
 
+    # Only allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkMeeting = Meeting.query.get(idOfMeeting)
+        # Query for meeting
+        try:
+            checkMeeting = Meeting.query.get(idOfMeeting)
+        except:
+            db.session.rollback()
+            checkMeeting = Meeting.query.get(idOfMeeting)
 
+        # Meeting doesn't exsist
         if checkMeeting is None:
 
             flash('Meeting not found', 'error')
             return sendoff('index')
 
+        # Check if meeting occured
         if pacific.localize(
                 checkMeeting.start) > pacific.localize(
                 datetime.now()):
@@ -1335,53 +1400,75 @@ def meetingAttendance(idOfMeeting):
 
         if request.method == 'POST':
 
+            # Query all current users who aren't leaders
             users = User.query.filter_by(
                 currentmember=True, leader=False).all()
+
+            # Sort by lastname
             users.sort(key=lambda user: user.lastname.lower())
             count = 0
 
             for user in users:
 
+                # Find user in form response
                 thisUser = request.form.get(
                     user.firstname +
                     user.lastname +
                     repr(
                         user.namecount))
 
+                # Query for UserMeeting of current user
                 checkUserMeeting = UserMeeting.query.filter_by(
                     meetingid=idOfMeeting, userid=user.id).first()
 
+                # User did not attend the meeting
                 if checkUserMeeting is not None and thisUser is None:
 
+                    # If user had previously been marked as having attended
+                    if checkUserMeeting.attended:
+
+                        # Update user hours and counts
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours -= checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingHours -= checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingCount -= 1
+                        thisUserQuery.currentHours -= checkMeeting.hourcount
+                        thisUserQuery.currentMeetingHours -= checkMeeting.hourcount
+                        thisUserQuery.currentMeetingCount -= 1
+
+                    # Mark as not attended
                     checkUserMeeting.attended = False
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours -= checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingHours -= checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingCount -= 1
-                    thisUserQuery.currentHours -= checkMeeting.hourcount
-                    thisUserQuery.currentMeetingHours -= checkMeeting.hourcount
-                    thisUserQuery.currentMeetingCount -= 1
-
+                    # Update the database
                     db.session.commit()
 
+                # User attended the meeting
                 elif checkUserMeeting is not None and thisUser is not None:
+
+                    # If user had not preiously been marked as not having attended
+                    if not checkUserMeeting.attended:
+
+                        # Update user hours and counts
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours += checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingCount += 1
+                        thisUserQuery.currentHours += checkMeeting.hourcount
+                        thisUserQuery.currentMeetingHours += checkMeeting.hourcount
+                        thisUserQuery.currentMeetingCount += 1
 
                     checkUserMeeting.attended = True
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours += checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingCount += 1
-                    thisUserQuery.currentHours += checkMeeting.hourcount
-                    thisUserQuery.currentMeetingHours += checkMeeting.hourcount
-                    thisUserQuery.currentMeetingCount += 1
-
+                    # Save to database
                     db.session.commit()
+
+                    # Add to count of total people who attended
                     count += 1
 
-                elif thisUser and checkUserMeeting is None:
+                # User attended the meeting but has no UserMeeting row
+                elif thisUser is not None and checkUserMeeting is None:
 
+                    # Create new UserMeeting for user
                     newUserMeeting = UserMeeting(
                         meetingid=idOfMeeting,
                         userid=user.id,
@@ -1392,8 +1479,11 @@ def meetingAttendance(idOfMeeting):
                         unsurevote=False,
                         downvote=False,
                         currentYear=True)
+
+                    # add new UserMeeting object to database
                     db.session.add(newUserMeeting)
 
+                    # Update user hours and counts
                     thisUserQuery = User.query.get(user.id)
                     thisUserQuery.lifetimeHours += checkMeeting.hourcount
                     thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
@@ -1402,40 +1492,54 @@ def meetingAttendance(idOfMeeting):
                     thisUserQuery.currentMeetingHours += checkMeeting.hourcount
                     thisUserQuery.currentMeetingCount += 1
 
+                    # Save to database
                     db.session.commit()
+
+                    # add to count of total people who attended
                     count += 1
 
+            # Update meeting attendance count
             checkMeeting.attendancecount = count
+
+            # Save to database
             db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('attendanceMeetingList'))
 
+        # Query for all users that are not leaders
         users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
+        # Sort by last name
         users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
+            # Query for UserMeeting row of user
             checkUserMeeting = UserMeeting.query.filter_by(
                 meetingid=idOfMeeting, userid=user.id).first()
 
+            # Create dictionary for each user
             data = {}
 
             data['check'] = False
 
+            # If User was marked as attending this meeting
             if checkUserMeeting is not None and checkUserMeeting.attended:
                 data['check'] = True
 
+            # Add data for user name preference
             data['nicknameapprove'] = user.nicknameapprove
             data['firstname'] = user.firstname
             data['lastname'] = user.lastname
             data['nickname'] = user.nickname
             data['id'] = user.firstname + user.lastname + repr(user.namecount)
 
+            # Add dictionary into 'inputs' list
             inputs.append(data)
 
+        # Return page with all users and checkboxes for attendance
         page = make_response(
             render_template(
                 'attendance.html',
@@ -1452,71 +1556,101 @@ def meetingAttendance(idOfMeeting):
 @login_required
 def meetingAttendance1(idOfMeeting):
 
+    # Only allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkMeeting = Meeting.query.get(idOfMeeting)
+        # Query for meeting
+        try:
+            checkMeeting = Meeting.query.get(idOfMeeting)
+        except:
+            db.session.rollback()
+            checkMeeting = Meeting.query.get(idOfMeeting)
 
+        # Meeting doesn't exsist
         if checkMeeting is None:
 
             flash('Meeting not found', 'error')
             return sendoff('index')
 
+        # Check if meeting occured
         if pacific.localize(
                 checkMeeting.start) > pacific.localize(
                 datetime.now()):
 
-            flash('Event hasn\'t occured yet', 'warning')
-            return redirect(url_for('attendanceMeetingList'))
+            flash('Meeting hasn\'t occured yet', 'warning')
+            return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
         if request.method == 'POST':
 
+            # Query all current users who aren't leaders
             users = User.query.filter_by(
                 currentmember=True, leader=False).all()
+
+            # Sort by lastname
             users.sort(key=lambda user: user.lastname.lower())
             count = 0
 
             for user in users:
 
+                # Find user in form response
                 thisUser = request.form.get(
                     user.firstname +
                     user.lastname +
                     repr(
                         user.namecount))
 
+                # Query for UserMeeting of current user
                 checkUserMeeting = UserMeeting.query.filter_by(
                     meetingid=idOfMeeting, userid=user.id).first()
 
+                # User did not attend the meeting
                 if checkUserMeeting is not None and thisUser is None:
 
+                    # If user had previously been marked as having attended
+                    if checkUserMeeting.attended:
+
+                        # Update user hours and counts
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours -= checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingHours -= checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingCount -= 1
+                        thisUserQuery.currentHours -= checkMeeting.hourcount
+                        thisUserQuery.currentMeetingHours -= checkMeeting.hourcount
+                        thisUserQuery.currentMeetingCount -= 1
+
+                    # Mark as not attended
                     checkUserMeeting.attended = False
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours -= checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingHours -= checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingCount -= 1
-                    thisUserQuery.currentHours -= checkMeeting.hourcount
-                    thisUserQuery.currentMeetingHours -= checkMeeting.hourcount
-                    thisUserQuery.currentMeetingCount -= 1
-
+                    # Update the database
                     db.session.commit()
 
+                # User attended the meeting
                 elif checkUserMeeting is not None and thisUser is not None:
+
+                    # If user had not preiously been marked as not having attended
+                    if not checkUserMeeting.attended:
+
+                        # Update user hours and counts
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours += checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
+                        thisUserQuery.lifetimeMeetingCount += 1
+                        thisUserQuery.currentHours += checkMeeting.hourcount
+                        thisUserQuery.currentMeetingHours += checkMeeting.hourcount
+                        thisUserQuery.currentMeetingCount += 1
 
                     checkUserMeeting.attended = True
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours += checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
-                    thisUserQuery.lifetimeMeetingCount += 1
-                    thisUserQuery.currentHours += checkMeeting.hourcount
-                    thisUserQuery.currentMeetingHours += checkMeeting.hourcount
-                    thisUserQuery.currentMeetingCount += 1
-
+                    # Save to database
                     db.session.commit()
+
+                    # Add to count of total people who attended
                     count += 1
 
-                elif thisUser and checkUserMeeting is None:
+                # User attended the meeting but has no UserMeeting row
+                elif thisUser is not None and checkUserMeeting is None:
 
+                    # Create new UserMeeting for user
                     newUserMeeting = UserMeeting(
                         meetingid=idOfMeeting,
                         userid=user.id,
@@ -1527,8 +1661,11 @@ def meetingAttendance1(idOfMeeting):
                         unsurevote=False,
                         downvote=False,
                         currentYear=True)
+
+                    # add new UserMeeting object to database
                     db.session.add(newUserMeeting)
 
+                    # Update user hours and counts
                     thisUserQuery = User.query.get(user.id)
                     thisUserQuery.lifetimeHours += checkMeeting.hourcount
                     thisUserQuery.lifetimeMeetingHours += checkMeeting.hourcount
@@ -1537,40 +1674,54 @@ def meetingAttendance1(idOfMeeting):
                     thisUserQuery.currentMeetingHours += checkMeeting.hourcount
                     thisUserQuery.currentMeetingCount += 1
 
+                    # Save to database
                     db.session.commit()
+
+                    # add to count of total people who attended
                     count += 1
 
+            # Update meeting attendance count
             checkMeeting.attendancecount = count
+
+            # Save to database
             db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+        # Query for all users that are not leaders
         users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
+        # Sort by last name
         users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
+            # Query for UserMeeting row of user
             checkUserMeeting = UserMeeting.query.filter_by(
                 meetingid=idOfMeeting, userid=user.id).first()
 
+            # Create dictionary for each user
             data = {}
 
             data['check'] = False
 
+            # If User was marked as attending this meeting
             if checkUserMeeting is not None and checkUserMeeting.attended:
                 data['check'] = True
 
+            # Add data for user name preference
             data['nicknameapprove'] = user.nicknameapprove
             data['firstname'] = user.firstname
             data['lastname'] = user.lastname
             data['nickname'] = user.nickname
             data['id'] = user.firstname + user.lastname + repr(user.namecount)
 
+            # Add dictionary into 'inputs' list
             inputs.append(data)
 
+        # Return page with all users and checkboxes for attendance
         page = make_response(
             render_template(
                 'attendance.html',
@@ -1587,13 +1738,17 @@ def meetingAttendance1(idOfMeeting):
 @login_required
 def meetingCreate():
 
+    # Only allow leaders and admins
     if current_user.leader or current_user.admin:
 
         form = CreateEventMeeting()
+
+        # Fill in name as meetings don't have names
         form.name.data = 'filler'
 
         if request.method == 'POST' and form.validate_on_submit():
 
+            # Endtime must be after starttime
             if form.endtime.data <= form.starttime.data:
                 flash('Endtime must be after starttime', 'error')
                 return render_template(
@@ -1602,9 +1757,11 @@ def meetingCreate():
                     meeting=True,
                     edit=False)
 
+            # Get the length of the meeting
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
 
+            # Create new meeting object
             newMeeting = Meeting(
                 start=form.starttime.data,
                 end=form.endtime.data,
@@ -1618,17 +1775,23 @@ def meetingCreate():
                 attendancecount=0,
                 attendancecheck=False)
 
+            # Add and save to the database
             db.session.add(newMeeting)
             db.session.commit()
 
+            # If email notification is requested
             if form.email.data:
-                date = form.starttime.data.strftime('%B %-d, %Y')
+
+                # Format date and location
+                date = form.starttime.data.strftime('%B %-d, %Y from %-I:%M %p')
+                endtime = form.endtime.data.strftime('%-I:%M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
+                # Create html email
                 html = f'''
 <p>Hello,</p>
 
-<p>New meeting taking place on {date}.</p>
+<p>New meeting taking place on {date} to {endtime}.</p>
 
 <p>Location: <a href="https://www.google.com/maps/place/{eventLocation}">{form.location.data}</a></p>
 
@@ -1637,10 +1800,11 @@ def meetingCreate():
 <p>- JYL Toolbox</p>
                     '''
 
+                # Create text backup
                 text = f'''
 Hello,
 
-New meeting taking place on {date}
+New meeting taking place on {date} to {endtime}.
 
 Description: {form.description.data}
 
@@ -1649,29 +1813,28 @@ Location: {form.location.data}
 - JYL Toolbox
                 '''
 
+                # Query for all users who aren't leaders
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                with app.app_context():
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message('New Meeting - JYL Toolbox',
-                                          recipients=[user.email])
-                            msg.body = text
-                            msg.html = html
+                emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'New Meeting - JYL Toolbox'])
+                emailThread.start()
 
-                            conn.send(msg)
-
+            # Format date of meeting
             meetingDate = form.starttime.data.strftime('%B %-d, %Y')
+
             flash(f'New meeting created for {meetingDate}', 'success')
             return redirect(url_for('creation'))
 
+        # Get current datetime
         now = pacific.localize(datetime.now())
 
-        form.starttime.data = now.replace(hour=12 + 4, minute=30, second=0)
-        form.endtime.data = now.replace(hour=12 + 6, minute=0, second=0)
+        # Set default times and location
+        form.starttime.data = now.replace(hour=12 + 4, minute=0, second=0)
+        form.endtime.data = now.replace(hour=12 + 5, minute=30, second=0)
         form.location.data = '2012 Pine Street San Francisco CA'
 
+        # Return page with form to create meeting
         page = make_response(
             render_template(
                 'eventMeetingForm.html',
@@ -1689,11 +1852,20 @@ Location: {form.location.data}
 @login_required
 def userEditList():
 
+    # Only allow leaders
     if current_user.leader:
 
-        currentMembers = User.query.filter_by(currentmember=True).all()
+        # Query all current users
+        try:
+            currentMembers = User.query.filter_by(currentmember=True).all()
+        except:
+            db.session.rollback()
+            currentMembers = User.query.filter_by(currentmember=True).all()
+
+        # Sort users by lastname
         currentMembers.sort(key=lambda user: user.lastname.lower())
 
+        # Return list of users
         page = make_response(
             render_template(
                 'memberEdit.html',
@@ -1710,10 +1882,17 @@ def userEditList():
 @login_required
 def userEdit(userId):
 
+    # Only allow leaders
     if current_user.leader:
 
-        user = User.query.get(userId)
+        # Query for user
+        try:
+            user = User.query.get(userId)
+        except:
+            db.session.rollback()
+            user = User.query.get(userId)
 
+        # Check if user exsist
         if user is None:
 
             flash('User doesn\'t exsist', 'error')
@@ -1721,20 +1900,23 @@ def userEdit(userId):
 
         form = CreateUser()
 
+        # Fill in user's email
         form.email.data = user.email
 
         if form.validate_on_submit():
 
+            # If address is empty set to None
             if form.address.data == '':
                 address = None
-
             else:
                 address = form.address.data
 
+            # If phone number is empty set to None
             if form.phone.data == '':
                 phone = None
 
             else:
+                # Confirm input is a proper phone number
                 try:
                     phone = repr(int(form.phone.data))
                     if len(phone) != 10:
@@ -1746,6 +1928,7 @@ def userEdit(userId):
                     form.phone.data = ''
                     return render_template('userEdit.html', form=form, user=user)
 
+            # Set user's data to form data
             user.firstname = form.first.data
             user.lastname = form.last.data
             user.school = form.school.data
@@ -1755,23 +1938,28 @@ def userEdit(userId):
             user.leader = form.leader.data
             user.admin = form.admin.data
 
+            # Save to database
             db.session.commit()
+
             flash(
                 f'User edited successfully',
                 'success')
 
             return redirect(url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname))
 
+        # If user address is none set to empty string
         if user.address is None:
             address = ''
         else:
             address = user.address
 
+        # If user phone number is none set to empty string
         if user.numberphone is None:
             phone = ''
         else:
             phone = user.numberphone
 
+        # Set all form fields to current user data
         form.first.data = user.firstname
         form.last.data = user.lastname
         form.email.data = user.email
@@ -1782,6 +1970,7 @@ def userEdit(userId):
         form.leader.data = user.leader
         form.admin.data = user.admin
 
+        # Return edit user form with user's current data
         page = make_response(
             render_template(
                 'userEdit.html',
@@ -1798,14 +1987,20 @@ def userEdit(userId):
 @login_required
 def userDelete(userId):
 
+    # Only allow leaders
     if current_user.leader:
 
-        checkUser = User.query.get(userId)
+        try:
+            checkUser = User.query.get(userId)
+        except:
+            db.session.rollback()
+            checkUser = User.query.get(userId)
 
         form = ConfirmPassword()
 
         if form.validate_on_submit():
 
+            # Confirm password before deleting
             if bcrypt.check_password_hash(
                 current_user.password,
                 sha256(
@@ -1813,6 +2008,7 @@ def userDelete(userId):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
+                # If current user is deleting themselves logout first
                 if checkUser.id == current_user.id:
                     logout_user()
 
@@ -1826,12 +2022,14 @@ def userDelete(userId):
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        # Warn user they are going to delete themselves
         if checkUser.id == current_user.id:
 
             flash(
                 'Warning you are on a path to delete your own account',
                 'warning')
 
+        # Return password confirm for deleting user
         return render_template(
             'passwordConfirm.html',
             form=form,
@@ -1847,37 +2045,52 @@ def userDelete(userId):
 @login_required
 def userEdit1(num, first, last):
 
-    checkUser = User.query.filter_by(
-        namecount=num,
-        firstname=first,
-        lastname=last).first()
+    # Query for user
+    try:
+        checkUser = User.query.filter_by(
+            namecount=num,
+            firstname=first,
+            lastname=last).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            namecount=num,
+            firstname=first,
+            lastname=last).first()
 
+    # User exsist and current user is equal to the user to edit
     if checkUser is not None and current_user.id == checkUser.id:
 
+        # Use different form for leaders
         if checkUser.leader:
 
             form = LeaderSetting()
 
             if form.validate_on_submit():
 
+                # If bio is blank set to None
                 if form.bio.data == '':
                     bio = None
                 else:
                     bio = form.bio.data
 
+                # Update user settings
                 checkUser.bio = bio
                 checkUser.showemail = form.showemail.data
                 checkUser.showphone = form.showphone.data
 
+                # Save to database
                 db.session.commit()
 
                 return sendoff('index')
 
+            # If user bio is None set to empty list
             if checkUser.bio:
                 bio = checkUser.bio
             else:
                 bio = ''
 
+            # Set form fields to 
             form.bio.data = bio
             form.showemail.data = checkUser.showemail
             form.showphone.data = checkUser.showphone
@@ -1889,11 +2102,13 @@ def userEdit1(num, first, last):
 
         if form.validate_on_submit():
 
+            # If bio is empty set to None
             if form.bio.data == '':
                 bio = None
             else:
                 bio = form.bio.data
 
+            # Update user's data and settings
             checkUser.bio = bio
             checkUser.showemail = form.showemail.data
             checkUser.showphone = form.showphone.data
@@ -1904,15 +2119,18 @@ def userEdit1(num, first, last):
             checkUser.eventAlertthreeday = False#form.eventAlertthreeday.data
             checkUser.eventAlertoneweek = False#form.eventAlertoneweek.data
 
+            # Save to database
             db.session.commit()
 
             return sendoff('profile')
 
+        # If bio is None set to empty string
         if checkUser.bio:
             bio = checkUser.bio
         else:
             bio = ''
 
+        # Set form fields to current user data
         form.bio.data = bio
         form.showemail.data = checkUser.showemail
         form.showphone.data = checkUser.showphone
@@ -1922,6 +2140,8 @@ def userEdit1(num, first, last):
         form.eventAlertoneday.data = False#checkUser.eventAlertoneday
         form.eventAlertthreeday.data = False#checkUser.eventAlertthreeday
         form.eventAlertoneweek.data = False#checkUser.eventAlertoneweek
+
+        # Jinja code for removed meeting alerts
         '''
         <h3>Meeting alerts</h3>
     <div class="form-group">
@@ -2017,6 +2237,7 @@ def userEdit1(num, first, last):
     </div>
         '''
 
+        # Return users settings form
         return render_template('userSetting.html', form=form, user=checkUser)
 
     flash('You can\'t access this settings page', 'warning')
@@ -2028,25 +2249,37 @@ def userEdit1(num, first, last):
 @login_required
 def userNicknameRequest(num, first, last):
 
-    checkUser = User.query.filter_by(
-        namecount=num,
-        firstname=first,
-        lastname=last).first()
+    # Query for user
+    try:
+        checkUser = User.query.filter_by(
+            namecount=num,
+            firstname=first,
+            lastname=last).first()
+    except:
+        db.session.rollback()
+        checkUser = User.query.filter_by(
+            namecount=num,
+            firstname=first,
+            lastname=last).first()
 
+    # User exsists and current user is requesting a nickname for themselves
     if checkUser is not None and current_user.id == checkUser.id:
 
         form = RequestNickname()
 
         if form.validate_on_submit():
 
+            # Confirm that user checked the box
             if not form.understand.data:
 
                 flash('You must check the required checkbox')
                 return render_template('requestNickname.html', form=form)
 
+            # Update nickname and don't approve nickname
             checkUser.nickname = form.nickname.data
             checkUser.nicknameapprove = False
 
+            # Save to the database
             db.session.commit()
 
             return redirect(
@@ -2056,9 +2289,11 @@ def userNicknameRequest(num, first, last):
                     first=first,
                     last=last))
 
+        # If user has a current nickname set form field to nickname
         if checkUser.nickname:
             form.nickname.data = checkUser.nickname
 
+        # Return page with conformation check and request for new nickname
         return render_template('requestNickname.html', form=form)
 
     flash('You can\'t access this nickname request page', 'warning')
@@ -2069,19 +2304,30 @@ def userNicknameRequest(num, first, last):
 @login_required
 def nicknameList():
 
+    # Only allow leaders
     if current_user.leader:
 
-        users = User.query.filter_by(nicknameapprove=False).all()
+        # Query for all people who don't have an approved nickname
+        try:
+            users = User.query.filter_by(nicknameapprove=False).all()
+        except:
+            db.session.rollback()
+            users = User.query.filter_by(nicknameapprove=False).all()
+
+        # Query for users with an approved nickname
         nickedMembers = User.query.filter_by(nicknameapprove=True).all()
         applicableMembers = []
 
+        # If user has unapproved nickname add them to the list
         for user in users:
             if user.nickname:
                 applicableMembers.append(user)
 
+        # Sort lists by lastname
         applicableMembers.sort(key=lambda user: user.lastname.lower())
         nickedMembers.sort(key=lambda user: user.lastname.lower())
 
+        # Return page with users with nicknames
         return render_template(
             'nicknameList.html',
             unapproved=applicableMembers,
@@ -2095,44 +2341,57 @@ def nicknameList():
 @login_required
 def approveNickname(userId):
 
+    # Only allow leaders
     if current_user.leader:
 
-        checkUser = User.query.get(userId)
+        # Query for user
+        try:
+            checkUser = User.query.get(userId)
+        except:
+            db.session.rollback()
+            checkUser = User.query.get(userId)
 
-        if checkUser:
+        # User not found
+        if checkUser is None:
 
-            if not checkUser.nicknameapprove and checkUser.nickname is not None:
-
-                form = ConfirmPassword()
-
-                if form.validate_on_submit():
-
-                    if bcrypt.check_password_hash(
-                        current_user.password,
-                        sha256(
-                            (form.password.data +
-                             current_user.email +
-                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
-
-                        checkUser.nicknameapprove = True
-                        db.session.commit()
-
-                        flash('Nickname approved', 'success')
-                        return redirect(url_for('nicknameList'))
-
-                    flash('Incorrect password', 'error')
-                    form.password.data = ''
-
-                return render_template(
-                    'passwordConfirm.html',
-                    form=form,
-                    title='Approve Nickname',
-                    message=f'Enter your password to approve {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
-
-            flash('User doesn\'t have a nickname request', 'error')
+            flash('User not found', 'warning')
             return sendoff('index')
 
-        flash('User not found', 'warning')
+        if not checkUser.nicknameapprove and checkUser.nickname is not None:
+
+            form = ConfirmPassword()
+
+            if form.validate_on_submit():
+
+                # Confirm leader password
+                if bcrypt.check_password_hash(
+                    current_user.password,
+                    sha256(
+                        (form.password.data +
+                         current_user.email +
+                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                    # Approve user's nickname
+                    checkUser.nicknameapprove = True
+
+                    # Save to database
+                    db.session.commit()
+
+                    flash('Nickname approved', 'success')
+                    return redirect(url_for('nicknameList'))
+
+                # Password isn't correect ask again
+                flash('Incorrect password', 'error')
+                form.password.data = ''
+
+            # Return form with password conformation
+            return render_template(
+                'passwordConfirm.html',
+                form=form,
+                title='Approve Nickname',
+                message=f'Enter your password to approve {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+
+        flash('User doesn\'t have a nickname request', 'error')
         return sendoff('index')
 
     flash('Must be a Leader', 'warning')
@@ -2143,45 +2402,59 @@ def approveNickname(userId):
 @login_required
 def disapproveNickname(userId):
 
+    # Only allow leaders
     if current_user.leader:
 
-        checkUser = User.query.get(userId)
+        # Query for user
+        try:
+            checkUser = User.query.get(userId)
+        except:
+            db.session.rollback()
+            checkUser = User.query.get(userId)
 
-        if checkUser:
+        # User not found
+        if checkUser is None:
 
-            if not checkUser.nicknameapprove and checkUser.nickname is not None:
-
-                form = ConfirmPassword()
-
-                if form.validate_on_submit():
-
-                    if bcrypt.check_password_hash(
-                        current_user.password,
-                        sha256(
-                            (form.password.data +
-                             current_user.email +
-                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
-
-                        checkUser.nicknameapprove = False
-                        checkUser.nickname = None
-                        db.session.commit()
-
-                        flash('Nickname denied', 'success')
-                        return redirect(url_for('nicknameList'))
-
-                    flash('Incorrect password', 'error')
-                    form.password.data = ''
-
-                return render_template(
-                    'passwordConfirm.html',
-                    form=form,
-                    title='Deny Nickname',
-                    message=f'Enter your password to deny {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
-
-            flash('User doesn\'t have a nickname request', 'error')
+            flash('User not found', 'warning')
             return sendoff('index')
 
-        flash('User not found', 'warning')
+        # Confirm user has a nickname request
+        if not checkUser.nicknameapprove and checkUser.nickname is not None:
+
+            form = ConfirmPassword()
+
+            if form.validate_on_submit():
+
+                # Check password
+                if bcrypt.check_password_hash(
+                    current_user.password,
+                    sha256(
+                        (form.password.data +
+                         current_user.email +
+                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                    # Set approved to False and remove nickname
+                    checkUser.nicknameapprove = False
+                    checkUser.nickname = None
+
+                    # Save to database
+                    db.session.commit()
+
+                    flash('Nickname denied', 'success')
+                    return redirect(url_for('nicknameList'))
+
+                # Leader password incorrect
+                flash('Incorrect password', 'error')
+                form.password.data = ''
+
+            # Return password conformation form
+            return render_template(
+                'passwordConfirm.html',
+                form=form,
+                title='Deny Nickname',
+                message=f'Enter your password to deny {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+
+        flash('User doesn\'t have a nickname request', 'error')
         return sendoff('index')
 
     flash('Must be a Leader', 'warning')
@@ -2192,45 +2465,58 @@ def disapproveNickname(userId):
 @login_required
 def removeNickname(userId):
 
+    # Only allow leaders
     if current_user.leader:
 
-        checkUser = User.query.get(userId)
+        # Query for user
+        try:
+            checkUser = User.query.get(userId)
+        except:
+            db.session.rollback()
+            checkUser = User.query.get(userId)
 
-        if checkUser:
-
-            if checkUser.nicknameapprove and checkUser.nickname is not None:
-
-                form = ConfirmPassword()
-
-                if form.validate_on_submit():
-
-                    if bcrypt.check_password_hash(
-                        current_user.password,
-                        sha256(
-                            (form.password.data +
-                             current_user.email +
-                             app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
-
-                        checkUser.nicknameapprove = False
-                        checkUser.nickname = None
-                        db.session.commit()
-
-                        flash('Nickname removed', 'success')
-                        return redirect(url_for('nicknameList'))
-
-                    flash('Incorrect password', 'error')
-                    form.password.data = ''
-
-                return render_template(
-                    'passwordConfirm.html',
-                    form=form,
-                    title='Remove Nickname',
-                    message=f'Enter your password to remove {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
-
-            flash('User doesn\'t have a nickname', 'error')
+        # User not found
+        if checkUser is None:
+            flash('User not found', 'warning')
             return sendoff('index')
 
-        flash('User not found', 'warning')
+        # User has a nickname
+        if checkUser.nicknameapprove and checkUser.nickname is not None:
+
+            form = ConfirmPassword()
+
+            if form.validate_on_submit():
+
+                # Confirm leader password
+                if bcrypt.check_password_hash(
+                    current_user.password,
+                    sha256(
+                        (form.password.data +
+                         current_user.email +
+                         app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+                    # Set nickname to None and nickname approve to False
+                    checkUser.nicknameapprove = False
+                    checkUser.nickname = None
+
+                    # Save to database
+                    db.session.commit()
+
+                    flash('Nickname removed', 'success')
+                    return redirect(url_for('nicknameList'))
+
+                # Leader password not found
+                flash('Incorrect password', 'error')
+                form.password.data = ''
+
+            # Return password conformation form
+            return render_template(
+                'passwordConfirm.html',
+                form=form,
+                title='Remove Nickname',
+                message=f'Enter your password to remove {checkUser.nickname} as {checkUser.firstname} {checkUser.lastname}\'s nickname')
+
+        flash('User doesn\'t have a nickname', 'error')
         return sendoff('index')
 
     flash('Must be a Leader', 'warning')
@@ -2241,6 +2527,8 @@ def removeNickname(userId):
 @login_required
 def changeYear():
 
+    # Only allow leaders
+    '''
     if current_user.leader:
 
         form = ConfirmPasswordConfirm()
@@ -2261,30 +2549,6 @@ def changeYear():
                     completed=False)
                 db.session.add(newYearPush)
                 db.session.commit()
-
-                html = f'''
-<p>Hello,</p>
-
-<p>{current_user.firstname} {current_user.lastname} started the Change Year proccess.</p>
-
-<p>This means that in 7 days the website will automatically make all meetings and events past meetings and events. It will increase all members grades and make graduated students non active members.</p>
-
-<p>If you or any leaders want to cancel this process go <a href="#">here</a>.</p>
-
-<p>- JYL Toolbox</p>
-                '''
-
-                text = f'''
-Hello,
-
-{current_user.firstname} {current_user.lastname} started the Change Year proccess.
-
-This means that in 7 days the website will automatically make all meetings and events past meetings and events. It will increase all members grades and make graduated students non active members.
-
-If you or any leaders want to cancel this process go here: LINK.
-
-- JYL Toolbox
-                '''
 
                 user = User.query.filter_by(
                     currentmember=True, leader=True).all()
@@ -2325,8 +2589,9 @@ If you or any leaders want to cancel this process go here: LINK.
                 deny=False))
         page = cookieSwitch(page)
         return page
+    '''
 
-    flash('Must be a Leader', 'warning')
+    flash('This is not working yet', 'warning')
     return sendoff('index')
 
 
@@ -2334,6 +2599,7 @@ If you or any leaders want to cancel this process go here: LINK.
 @login_required
 def changeYearDeny(changeyearId):
 
+    '''
     if current_user.leader:
 
         checkChangeYear = yearAudits.query.get(changeyearId)
@@ -2363,30 +2629,6 @@ def changeYearDeny(changeyearId):
 
                     checkChangeYear.confirmed = False
                     db.session.commit()
-
-                    html = f'''
-<p>Hello,</p>
-
-<p>{current_user.firstname} {current_user.lastname} canceled the Change Year proccess.</p>
-
-<p>This means that the proccess will not execute and will stay on record as denied.</p>
-
-<p>If you or any leaders want to create a new Change Year process go <a href="#">here</a>.</p>
-
-<p>- JYL Toolbox</p>
-                    '''
-
-                    text = f'''
-Hello,
-
-{current_user.firstname} {current_user.lastname} canceled the Change Year proccess.
-
-This means that the proccess will not execute and will stay on record as denied.
-
-If you or any leaders want to create a new Change Year process go here: LINK.
-
-- JYL Toolbox
-                    '''
 
                     user = User.query.filter_by(
                         currentmember=True, leader=True).all()
@@ -2431,8 +2673,9 @@ If you or any leaders want to create a new Change Year process go here: LINK.
             return page
 
         abort(404)
+    '''
 
-    flash('Must be a Leader', 'warning')
+    flash('This is not working', 'warning')
     return sendoff('index')
 
 
@@ -2440,24 +2683,34 @@ If you or any leaders want to create a new Change Year process go here: LINK.
 @login_required
 def eventEditList():
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        currentEvents = Event.query.filter_by(currentYear=True).all()
+        # Query for current events
+        try:
+            currentEvents = Event.query.filter_by(currentYear=True).all()
+        except:
+            db.session.rollback()
+            currentEvents = Event.query.filter_by(currentYear=True).all()
 
         futureEvents = []
         pastEvents = []
 
+        # Get current datetime
         now = pacific.localize(datetime.now())
 
+        # Sort events into past and future events
         for event in currentEvents:
             if pacific.localize(event.start) > now:
                 futureEvents.append(event)
             else:
                 pastEvents.append(event)
 
+        # Sort lists by date
         futureEvents.sort(key=lambda event: event.start)
         pastEvents.sort(key=lambda event: event.start)
 
+        # Return page with past and future events
         page = make_response(
             render_template(
                 'eventMeetingList.html',
@@ -2476,10 +2729,16 @@ def eventEditList():
 @login_required
 def eventEdit(eventId):
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkEvent = Event.query.get(eventId)
+        try:
+            checkEvent = Event.query.get(eventId)
+        except:
+            db.session.rollback()
+            checkEvent = Event.query.get(eventId)
 
+        # Event not found
         if checkEvent is None:
 
             flash('Event not found', 'error')
@@ -2489,9 +2748,11 @@ def eventEdit(eventId):
 
         if form.validate_on_submit():
 
+            # Get length of event
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
 
+            # Update event data
             checkEvent.hourcount = length
             checkEvent.name = form.name.data
             checkEvent.description = form.description.data
@@ -2499,18 +2760,24 @@ def eventEdit(eventId):
             checkEvent.start = form.starttime.data
             checkEvent.end = form.endtime.data
 
+            # Save to database
             db.session.commit()
 
+            # If email notification selected
             if form.email.data:
+
+                # Formate date
                 date = form.starttime.data.strftime('%B %-d, %Y at %-I:%M %p')
+                endtime = form.endtime.data.strftime('%-I:%M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
+                # Create html email
                 html = f'''
 <p>Hello,</p>
 
 <p>The event {form.name.data} recieved an edit. Here are the new details</p>
 
-<p>Date: {date}</p>
+<p>Time {date} to {endtime}</p>
 
 <p>Description: {form.description.data}</p>
 
@@ -2521,12 +2788,13 @@ def eventEdit(eventId):
 <p>- JYL Toolbox</p>
                 '''
 
+                # Create text backup
                 text = f'''
 Hello,
 
 The event {form.name.data} recieved an edit. Here are the new details
 
-Date: {date}
+From {date} to {endtime}
 
 Description: {form.description.data}
 
@@ -2537,30 +2805,25 @@ Check out the event here: LINK
 - JYL Toolbox
                 '''
 
+                # Query for all current users who aren't leaders
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                with app.app_context():
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message(
-                                f'Event {form.name.data} Changed - JYL Toolbox',
-                                recipients=[
-                                    user.email])
-                            msg.body = text
-                            msg.html = html
-
-                            conn.send(msg)
+                # Send async emails
+                emailThread = Thread(target=asyncEmail, args=[app, html, text, users, f'Event {form.name.data} Changed - JYL Toolbox'])
+                emailThread.start()
 
             flash('Event edited successfully!', 'success')
             return redirect(url_for('eventEditList'))
 
+        # Set form fields to current event data
         form.name.data = checkEvent.name
         form.description.data = checkEvent.description
         form.location.data = checkEvent.location
         form.starttime.data = checkEvent.start
         form.endtime.data = checkEvent.end
 
+        # Return page with event editing form
         page = make_response(
             render_template(
                 'eventMeetingForm.html',
@@ -2579,7 +2842,8 @@ Check out the event here: LINK
 @login_required
 def eventDelete(eventId):
 
-    if current_user.leader:
+    # Allow leaders and admins
+    if current_user.leader or current_user.admin:
 
         checkEvent = Event.query.get(eventId)
 
@@ -2896,27 +3160,33 @@ def eventAttendance1(eventId):
 
                     checkUserEvent.attended = False
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours -= checkEvent.hourcount
-                    thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
-                    thisUserQuery.lifetimeEventCount -= 1
-                    thisUserQuery.currentHours -= checkEvent.hourcount
-                    thisUserQuery.currentEventHours -= checkEvent.hourcount
-                    thisUserQuery.currentEventCount -= 1
+                    # If user had not perviously been marked as having attended
+                    if checkUserMeeting.attended:
+
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours -= checkEvent.hourcount
+                        thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
+                        thisUserQuery.lifetimeEventCount -= 1
+                        thisUserQuery.currentHours -= checkEvent.hourcount
+                        thisUserQuery.currentEventHours -= checkEvent.hourcount
+                        thisUserQuery.currentEventCount -= 1
 
                     db.session.commit()
 
                 elif checkUserEvent is not None and thisUser is not None:
 
-                    checkUserEvent.attended = True
+                    # If user had not previously been marked as not having attended
+                    if not checkUserMeeting.attended:
 
-                    thisUserQuery = User.query.get(user.id)
-                    thisUserQuery.lifetimeHours += checkEvent.hourcount
-                    thisUserQuery.lifetimeEventHours += checkEvent.hourcount
-                    thisUserQuery.lifetimeEventCount += 1
-                    thisUserQuery.currentHours += checkEvent.hourcount
-                    thisUserQuery.currentEventHours += checkEvent.hourcount
-                    thisUserQuery.currentEventCount += 1
+                        thisUserQuery = User.query.get(user.id)
+                        thisUserQuery.lifetimeHours += checkEvent.hourcount
+                        thisUserQuery.lifetimeEventHours += checkEvent.hourcount
+                        thisUserQuery.lifetimeEventCount += 1
+                        thisUserQuery.currentHours += checkEvent.hourcount
+                        thisUserQuery.currentEventHours += checkEvent.hourcount
+                        thisUserQuery.currentEventCount += 1
+
+                    checkUserEvent.attended = True
 
                     db.session.commit()
                     count += 1
