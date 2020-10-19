@@ -3191,8 +3191,6 @@ def eventAttendance1(eventId):
 
                 if checkUserEvent is not None and thisUser is None:
 
-                    checkUserEvent.attended = False
-
                     # If user had not perviously been marked as having attended
                     if checkUserEvent.attended:
 
@@ -3204,6 +3202,7 @@ def eventAttendance1(eventId):
                         thisUserQuery.currentEventHours -= checkEvent.hourcount
                         thisUserQuery.currentEventCount -= 1
 
+                    checkUserEvent.attended = False
                     db.session.commit()
 
                 elif checkUserEvent is not None and thisUser is not None:
