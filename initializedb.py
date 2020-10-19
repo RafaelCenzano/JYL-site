@@ -37,6 +37,30 @@ elif sys.argv[1] == 'clear':
     db.drop_all()
     db.create_all()
 
+elif sys.argv[1] == 'slate':
+    users = User.query.all()
+    for user in users:
+        meetings = UserMeeting.query.filter_by(userid=user.id).all()
+        events = UserEvent.query.filter_by(userid=user.id).all()
+        for meeting in meetings:
+            db.session.delete(meeting)
+            db.session.commit()
+        for event in events:
+            db.session.delete(event)
+            db.session.commit()
+
+        user.lifetimeHours = 0
+        user.lifetimeMeetingHours = 0
+        user.lifetimeEventHours = 0
+        user.lifetimeMeetingCount = 0
+        user.lifetimeEventCount = 0
+        user.currentHours = 0
+        user.currentMeetingHours = 0
+        user.currentEventHours = 0
+        user.currentMeetingCount = 0
+        user.currentEventCount = 0
+        db.session.commit()
+
 elif sys.argv[1] == 'production':
     db.create_all()
 
