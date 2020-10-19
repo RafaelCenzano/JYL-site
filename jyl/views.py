@@ -3051,7 +3051,7 @@ def eventAttendance(eventId):
                 if checkUserEvent is not None and thisUser is None:
 
                     # If user had previously been marked as having attended
-                    if checkUserMeeting.attended:
+                    if checkUserEvent.attended:
 
                         thisUserQuery = User.query.get(user.id)
                         thisUserQuery.lifetimeHours -= checkEvent.hourcount
@@ -3068,7 +3068,7 @@ def eventAttendance(eventId):
                 elif checkUserEvent is not None and thisUser is not None:
 
                     # If user had previously been marked as having not attended
-                    if not checkUserMeeting.attended:
+                    if not checkUserEvent.attended:
 
                         thisUserQuery = User.query.get(user.id)
                         thisUserQuery.lifetimeHours += checkEvent.hourcount
