@@ -61,6 +61,20 @@ elif sys.argv[1] == 'slate':
         user.currentEventCount = 0
         db.session.commit()
 
+elif sys.argv[1] == 'slate2':
+    events = Event.query.all()
+    meetings = Meeting.query.all()
+    for event in events:
+        event.upvote = 0
+        event.unsurevote = 0
+        event.downvote = 0
+        db.session.commit()
+    for meeting in meetings:
+        meeting.upvote = 0
+        meeting.unsurevote = 0
+        meeting.downvote = 0
+        db.session.commit()
+
 elif sys.argv[1] == 'production':
     db.create_all()
 
