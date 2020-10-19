@@ -1178,7 +1178,7 @@ For security reasons, you should reset your password since this is a temporary p
             '''
 
             # Send async email
-            emailThread = Thread(target=asyncEmail, args=[app, html, text, [form.email.data], 'New JYL Toolbox account'])
+            emailThread = Thread(target=asyncEmail, args=[app, html, text, [newUser], 'New JYL Toolbox account'])
             emailThread.start()
 
             flash(
@@ -2851,6 +2851,7 @@ def eventDelete(eventId):
 
         if form.validate_on_submit():
 
+            # Confirm password
             if bcrypt.check_password_hash(
                 current_user.password,
                 sha256(
@@ -2858,17 +2859,21 @@ def eventDelete(eventId):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
+                # Delete an event threaded
                 deleteThread = Thread(target=eventDelete, args=[checkEvent])
                 deleteThread.start()
 
                 flash('Event data deleted', 'success')
                 return redirect(url_for('creation'))
 
+            # Password is not correct
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        # Get current datetime
         date = checkEvent.start.strftime('%B %-d, %Y')
 
+        # Return page for password confomation
         return render_template(
             'passwordConfirm.html',
             form=form,
@@ -2883,10 +2888,17 @@ def eventDelete(eventId):
 @login_required
 def eventEdit2(eventId):
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkEvent = Event.query.get(eventId)
+        # Query for event
+        try:
+            checkEvent = Event.query.get(eventId)
+        except:
+            db.session.rollback()
+            checkEvent = Event.query.get(eventId)
 
+        # Event doesn't exsist
         if checkEvent is None:
 
             flash('Event not found', 'error')
@@ -2896,9 +2908,11 @@ def eventEdit2(eventId):
 
         if form.validate_on_submit():
 
+            # Calculate length of event
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
 
+            # Update event data
             checkEvent.hourcount = length
             checkEvent.name = form.name.data
             checkEvent.description = form.description.data
@@ -2906,18 +2920,24 @@ def eventEdit2(eventId):
             checkEvent.start = form.starttime.data
             checkEvent.end = form.endtime.data
 
+            # Save to the database
             db.session.commit()
 
+            # If email requested
             if form.email.data:
+
+                # Format datetime and location
                 date = form.starttime.data.strftime('%B %-d, %Y at %-I:%M %p')
+                endtime = form.endtime.date.strftime('%-I:%M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
+                # Create html email
                 html = f'''
 <p>Hello,</p>
 
 <p>The event {form.name.data} recieved an edit. Here are the new details</p>
 
-<p>Date: {date}</p>
+<p>Time: {date} to {endtime}</p>
 
 <p>Description: {form.description.data}</p>
 
@@ -2928,12 +2948,13 @@ def eventEdit2(eventId):
 <p>- JYL Toolbox</p>
                 '''
 
+                # Create email text backup
                 text = f'''
 Hello,
 
 The event {form.name.data} recieved an edit. Here are the new details
 
-Date: {date}
+Time: {date} to {endtime}
 
 Description: {form.description.data}
 
@@ -2944,30 +2965,25 @@ Check out the event here: LINK
 - JYL Toolbox
                 '''
 
+                # Query for all users
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                with app.app_context():
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message(
-                                f'Event {form.name.data} Changed - JYL Toolbox',
-                                recipients=[
-                                    user.email])
-                            msg.body = text
-                            msg.html = html
-
-                            conn.send(msg)
+                # Send async email
+                emailThread = Thread(target=asyncEmail, args=[[app, html, text, users, f'Event {form.name.data} Changed - JYL Toolbox']])
+                emailThread.start()
 
             flash('Event edited successfully!', 'success')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
 
+        # Set form fields to current event data
         form.name.data = checkEvent.name
         form.description.data = checkEvent.description
         form.location.data = checkEvent.location
         form.starttime.data = checkEvent.start
         form.endtime.data = checkEvent.end
 
+        # Return edit event form
         page = make_response(
             render_template(
                 'eventMeetingForm.html',
@@ -2986,15 +3002,23 @@ Check out the event here: LINK
 @login_required
 def eventAttendance(eventId):
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkEvent = Event.query.get(eventId)
+        # Query for event
+        try:
+            checkEvent = Event.query.get(eventId)
+        except:
+            db.session.rollback()
+            checkEvent = Event.query.get(eventId)
 
+        # Event doesn't exsist
         if checkEvent is None:
 
             flash('Event not found', 'error')
             return sendoff('index')
 
+        # Check that event has passed
         if pacific.localize(
                 checkEvent.start) > pacific.localize(
                 datetime.now()):
@@ -3004,8 +3028,11 @@ def eventAttendance(eventId):
 
         if request.method == 'POST':
 
+            # Query for current users who aren't leaders
             users = User.query.filter_by(
                 currentmember=True, leader=False).all()
+
+            # Sort by lastname
             users.sort(key=lambda user: user.lastname.lower())
 
             count = 0
