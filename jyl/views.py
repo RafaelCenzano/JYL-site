@@ -4350,7 +4350,12 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data.lower()
-        user = User.query.filter_by(email=email).first()
+        try:
+            user = User.query.filter_by(email=email).first()
+        except:
+            db.session.rollback()
+            user = User.query.filter_by(email=email).first()
+            
         if user is None:
             flash(
                 f'Login Unsuccessful. User dosen\'t exsist',
