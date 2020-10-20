@@ -42,6 +42,21 @@ class ResetPasswordForm(FlaskForm):
             DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
 
+class ChangePasswordForm(FlaskForm):
+    passwordNow = PasswordField('Current Password', validators=[DataRequired()])
+    password = PasswordField(
+        'New Password',
+        validators=[
+            DataRequired(),
+            Length(
+                min=6,
+                max=100,
+                message='Password must be within 6 and 100 characters')])
+    confirm_password = PasswordField(
+        'Confirm New Password', validators=[
+            DataRequired(), EqualTo('password')])
+    submit = SubmitField('Change Password')
+
 
 class UserRequestForm(FlaskForm):
     text = TextAreaField(
