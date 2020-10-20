@@ -4903,7 +4903,7 @@ def reset_token(token):
     return page
 
 
-@app.route('/change_password', methods=['GET'])
+@app.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def passwordChange():
 
