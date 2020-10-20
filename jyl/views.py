@@ -4920,7 +4920,7 @@ def passwordChange():
             current_user.password,
             sha256(
                 (form.password.data +
-                 email +
+                 current_user.email +
                  app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
             # Check that password contains a number
@@ -4939,7 +4939,7 @@ def passwordChange():
             hashed_password = bcrypt.generate_password_hash(
                 sha256(
                     (form.passwordNew.data +
-                     form.email.data +
+                     current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
 
             # Set password to new hashed password
