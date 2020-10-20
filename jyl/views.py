@@ -4858,7 +4858,11 @@ def reset_token(token):
         return sendoff('index')
 
     # Verify user reset token
-    user = User.verify_reset_token(token)
+    try:
+        user = User.verify_reset_token(token)
+    except:
+        db.session.rollback()
+        user = User.verify_reset_token(token)
 
     # Token not verified with any users
     if user is None:
