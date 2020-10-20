@@ -4989,7 +4989,7 @@ def robots():
 def favicon():
 
     # Return static favicon.ico
-    return send_file('static/img/favicon.ico')
+    return send_file('static/img/jyl.ico')
 
 
 @app.route('/sitemap.xml', methods=['GET'])
