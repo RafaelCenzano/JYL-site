@@ -4897,8 +4897,63 @@ def reset_token(token):
         flash('Your password has been updated!', 'success')
         return redirect(url_for('login'))
 
-    # Return page wtih password change form
+    # Return page with password change form
     page = make_response(render_template('password_change.html', form=form))
+    page = cookieSwitch(page)
+    return page
+
+
+@app.route('/change_password', methods=['GET'])
+@login_required
+def passwordChange():
+
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+
+        # Check user password
+        if bcrypt.check_password_hash(
+            user.password,
+            sha256(
+                (form.passwordNow.data +
+                 email +
+                 app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
+
+            # Check that password contains a number
+            pattern = re.compile('^[^0-9]*$')
+            if pattern.search(form.password.data) is not None:
+                flash('Password must contain a number', 'warning')
+                return render_template('password_change.html', form=form)
+
+            # Check that password contains special character
+            pattern = re.compile('^.*[^A-Za-z0-9]+.*')
+            if pattern.search(form.password.data) is None:
+                flash('Password must contain a special character', 'warning')
+                return render_template('password_change.html', form=form)
+
+            # Hash new password
+            hashed_password = bcrypt.generate_password_hash(
+                sha256(
+                    (form.password.data +
+                     form.email.data +
+                     app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+
+            # Set password to new hashed password
+            current_user.password = hashed_password
+
+            # Save to database
+            db.session.commit()
+
+            flash('Your password has been updated!', 'success')
+            return redirect(url_for('login'))
+
+        flash('Your current password is incorrect', 'error')
+
+    # Return page with password change form
+    page = make_response(
+        render_template(
+            'password_change_logged.html',
+            form=form))
     page = cookieSwitch(page)
     return page
 
