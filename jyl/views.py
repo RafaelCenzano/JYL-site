@@ -4915,26 +4915,26 @@ def passwordChange():
         if bcrypt.check_password_hash(
             user.password,
             sha256(
-                (form.passwordNow.data +
+                (form.password.data +
                  email +
                  app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
             # Check that password contains a number
             pattern = re.compile('^[^0-9]*$')
-            if pattern.search(form.password.data) is not None:
+            if pattern.search(form.passwordNew.data) is not None:
                 flash('Password must contain a number', 'warning')
                 return render_template('password_change.html', form=form)
 
             # Check that password contains special character
             pattern = re.compile('^.*[^A-Za-z0-9]+.*')
-            if pattern.search(form.password.data) is None:
+            if pattern.search(form.passwordNew.data) is None:
                 flash('Password must contain a special character', 'warning')
                 return render_template('password_change.html', form=form)
 
             # Hash new password
             hashed_password = bcrypt.generate_password_hash(
                 sha256(
-                    (form.password.data +
+                    (form.passwordNew.data +
                      form.email.data +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
 
