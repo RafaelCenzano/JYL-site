@@ -54,7 +54,7 @@ class ChangePasswordForm(FlaskForm):
                 message='Password must be within 6 and 100 characters')])
     confirm_password = PasswordField(
         'Confirm New Password', validators=[
-            DataRequired(), EqualTo('password')])
+            DataRequired(), EqualTo('passwordNew')])
     submit = SubmitField('Change Password')
 
 
