@@ -4981,6 +4981,13 @@ def robots():
     return send_file('templates/seo/robots.txt')
 
 
+@app.route('/favicon.ico', methods=['GET'])
+def favicon():
+
+    # Return static favicon.ico
+    return send_file('static/img/favicon.ico')
+
+
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
 
