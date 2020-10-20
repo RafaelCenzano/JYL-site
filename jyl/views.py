@@ -25,6 +25,8 @@ Views
 '''
 
 # Home page
+
+
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def index():
@@ -89,14 +91,21 @@ Email: {current_user.email}
             users = User.query.filter_by(
                 admin=True,
                 currentmember=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             users = User.query.filter_by(
                 admin=True,
                 currentmember=True).all()
 
         # Create thread to send async email to all admins
-        emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Bug Report - JYL Toolbox'])
+        emailThread = Thread(
+            target=asyncEmail,
+            args=[
+                app,
+                html,
+                text,
+                users,
+                'Bug Report - JYL Toolbox'])
         emailThread.start()
 
         flash('Your bug report has been submitted', 'info')
@@ -156,14 +165,21 @@ Email: {current_user.email}
             users = User.query.filter_by(
                 admin=True,
                 currentmember=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             users = User.query.filter_by(
                 admin=True,
                 currentmember=True).all()
 
         # Create thread to send async email to all admins
-        emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Feature Request - JYL Toolbox'])
+        emailThread = Thread(
+            target=asyncEmail,
+            args=[
+                app,
+                html,
+                text,
+                users,
+                'Feature Request - JYL Toolbox'])
         emailThread.start()
 
         flash('Your feature request has been submitted', 'info')
@@ -225,14 +241,21 @@ Email: {current_user.email}
             users = User.query.filter_by(
                 leader=True,
                 currentmember=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             users = User.query.filter_by(
                 leader=True,
                 currentmember=True).all()
 
         # Create thread to send async email to all admins
-        emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'Help Request - JYL Toolbox'])
+        emailThread = Thread(
+            target=asyncEmail,
+            args=[
+                app,
+                html,
+                text,
+                users,
+                'Help Request - JYL Toolbox'])
         emailThread.start()
 
         flash('Your help request has been submitted', 'info')
@@ -259,7 +282,7 @@ def profile(num, first, last):
             firstname=first,
             lastname=last,
             namecount=num).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             firstname=first,
@@ -318,7 +341,7 @@ def profileLeader(num, first, last):
             firstname=first,
             lastname=last,
             namecount=num).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             firstname=first,
@@ -368,7 +391,7 @@ def profileMeeting(num, first, last):
             firstname=first,
             lastname=last,
             namecount=num).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             firstname=first,
@@ -398,7 +421,9 @@ def profileMeeting(num, first, last):
         currentYear=True).all()
 
     # Get every meeting object for meetings user attended
-    meetingsAttended = [Meeting.query.get(meeting.meetingid) for meeting in attended]
+    meetingsAttended = [
+        Meeting.query.get(
+            meeting.meetingid) for meeting in attended]
 
     meetingsGoing = []
 
@@ -459,7 +484,7 @@ def profileMeetingOld(num, first, last):
             firstname=first,
             lastname=last,
             namecount=num).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             firstname=first,
@@ -482,7 +507,9 @@ def profileMeetingOld(num, first, last):
         userid=checkUser.id, attended=True).all()
 
     # Get every meeting object and sort by date
-    meetingsAttended = [Meeting.query.get(meeting.meetingid) for meeting in attended]
+    meetingsAttended = [
+        Meeting.query.get(
+            meeting.meetingid) for meeting in attended]
     meetingsAttended.sort(key=lambda meeting: meeting.start, reverse=True)
 
     # Return page with every meeting user has ever attended
@@ -523,7 +550,7 @@ def profileEvent(num, first, last):
             firstname=first,
             lastname=last,
             namecount=num).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             firstname=first,
@@ -614,7 +641,7 @@ def profileEventOld(num, first, last):
             firstname=first,
             lastname=last,
             namecount=num).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             firstname=first,
@@ -636,7 +663,8 @@ def profileEventOld(num, first, last):
     attended = UserEvent.query.filter_by(
         userid=checkUser.id, attended=True).all()
 
-    # Get every event object and sort by start datetime for all events user attended
+    # Get every event object and sort by start datetime for all events user
+    # attended
     eventsAttended = [Event.query.get(event.eventid) for event in attended]
     eventsAttended.sort(key=lambda event: event.start, reverse=True)
 
@@ -675,7 +703,7 @@ def meetingReview(idOfMeeting):
     # Query for Meeting
     try:
         checkMeeting = Meeting.query.get(idOfMeeting)
-    except:
+    except BaseException:
         db.session.rollback()
         checkMeeting = Meeting.query.get(idOfMeeting)
 
@@ -744,7 +772,8 @@ def meetingReview(idOfMeeting):
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
     # Format the description
-    desc = [linkFormatting(word) for word in checkMeeting.description.split(' ')]
+    desc = [linkFormatting(word)
+            for word in checkMeeting.description.split(' ')]
 
     # Process meeting data
     eventMeeting = eventMeetingProccessing(checkMeeting, True)
@@ -772,7 +801,7 @@ def meetingReviewEdit(idOfMeeting):
     # Query for Meeting
     try:
         checkMeeting = Meeting.query.get(idOfMeeting)
-    except:
+    except BaseException:
         db.session.rollback()
         checkMeeting = Meeting.query.get(idOfMeeting)
 
@@ -848,7 +877,8 @@ def meetingReviewEdit(idOfMeeting):
     if checkUserMeeting and checkUserMeeting.comment:
 
         # Format meeting description
-        desc = [linkFormatting(word) for word in checkMeeting.description.split(' ')]
+        desc = [linkFormatting(word)
+                for word in checkMeeting.description.split(' ')]
 
         # Proccess meeting data
         eventMeeting = eventMeetingProccessing(checkMeeting, True)
@@ -862,7 +892,8 @@ def meetingReviewEdit(idOfMeeting):
             form.reaction.data = 'down'
         form.review.data = checkUserMeeting.comment
 
-        # Return page with meeting data, review form, and user's past review data
+        # Return page with meeting data, review form, and user's past review
+        # data
         page = make_response(
             render_template(
                 'eventMeetingReview.html',
@@ -888,7 +919,7 @@ def meetingReviewDelete(idOfMeeting):
     # Query for Meeting
     try:
         checkMeeting = Meeting.query.get(idOfMeeting)
-    except:
+    except BaseException:
         db.session.rollback()
         checkMeeting = Meeting.query.get(idOfMeeting)
 
@@ -970,7 +1001,7 @@ def meetingInfo(idOfMeeting):
     # Query for Meeting
     try:
         checkMeeting = Meeting.query.get(idOfMeeting)
-    except:
+    except BaseException:
         db.session.rollback()
         checkMeeting = Meeting.query.get(idOfMeeting)
 
@@ -997,7 +1028,8 @@ def meetingInfo(idOfMeeting):
             areyougoing = True
 
     # Format meeting description
-    desc = [linkFormatting(word) for word in checkMeeting.description.split(' ')]
+    desc = [linkFormatting(word)
+            for word in checkMeeting.description.split(' ')]
 
     # Return page with meeting data
     page = make_response(
@@ -1057,7 +1089,7 @@ def userCreation():
             try:
                 duplicationCheck = User.query.filter_by(
                     email=email).first()
-            except:
+            except BaseException:
                 db.session.rollback()
                 duplicationCheck = User.query.filter_by(
                     email=email).first()
@@ -1178,7 +1210,14 @@ For security reasons, you should reset your password since this is a temporary p
             '''
 
             # Send async email
-            emailThread = Thread(target=asyncEmail, args=[app, html, text, [newUser], 'New JYL Toolbox account'])
+            emailThread = Thread(
+                target=asyncEmail,
+                args=[
+                    app,
+                    html,
+                    text,
+                    [newUser],
+                    'New JYL Toolbox account'])
             emailThread.start()
 
             flash(
@@ -1271,7 +1310,9 @@ Location: {form.location.data}
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'New Event - JYL Toolbox'])
+                emailThread = Thread(
+                    target=asyncEmail, args=[
+                        app, html, text, users, 'New Event - JYL Toolbox'])
                 emailThread.start()
 
             flash(f'Event {form.name.data} created', 'success')
@@ -1302,7 +1343,7 @@ def attendanceEventList():
         # Query for current events
         try:
             currentEvents = Event.query.filter_by(currentYear=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             currentEvents = Event.query.filter_by(currentYear=True).all()
 
@@ -1341,13 +1382,13 @@ def attendanceMeetingList():
         # Query for all current meetings
         try:
             currentMeetings = Meeting.query.filter_by(currentYear=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             currentMeetings = Meeting.query.filter_by(currentYear=True).all()
 
         # Sort meetings
         currentMeetings.sort(key=lambda meeting: meeting.start, reverse=True)
-        
+
         # Get current datetime
         now = pacific.localize(datetime.now())
 
@@ -1380,7 +1421,7 @@ def meetingAttendance(idOfMeeting):
         # Query for meeting
         try:
             checkMeeting = Meeting.query.get(idOfMeeting)
-        except:
+        except BaseException:
             db.session.rollback()
             checkMeeting = Meeting.query.get(idOfMeeting)
 
@@ -1445,7 +1486,8 @@ def meetingAttendance(idOfMeeting):
                 # User attended the meeting
                 elif checkUserMeeting is not None and thisUser is not None:
 
-                    # If user had not preiously been marked as not having attended
+                    # If user had not preiously been marked as not having
+                    # attended
                     if not checkUserMeeting.attended:
 
                         # Update user hours and counts
@@ -1562,7 +1604,7 @@ def meetingAttendance1(idOfMeeting):
         # Query for meeting
         try:
             checkMeeting = Meeting.query.get(idOfMeeting)
-        except:
+        except BaseException:
             db.session.rollback()
             checkMeeting = Meeting.query.get(idOfMeeting)
 
@@ -1627,7 +1669,8 @@ def meetingAttendance1(idOfMeeting):
                 # User attended the meeting
                 elif checkUserMeeting is not None and thisUser is not None:
 
-                    # If user had not preiously been marked as not having attended
+                    # If user had not preiously been marked as not having
+                    # attended
                     if not checkUserMeeting.attended:
 
                         # Update user hours and counts
@@ -1783,7 +1826,8 @@ def meetingCreate():
             if form.email.data:
 
                 # Format date and location
-                date = form.starttime.data.strftime('%B %-d, %Y from %-I:%M %p')
+                date = form.starttime.data.strftime(
+                    '%B %-d, %Y from %-I:%M %p')
                 endtime = form.endtime.data.strftime('%-I:%M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
@@ -1817,7 +1861,14 @@ Location: {form.location.data}
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                emailThread = Thread(target=asyncEmail, args=[app, html, text, users, 'New Meeting - JYL Toolbox'])
+                emailThread = Thread(
+                    target=asyncEmail,
+                    args=[
+                        app,
+                        html,
+                        text,
+                        users,
+                        'New Meeting - JYL Toolbox'])
                 emailThread.start()
 
             # Format date of meeting
@@ -1858,7 +1909,7 @@ def userEditList():
         # Query all current users
         try:
             currentMembers = User.query.filter_by(currentmember=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             currentMembers = User.query.filter_by(currentmember=True).all()
 
@@ -1888,7 +1939,7 @@ def userEdit(userId):
         # Query for user
         try:
             user = User.query.get(userId)
-        except:
+        except BaseException:
             db.session.rollback()
             user = User.query.get(userId)
 
@@ -1926,7 +1977,8 @@ def userEdit(userId):
                         'Phone number must 10 digits long and only contain numbers',
                         'warning')
                     form.phone.data = ''
-                    return render_template('userEdit.html', form=form, user=user)
+                    return render_template(
+                        'userEdit.html', form=form, user=user)
 
             # Set user's data to form data
             user.firstname = form.first.data
@@ -1945,7 +1997,12 @@ def userEdit(userId):
                 f'User edited successfully',
                 'success')
 
-            return redirect(url_for('profile', num=user.namecount, first=user.firstname, last=user.lastname))
+            return redirect(
+                url_for(
+                    'profile',
+                    num=user.namecount,
+                    first=user.firstname,
+                    last=user.lastname))
 
         # If user address is none set to empty string
         if user.address is None:
@@ -1992,7 +2049,7 @@ def userDelete(userId):
 
         try:
             checkUser = User.query.get(userId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkUser = User.query.get(userId)
 
@@ -2051,7 +2108,7 @@ def userEdit1(num, first, last):
             namecount=num,
             firstname=first,
             lastname=last).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             namecount=num,
@@ -2090,7 +2147,7 @@ def userEdit1(num, first, last):
             else:
                 bio = ''
 
-            # Set form fields to 
+            # Set form fields to
             form.bio.data = bio
             form.showemail.data = checkUser.showemail
             form.showphone.data = checkUser.showphone
@@ -2112,12 +2169,12 @@ def userEdit1(num, first, last):
             checkUser.bio = bio
             checkUser.showemail = form.showemail.data
             checkUser.showphone = form.showphone.data
-            checkUser.meetingAlertoneday = False#form.meetingAlertoneday.data
-            checkUser.meetingAlertthreeday = False#form.meetingAlertthreeday.data
-            checkUser.meetingAlertoneweek = False#form.meetingAlertoneweek.data
-            checkUser.eventAlertoneday = False#form.eventAlertoneday.data
-            checkUser.eventAlertthreeday = False#form.eventAlertthreeday.data
-            checkUser.eventAlertoneweek = False#form.eventAlertoneweek.data
+            checkUser.meetingAlertoneday = False  # form.meetingAlertoneday.data
+            checkUser.meetingAlertthreeday = False  # form.meetingAlertthreeday.data
+            checkUser.meetingAlertoneweek = False  # form.meetingAlertoneweek.data
+            checkUser.eventAlertoneday = False  # form.eventAlertoneday.data
+            checkUser.eventAlertthreeday = False  # form.eventAlertthreeday.data
+            checkUser.eventAlertoneweek = False  # form.eventAlertoneweek.data
 
             # Save to database
             db.session.commit()
@@ -2134,12 +2191,12 @@ def userEdit1(num, first, last):
         form.bio.data = bio
         form.showemail.data = checkUser.showemail
         form.showphone.data = checkUser.showphone
-        form.meetingAlertoneday.data = False#checkUser.meetingAlertoneday
-        form.meetingAlertthreeday.data = False#checkUser.meetingAlertthreeday
-        form.meetingAlertoneweek.data = False#checkUser.meetingAlertoneweek
-        form.eventAlertoneday.data = False#checkUser.eventAlertoneday
-        form.eventAlertthreeday.data = False#checkUser.eventAlertthreeday
-        form.eventAlertoneweek.data = False#checkUser.eventAlertoneweek
+        form.meetingAlertoneday.data = False  # checkUser.meetingAlertoneday
+        form.meetingAlertthreeday.data = False  # checkUser.meetingAlertthreeday
+        form.meetingAlertoneweek.data = False  # checkUser.meetingAlertoneweek
+        form.eventAlertoneday.data = False  # checkUser.eventAlertoneday
+        form.eventAlertthreeday.data = False  # checkUser.eventAlertthreeday
+        form.eventAlertoneweek.data = False  # checkUser.eventAlertoneweek
 
         # Jinja code for removed meeting alerts
         '''
@@ -2255,7 +2312,7 @@ def userNicknameRequest(num, first, last):
             namecount=num,
             firstname=first,
             lastname=last).first()
-    except:
+    except BaseException:
         db.session.rollback()
         checkUser = User.query.filter_by(
             namecount=num,
@@ -2310,7 +2367,7 @@ def nicknameList():
         # Query for all people who don't have an approved nickname
         try:
             users = User.query.filter_by(nicknameapprove=False).all()
-        except:
+        except BaseException:
             db.session.rollback()
             users = User.query.filter_by(nicknameapprove=False).all()
 
@@ -2347,7 +2404,7 @@ def approveNickname(userId):
         # Query for user
         try:
             checkUser = User.query.get(userId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkUser = User.query.get(userId)
 
@@ -2408,7 +2465,7 @@ def disapproveNickname(userId):
         # Query for user
         try:
             checkUser = User.query.get(userId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkUser = User.query.get(userId)
 
@@ -2471,7 +2528,7 @@ def removeNickname(userId):
         # Query for user
         try:
             checkUser = User.query.get(userId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkUser = User.query.get(userId)
 
@@ -2598,7 +2655,6 @@ def changeYear():
 @app.route('/changeyear/<int:changeyearId>/deny', methods=['GET', 'POST'])
 @login_required
 def changeYearDeny(changeyearId):
-
     '''
     if current_user.leader:
 
@@ -2689,7 +2745,7 @@ def eventEditList():
         # Query for current events
         try:
             currentEvents = Event.query.filter_by(currentYear=True).all()
-        except:
+        except BaseException:
             db.session.rollback()
             currentEvents = Event.query.filter_by(currentYear=True).all()
 
@@ -2734,7 +2790,7 @@ def eventEdit(eventId):
 
         try:
             checkEvent = Event.query.get(eventId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkEvent = Event.query.get(eventId)
 
@@ -2810,7 +2866,14 @@ Check out the event here: LINK
                     currentmember=True, leader=False).all()
 
                 # Send async emails
-                emailThread = Thread(target=asyncEmail, args=[app, html, text, users, f'Event {form.name.data} Changed - JYL Toolbox'])
+                emailThread = Thread(
+                    target=asyncEmail,
+                    args=[
+                        app,
+                        html,
+                        text,
+                        users,
+                        f'Event {form.name.data} Changed - JYL Toolbox'])
                 emailThread.start()
 
             flash('Event edited successfully!', 'success')
@@ -2894,7 +2957,7 @@ def eventEdit2(eventId):
         # Query for event
         try:
             checkEvent = Event.query.get(eventId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkEvent = Event.query.get(eventId)
 
@@ -2970,7 +3033,8 @@ Check out the event here: LINK
                     currentmember=True, leader=False).all()
 
                 # Send async email
-                emailThread = Thread(target=asyncEmail, args=[[app, html, text, users, f'Event {form.name.data} Changed - JYL Toolbox']])
+                emailThread = Thread(target=asyncEmail, args=[
+                                     [app, html, text, users, f'Event {form.name.data} Changed - JYL Toolbox']])
                 emailThread.start()
 
             flash('Event edited successfully!', 'success')
@@ -3008,7 +3072,7 @@ def eventAttendance(eventId):
         # Query for event
         try:
             checkEvent = Event.query.get(eventId)
-        except:
+        except BaseException:
             db.session.rollback()
             checkEvent = Event.query.get(eventId)
 
@@ -3039,20 +3103,24 @@ def eventAttendance(eventId):
 
             for user in users:
 
+                # Get user data from form
                 thisUser = request.form.get(
                     user.firstname +
                     user.lastname +
                     repr(
                         user.namecount))
 
+                # Query for UserEvent for user and current event
                 checkUserEvent = UserEvent.query.filter_by(
                     eventid=eventId, userid=user.id).first()
 
+                # User did not attend the event
                 if checkUserEvent is not None and thisUser is None:
 
                     # If user had previously been marked as having attended
                     if checkUserEvent.attended:
 
+                        # Update user data
                         thisUserQuery = User.query.get(user.id)
                         thisUserQuery.lifetimeHours -= checkEvent.hourcount
                         thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
@@ -3061,10 +3129,13 @@ def eventAttendance(eventId):
                         thisUserQuery.currentEventHours -= checkEvent.hourcount
                         thisUserQuery.currentEventCount -= 1
 
+                    # Set attended to false
                     checkUserEvent.attended = False
 
+                    # Save to database
                     db.session.commit()
 
+                # User attended the event
                 elif checkUserEvent is not None and thisUser is not None:
 
                     # If user had previously been marked as having not attended
@@ -3078,13 +3149,19 @@ def eventAttendance(eventId):
                         thisUserQuery.currentEventHours += checkEvent.hourcount
                         thisUserQuery.currentEventCount += 1
 
+                    # Set attended to true
                     checkUserEvent.attended = True
 
+                    # Save to database
                     db.session.commit()
+
+                    # Add to total count of attendance
                     count += 1
 
+                # User attended the event
                 elif thisUser and checkUserEvent is None:
 
+                    # Create new user event object
                     newUserEvent = UserEvent(
                         eventid=eventId,
                         userid=user.id,
@@ -3095,8 +3172,11 @@ def eventAttendance(eventId):
                         unsurevote=False,
                         downvote=False,
                         currentYear=True)
+
+                    # Add to database
                     db.session.add(newUserEvent)
 
+                    # Update user data
                     thisUserQuery = User.query.get(user.id)
                     thisUserQuery.lifetimeHours += checkEvent.hourcount
                     thisUserQuery.lifetimeEventHours += checkEvent.hourcount
@@ -3105,40 +3185,54 @@ def eventAttendance(eventId):
                     thisUserQuery.currentEventHours += checkEvent.hourcount
                     thisUserQuery.currentEventCount += 1
 
+                    # Save to database
                     db.session.commit()
+
+                    # Add to total attendance count
                     count += 1
 
+            # Update event attenfance count
             checkEvent.attendancecount = count
+
+            # Save to database
             db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('eventInfo', idOfEvent=eventId))
 
+        # Query for all current users who aren't leaders
         users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
+        # Sort by lastname
         users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
+            # Query for User Event
             checkUserEvent = UserEvent.query.filter_by(
                 eventid=eventId, userid=user.id).first()
 
+            # Create dictionary to store user data
             data = {}
 
             data['check'] = False
 
+            # Check form if user had been marked as attended
             if checkUserEvent is not None and checkUserEvent.attended:
                 data['check'] = True
 
+            # Store data in dictionary to be used in jinja
             data['nicknameapprove'] = user.nicknameapprove
             data['firstname'] = user.firstname
             data['lastname'] = user.lastname
             data['nickname'] = user.nickname
             data['id'] = user.firstname + user.lastname + repr(user.namecount)
 
+            # Store dictionary in list
             inputs.append(data)
 
+        # Return page with dynamic check list for user attendance
         page = make_response(
             render_template(
                 'attendance.html',
@@ -3155,45 +3249,61 @@ def eventAttendance(eventId):
 @login_required
 def eventAttendance1(eventId):
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkEvent = Event.query.get(eventId)
+        # Query for event
+        try:
+            checkEvent = Event.query.get(eventId)
+        except BaseException:
+            db.session.rollback()
+            checkEvent = Event.query.get(eventId)
 
+        # Event doesn't exsist
         if checkEvent is None:
 
             flash('Event not found', 'error')
             return sendoff('index')
 
+        # Check that event has passed
         if pacific.localize(
                 checkEvent.start) > pacific.localize(
                 datetime.now()):
 
             flash('Event hasn\'t occured yet', 'warning')
-            return redirect(url_for('attendanceEventList'))
+            return redirect(url_for('eventInfo', idOfEvent=eventId))
 
         if request.method == 'POST':
 
+            # Query for current users who aren't leaders
             users = User.query.filter_by(
                 currentmember=True, leader=False).all()
+
+            # Sort by lastname
             users.sort(key=lambda user: user.lastname.lower())
+
             count = 0
 
             for user in users:
 
+                # Get user data from form
                 thisUser = request.form.get(
                     user.firstname +
                     user.lastname +
                     repr(
                         user.namecount))
 
+                # Query for UserEvent for user and current event
                 checkUserEvent = UserEvent.query.filter_by(
                     eventid=eventId, userid=user.id).first()
 
+                # User did not attend the event
                 if checkUserEvent is not None and thisUser is None:
 
-                    # If user had not perviously been marked as having attended
+                    # If user had previously been marked as having attended
                     if checkUserEvent.attended:
 
+                        # Update user data
                         thisUserQuery = User.query.get(user.id)
                         thisUserQuery.lifetimeHours -= checkEvent.hourcount
                         thisUserQuery.lifetimeEventHours -= checkEvent.hourcount
@@ -3202,12 +3312,16 @@ def eventAttendance1(eventId):
                         thisUserQuery.currentEventHours -= checkEvent.hourcount
                         thisUserQuery.currentEventCount -= 1
 
+                    # Set attended to false
                     checkUserEvent.attended = False
+
+                    # Save to database
                     db.session.commit()
 
+                # User attended the event
                 elif checkUserEvent is not None and thisUser is not None:
 
-                    # If user had not previously been marked as not having attended
+                    # If user had previously been marked as having not attended
                     if not checkUserEvent.attended:
 
                         thisUserQuery = User.query.get(user.id)
@@ -3218,13 +3332,19 @@ def eventAttendance1(eventId):
                         thisUserQuery.currentEventHours += checkEvent.hourcount
                         thisUserQuery.currentEventCount += 1
 
+                    # Set attended to true
                     checkUserEvent.attended = True
 
+                    # Save to database
                     db.session.commit()
+
+                    # Add to total count of attendance
                     count += 1
 
+                # User attended the event
                 elif thisUser and checkUserEvent is None:
 
+                    # Create new user event object
                     newUserEvent = UserEvent(
                         eventid=eventId,
                         userid=user.id,
@@ -3235,8 +3355,11 @@ def eventAttendance1(eventId):
                         unsurevote=False,
                         downvote=False,
                         currentYear=True)
+
+                    # Add to database
                     db.session.add(newUserEvent)
 
+                    # Update user data
                     thisUserQuery = User.query.get(user.id)
                     thisUserQuery.lifetimeHours += checkEvent.hourcount
                     thisUserQuery.lifetimeEventHours += checkEvent.hourcount
@@ -3245,40 +3368,54 @@ def eventAttendance1(eventId):
                     thisUserQuery.currentEventHours += checkEvent.hourcount
                     thisUserQuery.currentEventCount += 1
 
+                    # Save to database
                     db.session.commit()
+
+                    # Add to total attendance count
                     count += 1
 
+            # Update event attenfance count
             checkEvent.attendancecount = count
+
+            # Save to database
             db.session.commit()
 
             flash('Attendance updated successfully!', 'success')
             return redirect(url_for('attendanceEventList'))
 
+        # Query for all current users who aren't leaders
         users = User.query.filter_by(currentmember=True, leader=False).all()
         inputs = []
 
+        # Sort by lastname
         users.sort(key=lambda user: user.lastname.lower())
 
         for user in users:
 
+            # Query for User Event
             checkUserEvent = UserEvent.query.filter_by(
                 eventid=eventId, userid=user.id).first()
 
+            # Create dictionary to store user data
             data = {}
 
             data['check'] = False
 
+            # Check form if user had been marked as attended
             if checkUserEvent is not None and checkUserEvent.attended:
                 data['check'] = True
 
+            # Store data in dictionary to be used in jinja
             data['nicknameapprove'] = user.nicknameapprove
             data['firstname'] = user.firstname
             data['lastname'] = user.lastname
             data['nickname'] = user.nickname
             data['id'] = user.firstname + user.lastname + repr(user.namecount)
 
+            # Store dictionary in list
             inputs.append(data)
 
+        # Return page with dynamic check list for user attendance
         page = make_response(
             render_template(
                 'attendance.html',
@@ -3295,24 +3432,34 @@ def eventAttendance1(eventId):
 @login_required
 def meetingEditList():
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        currentMeeting = Meeting.query.filter_by(currentYear=True).all()
+        # Query for all current meetings
+        try:
+            currentMeeting = Meeting.query.filter_by(currentYear=True).all()
+        except BaseException:
+            db.session.rollback()
+            currentMeeting = Meeting.query.filter_by(currentYear=True).all()
 
         futureMeetings = []
         pastMeetings = []
 
+        # Get cuurent datetime
         now = pacific.localize(datetime.now())
 
+        # Sort meetings by past and present
         for meeting in currentMeeting:
             if pacific.localize(meeting.start) > now:
                 futureMeetings.append(meeting)
             else:
                 pastMeetings.append(meeting)
 
+        # Sort by start datetime
         futureMeetings.sort(key=lambda meeting: meeting.start)
         pastMeetings.sort(key=lambda meeting: meeting.start)
 
+        # Return list of past and future meetings
         page = make_response(
             render_template(
                 'eventMeetingList.html',
@@ -3334,36 +3481,53 @@ def meetingEditList():
 @login_required
 def meetingEdit(meetingId):
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkMeeting = Meeting.query.get(meetingId)
+        # Query for meeting
+        try:
+            checkMeeting = Meeting.query.get(meetingId)
+        except BaseException:
+            db.session.rollback()
+            checkMeeting = Meeting.query.get(meetingId)
 
+        # Meeting not found
         if checkMeeting is None:
 
             flash('Meeting not found', 'error')
             return sendoff('index')
 
         form = CreateEventMeeting()
+
+        # Add filler because meetings don't have names
         form.name.data = 'filler'
 
         if form.validate_on_submit():
 
+            # Calculate meeting length
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
 
+            # Update meeting data
             checkMeeting.hourcount = length
             checkMeeting.description = form.description.data
             checkMeeting.location = form.location.data
             checkMeeting.start = form.starttime.data
             checkMeeting.end = form.endtime.data
 
+            # Save to database
             db.session.commit()
 
+            # If email notification requested
             if form.email.data:
+
+                # Format datetimes and location
                 date = form.starttime.data.strftime('%B %-d, %Y')
-                dateFull = form.starttime.data.strftime('%B %-d, %Y at %-I:%M %p')
+                dateFull = form.starttime.data.strftime(
+                    '%B %-d, %Y at %-I:%M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
+                # Create html email
                 html = f'''
 <p>Hello,</p>
 
@@ -3380,6 +3544,7 @@ def meetingEdit(meetingId):
 <p>- JYL Toolbox</p>
                 '''
 
+                # Create backup text email
                 text = f'''
 Hello,
 
@@ -3396,29 +3561,29 @@ Check out the meeting here: LINK
 - JYL Toolbox
                 '''
 
+                # Query for all current users who aren't leaders
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                with app.app_context():
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message(
-                                f'Meeting on {date} Changed - JYL Toolbox',
-                                recipients=[
-                                    user.email])
-                            msg.body = text
-                            msg.html = html
-
-                            conn.send(msg)
+                emailThread = Thread(
+                    target=asyncEmail,
+                    args=[
+                        app,
+                        html,
+                        text,
+                        users,
+                        f'Meeting on {date} Changed - JYL Toolbox'])
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingEditList'))
 
+        # Set form fields to current meeting data
         form.description.data = checkMeeting.description
         form.location.data = checkMeeting.location
         form.starttime.data = checkMeeting.start
         form.endtime.data = checkMeeting.end
 
+        # Return meeting edit form with current meeting data
         page = make_response(
             render_template(
                 'eventMeetingForm.html',
@@ -3437,14 +3602,20 @@ Check out the meeting here: LINK
 @login_required
 def meetingDelete(meetingId):
 
-    if current_user.leader:
+    # Allow leaders and admins
+    if current_user.leader or current_user.admin:
 
-        checkMeeting = Meeting.query.get(meetingId)
+        try:
+            checkMeeting = Meeting.query.get(meetingId)
+        except BaseException:
+            db.session.rollback()
+            checkMeeting = Meeting.query.get(meetingId)
 
         form = ConfirmPassword()
 
         if form.validate_on_submit():
 
+            # Password check
             if bcrypt.check_password_hash(
                 current_user.password,
                 sha256(
@@ -3452,24 +3623,22 @@ def meetingDelete(meetingId):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
-                meetings = UserMeeting.query.filter_by(
-                    meetingid=meetingId).all()
-
-                for meeting in meetings:
-                    db.session.delete(meeting)
-                    db.session.commit()
-
-                db.session.delete(checkMeeting)
-                db.session.commit()
+                # Delete meeting threaded
+                deleteThread = Thread(
+                    target=meetingDelete, args=[checkMeeting])
+                deleteThread.start()
 
                 flash('Meeting data deleted', 'success')
                 return redirect(url_for('creation'))
 
+            # Password isn't correct
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        # Format datetime
         date = checkMeeting.start.strftime('%B %-d, %Y')
 
+        # Return page with password conformation
         return render_template(
             'passwordConfirm.html',
             form=form,
@@ -3484,36 +3653,52 @@ def meetingDelete(meetingId):
 @login_required
 def meetingEdit1(meetingId):
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        checkMeeting = Meeting.query.get(meetingId)
+        try:
+            checkMeeting = Meeting.query.get(meetingId)
+        except BaseException:
+            db.session.rollback()
+            checkMeeting = Meeting.query.get(meetingId)
 
+        # Meeting not found
         if checkMeeting is None:
 
             flash('Meeting not found', 'error')
             return sendoff('index')
 
         form = CreateEventMeeting()
+
+        # Add filler since meetings don't have a name
         form.name.data = 'filler'
 
         if form.validate_on_submit():
 
+            # Calculate length of meeting
             length = round((form.endtime.data -
                             form.starttime.data).total_seconds() / (60 * 60), 2)
 
+            # Update meeting data
             checkMeeting.hourcount = length
             checkMeeting.description = form.description.data
             checkMeeting.location = form.location.data
             checkMeeting.start = form.starttime.data
             checkMeeting.end = form.endtime.data
 
+            # Save to database
             db.session.commit()
 
+            # If email notification requested
             if form.email.data:
+
+                # Format datetimes and location
                 date = form.starttime.data.strftime('%B %-d, %Y')
-                dateFull = form.starttime.data.strftime('%B %-d, %Y at %-I:%M %p')
+                dateFull = form.starttime.data.strftime(
+                    '%B %-d, %Y at %-I:%M %p')
                 eventLocation = form.location.data.replace(' ', '+')
 
+                # Create html email
                 html = f'''
 <p>Hello,</p>
 
@@ -3530,6 +3715,7 @@ def meetingEdit1(meetingId):
 <p>- JYL Toolbox</p>
                 '''
 
+                # Create text backup email
                 text = f'''
 Hello,
 
@@ -3546,29 +3732,30 @@ Check out the meeting here: LINK
 - JYL Toolbox
                 '''
 
+                # Query for all current users that aren't leaders
                 users = User.query.filter_by(
                     currentmember=True, leader=False).all()
 
-                with app.app_context():
-                    with mail.connect() as conn:
-                        for user in users:
-                            msg = Message(
-                                f'Meeting on {date} Changed - JYL Toolbox',
-                                recipients=[
-                                    user.email])
-                            msg.body = text
-                            msg.html = html
-
-                            conn.send(msg)
+                # Send emails threaded
+                emailThread = Thread(
+                    target=asyncEmail,
+                    args=[
+                        app,
+                        html,
+                        text,
+                        users,
+                        f'Meeting on {date} Changed - JYL Toolbox'])
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
 
+        # Set form fields to current meeting data
         form.description.data = checkMeeting.description
         form.location.data = checkMeeting.location
         form.starttime.data = checkMeeting.start
         form.endtime.data = checkMeeting.end
 
+        # Return meeting edit form with current meeting data
         page = make_response(
             render_template(
                 'eventMeetingForm.html',
@@ -3587,27 +3774,35 @@ Check out the meeting here: LINK
 @login_required
 def eventInfo(idOfEvent):
 
-    checkEvent = Event.query.get(idOfEvent)
+    # Query for event
+    try:
+        checkEvent = Event.query.get(idOfEvent)
+    except BaseException:
+        db.session.rollback()
+        checkEvent = Event.query.get(idOfEvent)
 
+    # Event doesn't exsist
     if checkEvent is None:
 
         flash('Event not found', 'error')
         return sendoff('index')
 
+    # Proccess event data
     eventMeeting = eventMeetingProccessing(checkEvent, False)
 
     areyougoing = False
 
+    # If event is in the future, check if user stated they intend to attend
     if eventMeeting['future']:
         checkUserEvent = UserEvent.query.filter_by(
             eventid=idOfEvent, userid=current_user.id).first()
         if checkUserEvent is not None and checkUserEvent.going:
             areyougoing = True
 
-    desc = []
-    for word in checkEvent.description.split(' '):
-        desc.append(linkFormatting(word))
+    # Format description
+    desc = [linkFormatting(word) for word in checkEvent.description.split(' ')]
 
+    # Return event data
     page = make_response(
         render_template(
             'eventMeeting.html',
@@ -3631,18 +3826,26 @@ def eventInfo(idOfEvent):
 @login_required
 def eventReview(idOfEvent):
 
-    checkEvent = Event.query.get(idOfEvent)
+    # Query for event
+    try:
+        checkEvent = Event.query.get(idOfEvent)
+    except BaseException:
+        db.session.rollback()
+        checkEvent = Event.query.get(idOfEvent)
 
+    # Event doesn't exsist
     if checkEvent is None:
 
         flash('Event not found', 'error')
         return sendoff('index')
 
+    # Make sure event has occured
     if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
 
         flash('Event hasn\'t occured yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Query for user event of current event and user
     checkUserEvent = UserEvent.query.filter_by(
         userid=current_user.id, eventid=idOfEvent).first()
 
@@ -3654,6 +3857,7 @@ def eventReview(idOfEvent):
         meh = False
         sad = False
 
+        # set boolean value for user reaction
         if form.reaction.data == 'happy':
             happy = True
         elif form.reaction.data == 'meh':
@@ -3661,11 +3865,13 @@ def eventReview(idOfEvent):
         else:
             sad = True
 
+        # Update UserEvent data
         checkUserEvent.comment = form.review.data
         checkUserEvent.upvote = happy
         checkUserEvent.unsurevote = meh
         checkUserEvent.downvote = sad
 
+        # Add to event reactions
         if happy:
             checkEvent.upvote += 1
         elif meh:
@@ -3673,26 +3879,28 @@ def eventReview(idOfEvent):
         else:
             checkEvent.downvote += 1
 
+        # Save to database
         db.session.commit()
 
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Redirct user to edit review if they have a review
     if checkUserEvent and checkUserEvent.comment:
 
-        flash('You already created a review for this event', 'warning')
-        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+        return redirect(url_for('eventReviewEdit', idOfEvent=idOfEvent))
 
+    # User did not attend the event
     if checkUserEvent is None or not checkUserEvent.attended:
 
         flash('You didn\'t attend this event', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
-    desc = []
-    for word in checkEvent.description.split(' '):
-        desc.append(linkFormatting(word))
+    desc = [linkFormatting(word) for word in checkEvent.description.split(' ')]
 
+    # Proccess event data
     eventMeeting = eventMeetingProccessing(checkEvent, False)
 
+    # Return review page for event
     page = make_response(
         render_template(
             'eventMeetingReview.html',
@@ -3712,18 +3920,26 @@ def eventReview(idOfEvent):
 @login_required
 def eventReviewEdit(idOfEvent):
 
-    checkEvent = Event.query.get(idOfEvent)
+    # Query for event
+    try:
+        checkEvent = Event.query.get(idOfEvent)
+    except BaseException:
+        db.session.rollback()
+        checkEvent = Event.query.get(idOfEvent)
 
+    # Event not found
     if checkEvent is None:
 
         flash('Event not found', 'error')
         return sendoff('index')
 
+    # Check that event has occured
     if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
 
         flash('Event hasn\'t occured yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Query for UserEvent for current user and event
     checkUserEvent = UserEvent.query.filter_by(
         userid=current_user.id, eventid=idOfEvent).first()
 
@@ -3731,6 +3947,7 @@ def eventReviewEdit(idOfEvent):
 
     if form.validate_on_submit():
 
+        # Get current user's reaction
         currentHappy = checkUserEvent.upvote
         currentMeh = checkUserEvent.unsurevote
 
@@ -3738,6 +3955,7 @@ def eventReviewEdit(idOfEvent):
         meh = False
         sad = False
 
+        # Change user reaction to boolean values
         if form.reaction.data == 'happy':
             happy = True
         elif form.reaction.data == 'meh':
@@ -3745,11 +3963,13 @@ def eventReviewEdit(idOfEvent):
         else:
             sad = True
 
+        # Update UserEvent review
         checkUserEvent.comment = form.review.data
         checkUserEvent.upvote = happy
         checkUserEvent.unsurevote = meh
         checkUserEvent.downvote = sad
 
+        # Remove from event reactions based off user's original reaction
         if currentHappy:
             checkEvent.upvote -= 1
         elif currentMeh:
@@ -3757,6 +3977,7 @@ def eventReviewEdit(idOfEvent):
         else:
             checkEvent.downvote -= 1
 
+        # Add to event reaction based off user's new reaction
         if happy:
             checkEvent.upvote += 1
         elif meh:
@@ -3764,23 +3985,26 @@ def eventReviewEdit(idOfEvent):
         else:
             checkEvent.downvote += 1
 
+        # Save to database
         db.session.commit()
 
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Redirect user to write a review if they don't have one
     if checkUserEvent and checkUserEvent.comment is None:
 
-        flash('You haven\'t written a review yet', 'warning')
-        return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
+        return redirect(url_for('eventReview', idOfEvent=idOfEvent))
 
+    # User has a previous review
     if checkUserEvent and checkUserEvent.comment:
 
-        desc = []
-        for word in checkEvent.description.split(' '):
-            desc.append(linkFormatting(word))
+        desc = [linkFormatting(word)
+                for word in checkEvent.description.split(' ')]
 
+        # Proccess event data
         eventMeeting = eventMeetingProccessing(checkEvent, False)
 
+        # Set form to current user's review
         if checkUserEvent.upvote:
             form.reaction.data = 'happy'
         elif checkUserEvent.unsurevote:
@@ -3789,6 +4013,7 @@ def eventReviewEdit(idOfEvent):
             form.reaction.data = 'down'
         form.review.data = checkUserEvent.comment
 
+        # Return review edit page with current review data
         page = make_response(
             render_template(
                 'eventMeetingReview.html',
@@ -3811,32 +4036,43 @@ def eventReviewEdit(idOfEvent):
 @login_required
 def eventReviewDelete(idOfEvent):
 
-    checkEvent = Event.query.get(idOfEvent)
+    # Query for event
+    try:
+        checkEvent = Event.query.get(idOfEvent)
+    except BaseException:
+        db.session.rollback()
+        checkEvent = Event.query.get(idOfEvent)
 
+    # Check that event exsists
     if checkEvent is None:
 
         flash('Ecvent not found', 'error')
         return sendoff('index')
 
+    # Check that event has occured
     if pacific.localize(checkEvent.start) > pacific.localize(datetime.now()):
 
         flash('Event hasn\'t occured yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Query for UserEvent
     checkUserEvent = UserEvent.query.filter_by(
         userid=current_user.id, eventid=idOfEvent).first()
 
+    # User hasn't written a review yet
     if checkUserEvent and checkUserEvent.comment is None:
 
         flash('You haven\'t written a review yet', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # User has review
     if checkUserEvent and checkUserEvent.comment:
 
         form = ConfirmPassword()
 
         if form.validate_on_submit():
 
+            # Confirm password
             if bcrypt.check_password_hash(
                 current_user.password,
                 sha256(
@@ -3844,6 +4080,7 @@ def eventReviewDelete(idOfEvent):
                      current_user.email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
+                # Remove user's reaction from event total
                 if checkUserEvent.upvote:
                     checkEvent.upvote -= 1
                 elif checkUserEvent.unsurevote:
@@ -3851,17 +4088,23 @@ def eventReviewDelete(idOfEvent):
                 else:
                     checkEvent.downvote -= 1
 
+                # Remove user's review
                 checkUserEvent.comment = None
                 checkUserEvent.upvote = False
                 checkUserEvent.unsurevote = False
                 checkUserEvent.downvote = False
 
+                # Save to database
                 db.session.commit()
 
+            # Incorrect password
             flash('Incorrect password', 'error')
             form.password.data = ''
 
+        # Format datetime
         date = checkEvent.start.strftime('%B %-d, %Y')
+
+        # Return page with password conformation
         page = make_response(
             render_template(
                 'passwordConfirm.html',
@@ -3879,39 +4122,52 @@ def eventReviewDelete(idOfEvent):
 @login_required
 def eventGoing(idOfEvent):
 
-    checkEvent = Event.query.get(idOfEvent)
+    # Query for event
+    try:
+        checkEvent = Event.query.get(idOfEvent)
+    except BaseException:
+        db.session.rollback()
+        checkEvent = Event.query.get(idOfEvent)
 
+    # Check that event exsists
     if checkEvent is None:
 
         flash('Event not found', 'error')
         return sendoff('index')
 
+    # Exclude leaders since they can't attend events
     if current_user.leader:
 
         flash('Leaders don\'t attend events like members')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Check if event occured already
     if pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
 
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Query for UserEvent
     eventuser = UserEvent.query.filter_by(
         eventid=idOfEvent, userid=current_user.id).first()
 
+    # User already showed their intent to attended
     if eventuser is not None and eventuser.going:
 
         flash('Already showed interest in this event', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # User shows interest in attending
     elif eventuser is not None and eventuser.going == False:
 
         eventuser.going = True
         db.session.commit()
         flash('You have shown your interest in this event', 'success')
 
+    # User shows interest in attending
     else:
 
+        # Create UserEvent object
         userevent = UserEvent(
             eventid=idOfEvent,
             userid=current_user.id,
@@ -3921,6 +4177,8 @@ def eventGoing(idOfEvent):
             upvote=False,
             unsurevote=False,
             downvote=False)
+
+        # Add and save to database
         db.session.add(userevent)
         db.session.commit()
         flash('You have shown your interest in this event', 'success')
@@ -3932,31 +4190,42 @@ def eventGoing(idOfEvent):
 @login_required
 def eventNotGoing(idOfEvent):
 
-    checkEvent = Event.query.get(idOfEvent)
+    # Query for event
+    try:
+        checkEvent = Event.query.get(idOfEvent)
+    except BaseException:
+        db.session.rollback()
+        checkEvent = Event.query.get(idOfEvent)
 
+    # Check that event exsists
     if checkEvent is None:
 
         flash('Event not found', 'error')
         return sendoff('index')
 
+    # Exclude leaders since they can't attend events
     if current_user.leader:
 
         flash('Leaders don\'t attend events like members')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Check that event hasn't occured yet
     if pacific.localize(checkEvent.start) <= pacific.localize(datetime.now()):
 
         flash('Event occured already', 'error')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # Query for UserEvent
     eventuser = UserEvent.query.filter_by(
         eventid=idOfEvent, userid=current_user.id).first()
 
+    # User doesn't want to attend but never said they wanted to intially
     if eventuser is not None and eventuser.going == False or eventuser is None:
 
         flash('You haven\'t showed interest in this event', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
+    # User no longer wants to attend
     elif eventuser is not None and eventuser.going:
 
         eventuser.going = False
@@ -3970,18 +4239,26 @@ def eventNotGoing(idOfEvent):
 @login_required
 def meetingGoing(idOfMeeting):
 
-    checkMeeting = Meeting.query.get(idOfMeeting)
+    # Query for meeting
+    try:
+        checkMeeting = Meeting.query.get(idOfMeeting)
+    except BaseException:
+        db.session.rollback()
+        checkMeeting = Meeting.query.get(idOfMeeting)
 
+    # Meeting doesn't exsist
     if checkMeeting is None:
 
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    # Leaders don't attend meetings
     if current_user.leader:
 
         flash('Leaders don\'t attend meetings like members')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Check that meeting is in the future
     if pacific.localize(
             checkMeeting.start) <= pacific.localize(
             datetime.now()):
@@ -3989,22 +4266,27 @@ def meetingGoing(idOfMeeting):
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Query for UserMeeting with current meeting and user
     meetinguser = UserMeeting.query.filter_by(
         meetingid=idOfMeeting, userid=current_user.id).first()
 
+    # User already showed intent to attend
     if meetinguser is not None and meetinguser.going:
 
         flash('Already showed interest in this meeting', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # User will be attending (has exsisting UserMeeting record)
     elif meetinguser is not None and meetinguser.going == False:
 
         meetinguser.going = True
         db.session.commit()
         flash('You have shown your interest in this meeting', 'success')
 
+    # User will be attending
     else:
 
+        # Create UserMeeting for current user
         usermeeting = UserMeeting(
             meetingid=idOfMeeting,
             userid=current_user.id,
@@ -4015,8 +4297,11 @@ def meetingGoing(idOfMeeting):
             upvote=False,
             unsurevote=False,
             downvote=False)
+
+        # Add UserMeeting and save to database
         db.session.add(usermeeting)
         db.session.commit()
+
         flash('You have shown your interest in this meeting', 'success')
 
     return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
@@ -4026,18 +4311,26 @@ def meetingGoing(idOfMeeting):
 @login_required
 def meetingNotGoing(idOfMeeting):
 
-    checkMeeting = Meeting.query.get(idOfMeeting)
+    # Query for meeting
+    try:
+        checkMeeting = Meeting.query.get(idOfMeeting)
+    except BaseException:
+        db.session.rollback()
+        checkMeeting = Meeting.query.get(idOfMeeting)
 
+    # Meeting doesn't exsist
     if checkMeeting is None:
 
         flash('Meeting not found', 'error')
         return sendoff('index')
 
+    # Leaders don't attend meetings the same way
     if current_user.leader:
 
         flash('Leaders don\'t attend meetings like members')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Make sure meeting is in the future
     if pacific.localize(
             checkMeeting.start) <= pacific.localize(
             datetime.now()):
@@ -4045,14 +4338,18 @@ def meetingNotGoing(idOfMeeting):
         flash('Meeting occured already', 'error')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # Query for UserMeeting with current user and meeting
     meetinguser = UserMeeting.query.filter_by(
         meetingid=idOfMeeting, userid=current_user.id).first()
 
+    # User can't say they aren't going to event they didn't say they would
+    # attend
     if meetinguser is not None and meetinguser.going == False or meetinguser is None:
 
         flash('You haven\'t showed interest in this meeting', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
+    # User has removed interest in the event
     elif meetinguser is not None and meetinguser.going:
 
         meetinguser.going = False
@@ -4066,14 +4363,23 @@ def meetingNotGoing(idOfMeeting):
 @login_required
 def members():
 
-    currentMembers = User.query.filter_by(
-        currentmember=True).all()
+    # Query for current and past users
+    try:
+        currentMembers = User.query.filter_by(
+            currentmember=True).all()
+    except BaseException:
+        db.session.rollback()
+        currentMembers = User.query.filter_by(
+            currentmember=True).all()
+
     oldMembers = User.query.filter_by(
         currentmember=False).all()
 
+    # Sort users by lastname
     currentMembers.sort(key=lambda user: user.lastname.lower())
     oldMembers.sort(key=lambda user: user.lastname.lower())
 
+    # Return page showing current and past JYL members
     page = make_response(
         render_template(
             'members.html',
@@ -4091,25 +4397,30 @@ def members():
 @login_required
 def memberType(identifier):
 
+    # Query for current and past admins
     if identifier.lower() == 'admin':
         currentMembers = User.query.filter_by(
             admin=True, currentmember=True).all()
         oldMembers = User.query.filter_by(
             admin=True, currentmember=False).all()
 
+    # Query for current and past leaders
     elif identifier.lower() == 'leader':
         currentMembers = User.query.filter_by(
             leader=True, currentmember=True).all()
         oldMembers = User.query.filter_by(
             leader=True, currentmember=False).all()
 
+    # Category isn't leader or admin
     else:
         flash(f'No users in this catagory {identifier}', 'warning')
         return sendoff('members')
 
+    # Sort users by lastname
     currentMembers.sort(key=lambda user: user.lastname.lower())
     oldMembers.sort(key=lambda user: user.lastname.lower())
 
+    # Return page with specific member types
     page = make_response(
         render_template(
             'members.html',
@@ -4131,10 +4442,19 @@ def memberType(identifier):
 @login_required
 def memberData():
 
+    # Allow only leaders
     if current_user.leader:
 
-        users = User.query.filter_by(currentmember=True, leader=False).all()
+        # Query for all current members that aren't leaders
+        try:
+            users = User.query.filter_by(
+                currentmember=True, leader=False).all()
+        except BaseException:
+            db.session.rollback()
+            users = User.query.filter_by(
+                currentmember=True, leader=False).all()
 
+        # Return page with member's data
         page = make_response(
             render_template(
                 'membersdata.html',
@@ -4152,10 +4472,19 @@ def memberData():
 @login_required
 def memberDataOld():
 
+    # Allow only leaders
     if current_user.leader:
 
-        users = User.query.filter_by(currentmember=False, leader=False).all()
+        # Query for all past members that aren't leaders
+        try:
+            users = User.query.filter_by(
+                currentmember=False, leader=False).all()
+        except BaseException:
+            db.session.rollback()
+            users = User.query.filter_by(
+                currentmember=False, leader=False).all()
 
+        # Return page with member data from past members
         page = make_response(
             render_template(
                 'membersdata.html',
@@ -4173,10 +4502,17 @@ def memberDataOld():
 @login_required
 def meetingData():
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        meetings = Meeting.query.filter_by(currentYear=True).all()
+        # Query for current meetings
+        try:
+            meetings = Meeting.query.filter_by(currentYear=True).all()
+        except BaseException:
+            db.session.rollback()
+            meetings = Meeting.query.filter_by(currentYear=True).all()
 
+        # Return page with current meeting data
         page = make_response(
             render_template(
                 'eventMeetingViews.html',
@@ -4195,10 +4531,17 @@ def meetingData():
 @login_required
 def meetingDataOld():
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        meetings = Meeting.query.filter_by(currentYear=False).all()
+        # Query for past meetings
+        try:
+            meetings = Meeting.query.filter_by(currentYear=False).all()
+        except BaseException:
+            db.session.rollback()
+            meetings = Meeting.query.filter_by(currentYear=False).all()
 
+        # Return page with past meeting data
         page = make_response(
             render_template(
                 'eventMeetingViews.html',
@@ -4220,10 +4563,17 @@ def meetingDataOld():
 @login_required
 def eventData():
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        events = Event.query.filter_by(currentYear=True).all()
+        # Query for current events
+        try:
+            events = Event.query.filter_by(currentYear=True).all()
+        except BaseException:
+            db.session.rollback()
+            events = Event.query.filter_by(currentYear=True).all()
 
+        # Return page with current events data
         page = make_response(
             render_template(
                 'eventMeetingViews.html',
@@ -4242,10 +4592,17 @@ def eventData():
 @login_required
 def eventDataOld():
 
+    # Allow leaders and admins
     if current_user.leader or current_user.admin:
 
-        events = Event.query.filter_by(currentYear=False).all()
+        # Query for past events
+        try:
+            events = Event.query.filter_by(currentYear=False).all()
+        except BaseException:
+            db.session.rollback()
+            events = Event.query.filter_by(currentYear=False).all()
 
+        # Return page with past events data
         page = make_response(
             render_template(
                 'eventMeetingViews.html',
@@ -4265,14 +4622,19 @@ def eventDataOld():
 def upcomingMeetings():
 
     meetings = []
+
+    # Get current datetime
     now = pacific.localize(datetime.now())
 
+    # Store every meeting that is in the future
     for meet in Meeting.query.filter_by(currentYear=True).all():
         if pacific.localize(meet.start) > now:
             meetings.append(meet)
 
     interested = []
 
+    # Move meetings into interested list if user has shown interest into
+    # meeting
     for meet in UserMeeting.query.filter_by(
             currentYear=True,
             userid=current_user.id,
@@ -4284,9 +4646,11 @@ def upcomingMeetings():
             if meeting in meetings:
                 meetings.remove(meeting)
 
+    # Sort lists by start datetime
     meetings.sort(key=lambda meeting: meeting.start)
     interested.sort(key=lambda meeting: meeting.start)
 
+    # Return page with upcoming meetings
     page = make_response(
         render_template(
             'upcomingEventMeeting.html',
@@ -4305,14 +4669,18 @@ def upcomingMeetings():
 def upcomingEvents():
 
     events = []
+
+    # Get current datetime
     now = pacific.localize(datetime.now())
 
+    # Get all future events
     for thing in Event.query.filter_by(currentYear=True).all():
         if pacific.localize(thing.start) > now:
             events.append(thing)
 
     interested = []
 
+    # Sort events into events from
     for thing in UserEvent.query.filter_by(
             currentYear=True,
             userid=current_user.id,
@@ -4324,9 +4692,11 @@ def upcomingEvents():
             if event in events:
                 events.remove(event)
 
+    # Sort by event start datetime
     events.sort(key=lambda event: event.start)
     interested.sort(key=lambda event: event.start)
 
+    # Return page with future events
     page = make_response(
         render_template(
             'upcomingEventMeeting.html',
@@ -4343,24 +4713,33 @@ def upcomingEvents():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
+    # If user is logged in stop them from logging in again
     if current_user.is_authenticated:
         flash('You are already logged in', 'warning')
         return sendoff('index'), 403
 
     form = LoginForm()
+
     if form.validate_on_submit():
+
+        # Get input email
         email = form.email.data.lower()
+
+        # Query for user by email
         try:
             user = User.query.filter_by(email=email).first()
-        except:
+        except BaseException:
             db.session.rollback()
             user = User.query.filter_by(email=email).first()
-            
+
+        # User not found
         if user is None:
             flash(
                 f'Login Unsuccessful. User dosen\'t exsist',
                 'error')
         else:
+
+            # Check user password
             if bcrypt.check_password_hash(
                 user.password,
                 sha256(
@@ -4368,18 +4747,24 @@ def login():
                      email +
                      app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()):
 
+                # Login user
                 login_user(user, remember=form.remember.data)
+
+                # Get next page
                 next_page = request.args.get('next')
 
+                # Redirect to index or to next
                 flash(f'Logged in successfully.', 'success')
                 return redirect(next_page) if next_page else redirect(
                     url_for('index'))
 
+            # Password is incorrect
             else:
                 flash(
                     'Login Unsuccessful. Please check email and password',
                     'error')
 
+    # Return login form
     page = make_response(render_template('login.html', form=form))
     page = cookieSwitch(page)
     return page
@@ -4388,6 +4773,7 @@ def login():
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
 
+    # Prevent logged in user from resetting password
     if current_user.is_authenticated:
         flash(
             'You do not need to reset your password as you are logged in already',
@@ -4395,31 +4781,39 @@ def reset_request():
         return sendoff('index')
 
     form = RequestResetForm()
+
     if form.validate_on_submit():
+
+        # Query for user by email
         user = User.query.filter_by(email=form.email.data).first()
+
+        # User not found
         if user is None:
             flash(
                 f'Password Reset Unsuccessful. User dosen\'t exsist',
                 'error')
         else:
 
+            # Get user reset password token
             token = user.get_reset_token()
+
+            # Create url for password reset
             reset_url = url_for('reset_token', token=token, _external=True)
 
-            subject = 'Password Reset Request'
-
+            # Create html email
             html = f'''
-<p>Hi,</p>
+<p>Hello,</p>
 
-<p>Somebody (hopefully you!) requested a password reset for a <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a> account.</p>
+<p>Somebody (hopefully you!) requested a password reset for a <a href="#">JYL Toolbox</a> account.</p>
 
 <p><a href="{reset_url}">Your reset link is here</a>. It will expire in 30 minutes.</p>
 
-<p>- <a href="#" style="text-decoration: none !important;color: inherit;">JYL Toolbox</a></p>
+<p>- <a href="#">JYL Toolbox</a></p>
             '''
 
+            # Create text backup
             text = f'''
-Hi,
+Hello,
 
 Somebody (hopefully you!) requested a password reset for a JYL Toolbox account.
 
@@ -4428,18 +4822,23 @@ Your reset link is here: {reset_url}. It will expire in 30 minutes.
 - JYL Toolbox
             '''
 
-            with app.app_context():
-                msg = Message('Password Reset - JYL Toolbox',
-                              recipients=[user.email])
-                msg.body = text
-                msg.html = html
-                mail.send(msg)
+            # Send async email
+            emailThread = Thread(
+                target=asyncEmail,
+                args=[
+                    app,
+                    html,
+                    text,
+                    [user],
+                    'Password Reset - JYL Toolbox'])
+            emailThread.start()
 
             flash(
                 f'An email has been sent to {form.email.data} with instructions to reset your password',
                 'info')
             return sendoff('login')
 
+    # Return password request reset form
     page = make_response(
         render_template(
             'password_reset_request.html',
@@ -4451,43 +4850,54 @@ Your reset link is here: {reset_url}. It will expire in 30 minutes.
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
 
+    # Do not allow logged in user to reset password
     if current_user.is_authenticated:
         flash(
             'You do not need to reset your password as you are logged in already',
             'warning')
         return sendoff('index')
 
+    # Verify user reset token
     user = User.verify_reset_token(token)
+
+    # Token not verified with any users
     if user is None:
         flash('That is an invalid or expired token', 'error')
         return redirect(url_for('reset_request'))
 
     form = ResetPasswordForm()
+
     if form.validate_on_submit():
 
+        # Check that password contains a number
         pattern = re.compile('^[^0-9]*$')
         if pattern.search(form.password.data) is not None:
             flash('Password must contain a number', 'warning')
             return render_template('password_change.html', form=form)
 
+        # Check that password contains special character
         pattern = re.compile('^.*[^A-Za-z0-9]+.*')
         if pattern.search(form.password.data) is None:
             flash('Password must contain a special character', 'warning')
             return render_template('password_change.html', form=form)
 
+        # Hash new password
         hashed_password = bcrypt.generate_password_hash(
             sha256(
                 (form.password.data +
                  form.email.data +
                  app.config['SECURITY_PASSWORD_SALT']).encode('utf-8')).hexdigest()).decode('utf-8')
+
+        # Set password to new hashed password
         user.password = hashed_password
 
+        # Save to database
         db.session.commit()
 
         flash('Your password has been updated!', 'success')
-
         return redirect(url_for('login'))
 
+    # Return page wtih password change form
     page = make_response(render_template('password_change.html', form=form))
     page = cookieSwitch(page)
     return page
@@ -4511,12 +4921,14 @@ SEO
 
 @app.route('/robots.txt', methods=['GET'])
 def robots():
+
     # Return static robots.txt file for any web crawlers that use it
     return send_file('templates/seo/robots.txt')
 
 
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
+
     # Return static sitemap XML file for SEO
     sitemap_xml = render_template('seo/sitemap.xml')
     response = make_response(sitemap_xml)
@@ -4531,11 +4943,13 @@ Error Handlers
 
 @app.errorhandler(404)
 def page_not_found(e):
+
     # 404 error page
     return render_template('404.html'), 404
 
 
 @app.errorhandler(500)
 def error_for_server(e):
+
     # 500 error page
     return render_template('500.html')
