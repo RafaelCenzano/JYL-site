@@ -4917,7 +4917,7 @@ def passwordChange():
 
         # Check user password
         if bcrypt.check_password_hash(
-            user.password,
+            current_user.password,
             sha256(
                 (form.password.data +
                  email +
