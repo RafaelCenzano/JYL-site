@@ -5,7 +5,7 @@ Config class
 '''
 
 
-class Config(object):
+class Config():
     basedir = os.path.abspath(os.path.dirname(__file__))
 
     SECRET_KEY = os.environ.get('jylKey')
