@@ -1096,7 +1096,7 @@ def userCreation():
             # Email already exsist can't create account
             if duplicationCheck is not None:
 
-                flash(f'Duplicate email found', 'error')
+                flash('Duplicate email found', 'error')
                 return render_template('userCreate.html', form=form)
 
             # Query to find if other users with the same name exsist
@@ -1993,7 +1993,7 @@ def userEdit(userId):
             db.session.commit()
 
             flash(
-                f'User edited successfully',
+                'User edited successfully',
                 'success')
 
             return redirect(
@@ -4736,7 +4736,7 @@ def login():
         # User not found
         if user is None:
             flash(
-                f'Login Unsuccessful. User dosen\'t exsist',
+                'Login Unsuccessful. User dosen\'t exsist',
                 'error')
         else:
 
@@ -4755,7 +4755,7 @@ def login():
                 next_page = request.args.get('next')
 
                 # Redirect to index or to next
-                flash(f'Logged in successfully.', 'success')
+                flash('Logged in successfully.', 'success')
                 return redirect(next_page) if next_page else redirect(
                     url_for('index'))
 
@@ -4791,7 +4791,7 @@ def reset_request():
         # User not found
         if user is None:
             flash(
-                f'Password Reset Unsuccessful. User dosen\'t exsist',
+                'Password Reset Unsuccessful. User dosen\'t exsist',
                 'error')
         else:
 
