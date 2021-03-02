@@ -222,7 +222,7 @@ def asyncDeleteUser(user):
     # Query all UserMeeting and UserEvent rows
     try:
         meetings = UserMeeting.query.filter_by(userid=user.id).all()
-    except:
+    except BaseException:
         db.session.rollback()
         meetings = UserMeeting.query.filter_by(userid=user.id).all()
 
@@ -264,7 +264,7 @@ def eventDelete(event):
     # Query for UserEvent rows with this event
     try:
         events = UserEvent.query.filter_by(eventid=event.id).all()
-    except:
+    except BaseException:
         db.session.rollback()
         events = UserEvent.query.filter_by(eventid=event.id).all()
 
@@ -300,7 +300,7 @@ def meetingDelete(meeting):
     # Query for UserMeetings with this meeting
     try:
         meetings = UserMeeting.query.filter_by(meetingid=meeting.id).all()
-    except:
+    except BaseException:
         db.session.rollback()
         meetings = UserMeeting.query.filter_by(meetingid=meeting.id).all()
 
