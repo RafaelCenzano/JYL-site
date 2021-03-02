@@ -38,7 +38,7 @@ def index():
 
 # Project License
 @app.route('/license', methods=['GET'])
-def license():
+def licenseView():
 
     page = make_response(render_template('license.html'))
     page = cookieSwitch(page)
