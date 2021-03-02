@@ -3572,6 +3572,7 @@ Check out the meeting here: LINK
                         text,
                         users,
                         f'Meeting on {date} Changed - JYL Toolbox'])
+                emailThread.start()
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingEditList'))
@@ -3744,6 +3745,7 @@ Check out the meeting here: LINK
                         text,
                         users,
                         f'Meeting on {date} Changed - JYL Toolbox'])
+                emailThread.start()
 
             flash('Meeting edited successfully!', 'success')
             return redirect(url_for('meetingInfo', idOfMeeting=meetingId))
