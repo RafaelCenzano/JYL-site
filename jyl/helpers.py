@@ -2,7 +2,7 @@ from re import search
 from urllib.parse import urlparse
 
 from flask import redirect, request, url_for
-from flask_mail import Mail, Message
+from flask_mail import Message
 
 from jyl import db, login_manager, mail
 from jyl.models import *
