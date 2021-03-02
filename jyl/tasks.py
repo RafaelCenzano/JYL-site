@@ -1,9 +1,4 @@
-from atexit import register
 from datetime import datetime
-
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.interval import IntervalTrigger
-from flask import url_for
 from flask_mail import Message
 from pytz import timezone
 
