@@ -4860,7 +4860,7 @@ def reset_token(token):
     # Verify user reset token
     try:
         user = User.verify_reset_token(token)
-    except:
+    except BaseException:
         db.session.rollback()
         user = User.verify_reset_token(token)
 
