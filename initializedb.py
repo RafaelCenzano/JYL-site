@@ -1,6 +1,4 @@
-import random
 import sys
-from datetime import datetime
 from hashlib import sha256
 
 from jyl import app, bcrypt, db

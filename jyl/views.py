@@ -4,13 +4,12 @@ from hashlib import sha256
 from random import randint
 from threading import Thread
 
-from flask import (abort, flash, make_response, redirect, render_template,
+from flask import (flash, make_response, redirect, render_template,
                    request, send_file, url_for)
 from flask_login import current_user, login_required, login_user, logout_user
-from flask_mail import Mail, Message
 from pytz import timezone
 
-from jyl import app, bcrypt, db, mail
+from jyl import app, bcrypt, db
 from jyl.eventMeeting import eventMeetingProccessing
 from jyl.forms import *
 from jyl.helpers import *
