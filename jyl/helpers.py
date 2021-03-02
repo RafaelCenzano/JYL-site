@@ -221,12 +221,12 @@ def asyncDeleteUser(user):
 
     # Query all UserMeeting and UserEvent rows
     try:
-        meetings = UserMeeting.query.filter_by(userid=userId).all()
+        meetings = UserMeeting.query.filter_by(userid=user.id).all()
     except:
         db.session.rollback()
-        meetings = UserMeeting.query.filter_by(userid=userId).all()
+        meetings = UserMeeting.query.filter_by(userid=user.id).all()
 
-    events = UserEvent.query.filter_by(userid=userId).all()
+    events = UserEvent.query.filter_by(userid=user.id).all()
 
     # Update attendance count for meetings
     for meeting in meetings:
@@ -255,7 +255,7 @@ def asyncDeleteUser(user):
         db.session.commit()
 
     # Delete the user
-    db.session.delete(checkUser)
+    db.session.delete(user)
     db.session.commit()
 
 
