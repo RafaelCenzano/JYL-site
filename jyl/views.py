@@ -4158,7 +4158,7 @@ def eventGoing(idOfEvent):
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
 
     # User shows interest in attending
-    elif eventuser is not None and eventuser.going == False:
+    elif eventuser is not None and eventuser.going is False:
 
         eventuser.going = True
         db.session.commit()
@@ -4220,7 +4220,7 @@ def eventNotGoing(idOfEvent):
         eventid=idOfEvent, userid=current_user.id).first()
 
     # User doesn't want to attend but never said they wanted to intially
-    if eventuser is not None and eventuser.going == False or eventuser is None:
+    if eventuser is not None and eventuser.going is False or eventuser is None:
 
         flash('You haven\'t showed interest in this event', 'warning')
         return redirect(url_for('eventInfo', idOfEvent=idOfEvent))
@@ -4277,7 +4277,7 @@ def meetingGoing(idOfMeeting):
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))
 
     # User will be attending (has exsisting UserMeeting record)
-    elif meetinguser is not None and meetinguser.going == False:
+    elif meetinguser is not None and meetinguser.going is False:
 
         meetinguser.going = True
         db.session.commit()
@@ -4344,7 +4344,7 @@ def meetingNotGoing(idOfMeeting):
 
     # User can't say they aren't going to event they didn't say they would
     # attend
-    if meetinguser is not None and meetinguser.going == False or meetinguser is None:
+    if meetinguser is not None and meetinguser.going is False or meetinguser is None:
 
         flash('You haven\'t showed interest in this meeting', 'warning')
         return redirect(url_for('meetingInfo', idOfMeeting=idOfMeeting))

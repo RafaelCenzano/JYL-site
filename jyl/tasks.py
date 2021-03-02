@@ -71,7 +71,7 @@ def backgroundCheck():
             meetingDate = pacific.localize(meeting.start)
             if meetingDate > now:
                 meetingDelta = (meetingDate - now).days
-                if meetingDelta == 7 and meeting.alertoneweek == False:
+                if meetingDelta == 7 and meeting.alertoneweek is False:
 
                     meetingTime = meeting.start.strftime(
                         '%A %B %-d %Y at %-I:%M %p')
@@ -121,7 +121,7 @@ Update email notifications (#settings)
                         meeting.alertoneweek = True
                         db.session.commit()
 
-                elif meetingDelta == 3 and meeting.alertthreeday == False:
+                elif meetingDelta == 3 and meeting.alertthreeday is False:
 
                     meetingTime = meeting.start.strftime(
                         '%A %B %-d %Y at %-I:%M %p')
@@ -171,7 +171,7 @@ Update email notifications (#settings)
                         meeting.alertthreeday = True
                         db.session.commit()
 
-                elif meetingDelta == 1 and meeting.alertoneday == False:
+                elif meetingDelta == 1 and meeting.alertoneday is False:
                     print(meeting.alertoneday)
 
                     meetingTime = meeting.start.strftime(
@@ -230,7 +230,7 @@ Update email notifications (#settings)
             eventDate = pacific.localize(event.start)
             if eventDate > now:
                 eventDelta = (eventDate - now).days
-                if eventDelta == 7 and event.alertoneweek == False:
+                if eventDelta == 7 and event.alertoneweek is False:
 
                     eventTime = event.start.strftime(
                         '%A %B %-d %Y at %-I:%M %p')
@@ -280,7 +280,7 @@ Update email notifications (#settings)
                         event.alertoneweek = True
                         db.session.commit()
 
-                elif eventDelta == 3 and event.alertthreeday == False:
+                elif eventDelta == 3 and event.alertthreeday is False:
 
                     eventTime = event.start.strftime(
                         '%A %B %-d %Y at %-I:%M %p')
@@ -330,7 +330,7 @@ Update email notifications (#settings)
                         event.alertthreeday = True
                         db.session.commit()
 
-                elif eventDelta == 1 and event.alertoneday == False:
+                elif eventDelta == 1 and event.alertoneday is False:
 
                     eventTime = event.start.strftime(
                         '%A %B %-d %Y at %-I:%M %p')
