@@ -28,7 +28,7 @@ setup(
     long_description=readme,
 
     # Define markdown long description type
-    long_description_content_type='text/markdown'
+    long_description_content_type='text/markdown',
 
     # Author's name
     author='Rafael Cenzano',
