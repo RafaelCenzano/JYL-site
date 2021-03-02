@@ -2903,7 +2903,7 @@ Check out the event here: LINK
 
 @app.route('/edit/event/<int:eventId>/delete', methods=['GET', 'POST'])
 @login_required
-def eventDelete(eventId):
+def eventDeleteView(eventId):
 
     # Allow leaders and admins
     if current_user.leader or current_user.admin:
@@ -3600,7 +3600,7 @@ Check out the meeting here: LINK
 
 @app.route('/edit/meeting/<int:meetingId>/delete', methods=['GET', 'POST'])
 @login_required
-def meetingDelete(meetingId):
+def meetingDeleteView(meetingId):
 
     # Allow leaders and admins
     if current_user.leader or current_user.admin:
