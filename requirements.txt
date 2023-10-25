@@ -40,6 +40,6 @@ toml==0.10.1
 tzlocal==2.1
 urllib3==1.26.18
 virtualenv==20.0.25
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 WTForms==2.3.3
 zipp==3.1.0
